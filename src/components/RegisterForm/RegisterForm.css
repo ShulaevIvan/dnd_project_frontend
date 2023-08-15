@@ -1,0 +1,51 @@
+.register-form-header-wrap{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 800px;
+    max-height: 300px;
+    min-width: 300px;
+    padding: 20px;
+    position: absolute;
+    z-index: 5;
+    background-color: #fff;
+    justify-content: space-between;
+    align-items: center;
+    color: #000;
+}
+.register-form-header  {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.register-form-header input {
+    min-width: 200px;
+    min-height: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+    padding-left: 2px;
+    border-radius: 2px;
+    box-shadow: inset 0 0 0 1px #e3e3e3, inset 1px 2px 5px rgba(0,0,0,0.2)
+}
+.register-form-close-btn {
+    display: flex;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    cursor: pointer;
+}
+.register-form-close-btn::before {
+    content: '\2716';
+}
+.register-from-login-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.register-from-login-btn-wrap button {
+    cursor: pointer;
+    margin-right: 20px;
+}
