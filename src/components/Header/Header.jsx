@@ -24,6 +24,7 @@ const Header = () => {
     return (
         <React.Fragment>
             <header className="page-header">
+                <div className="container">
                 <div className="menu-wrap">
                     <nav className="main-menu-nav">
                         <div className="logo-wrap">
@@ -40,6 +41,7 @@ const Header = () => {
                             {loginFormStatus.loginFormActive ?  <LoginFrom /> : null}
                         </div>
                     </nav>
+                </div>
                 </div>
             </header>
         </React.Fragment>

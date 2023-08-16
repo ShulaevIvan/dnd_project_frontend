@@ -5,7 +5,18 @@ body {
     font-family: Verdana, sans-serif;
     font-size: 16px;
 }
-
+.container {
+    max-width: 1180px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    white-space: nowrap;
+    width: 1180px;
+    margin: 0 auto;
+    height: 100%;
+    box-sizing: content-box;
+    max-height: 64px;
+}
 
 h1, h2, h3, h4, h5 {
     font-family: Georgia, serif;
@@ -21,18 +32,20 @@ input {
     background-color:#ECD073;
     color: white;
     padding: 10px;
-    width: 100%;
-    justify-content: center;
     margin-bottom: 20px;
     border-bottom: 2px solid #C14B3C;
+}
+.page-header .container {
+    justify-content: center;
 }
 .menu-wrap {
     display: flex;
     width: 100%;
-    max-width: 1170px;
+    max-width: 750px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-right: 10%;
 }
 .main-menu-nav {
     display: flex;
@@ -83,7 +96,7 @@ input {
 }
 .account-options {
     list-style: none;
-    top: 5.5%;
+    top: 88%;
     right: 20%;
     padding: 20px;
     position: absolute;

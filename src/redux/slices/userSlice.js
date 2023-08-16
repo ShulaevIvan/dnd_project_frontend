@@ -10,8 +10,13 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         authUser(state, action) {
-            state.userData = action.payload;
+            const data = JSON.parse(action.payload)
+            state.userData = data;
             state.isAuthenticated = true;
+        },
+        logoutUser(state, action) {
+            state.userData = {};
+            state.isAuthenticated = false;
         },
         getAuthState(state, payload) {
             return  state.isAuthenticated;
@@ -22,6 +27,7 @@ const userSlice = createSlice({
 
 export const {
     getAuthState,  
-    authUser, 
+    authUser,
+    logoutUser,
 } = userSlice.actions;
 export default userSlice.reducer;

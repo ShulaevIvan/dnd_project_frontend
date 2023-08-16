@@ -2,12 +2,12 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormActive, registerFormActive } from "../../redux/slices/headerLoginFormSlice";
+import { authUser } from "../../redux/slices/userSlice";
 import RegisterForm from "../RegisterForm/RegisterForm";
 
 const LoginFrom = () => {
     const dispatch = useDispatch();
     const registerFormState = useSelector((state) => state.headerLoginForm.registerFormActive);
-    console.log(registerFormState)
     const initialState = {
         loginInputRef: useRef(null),
         passwordInputRef: useRef(null),
@@ -21,9 +21,28 @@ const LoginFrom = () => {
 
     const loginHandler = async () => {
         const sendData = {
-            login: loginFromState.loginInputRef.current.value,
+            email: loginFromState.loginInputRef.current.value,
             password: loginFromState.passwordInputRef.current.value
         };
+
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/login/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(sendData)
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.token) {
+                    dispatch(authUser(JSON.stringify(data)));
+                    dispatch(loginFormActive(false));
+                }
+            });
+        };
+        await fetchFunc();
+        
     };
 
     const registerHandler = () => {

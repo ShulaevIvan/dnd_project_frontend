@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { loginFormActive } from "../../redux/slices/headerLoginFormSlice";
 import { subMenuActive }  from '../../redux/slices/subMenuSlice';
-
+import { logoutUser } from "../../redux/slices/userSlice";
 
 const HeaderSubMenu = () => {
     const dispatch = useDispatch();
@@ -16,8 +16,22 @@ const HeaderSubMenu = () => {
         dispatch(loginFormActive(true));
     };
 
-    const logoutHandler = () => {
-        console.log('logout');
+    const logoutHandler = async () => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/logout/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id: userData.userData.userId,  email: userData.userData.userEmail}),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(logoutUser());
+                dispatch(subMenuActive(false));
+            });
+        };
+        fetchFunc();
     };
 
     return (
