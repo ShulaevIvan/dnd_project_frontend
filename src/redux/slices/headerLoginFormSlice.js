@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = { 
     loginFormActive: false,
     registerFormActive: false,
+    forgotPasswordFormActive: false
 };
 
 const headerLoginFormSlice = createSlice({
@@ -13,8 +14,11 @@ const headerLoginFormSlice = createSlice({
             state.loginFormActive = action.payload;
         },
         registerFormActive(state, action) {
-            state.registerFormActive = action.payload
+            state.registerFormActive = action.payload;
         },
+        forgotPasswordActive(state, action) {
+            state.forgotPasswordFormActive = action.payload;
+        }
     }
 });
 
@@ -22,6 +26,7 @@ const headerLoginFormSlice = createSlice({
 export const {
     loginFormActive,
     registerFormActive,
+    forgotPasswordActive
 } = headerLoginFormSlice.actions;
 
 export default headerLoginFormSlice.reducer;

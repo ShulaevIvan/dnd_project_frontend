@@ -31,7 +31,7 @@
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
-.login-form-header input {
+.login-form-header input, .forgot-password-input {
     min-width: 200px;
     min-height: 20px;
     margin-bottom: 10px;
@@ -54,4 +54,30 @@
 .login-form-btns-wrap button {
     margin-right: 20px;
     cursor: pointer;
+}
+.login-error-message {
+    margin-top: 20px;
+    color: #C14B3C;
+}
+.login-form-forgot-password {
+    text-decoration: none;   
+}
+.forgot-password-wrap {
+    display: flex;
+    flex-direction: revert;
+    width: 400px;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+}
+.forgot-password-input {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.forgot-password-message {
+    font-size: 14px;
+}
+.forgot-password-error {
+    font-size: 14px;
+    color: #C14B3C;
 }

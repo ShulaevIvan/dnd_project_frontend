@@ -37,8 +37,9 @@ const HeaderSubMenu = () => {
     return (
         <React.Fragment>
             <ul className="account-options account-options">
-                {userData.isAuthenticated ?  <li><Link>Мои персонажи</Link></li> : null }
-                {userData.isAuthenticated ? <li><Link onClick={logoutHandler}>Выйти</Link></li> : <li><Link onClick={(e) => loginHandler(e)}>Войти</Link></li>}
+                {userData.isAuthenticated ?  <li><Link>Profile</Link></li> : null }
+                {userData.isAuthenticated ?  <li><Link>My Characters</Link></li> : null }
+                {userData.isAuthenticated ? <li><Link onClick={logoutHandler}>Logout</Link></li> : <li><Link onClick={(e) => loginHandler(e)}>Login</Link></li>}
             </ul>
             <div>
                 

@@ -13,6 +13,7 @@ const RegisterForm = () => {
         emailRef: useRef(null),
         registerData: undefined,
     };
+    
     const [registerFormState, setRegisterFormState] = useState(initialState);
     const dispatch = useDispatch();
 

@@ -41,11 +41,9 @@ input {
 .menu-wrap {
     display: flex;
     width: 100%;
-    max-width: 750px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-right: 10%;
 }
 .main-menu-nav {
     display: flex;
@@ -53,16 +51,15 @@ input {
     flex-wrap: wrap;
     width: 100%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     min-height: 50px;
     max-width: 1024px;
 }
 .menu-links {
-    max-width: 600px;
-    width: 70%;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 .menu-btn {
     color: #000;
@@ -75,7 +72,6 @@ input {
 }
 .menu-links a {
     display: flex;
-    width: 33%;
     justify-content: center;
     align-items: center;
     font-size: 18px;
@@ -94,10 +90,19 @@ input {
     width: 15%;
     justify-content: flex-end;
 }
+.username-account-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    color: #000;
+}
 .account-options {
     list-style: none;
     top: 88%;
-    right: 20%;
+    right: 14%;
     padding: 20px;
     position: absolute;
     color: #000;
@@ -105,8 +110,10 @@ input {
     border-bottom: 1px solid #C14B3C;
     border-left: 1px solid #C14B3C;
     border-right: 1px solid #C14B3C;
+    z-index: 5;
 }
 .account-options li {
+    margin-bottom: 10px;
     cursor: pointer;
 }
 .account-options-hidden {
@@ -126,109 +133,12 @@ input {
     min-height: 100vh;
     align-items: center;
     box-sizing: border-box;
-    max-width: 1170px;
+    max-width: 1024px;
     padding-left: 16px;
     padding-right: 16px;
     margin: 0 auto;
     position: relative;
     flex: 1 0 auto;
-}
-.footer {
-    margin: 0 auto;
-    padding: 25px;
-    background-color: #3A2E32;
-    color: #C14B3C;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    flex: 0 0 auto;
-    width: 100%;
-}
-.footer h4 {
-    font-size: 18px;
-}
-.footer a {
-    color: #C14B3C;
-}
-.footer-top {
-    width: 100%;
-    color: white;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    max-width: 1170px;
-}
-.footer-bottom {
-    width: 100%;
-    max-width: 1170px;
-}
-.footer-logo-block {
-    display: flex;
-    flex-direction: column;
-    width: 15%;
-    align-items: flex-start;
-    max-height: 250px;
-}
-.footer-menu-wrap {
-    display: flex;
-    flex-direction: row;
-    width: 85%;
-    align-items: center;
-}
-.footer-column {
-    display: flex;
-    flex-direction: column;
-    width: 33%;
-    max-width: 300px;
-    min-height: 250px;
-    align-items: flex-start;
-}
-.footer-column-content {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.footer-link {
-    margin-bottom: 5px;
-}
-
-.manual-section {
-    width: 100%;
-    margin-bottom: 20px;
-}
-.manual-content-wrap {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-.manual-content {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-}
-.manual-content-item {
-    display: flex;
-    width: 90%;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.manual-block-link-wrap {
-    display: flex;
-    width: 25%;
-    flex-direction: column;
-}
-.manual-block-link-wrap h3 {
-    font-size: 24px;
-}
-.link-block {
-    max-width: 355px;
-    padding: 20px;
-    background-color: #A3999C;
-    margin-bottom: 20px;
 }
 
 .popup-login-wrap {

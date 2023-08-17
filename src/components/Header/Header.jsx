@@ -6,11 +6,10 @@ import { subMenuActive }  from '../../redux/slices/subMenuSlice';
 import LoginFrom from "../LoginForm/LoginForm";
 
 const Header = () => {
-    const initialState = {
-        subMenuActive: false,
-    };
+
     const subMenuStatus = useSelector((state) => state.subMenu);
     const loginFormStatus = useSelector((state) => state.headerLoginForm);
+    const userData = useSelector((state) => state.userData);
     const dispatch =  useDispatch();
 
     const submenuHandler = () => {
@@ -30,15 +29,16 @@ const Header = () => {
                         <div className="logo-wrap">
                             <Link className="logo-link">logo</Link>
                         </div>
-                        <div class="menu-links">
+                        <div className="menu-links">
                             <Link className="menu-btn characters-link">build character</Link>
                             <Link className="menu-btn info-link">info</Link>
                             <Link className="menu-btn info-link">contact</Link>
                         </div>
-                        <div  className="account-wrap">
+                        <div className="account-wrap">
                             <Link onClick={submenuHandler} className="account-icon"></Link>
                             {subMenuStatus.submenuActive ?  <HeaderSubMenu /> : null}
                             {loginFormStatus.loginFormActive ?  <LoginFrom /> : null}
+                            {userData.userData && userData.userData.auth ? <div className="username-account-wrap">{userData.userData.userName}</div> : null}
                         </div>
                     </nav>
                 </div>
