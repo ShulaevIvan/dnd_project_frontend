@@ -6,16 +6,13 @@ body {
     font-size: 16px;
 }
 .container {
-    max-width: 1180px;
+    max-width: 1024px;
     display: flex;
-    align-items: center;
     position: relative;
     white-space: nowrap;
-    width: 1180px;
     margin: 0 auto;
     height: 100%;
     box-sizing: content-box;
-    max-height: 64px;
 }
 
 h1, h2, h3, h4, h5 {

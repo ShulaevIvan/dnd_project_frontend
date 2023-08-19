@@ -1,0 +1,46 @@
+.instruments-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 860px;
+    margin-right: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.instruments-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 40%;
+    border: 1px solid;
+    padding: 20px;
+}
+.instrument-item-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5px 10px;
+    padding: 8px;
+    border-radius: 8px;
+    display: inline-flex;
+    margin: 4px;
+    align-items: center;
+    transition: all .5s;
+    width: 92%;
+    border: 1px solid;
+    cursor: pointer;
+}
+.instrument-item-wrap h5 {
+    margin: 0;
+    font-size: 18px;
+}
+.virtual-cube-wrap  {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 50%;
+    align-items: flex-end;
+    min-height: 400px;
+    border: 1px solid;
+}

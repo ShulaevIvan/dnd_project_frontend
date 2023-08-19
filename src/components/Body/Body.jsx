@@ -1,61 +1,55 @@
 import React from "react";
+import SeachPanel from "../SearchPanel/SearchPanel";
+import Manuals from "../Manuals/Manuals";
+import Instruments from "../Instruments/Instruments";
 
 const Body = () => {
     return (
         <React.Fragment>
-            <div class="main-container">
+            <div className="main-container">
                 <section>
-                    <div className="mainpage-service-wrapper">
-                        <div className="service-box-wrapper">
-                            <div  className="service-img-wrap">
-                                <img src="https://dummyimage.com/400x400.png" alt="#"/>
+                    <SeachPanel />
+                </section>
+
+                <section>
+                    <div className="container">
+                        <div className="box-items-wrap">
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                            <div className="serice-box-btn-wrap">
-                                <button>Service Button</button>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                            <div className="serivice-box-title-wrap">
-                                <h2>Service-Title</h2>
-                                <p className="service-box-description">description</p>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                        </div>
-                        <div className="service-box-wrapper">
-                            <div  className="service-img-wrap">
-                                <img src="https://dummyimage.com/400x400.png" alt="#"/>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                            <div className="serice-box-btn-wrap">
-                                <button>Service Button</button>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                            <div className="serivice-box-title-wrap">
-                                <h2>Service-Title</h2>
-                                <p className="service-box-description">description</p>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                        </div>
-                        <div className="service-box-wrapper">
-                            <div  className="service-img-wrap">
-                                <img src="https://dummyimage.com/400x400.png" alt="#"/>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
-                            <div className="serice-box-btn-wrap">
-                                <button>Service Button</button>
-                            </div>
-                            <div className="serivice-box-title-wrap">
-                                <h2>Service-Title</h2>
-                                <p className="service-box-description">description</p>
-                            </div>
-                        </div>
-                        <div className="service-box-wrapper">
-                            <div  className="service-img-wrap">
-                                <img src="https://dummyimage.com/400x400.png" alt="#"/>
-                            </div>
-                            <div className="serice-box-btn-wrap">
-                                <button>Service Button</button>
-                            </div>
-                            <div className="serivice-box-title-wrap">
-                                <h2>Service-Title</h2>
-                                <p className="service-box-description">description</p>
+                            <div className="box-item">
+                                <h4>Title</h4>
                             </div>
                         </div>
                     </div>
                 </section>
+
+                <section>
+                    <Instruments />
+                </section>
+
+                <section>
+                    <Manuals />
+                </section>
+
             </div>
         </React.Fragment>
     );

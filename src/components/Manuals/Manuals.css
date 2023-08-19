@@ -1,0 +1,64 @@
+.manuals-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.manual-item-box {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 33%;
+    width: 272px;
+    height: 272px;
+    border: 1px solid;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.manual-item-title-wrap {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #ECD073;
+    border-top: 1px solid #C14B3C;
+    min-height: 64px;
+}
+.manual-item-box h4 {
+    font-size: 20px;
+    margin: 5px 0 0 5px;
+    color: #000;
+}
+.manual-item-description {
+    margin: 5px 0;
+}
+
+.manual-item-background-wrap {
+    min-height: 100%;
+    min-width: 100%;
+    background-color: black;
+    color: white;
+}
+.manual-item-background-description-wrap {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.manual-item-background-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.manual-item-background-description-wrap  p {
+    font-size: 14px;
+    margin: 5px;
+}
+.manual-item-background-link {
+    color: #C14B3C;
+    font-size: 16px;
+}
