@@ -2,6 +2,7 @@ import React from "react";
 import SeachPanel from "../SearchPanel/SearchPanel";
 import Manuals from "../Manuals/Manuals";
 import Instruments from "../Instruments/Instruments";
+import ReferenceBook from "../ReferenceBook/ReferenceBook";
 
 const Body = () => {
     return (
@@ -12,34 +13,7 @@ const Body = () => {
                 </section>
 
                 <section>
-                    <div className="container">
-                        <div className="box-items-wrap">
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                            <div className="box-item">
-                                <h4>Title</h4>
-                            </div>
-                        </div>
-                    </div>
+                    <ReferenceBook />
                 </section>
 
                 <section>
