@@ -16,19 +16,38 @@ const ReferenceBook = () => {
             });
         }
         fetchFunc();
-    }, []);
+    }, [])
+    console.log(charClasses)
 
     return (
+
         <React.Fragment>
             <div className="container">
                 <div className="box-items-wrap">
-                    {charClasses.map((item) => {
-                        return (
-                            <div className="box-item"  key={Math.random() + item.id}>
-                                <h4>{item.classname}</h4>
-                            </div>
-                        );
-                    })}
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
+                    <div className="box-item">
+                        <h4>Title</h4>
+                    </div>
                 </div>
             </div>
         </React.Fragment>
