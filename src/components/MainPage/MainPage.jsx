@@ -4,7 +4,7 @@ import Manuals from "../Manuals/Manuals";
 import Instruments from "../Instruments/Instruments";
 import ReferenceBook from "../ReferenceBook/ReferenceBook";
 
-const Body = () => {
+const MainPage = () => {
     return (
         <React.Fragment>
             <div className="main-container">
@@ -29,4 +29,4 @@ const Body = () => {
     );
 };
 
-export default Body;
+export default MainPage;

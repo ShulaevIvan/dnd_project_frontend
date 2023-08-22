@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    menu: [],
     referenceBookCharClasses: [],
 };
 
@@ -8,6 +9,9 @@ const referenceBookSlice = createSlice({
     name: 'referenceBookSlice',
     initialState,
     reducers: {
+        referenceBookMenu(state, action) {
+            state.menu = [...JSON.parse(action.payload)]
+        },
         referenceBookCharClasses(state, action) {
             state.referenceBookCharClasses = [...JSON.parse(action.payload)];
         },
@@ -16,6 +20,7 @@ const referenceBookSlice = createSlice({
 });
 
 export const {
+    referenceBookMenu,
     referenceBookCharClasses,
 } = referenceBookSlice.actions;
 

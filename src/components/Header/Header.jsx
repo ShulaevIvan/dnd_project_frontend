@@ -26,12 +26,12 @@ const Header = () => {
                 <div className="menu-wrap">
                     <nav className="main-menu-nav">
                         <div className="logo-wrap">
-                            <Link className="logo-link">logo</Link>
+                            <Link className="logo-link" to={{pathname: '/'}}>logo</Link>
                         </div>
                         <div className="menu-links">
-                            <Link className="menu-btn characters-link">build character</Link>
-                            <Link className="menu-btn info-link">info</Link>
-                            <Link className="menu-btn info-link">contact</Link>
+                            <Link to={{pathname:'/character-builder/'}} className="menu-btn characters-link">build character</Link>
+                            <Link to={{pathname: '/info/'}} className="menu-btn info-link">info</Link>
+                            <Link to={{pathname: '/contact/'}} className="menu-btn info-link">contact</Link>
                         </div>
                         <div className="account-wrap">
                             <Link onClick={submenuHandler} className="account-icon"></Link>
