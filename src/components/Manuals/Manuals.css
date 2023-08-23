@@ -3,7 +3,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 .manual-item-box {
@@ -11,8 +11,9 @@
     flex-direction: column;
     flex-wrap: wrap;
     max-width: 33%;
-    width: 272px;
-    height: 272px;
+    min-width: 300px;
+    min-height: 300px;
+    max-width: 33%;
     border: 1px solid;
     margin-right: 20px;
     margin-bottom: 20px;

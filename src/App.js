@@ -16,6 +16,7 @@ import './components/CharacterStepsInfo/CharacterStepsInfo.css';
 import Layout from './components/Layout/Layout';
 import MainPage from './components/MainPage/MainPage';
 import CharacterBuilder from './components/CharacterBuilder/CharacterBuilder';
+import CharacterSteps from './components/CharacterSteps/CharacterSteps';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
               <Route path='/character-builder/' element = {<CharacterBuilder />} />
               <Route path='/info/' element = {<CharacterBuilder />} />
               <Route path='/contact/' element = {<CharacterBuilder />} />
+              <Route path='/character-builder/character-steps/' element={<CharacterSteps />} />
             </Route>
             
           </Routes>
