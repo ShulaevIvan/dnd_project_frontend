@@ -27,7 +27,7 @@ const ReferenceBook = () => {
                     {referenceBookMenuState.map((item) => {
                         return (
                             <div className="box-item"  key={Math.random() + item.id}>
-                                <Link to={{pathname: `library/${item.name}/`}}>
+                                <Link to={{pathname: `database/${item.name}/`}}>
                                     <h4>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</h4>
                                 </Link>
                             </div>

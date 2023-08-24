@@ -3,6 +3,7 @@ import userSlice from '../slices/userSlice';
 import subMenuSlice from '../slices/subMenuSlice';
 import headerLoginFormSlice from '../slices/headerLoginFormSlice';
 import referenceBookSlice from '../slices/referenceBookSlice';
+import characterStepsSlice from '../slices/characterStepsSlice';
 import instrumentsSlice from '../slices/instrumentsSlice';
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         subMenu: subMenuSlice,
         headerLoginForm: headerLoginFormSlice,
         referenceBook: referenceBookSlice,
+        characterSteps: characterStepsSlice,
         instruments: instrumentsSlice,
     },
     middleware: (getDefaultMiddleware)  => getDefaultMiddleware(),

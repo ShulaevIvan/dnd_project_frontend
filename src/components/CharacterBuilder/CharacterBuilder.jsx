@@ -21,7 +21,6 @@ const CharacterBuilder = () => {
                         services
                 </div>
             </div>
-            {/* <CharacterSteps /> */}
         </React.Fragment>
     );
 };

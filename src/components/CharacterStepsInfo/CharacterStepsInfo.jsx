@@ -7,7 +7,7 @@ const CharacterStepsInfo = () => {
             <div className="character-steps-info-column">
                 <div className="character-steps-info-title"><h4>Character-info</h4></div>
                 <div className="character-steps-base-info-wrap">
-                    <div className="character-face-image-wrap"><span class="character-face-level">1</span><img src={require('./img/demo.jpg')} alt="demo"  /></div>
+                    <div className="character-face-image-wrap"><span className="character-face-level">1</span><img src={require('./img/demo.jpg')} alt="demo"  /></div>
                     <div className="character-race-class-wrap">
                         <span className="character-race-info">Race:</span>
                         <span className="character-race-content">HiElf</span>
@@ -28,7 +28,7 @@ const CharacterStepsInfo = () => {
                             <div className="character-stat-item-body">-</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
-                        <div class="character-steps-stats-item">
+                        <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-con">CON</div>
                             <div className="character-stat-item-body">-</div>
                             <div className="character-stat-item-modif">+0</div>

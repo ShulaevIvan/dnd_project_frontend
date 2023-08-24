@@ -12,7 +12,12 @@ const Instruments = () => {
 
      useEffect(() => {
           const fetchFunc = async () => {
-               await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/instruments/`)
+               await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/instruments/`, {
+                    method: 'GET',
+                    headers: {
+                         'Content-Type': 'application/json',
+                    },
+               })
                .then((response) => response.json())
                .then((data) => {
                     dispatch(instrumentsMenuSlice(JSON.stringify(data.instruments)));

@@ -30,7 +30,7 @@ const Header = () => {
                         </div>
                         <div className="menu-links">
                             <Link to={{pathname:'/character-builder/'}} className="menu-btn characters-link">build character</Link>
-                            <Link to={{pathname: '/info/'}} className="menu-btn info-link">info</Link>
+                            <Link to={{pathname: '/database/'}} className="menu-btn info-link">database</Link>
                             <Link to={{pathname: '/contact/'}} className="menu-btn info-link">contact</Link>
                         </div>
                         <div className="account-wrap">

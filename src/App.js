@@ -17,6 +17,8 @@ import Layout from './components/Layout/Layout';
 import MainPage from './components/MainPage/MainPage';
 import CharacterBuilder from './components/CharacterBuilder/CharacterBuilder';
 import CharacterSteps from './components/CharacterSteps/CharacterSteps';
+import DatabasePage from './components/DatabasePage/DatabasePage';
+import ContactPage from './components/ContactPage/ContactPage';
 
 
 function App() {
@@ -27,11 +29,10 @@ function App() {
             <Route path='/' element = {<Layout />}>
               <Route path='/' element = {<MainPage />} />
               <Route path='/character-builder/' element = {<CharacterBuilder />} />
-              <Route path='/info/' element = {<CharacterBuilder />} />
-              <Route path='/contact/' element = {<CharacterBuilder />} />
+              <Route path='/database/' element = {<DatabasePage />} />
+              <Route path='/contact/' element = {<ContactPage />} />
               <Route path='/character-builder/character-steps/' element={<CharacterSteps />} />
             </Route>
-            
           </Routes>
       </BrowserRouter>
     </div>
