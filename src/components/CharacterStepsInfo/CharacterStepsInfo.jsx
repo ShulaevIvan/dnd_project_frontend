@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 const CharacterStepsInfo = () => {
-
+    const characterCreateState =  useSelector((state) => state.characterSteps);
+    
     return (
         <React.Fragment>
             <div className="character-steps-info-column">
@@ -9,10 +11,14 @@ const CharacterStepsInfo = () => {
                 <div className="character-steps-base-info-wrap">
                     <div className="character-face-image-wrap"><span className="character-face-level">1</span><img src={require('./img/demo.jpg')} alt="demo"  /></div>
                     <div className="character-race-class-wrap">
-                        <span className="character-race-info">Race:</span>
-                        <span className="character-race-content">HiElf</span>
-                        <span className="character-class-info">Class:</span>
-                        <span className="character-class-content">Test-Class</span>
+                        <span className="character-race-info">Race: 
+                            <span className="character-race-content"> 
+                                {characterCreateState.characterSum.raceData ? 
+                            ` ${characterCreateState.characterSum.raceData.name}` : null }
+                            </span>
+                        </span>
+                        
+                        <span className="character-class-info"><span className="character-class-content">Class: Test-Class</span></span>
                     </div>
                 </div>
 

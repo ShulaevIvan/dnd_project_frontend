@@ -20,6 +20,7 @@ const Header = () => {
         dispatch(subMenuActive(true));    
     };
 
+
     return (
         <React.Fragment>
             <header className="page-header">
@@ -29,7 +30,11 @@ const Header = () => {
                             <Link className="logo-link" to={{pathname: '/'}}>logo</Link>
                         </div>
                         <div className="menu-links">
-                            <Link to={{pathname:'/character-builder/'}} className="menu-btn characters-link">build character</Link>
+                            <Link
+                                to={{pathname:'/character-builder/'}} 
+                                className="menu-btn characters-link">
+                                build character
+                            </Link>
                             <Link to={{pathname: '/database/'}} className="menu-btn info-link">database</Link>
                             <Link to={{pathname: '/contact/'}} className="menu-btn info-link">contact</Link>
                         </div>

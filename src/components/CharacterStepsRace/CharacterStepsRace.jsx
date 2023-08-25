@@ -1,16 +1,27 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addRaces, selectRace } from "../../redux/slices/characterStepsSlice";
 
 const  CharacterStepsRace = () => {
+    const characterCreateState =  useSelector((state) => state.characterSteps);
     const allRaces = useSelector((state) => state.characterSteps.allRaces);
-    const characterSum = useSelector((state) => state.characterSteps);
+    const [selectedRaceState, setSelectedRaceState] = useState({raceData: undefined})
     const dispatch = useDispatch();
 
     const selectRaceHandler = (raceId) => {
-        dispatch(selectRace(raceId));
+        setSelectedRaceState(prevState => ({
+            ...prevState,
+            raceData: prevState.raceData = characterCreateState.allRaces.find((item) => item.id === raceId),
+        }));
     };
+
+    useEffect(() => {
+        dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
+        // eslint-disable-next-line
+    }, [selectedRaceState])
+
+
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -27,6 +38,7 @@ const  CharacterStepsRace = () => {
         };
 
         fetchFunc();
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -35,7 +47,6 @@ const  CharacterStepsRace = () => {
             <div className="character-steps-race-column">
                 <div className="character-race-row">
                     {allRaces.map((item) => {
-                        console.log(item.subrace)
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="character-race-item" onClick={() => selectRaceHandler(item.id)}>
@@ -44,7 +55,7 @@ const  CharacterStepsRace = () => {
                                         <ul className="character-race-features-btn-wrap">
                                             {item.subrace ? item.subrace.map((subrace) => {
                                                 return (
-                                                    <React.Fragment>
+                                                    <React.Fragment key={Math.random()}>
                                                         <li className="character-race-features-btn"></li>
                                                     </React.Fragment>
                                                 )
