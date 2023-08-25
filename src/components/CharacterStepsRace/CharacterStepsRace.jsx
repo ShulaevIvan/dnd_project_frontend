@@ -49,7 +49,13 @@ const  CharacterStepsRace = () => {
                     {allRaces.map((item) => {
                         return (
                             <React.Fragment key={Math.random()}>
-                                <div className="character-race-item" onClick={() => selectRaceHandler(item.id)}>
+                                <div 
+                                    className={`character-race-item 
+                                        ${characterCreateState.characterSum.raceData ? 
+                                            characterCreateState.characterSum.raceData.id === item.id ? 'race-selected' : null : null}
+                                    `} 
+                                    onClick={() => selectRaceHandler(item.id)}
+                                >
                                     <div className="character-race-title">{item.name}</div>
                                     <div className="character-race-features-wrap">
                                         <ul className="character-race-features-btn-wrap">

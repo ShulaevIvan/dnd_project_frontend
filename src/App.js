@@ -10,6 +10,7 @@ import './components/Manuals/Manuals.css';
 import './components/Instruments/Instruments.css';
 import './components/CharacterBuilder/CharacterBuilder.css';
 import './components/CharacterStepsInfo/CharacterStepsInfo.css';
+import './components/CharacterStepsRace/CharacterStepsRace.css';
 
 
 
