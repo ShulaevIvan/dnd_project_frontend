@@ -7,8 +7,7 @@ const CharacterStepsPreiew = () => {
     return (
         <React.Fragment>
             <div className="character-steps-preview-column">
-                {characterCreateState.characterSum.raceData ? 
-                
+                {characterCreateState.characterSum.raceData ?
                     <React.Fragment>
                         <div className="character-race-preview-wrap">
                             <div className="character-race-preview-title">
@@ -18,7 +17,17 @@ const CharacterStepsPreiew = () => {
                         </div>
 
                         <div className="character-race-stats-bonuce">
-                            <div className="character-race-stat-value"><span>Увеличение характеристик:</span> Значение вашей Ловкости увеличивается на 2.</div>
+                            <div className="character-race-stat-value">
+                                <span>Увеличение характеристик:</span> 
+                                <ul>
+                                    <li>{`Str: + ${characterCreateState.characterSum.raceData.bonuces.str}`}</li>
+                                    <li>{`Dex: + ${characterCreateState.characterSum.raceData.bonuces.dex}`}</li>
+                                    <li>{`Con: + ${characterCreateState.characterSum.raceData.bonuces.con}`}</li>
+                                    <li>{`Int: + ${characterCreateState.characterSum.raceData.bonuces.int}`}</li>
+                                    <li>{`Wis: + ${characterCreateState.characterSum.raceData.bonuces.wis}`}</li>
+                                    <li>{`Cha: + ${characterCreateState.characterSum.raceData.bonuces.cha}`}</li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* <div className="character-race-ability-bonuce">
@@ -30,8 +39,8 @@ const CharacterStepsPreiew = () => {
                             {characterCreateState.characterSum.raceData.skills ? 
                                 characterCreateState.characterSum.raceData.skills.map((item) => {
                                     return (
-                                        <React.Fragment>
-                                            <div className="skill-item" key={Math.random()}>
+                                        <React.Fragment key={Math.random()}>
+                                            <div className="skill-item">
                                                 <span>Skill Name:</span> <a href="#">{item.skillname}</a>
                                                 <div className="skill-short-desc">{item.description}</div>
                                             </div>
@@ -41,19 +50,20 @@ const CharacterStepsPreiew = () => {
                         </div>
 
                         <div className="character-race-preview-speed">
-                            <span>Speed:</span> Ваша базовая скорость ходьбы составляет 30 футов.
+                            <span className="character-race-preview-span-title">Speed:</span> Ваша базовая скорость ходьбы составляет {characterCreateState.characterSum.raceData.speed} футов.
                         </div>
 
                         <div className="character-race-preview-size">
-                            <span>Size:</span> Рост эльфов колеблется между 5 и 6 футами (152 и 183 сантиметрами), у них стройное телосложение. Ваш размер — Средний.
+                            <span className="character-race-preview-span-title">Size:</span> Рост {`${characterCreateState.characterSum.raceData.size}фт`}, 
+                                Ваш размер — {characterCreateState.characterSum.raceData.weight}.
                         </div>
 
                         <div className="character-race-preview-age">
-                            <span>Age:</span> Несмотря на то, что физически эльфы взрослеют в том же возрасте, что и люди, их понимание о взрослении выходит
+                            <span className="character-race-preview-span-title">Age:</span> {characterCreateState.characterSum.raceData.age}
                         </div>
 
                         <div className="character-race-preview-worldview">
-                            <span>Speed:</span> любое
+                            <span className="character-race-preview-span-title">Worldview:</span> любое
                         </div>
 
                         <div className="character-race-gender-wrap">
@@ -65,14 +75,7 @@ const CharacterStepsPreiew = () => {
 
                         <div className="race-description-wrap">
                             <div className="race-description">
-                                <p>Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
-                                    Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
-                                    В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов.
-                                    Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн.
-                                    Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и,
-                                    в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, 
-                                    в шаблонах которых используется Lorem Ipsum.
-                                </p>
+                                <p>{characterCreateState.characterSum.raceData.description}</p>
                             </div>
                         </div>
                     </React.Fragment>

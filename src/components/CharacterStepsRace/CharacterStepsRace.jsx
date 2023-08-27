@@ -16,6 +16,14 @@ const  CharacterStepsRace = () => {
         }));
     };
 
+    const subraceHandler = (raceId, subraceName) => {
+        const subraceData = {
+            id: raceId,
+            subraceName: subraceName,
+
+        }
+    };
+
     useEffect(() => {
         dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
         // eslint-disable-next-line
@@ -62,7 +70,7 @@ const  CharacterStepsRace = () => {
                                             {item.subrace ? item.subrace.map((subrace) => {
                                                 return (
                                                     <React.Fragment key={Math.random()}>
-                                                        <li className="character-race-features-btn"></li>
+                                                        <li className="character-race-features-btn" onClick={() => subraceHandler(item.id, subrace)}></li>
                                                     </React.Fragment>
                                                 )
                                             }) : null}

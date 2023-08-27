@@ -1,0 +1,135 @@
+
+.character-race-stat-value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.character-race-stat-value ul {
+    padding: 0;
+    margin: 10px 0;
+    max-width: 150px;
+}
+.character-race-stat-value  li {
+    list-style: none;
+}
+
+.character-race-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.character-race-preview-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.character-race-preview-subtitle, 
+.character-race-preview-speed, 
+.character-race-preview-size, 
+.character-race-preview-age, 
+.character-race-preview-worldview {
+    margin-bottom: 20px;
+}
+.skill-item {
+    margin-bottom: 20px;
+}
+.skill-item span, 
+.character-race-ability-bonuce span, 
+.character-race-stat-value span, 
+.character-race-preview-speed span, 
+.character-race-preview-size span, 
+.character-race-preview-age span,
+.character-race-preview-worldview span {
+    font-weight: bold;
+}
+.character-race-stats-bonuce {
+    margin-bottom: 20px;
+}
+.character-race-ability-bonuce {
+    margin-bottom: 10px;
+}
+.gender-block-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.gender-block-female {
+    min-width: 30px;
+    min-height: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    border: 1px solid;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.gender-block-male {
+    min-width: 30px;
+    min-height: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    border: 1px solid;
+    justify-content: center;
+    align-items: center;
+}
+.gender-block-male::before {
+    content: '\2642';
+    font-size: 30px;
+    cursor: pointer;
+}
+.gender-block-female::before {
+    content: '\2640';
+    font-size: 30px;
+    cursor: pointer;
+}
+.gender-selected {
+    background-color: #000;
+    color: white;
+}
+.gender-title-f {
+    left: 16%;
+    color: #000;
+    position: absolute;
+}
+.gender-title-m {
+    right: 20%;
+    color: #000;
+    position: absolute;
+}
+
+.character-race-preview-bonuce-skills-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    flex-direction: column;
+    padding-left: 10px;
+}
+.character-race-stat-value, 
+.character-race-preview-speed, 
+.character-race-preview-size,
+.character-race-preview-age,
+.character-race-preview-worldview,
+.race-description {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    text-align: left;
+    justify-content: left;
+}
+.character-race-preview-span-title {
+    margin-bottom: 5px;
+}

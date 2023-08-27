@@ -1,5 +1,3 @@
 .race-selected {
-    transition: all 1s;
-    transform: scale(0.95);
-    opacity: 1;
+    border: 1px solid #C14B3C
 }
