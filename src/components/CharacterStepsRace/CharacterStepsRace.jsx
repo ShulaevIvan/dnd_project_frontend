@@ -22,7 +22,7 @@ const  CharacterStepsRace = () => {
             subraceName: subraceName,
 
         }
-    };
+    }
 
     useEffect(() => {
         dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
@@ -67,7 +67,7 @@ const  CharacterStepsRace = () => {
                                     <div className="character-race-title">{item.name}</div>
                                     <div className="character-race-features-wrap">
                                         <ul className="character-race-features-btn-wrap">
-                                            {item.subrace ? item.subrace.map((subrace) => {
+                                            {item.subrace_avalible ? item.subraces.map((subrace) => {
                                                 return (
                                                     <React.Fragment key={Math.random()}>
                                                         <li className="character-race-features-btn" onClick={() => subraceHandler(item.id, subrace)}></li>

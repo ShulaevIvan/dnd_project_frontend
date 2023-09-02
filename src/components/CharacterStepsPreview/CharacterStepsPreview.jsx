@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
-
+    console.log(characterCreateState)
     return (
         <React.Fragment>
             <div className="character-steps-preview-column">
@@ -20,20 +20,20 @@ const CharacterStepsPreiew = () => {
                             <div className="character-race-stat-value">
                                 <span>Увеличение характеристик:</span> 
                                 <ul>
-                                    <li>{`Str: + ${characterCreateState.characterSum.raceData.bonuces.str}`}</li>
+                                    {/* <li>{`Str: + ${characterCreateState.characterSum.raceData.bonuces.str}`}</li>
                                     <li>{`Dex: + ${characterCreateState.characterSum.raceData.bonuces.dex}`}</li>
                                     <li>{`Con: + ${characterCreateState.characterSum.raceData.bonuces.con}`}</li>
                                     <li>{`Int: + ${characterCreateState.characterSum.raceData.bonuces.int}`}</li>
                                     <li>{`Wis: + ${characterCreateState.characterSum.raceData.bonuces.wis}`}</li>
-                                    <li>{`Cha: + ${characterCreateState.characterSum.raceData.bonuces.cha}`}</li>
+                                    <li>{`Cha: + ${characterCreateState.characterSum.raceData.bonuces.cha}`}</li> */}
                                 </ul>
                             </div>
                         </div>
 
-                        {/* <div className="character-race-ability-bonuce">
+                        <div className="character-race-ability-bonuce">
                             <div className="character-race-ability-bonuce"><span>Test skill:</span> Вы владеете навыком test skill</div>
                             <div className="character-race-ability-bonuce"><span>Test skill:</span> Вы владеете навыком test skill</div>
-                        </div> */}
+                        </div>
 
                         <div className="character-race-preview-bonuce-skills-wrap">
                             {characterCreateState.characterSum.raceData.skills ? 
