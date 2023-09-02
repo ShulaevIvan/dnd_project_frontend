@@ -5,6 +5,7 @@ const initialState = {
     characterStepPage: undefined,
     characterSum: {
         raceData: undefined,
+        subraceData: undefined,
     }
 };
 
@@ -22,6 +23,9 @@ const characterStepsSlice = createSlice({
             const data = JSON.parse(action.payload)
             state.characterSum.raceData = data.raceData;
         },
+        selectSubrace(state, action) {
+            state.characterSum = action.payload
+        }
     }
 });
 
@@ -29,7 +33,8 @@ const characterStepsSlice = createSlice({
 export const {
     setCharacterStep,
     addRaces,
-    selectRace
+    selectRace,
+    selectSubrace
 } = characterStepsSlice.actions;
 
 export default characterStepsSlice.reducer;

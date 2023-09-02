@@ -20,8 +20,21 @@ const  CharacterStepsRace = () => {
         const subraceData = {
             id: raceId,
             subraceName: subraceName,
-
         }
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/race/${raceId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+            });
+        }
+
+        fetchFunc();
     }
 
     useEffect(() => {
