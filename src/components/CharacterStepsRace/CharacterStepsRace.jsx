@@ -24,8 +24,8 @@ const  CharacterStepsRace = () => {
                     skills: data.skills,
                     race_bonuces: data.race_bonuces,
                     languages: data.languages
-                }
-                console.log(raceData)
+                };
+                
                 setSelectedRaceState(prevState => ({
                     ...prevState,
                     raceData: prevState.raceData = raceData,

@@ -3,18 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
+    const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
+    const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+
 
     return (
         <React.Fragment>
             <div className="character-steps-preview-column">
-                {characterCreateState.characterSum.raceData ?
+                {raceState ?
                     <React.Fragment>
                         <div className="character-race-preview-wrap">
                             <div className="character-race-preview-title">
-                                {characterCreateState.characterSum.raceData ? characterCreateState.characterSum.raceData.name : null} 
+                                {raceState ? raceState.raceData.char_race_name : null} 
                             </div>
                             <div className="character-race-previw-title-subrace">
-                                {characterCreateState.characterSum.subraceData ? characterCreateState.characterSum.subraceData.subrace_name : null}
+                                {characterCreateState.characterSum.subraceData ? subraceState.subrace_name : null}
                             </div>
                             <div className="character-race-preview-subtitle">features</div>
                         </div>
@@ -22,24 +25,23 @@ const CharacterStepsPreiew = () => {
                         <div className="character-race-stats-bonuce">
                             <div className="character-race-stat-value">
                                 <span>Увеличение характеристик:</span>
-                                {console.log(characterCreateState.characterSum.subraceData)} 
                                 {!characterCreateState.characterSum.subraceData.subraceBonuces ? 
                                     <React.Fragment>
                                         <ul>
-                                            <li>{`Dex: + ${characterCreateState.characterSum.raceData.race_bonuces.dex_bonuce}`}</li>
-                                            <li>{`Con: + ${characterCreateState.characterSum.raceData.race_bonuces.con_bonuce}`}</li>
-                                            <li>{`Int: + ${characterCreateState.characterSum.raceData.race_bonuces.int_bonuce}`}</li>
-                                            <li>{`Wis: + ${characterCreateState.characterSum.raceData.race_bonuces.wis_bonuce}`}</li>
-                                            <li>{`Cha: + ${characterCreateState.characterSum.raceData.race_bonuces.cha_bonuce}`}</li>
+                                            <li>{`Dex: + ${raceState.race_bonuces.dex_bonuce}`}</li>
+                                            <li>{`Con: + ${raceState.race_bonuces.con_bonuce}`}</li>
+                                            <li>{`Int: + ${raceState.race_bonuces.int_bonuce}`}</li>
+                                            <li>{`Wis: + ${raceState.race_bonuces.wis_bonuce}`}</li>
+                                            <li>{`Cha: + ${raceState.race_bonuces.cha_bonuce}`}</li>
                                         </ul>
                                     </React.Fragment> : 
                                     <React.Fragment>
                                         <ul>
-                                            <li>{`Dex: + ${characterCreateState.characterSum.subraceData.subraceBonuces.dex_bonuce}`}</li>
-                                            <li>{`Con: + ${characterCreateState.characterSum.subraceData.subraceBonuces.con_bonuce}`}</li>
-                                            <li>{`Int: + ${characterCreateState.characterSum.subraceData.subraceBonuces.int_bonuce}`}</li>
-                                            <li>{`Wis: + ${characterCreateState.characterSum.subraceData.subraceBonuces.wis_bonuce}`}</li>
-                                            <li>{`Cha: + ${characterCreateState.characterSum.subraceData.subraceBonuces.cha_bonuce}`}</li>
+                                            <li>{`Dex: + ${subraceState.subraceBonuces.dex_bonuce}`}</li>
+                                            <li>{`Con: + ${subraceState.subraceBonuces.con_bonuce}`}</li>
+                                            <li>{`Int: + ${subraceState.subraceBonuces.int_bonuce}`}</li>
+                                            <li>{`Wis: + ${subraceState.subraceBonuces.wis_bonuce}`}</li>
+                                            <li>{`Cha: + ${subraceState.subraceBonuces.cha_bonuce}`}</li>
                                         </ul>
                                     </React.Fragment>
                                 }
@@ -52,7 +54,7 @@ const CharacterStepsPreiew = () => {
                         </div> */}
 
                         <div className="character-race-preview-bonuce-skills-wrap">
-                            {characterCreateState.characterSum.raceData.skills ? 
+                            {!subraceState ? 
                                 characterCreateState.characterSum.raceData.skills.map((item) => {
                                     return (
                                         <React.Fragment key={Math.random()}>
@@ -62,20 +64,29 @@ const CharacterStepsPreiew = () => {
                                             </div>
                                         </React.Fragment>
                                     )
-                                }) : null}
+                                }) : subraceState.subraceSkills.map((item) => {
+                                    return (
+                                        <React.Fragment key={Math.random()}>
+                                            <div className="skill-item">
+                                                <span>Skill Name:</span> <a href="#">{item.name}</a>
+                                                <div className="skill-short-desc">{item.description}</div>
+                                            </div>
+                                        </React.Fragment>
+                                    )
+                                })}
                         </div>
 
                         <div className="character-race-preview-speed">
-                            <span className="character-race-preview-span-title">Speed:</span> Ваша базовая скорость ходьбы составляет {characterCreateState.characterSum.raceData.speed} футов.
+                            <span className="character-race-preview-span-title">Speed:</span> Ваша базовая скорость ходьбы составляет {raceState.raceData.speed} футов.
                         </div>
-
+                      
                         <div className="character-race-preview-size">
-                            <span className="character-race-preview-span-title">Size:</span> Рост {`${characterCreateState.characterSum.raceData.size}фт`}, 
-                                Ваш размер — {characterCreateState.characterSum.raceData.weight}.
+                            <span className="character-race-preview-span-title">Size:</span> Рост {`${raceState.raceData.size}фт`}, 
+                                Ваш размер — {raceState.raceData.weight}.
                         </div>
 
                         <div className="character-race-preview-age">
-                            <span className="character-race-preview-span-title">Age:</span> {characterCreateState.characterSum.raceData.age}
+                            <span className="character-race-preview-span-title">Age:</span> {raceState.raceData.age}
                         </div>
 
                         <div className="character-race-preview-worldview">
@@ -91,7 +102,7 @@ const CharacterStepsPreiew = () => {
 
                         <div className="race-description-wrap">
                             <div className="race-description">
-                                <p>{characterCreateState.characterSum.raceData.description}</p>
+                                <p>{raceState.raceData.race_description}</p>
                             </div>
                         </div>
                     </React.Fragment>
