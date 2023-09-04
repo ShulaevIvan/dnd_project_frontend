@@ -5,6 +5,7 @@ const initialState = {
     characterStepPage: undefined,
     characterSum: {
         raceData: undefined,
+        subraceActive: undefined,
         subraceData: undefined,
     }
 };
@@ -20,11 +21,20 @@ const characterStepsSlice = createSlice({
             state.allRaces = [...JSON.parse(action.payload)].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
         },
         selectRace(state, action) {
-            const data = JSON.parse(action.payload)
+            const data = JSON.parse(action.payload);
             state.characterSum.raceData = data.raceData;
         },
         selectSubrace(state, action) {
-            state.characterSum = action.payload
+            if (action.payload === null) {
+                state.characterSum.subraceActive = false;
+                state.characterSum.subraceData = {};
+
+                return;
+            }
+            const data = JSON.parse(action.payload);
+            state.characterSum.subraceActive = true;
+            state.characterSum.subraceData = data;
+            
         }
     }
 });

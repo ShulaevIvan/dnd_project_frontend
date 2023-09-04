@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
-    console.log(characterCreateState)
+
     return (
         <React.Fragment>
             <div className="character-steps-preview-column">
@@ -11,29 +11,45 @@ const CharacterStepsPreiew = () => {
                     <React.Fragment>
                         <div className="character-race-preview-wrap">
                             <div className="character-race-preview-title">
-                                {characterCreateState.characterSum.raceData ? characterCreateState.characterSum.raceData.name : null}
+                                {characterCreateState.characterSum.raceData ? characterCreateState.characterSum.raceData.name : null} 
+                            </div>
+                            <div className="character-race-previw-title-subrace">
+                                {characterCreateState.characterSum.subraceData ? characterCreateState.characterSum.subraceData.subrace_name : null}
                             </div>
                             <div className="character-race-preview-subtitle">features</div>
                         </div>
 
                         <div className="character-race-stats-bonuce">
                             <div className="character-race-stat-value">
-                                <span>Увеличение характеристик:</span> 
-                                <ul>
-                                    {/* <li>{`Str: + ${characterCreateState.characterSum.raceData.bonuces.str}`}</li>
-                                    <li>{`Dex: + ${characterCreateState.characterSum.raceData.bonuces.dex}`}</li>
-                                    <li>{`Con: + ${characterCreateState.characterSum.raceData.bonuces.con}`}</li>
-                                    <li>{`Int: + ${characterCreateState.characterSum.raceData.bonuces.int}`}</li>
-                                    <li>{`Wis: + ${characterCreateState.characterSum.raceData.bonuces.wis}`}</li>
-                                    <li>{`Cha: + ${characterCreateState.characterSum.raceData.bonuces.cha}`}</li> */}
-                                </ul>
+                                <span>Увеличение характеристик:</span>
+                                {console.log(characterCreateState.characterSum.subraceData)} 
+                                {!characterCreateState.characterSum.subraceData.subraceBonuces ? 
+                                    <React.Fragment>
+                                        <ul>
+                                            <li>{`Dex: + ${characterCreateState.characterSum.raceData.race_bonuces.dex_bonuce}`}</li>
+                                            <li>{`Con: + ${characterCreateState.characterSum.raceData.race_bonuces.con_bonuce}`}</li>
+                                            <li>{`Int: + ${characterCreateState.characterSum.raceData.race_bonuces.int_bonuce}`}</li>
+                                            <li>{`Wis: + ${characterCreateState.characterSum.raceData.race_bonuces.wis_bonuce}`}</li>
+                                            <li>{`Cha: + ${characterCreateState.characterSum.raceData.race_bonuces.cha_bonuce}`}</li>
+                                        </ul>
+                                    </React.Fragment> : 
+                                    <React.Fragment>
+                                        <ul>
+                                            <li>{`Dex: + ${characterCreateState.characterSum.subraceData.subraceBonuces.dex_bonuce}`}</li>
+                                            <li>{`Con: + ${characterCreateState.characterSum.subraceData.subraceBonuces.con_bonuce}`}</li>
+                                            <li>{`Int: + ${characterCreateState.characterSum.subraceData.subraceBonuces.int_bonuce}`}</li>
+                                            <li>{`Wis: + ${characterCreateState.characterSum.subraceData.subraceBonuces.wis_bonuce}`}</li>
+                                            <li>{`Cha: + ${characterCreateState.characterSum.subraceData.subraceBonuces.cha_bonuce}`}</li>
+                                        </ul>
+                                    </React.Fragment>
+                                }
                             </div>
                         </div>
 
-                        <div className="character-race-ability-bonuce">
+                        {/* <div className="character-race-ability-bonuce">
                             <div className="character-race-ability-bonuce"><span>Test skill:</span> Вы владеете навыком test skill</div>
                             <div className="character-race-ability-bonuce"><span>Test skill:</span> Вы владеете навыком test skill</div>
-                        </div>
+                        </div> */}
 
                         <div className="character-race-preview-bonuce-skills-wrap">
                             {characterCreateState.characterSum.raceData.skills ? 

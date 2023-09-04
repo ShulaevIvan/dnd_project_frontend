@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addRaces, selectRace } from "../../redux/slices/characterStepsSlice";
+import { addRaces, selectRace, selectSubrace } from "../../redux/slices/characterStepsSlice";
 
 const  CharacterStepsRace = () => {
     const characterCreateState =  useSelector((state) => state.characterSteps);
@@ -10,17 +10,6 @@ const  CharacterStepsRace = () => {
     const dispatch = useDispatch();
 
     const selectRaceHandler = (raceId) => {
-        setSelectedRaceState(prevState => ({
-            ...prevState,
-            raceData: prevState.raceData = characterCreateState.allRaces.find((item) => item.id === raceId),
-        }));
-    };
-
-    const subraceHandler = (raceId, subraceName) => {
-        const subraceData = {
-            id: raceId,
-            subraceName: subraceName,
-        }
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/race/${raceId}/`, {
                 method: 'GET',
@@ -30,8 +19,48 @@ const  CharacterStepsRace = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                console.log(data)
+                const raceData = {
+                    raceData: data.data[0],
+                    skills: data.skills,
+                    race_bonuces: data.race_bonuces,
+                    languages: data.languages
+                }
+                console.log(raceData)
+                setSelectedRaceState(prevState => ({
+                    ...prevState,
+                    raceData: prevState.raceData = raceData,
+                }));
+                // setSelectedRaceState(prevState => ({
+                //     ...prevState,
+                //     raceData: prevState.raceData = characterCreateState.allRaces.find((item) => item.id === raceId),
+                // }));
+            })
+        }
+
+        fetchFunc()
+    };
+
+    const subraceHandler = (e, raceId, subraceObj) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/race/${raceId}/?subrace=${subraceObj.subrace_name}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const subraceData = {
+                    baseRace: data.data[0],
+                    subrace_name: data.subrace_bonuce_data[0].subrace_active_name,
+                    subraceSkills: data.subrace_bonuce_data[0].skills,
+                    subraceBonuces: data.subrace_bonuce_data[0].subrace_bonuces,
+                    languges: data.languages,
+
+                }
+                dispatch(selectSubrace(JSON.stringify(subraceData)))
             });
         }
 
@@ -40,6 +69,7 @@ const  CharacterStepsRace = () => {
 
     useEffect(() => {
         dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
+        dispatch(selectSubrace(false));
         // eslint-disable-next-line
     }, [selectedRaceState])
 
@@ -84,7 +114,7 @@ const  CharacterStepsRace = () => {
                                             {item.subrace_avalible ? item.subraces.map((subrace) => {
                                                 return (
                                                     <React.Fragment key={Math.random()}>
-                                                        <li className="character-race-features-btn" onClick={() => subraceHandler(item.id, subrace)}></li>
+                                                        <li className="character-race-features-btn" onClick={(e) => subraceHandler(e, item.id, subrace)}></li>
                                                     </React.Fragment>
                                                 )
                                             }) : null}
