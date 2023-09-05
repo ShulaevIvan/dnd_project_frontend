@@ -3,15 +3,8 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
 import { setCharacterStep } from "../../redux/slices/characterStepsSlice";
-import CharacterSteps from "../CharacterSteps/CharacterSteps";
 
 const CharacterBuilder = () => {
-    const statePage = useSelector((state) => state.characterSteps.characterStepPage)
-    const dispatch = useDispatch();
-
-    const buildCharacterHandler = () => {
-        dispatch(setCharacterStep(1));
-    };
 
     return (
         <React.Fragment>
@@ -19,8 +12,7 @@ const CharacterBuilder = () => {
                 <div className="player-character-wrap">
                     <div className="player-character-create-btn-wrap">
                         <Link
-                            onClick={buildCharacterHandler}
-                            to={{pathname:`/character-builder/character-steps/${statePage}`}}>
+                            to={{pathname:`/character-builder/character-steps/1`}}>
                             Create Player Character
                         </Link>
                     </div>

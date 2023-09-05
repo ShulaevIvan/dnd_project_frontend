@@ -4,6 +4,7 @@ const initialState = {
     allRaces: [],
     characterStepPage: 1,
     characterStepMaxPage: 5,
+    stepsNames: ['race', 'class', 'background', 'stats', 'skills', 'total'],
     characterSum: {
         raceData: undefined,
         subraceActive: undefined,
@@ -20,7 +21,7 @@ const characterStepsSlice = createSlice({
                return 'test';
             }
             const checkNum = Math.sign(Number(action.payload));
-
+            if (state.characterStepPage > 5) state.characterStepPage = state.characterStepMaxPage;
             if (checkNum === -1 && state.characterStepPage > 1) {
                 state.characterStepPage += Number(checkNum);
                 return;

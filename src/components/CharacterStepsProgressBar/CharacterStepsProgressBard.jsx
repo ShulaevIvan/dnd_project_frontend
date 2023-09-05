@@ -7,6 +7,7 @@ import { useEffect } from "react";
 
 const CharacterStepsProgressBar = () => {
     const characterStepNum = useSelector((state) => state.characterSteps.characterStepPage);
+    const stepsNames = useSelector((state) => state.characterSteps.stepsNames);
     const maxPage = useSelector((state) => state.characterSteps.characterStepMaxPage);
 
     const dispatch = useDispatch();
@@ -32,12 +33,13 @@ const CharacterStepsProgressBar = () => {
             <div className="porgerss-bar-row">
                 <div className="progress-bar-container">
                     <ul className="timeline">
-                        <li data-step="race" className="progress-active-step"></li>
-                        <li data-step="class"></li>
-                        <li data-step="background"></li>
-                        <li data-step="stats"></li>
-                        <li data-step="skills"></li>
-                        <li data-step="total"></li>
+                        {stepsNames.map((item, i) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    <li data-step={item} className={i === characterStepNum -1 ? "progress-active-step" : null}></li>
+                                </React.Fragment>
+                            )
+                        })}
                     </ul>
                 </div>
 
