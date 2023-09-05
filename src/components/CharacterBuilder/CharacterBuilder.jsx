@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { setCharacterStep } from "../../redux/slices/characterStepsSlice";
 import CharacterSteps from "../CharacterSteps/CharacterSteps";
 
 const CharacterBuilder = () => {
+    const statePage = useSelector((state) => state.characterSteps.characterStepPage)
     const dispatch = useDispatch();
 
     const buildCharacterHandler = () => {
@@ -19,7 +20,7 @@ const CharacterBuilder = () => {
                     <div className="player-character-create-btn-wrap">
                         <Link
                             onClick={buildCharacterHandler}
-                            to={{pathname:'/character-builder/character-steps/'}}>
+                            to={{pathname:`/character-builder/character-steps/${statePage}`}}>
                             Create Player Character
                         </Link>
                     </div>

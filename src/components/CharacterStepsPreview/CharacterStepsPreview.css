@@ -34,6 +34,15 @@
 }
 .skill-item {
     margin-bottom: 20px;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.skill-short-desc {
+
+}
+.skill-item-link {
+    padding-left: 5px;
 }
 .skill-item span, 
 .character-race-ability-bonuce span, 
@@ -116,11 +125,6 @@
     flex-direction: column;
     padding-left: 10px;
 }
-.skill-item {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-}
 .character-race-stat-value, 
 .character-race-preview-speed, 
 .character-race-preview-size,
@@ -137,4 +141,12 @@
 }
 .character-race-preview-span-title {
     margin-bottom: 5px;
+}
+
+.race-description-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 300px;
+    overflow-y: scroll;
 }

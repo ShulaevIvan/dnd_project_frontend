@@ -59,7 +59,7 @@ const CharacterStepsPreiew = () => {
                                     return (
                                         <React.Fragment key={Math.random()}>
                                             <div className="skill-item">
-                                                <span>Skill Name:</span> <a href="#">{item.skillname}</a>
+                                                <span className="skill-item-title">Skill Name:</span> <a className="skill-item-link" href="#">{item.name}</a>
                                                 <div className="skill-short-desc">{item.description}</div>
                                             </div>
                                         </React.Fragment>

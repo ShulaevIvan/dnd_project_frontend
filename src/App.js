@@ -24,6 +24,7 @@ import ContactPage from './components/ContactPage/ContactPage';
 
 
 function App() {
+  
   return (
     <div className="App">
        <BrowserRouter>
@@ -33,7 +34,7 @@ function App() {
               <Route path='/character-builder/' element = {<CharacterBuilder />} />
               <Route path='/database/' element = {<DatabasePage />} />
               <Route path='/contact/' element = {<ContactPage />} />
-              <Route path='/character-builder/character-steps/' element={<CharacterSteps />} />
+              <Route path='/character-builder/character-steps/:step' element={<CharacterSteps />} />
             </Route>
           </Routes>
       </BrowserRouter>

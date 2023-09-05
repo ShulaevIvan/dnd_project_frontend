@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     allRaces: [],
-    characterStepPage: undefined,
+    characterStepPage: 1,
+    characterStepMaxPage: 5,
     characterSum: {
         raceData: undefined,
         subraceActive: undefined,
@@ -15,7 +16,19 @@ const characterStepsSlice = createSlice({
     initialState,
     reducers: {
         setCharacterStep(state, action) {
-            state.characterStepPage = action.payload;
+            if (isNaN(action.payload)) {
+               return 'test';
+            }
+            const checkNum = Math.sign(Number(action.payload));
+
+            if (checkNum === -1 && state.characterStepPage > 1) {
+                state.characterStepPage += Number(checkNum);
+                return;
+            }
+            else if (checkNum === 1 && state.characterStepPage >= 1) {
+                state.characterStepPage += Number(checkNum);
+                return;
+            }
         },
         addRaces(state, action) {
             state.allRaces = [...JSON.parse(action.payload)].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));

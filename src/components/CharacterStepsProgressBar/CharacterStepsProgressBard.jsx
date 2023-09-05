@@ -1,7 +1,32 @@
 import React from "react";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { setCharacterStep } from "../../redux/slices/characterStepsSlice";
+import { useEffect } from "react";
 
 const CharacterStepsProgressBar = () => {
+    const characterStepNum = useSelector((state) => state.characterSteps.characterStepPage);
+    const maxPage = useSelector((state) => state.characterSteps.characterStepMaxPage);
+
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const nextPageHandler = () => {
+        dispatch(setCharacterStep(1));
+    };
+    const prevPageHandler = () => {
+        dispatch(setCharacterStep(-1));
+    };
+
+    useEffect(() => {
+        if (characterStepNum <= maxPage) {
+            navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`)
+        }
+       
+    }, [characterStepNum])
+
     return (
         <React.Fragment>
             <div className="porgerss-bar-row">
@@ -19,10 +44,10 @@ const CharacterStepsProgressBar = () => {
                 <div className="progress-bar-nav-wrap">
                     <div className="progress-bar-btn-block">
                         <div className="prev-btn-wrap">
-                            <button className="prev-btn">Prev</button>
+                            <button className="prev-btn" onClick={prevPageHandler}>Prev</button>
                         </div>
                         <div className="next-btn-wrap">
-                            <button className="next-btn">next</button>
+                            <button className="next-btn" onClick={nextPageHandler}>next</button>
                         </div>
                     </div>
                 </div>
