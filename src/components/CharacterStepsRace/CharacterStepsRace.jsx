@@ -30,14 +30,11 @@ const  CharacterStepsRace = () => {
                     ...prevState,
                     raceData: prevState.raceData = raceData,
                 }));
-                // setSelectedRaceState(prevState => ({
-                //     ...prevState,
-                //     raceData: prevState.raceData = characterCreateState.allRaces.find((item) => item.id === raceId),
-                // }));
+
+                if (!data.data[0].subrace_avalible) dispatch(selectSubrace(null));
             })
         }
-
-        fetchFunc()
+        fetchFunc();
     };
 
     const subraceHandler = (e, raceId, subraceObj) => {
@@ -58,12 +55,15 @@ const  CharacterStepsRace = () => {
                     subraceSkills: data.subrace_bonuce_data[0].skills,
                     subraceBonuces: data.subrace_bonuce_data[0].subrace_bonuces,
                     languges: data.languages,
+                };
+                
+                if (!selectedRaceState.raceData || subraceData.baseRace.id === raceId) selectRaceHandler(subraceData.baseRace.id);
 
-                }
-                dispatch(selectSubrace(JSON.stringify(subraceData)))
+                setTimeout(() => {
+                    dispatch(selectSubrace(JSON.stringify(subraceData)));
+                }, 200);
             });
         }
-
         fetchFunc();
     }
 

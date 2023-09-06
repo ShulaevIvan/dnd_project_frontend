@@ -2,17 +2,20 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { setCharacterStep } from "../../redux/slices/characterStepsSlice";
 import { useEffect } from "react";
+import { setCharacterStep, activeNextBtn, activePrevBtn} from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsProgressBar = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const characterStepNum = useSelector((state) => state.characterSteps.characterStepPage);
     const stepsNames = useSelector((state) => state.characterSteps.stepsNames);
     const maxPage = useSelector((state) => state.characterSteps.characterStepMaxPage);
-
-    const dispatch = useDispatch();
-    const location = useLocation();
-    const navigate = useNavigate();
+    const nextBtnActiveState = useSelector((state) => state.characterSteps.navNextBtnDisable);
+    const prevBtnActiveState = useSelector((state) => state.characterSteps.navPrevBtnDisable);
+    const createCharSum = useSelector((state) => state.characterSteps.characterSum.raceData);
 
     const nextPageHandler = () => {
         dispatch(setCharacterStep(1));
@@ -25,8 +28,19 @@ const CharacterStepsProgressBar = () => {
         if (characterStepNum <= maxPage) {
             navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`)
         }
+        if (characterStepNum === 1) {
+            dispatch(activePrevBtn(true))
+        }
        
-    }, [characterStepNum])
+    }, [characterStepNum]);
+
+    useEffect(() => {
+        if (!createCharSum) {
+            dispatch(activeNextBtn(true));
+            return;
+        }
+        dispatch(activeNextBtn(false));
+    }, [createCharSum])
 
     return (
         <React.Fragment>
@@ -46,10 +60,10 @@ const CharacterStepsProgressBar = () => {
                 <div className="progress-bar-nav-wrap">
                     <div className="progress-bar-btn-block">
                         <div className="prev-btn-wrap">
-                            <button className="prev-btn" onClick={prevPageHandler}>Prev</button>
+                            <button className="prev-btn" disabled={prevBtnActiveState} onClick={prevPageHandler}>Prev</button>
                         </div>
                         <div className="next-btn-wrap">
-                            <button className="next-btn" onClick={nextPageHandler}>next</button>
+                            <button className="next-btn" disabled={nextBtnActiveState} onClick={nextPageHandler}>next</button>
                         </div>
                     </div>
                 </div>

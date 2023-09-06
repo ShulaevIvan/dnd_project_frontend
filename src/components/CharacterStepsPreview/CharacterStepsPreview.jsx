@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 
 const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
-
 
     return (
         <React.Fragment>
@@ -17,7 +16,7 @@ const CharacterStepsPreiew = () => {
                                 {raceState ? raceState.raceData.char_race_name : null} 
                             </div>
                             <div className="character-race-previw-title-subrace">
-                                {characterCreateState.characterSum.subraceData ? subraceState.subrace_name : null}
+                                {subraceState ? `${subraceState.subrace_name}` : null}
                             </div>
                             <div className="character-race-preview-subtitle">features</div>
                         </div>
@@ -25,7 +24,7 @@ const CharacterStepsPreiew = () => {
                         <div className="character-race-stats-bonuce">
                             <div className="character-race-stat-value">
                                 <span>Увеличение характеристик:</span>
-                                {!characterCreateState.characterSum.subraceData.subraceBonuces ? 
+                                {!characterCreateState.characterSum.subraceData ? 
                                     <React.Fragment>
                                         <ul>
                                             <li>{`Dex: + ${raceState.race_bonuces.dex_bonuce}`}</li>

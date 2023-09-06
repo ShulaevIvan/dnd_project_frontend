@@ -9,7 +9,9 @@ const initialState = {
         raceData: undefined,
         subraceActive: undefined,
         subraceData: undefined,
-    }
+    },
+    navNextBtnDisable: true,
+    navPrevBtnDisable: true,
 };
 
 const characterStepsSlice = createSlice({
@@ -21,6 +23,7 @@ const characterStepsSlice = createSlice({
                return 'test';
             }
             const checkNum = Math.sign(Number(action.payload));
+
             if (state.characterStepPage > 5) state.characterStepPage = state.characterStepMaxPage;
             if (checkNum === -1 && state.characterStepPage > 1) {
                 state.characterStepPage += Number(checkNum);
@@ -39,16 +42,21 @@ const characterStepsSlice = createSlice({
             state.characterSum.raceData = data.raceData;
         },
         selectSubrace(state, action) {
-            if (action.payload === null) {
-                state.characterSum.subraceActive = false;
-                state.characterSum.subraceData = {};
-
+            if (action.payload) {
+                const data = JSON.parse(action.payload);
+                state.characterSum.subraceActive = true;
+                state.characterSum.subraceData = data;
                 return;
             }
-            const data = JSON.parse(action.payload);
-            state.characterSum.subraceActive = true;
-            state.characterSum.subraceData = data;
-            
+
+            state.characterSum.subraceActive = false;
+            state.characterSum.subraceData = null;   
+        },
+        activeNextBtn(state, action) {
+            state.navNextBtnDisable = action.payload;
+        },
+        activePrevBtn(state, action) {
+            state.navNextBtnDisable = action.payload;
         }
     }
 });
@@ -58,7 +66,9 @@ export const {
     setCharacterStep,
     addRaces,
     selectRace,
-    selectSubrace
+    selectSubrace,
+    activeNextBtn,
+    activePrevBtn,
 } = characterStepsSlice.actions;
 
 export default characterStepsSlice.reducer;

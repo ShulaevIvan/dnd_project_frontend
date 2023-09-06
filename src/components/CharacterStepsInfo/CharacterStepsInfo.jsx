@@ -1,9 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const CharacterStepsInfo = () => {
     const characterCreateState =  useSelector((state) => state.characterSteps);
-    
+    const characterRaceInfo = useSelector((state) => state.characterSteps.characterSum.raceData);
+    const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+
     return (
         <React.Fragment>
             <div className="character-steps-info-column">
@@ -13,9 +16,9 @@ const CharacterStepsInfo = () => {
                     <div className="character-race-class-wrap">
                         <span className="character-race-info">Race: 
                             <span className="character-race-content"> 
-                                {characterCreateState.characterSum.raceData ? 
-                            ` ${characterCreateState.characterSum.raceData.name}` : null }
+                                {characterRaceInfo ? ` ${characterRaceInfo.raceData.char_race_name}` : ''}
                             </span>
+                            <span className="character-race-subrace">{subraceState ? `(${subraceState.subrace_name})` : ''}</span>
                         </span>
                         
                         <span className="character-class-info"><span className="character-class-content">Class: Test-Class</span></span>
