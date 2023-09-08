@@ -29,7 +29,7 @@ const CharacterStepsProgressBar = () => {
             navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`)
         }
         if (characterStepNum === 1) {
-            dispatch(activePrevBtn(true))
+            dispatch(activePrevBtn(true));
         }
        
     }, [characterStepNum]);
