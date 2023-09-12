@@ -16,6 +16,9 @@ const CharacterStepsProgressBar = () => {
     const nextBtnActiveState = useSelector((state) => state.characterSteps.navNextBtnDisable);
     const prevBtnActiveState = useSelector((state) => state.characterSteps.navPrevBtnDisable);
     const createCharSum = useSelector((state) => state.characterSteps.characterSum.raceData);
+    const classCharSum = useSelector((state) => state.characterSteps.characterSum.classData);
+    const currentPage =  useSelector((state) => state.characterSteps.characterStepPage);
+    
 
     const nextPageHandler = () => {
         dispatch(setCharacterStep(1));
@@ -25,22 +28,30 @@ const CharacterStepsProgressBar = () => {
     };
 
     useEffect(() => {
+        console.log()
         if (characterStepNum <= maxPage) {
             navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`)
         }
         if (characterStepNum === 1) {
             dispatch(activePrevBtn(true));
         }
+        dispatch(activePrevBtn(false));
        
     }, [characterStepNum]);
 
     useEffect(() => {
         if (!createCharSum) {
             dispatch(activeNextBtn(true));
+            dispatch(activePrevBtn(true));
+            return;
+        }
+        if (!classCharSum && currentPage === 2) {
+            dispatch(activeNextBtn(true));
+            dispatch(activePrevBtn(false));
             return;
         }
         dispatch(activeNextBtn(false));
-    }, [createCharSum])
+    }, [createCharSum, currentPage])
 
     return (
         <React.Fragment>

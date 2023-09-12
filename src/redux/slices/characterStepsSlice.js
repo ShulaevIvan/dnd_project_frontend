@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     allRaces: [],
+    allClasses: [],
+    showPreviewPage: false,
     characterStepPage: 1,
     characterStepMaxPage: 5,
     stepsNames: ['race', 'class', 'background', 'stats', 'skills', 'total'],
@@ -9,6 +11,8 @@ const initialState = {
         raceData: undefined,
         subraceActive: undefined,
         subraceData: undefined,
+        classData: undefined,
+        classActive: undefined,
     },
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
@@ -40,23 +44,37 @@ const characterStepsSlice = createSlice({
         selectRace(state, action) {
             const data = JSON.parse(action.payload);
             state.characterSum.raceData = data.raceData;
+            state.navNextBtnDisable = false;
         },
         selectSubrace(state, action) {
             if (action.payload) {
                 const data = JSON.parse(action.payload);
                 state.characterSum.subraceActive = true;
                 state.characterSum.subraceData = data;
+                state.navNextBtnDisable = false;
                 return;
             }
 
             state.characterSum.subraceActive = false;
             state.characterSum.subraceData = null;   
         },
+        addClasses(state, action) {
+            state.allClasses = [...JSON.parse(action.payload)]
+                .sort((a, b) => a.class_data.name.toLowerCase().localeCompare(a.class_data.name.toLowerCase()))
+        },
+        selectClass(state, action) {
+            console.log(action.payload)
+            state.characterSum.classData = action.payload;
+            state.navNextBtnDisable = false;
+        },
         activeNextBtn(state, action) {
             state.navNextBtnDisable = action.payload;
         },
         activePrevBtn(state, action) {
-            state.navNextBtnDisable = action.payload;
+            state.navPrevBtnDisable = action.payload;
+        },
+        showPreviewPage(state, action) {
+            state.showPreviewPage = action.payload;
         }
     }
 });
@@ -67,8 +85,11 @@ export const {
     addRaces,
     selectRace,
     selectSubrace,
+    addClasses,
+    selectClass,
     activeNextBtn,
     activePrevBtn,
+    showPreviewPage,
 } = characterStepsSlice.actions;
 
 export default characterStepsSlice.reducer;

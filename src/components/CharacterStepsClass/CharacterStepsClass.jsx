@@ -1,9 +1,93 @@
 import React from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addClasses, selectClass, showPreviewPage } from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsClass = () => {
+    const dispatch = useDispatch();
+    const allCharClasses = useSelector((state) => state.characterSteps.allClasses);
+    const characterCreateState =  useSelector((state) => state.characterSteps);
+    const classState = useSelector((state) => state.characterSteps.characterSum.classData)
+
+    const selectClassHandler = (classId) => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/class/${classId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(selectClass(data));
+                // dispatch()
+            });
+        };
+
+        fetchFunc();
+    };
+
+    const selectSubclassHandler = (subClassObj) => {
+        console.log(subClassObj);
+    };
+
+    useEffect(() => {
+        if (classState) {
+            dispatch(showPreviewPage(true));
+            return;
+        }
+        dispatch(showPreviewPage(false));
+    });
+   
+
+    useEffect(() => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/class/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addClasses(JSON.stringify(data)))
+            });
+        }
+        dispatch(showPreviewPage(false));
+        fetchFunc();
+    }, []);
+
+
     return (
         <React.Fragment>
-            <h1>Char Class</h1>
+            <div className="character-steps-class-column">
+                <div className="character-class-row">
+                    {allCharClasses.map((item) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className="character-class-item" onClick={() => selectClassHandler(item.class_data.id)}>
+                                    <div className="character-class-title">{item.class_data ? item.class_data.name : null}</div>
+
+                                        <div className="character-class-features-wrap">
+                                            <ul className="character-class-features-btn-wrap">
+                                                {item.subclases ? item.subclases.map((subclass) => {
+                                                    return (
+                                                        <React.Fragment key={Math.random()}>
+                                                            <li className="character-class-features-btn"></li>
+                                                        </React.Fragment>
+                                                    )
+                                                }) : null}
+                                            </ul>
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        )
+                    })}
+                </div>
+                <div className="more-class-btn-wrap">
+                    <button className="more-class-btn">load more ...</button>
+                </div>
+            </div>
         </React.Fragment>
     );
 };

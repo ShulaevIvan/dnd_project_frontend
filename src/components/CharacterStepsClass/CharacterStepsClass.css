@@ -1,0 +1,415 @@
+.character-steps-class-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 45%;
+}
+.character-class-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.character-class-item {
+    margin: 0px 2.5px 10px 2.5px;
+    display: flex;
+    width: 47.5%;
+    max-width: 300px;
+    min-height:150px;;
+    flex-direction: column;
+    border: 1px solid;
+    background-image: url(./img/raceholder.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    cursor: pointer;
+}
+.character-class-title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    font-size: 22px;
+    bottom: 45%;
+    left: 0;
+}
+
+.character-class-features-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 15%;
+    justify-content: space-around;
+    left: 0;
+    right: 0;
+}
+.character-class-features-btn-wrap {
+    display: flex;
+    margin: 0 0 0 0;
+    padding: 0;
+}
+.character-class-features-btn::before {
+    margin: 0 5px 0 5px;
+    content: '';
+    width: 30px;
+    height: 4px;
+    border: 1px solid;
+    background-color: #000;
+}
+.character-class-features-btn:hover::before {
+    margin: 0 5px 0 5px;
+    content: '';
+    width: 30px;
+    height: 4px;
+    border: 1px solid;
+    background-color:red;
+    cursor: pointer;
+}
+.character-class-features-btn-wrap li {
+    display: inline-flex;
+    list-style: none;
+}
+.character-features-values {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    bottom: 5%;
+}
+
+.porgerss-bar-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.progress-bar-container {
+    width: 68%;
+}
+.progress-bar-nav-wrap {
+    width: 30%;
+    align-items: center;
+    display: flex;
+    justify-content: right;
+}
+.progress-bar-btn-block  {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+}
+.prev-btn-wrap, .next-btn-wrap {
+    display: flex;
+    width: 35%;
+    justify-content: right;
+}
+.prev-btn  {
+    min-width: 120px;
+    min-height: 30px;
+    cursor: pointer;
+}
+.next-btn {
+    min-width: 120px;
+    min-height: 30px;
+    cursor: pointer;
+}
+
+.timeline {
+	height: 20px;
+	list-style: none;
+	text-align: justify;
+	margin: 80px auto;
+	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 45%, rgba(191,128,11,1) 51%, rgba(255,255,255,0) 57%, rgba(255,255,255,0) 100%);
+}
+.timeline:after {
+    display: inline-block;
+    content: "";
+    width: 100%;
+}
+.timeline li {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background: gray;
+	text-align: center;
+	line-height: 1.2;
+	position: relative;
+	border-radius: 50%;
+    cursor: pointer;
+}
+.timeline .progress-active-step {
+    background: red;
+}
+.timeline li:before {
+	display: inline-block;
+	content: attr(data-step);
+	font-size: 26px;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.timeline li:nth-child(odd):before {
+	top: -40px;
+}
+.timeline li:nth-child(even):before {
+	bottom: 29px;
+}
+.timeline li:after {
+	display: inline-block;
+	content: attr(data-text);
+	font-size: 16px;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.timeline li:nth-child(odd):after {
+	bottom: 0;
+	margin-bottom: -10px;
+	transform: translate(-50%, 100%);
+}
+.timeline li:nth-child(even):after {
+	top: 0;
+	margin-top: -10px;
+	transform: translate(-50%, -100%);
+}
+
+.more-race-btn-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.next-step-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+.prev-step-btn-wrap  {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    max-width: 200px;
+    min-height: 50px;
+}
+.next-step-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    max-width: 200px;
+    min-height: 50px;
+}
+.more-class-btn-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+.character-steps-preview-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 29%;
+    border: 1px solid; 
+    padding: 5px;
+}
+.character-class-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.character-class-preview-wrap p {
+    margin: 0;
+}
+
+.character-class-preview-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.character-class-preview-subtitle {
+    margin-bottom: 20px;
+}
+.сlass-features, .class-features-description {
+    margin-bottom: 20px;
+}
+.сlass-features p {
+    margin: 0;
+}
+.class-saving-throws {
+    margin-bottom: 20px;
+}
+.class-weapon-mastery-wrap, .class-armor-weapon-mastery-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.class-weapon-title, .class-armor-title, .class-saving-throws-title {
+    margin: 0 0 10px 0;
+}
+.weapon-mastery-row, .armor-mastery-row  {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.weapon-mastery-item:nth-child(1), .armor-mastery-item:nth-child(1)  {
+    margin-left: 0;
+}
+.weapon-mastery-item, .armor-mastery-item  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    width: 28%;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.class-equipment-wrap {
+    display: inline-flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.class-equipment-wrap h4 {
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+.class-equipment {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+
+}
+.equipment-item {
+    display: flex;
+    width: 25%;
+    margin-left: 5px;
+}
+.class-skills-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.class-skills span {
+    font-weight: bold;
+}
+.class-start-equipment-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.class-start-equipment-wrap h4 {
+    margin: 0 0 10px 0;
+    padding: 0;
+}
+.start-equipment-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.start-equipment-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+.start-equipment-list {
+    margin: 0;
+    padding: 0;
+}
+.start-equipment-list li {
+    max-height: 20px;
+    list-style: none;
+    min-height: 20px;
+    margin-bottom: 2px;
+}
+.start-equipment-list .weapon::before {
+    content: '\2694';
+    margin-right: 5px;
+}
+.start-equipment-list .armor::before {
+    content: '\1F6E1';
+    margin-right: 5px;
+}
+.start-equipment-list .item::before {
+    content: '\1F392';
+    margin-right: 5px;
+}
+.start-equipment-edit-wrap {
+    display: flex;
+    width: 100%;
+}
+.class-description-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.class-description-content {
+    width: 100%;
+    font-style: italic;
+    overflow-y: scroll;
+    max-height: 200px;
+}
+.class-info-btn-full, .start-equipment-edit-btn {
+    cursor: pointer;
+}
+.character-class-features-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    bottom: 25%;
+    justify-content: space-around;
+    left: 0;
+    right: 0;
+}
+.character-class-features-btn-wrap {
+    display: flex;
+    margin: 0 0 0 0;
+    padding: 0;
+}
+.character-class-features-btn {
+    display: inline-flex;
+    list-style: none;
+}
+.character-class-features-btn::before {
+    margin: 0 5px 0 5px;
+    content: '';
+    width: 25px;
+    height: 8px;
+    border: 1px solid;
+    background-color: #000;
+}
+.character-class-features-btn:hover::before {
+    margin: 0 5px 0 5px;
+    content: '';
+    width: 25px;
+    height: 8px;
+    border: 1px solid;
+    background-color:red;
+    cursor: pointer;
+}
+.class-view-title-span {
+    font-weight: bold;
+    margin-bottom: 10px;
+}

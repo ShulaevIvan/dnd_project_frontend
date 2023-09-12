@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addRaces, selectRace, selectSubrace } from "../../redux/slices/characterStepsSlice";
+import { addRaces, selectRace, selectSubrace, showPreviewPage } from "../../redux/slices/characterStepsSlice";
 
 const  CharacterStepsRace = () => {
     const characterCreateState =  useSelector((state) => state.characterSteps);
@@ -19,6 +19,7 @@ const  CharacterStepsRace = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                
                 const raceData = {
                     raceData: data.data[0],
                     skills: data.skills,
@@ -32,6 +33,7 @@ const  CharacterStepsRace = () => {
                 }));
 
                 if (!data.data[0].subrace_avalible) dispatch(selectSubrace(null));
+                dispatch(showPreviewPage(true))
             })
         }
         fetchFunc();
@@ -62,6 +64,7 @@ const  CharacterStepsRace = () => {
                 setTimeout(() => {
                     dispatch(selectSubrace(JSON.stringify(subraceData)));
                 }, 200);
+                dispatch(showPreviewPage(true));
             });
         }
         fetchFunc();
@@ -73,9 +76,8 @@ const  CharacterStepsRace = () => {
         // eslint-disable-next-line
     }, [selectedRaceState])
 
-
-
     useEffect(() => {
+        dispatch(showPreviewPage(false))
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/race/`, {
                 method: 'GET',

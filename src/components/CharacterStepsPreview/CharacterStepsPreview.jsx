@@ -5,11 +5,14 @@ const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+    const classState = useSelector((state) => state.characterSteps.characterSum.classData);
+    const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
+    const previewActive = useSelector((state) => state.characterSteps.showPreviewPage);
 
     return (
         <React.Fragment>
             <div className="character-steps-preview-column">
-                {raceState ?
+                {previewActive && raceState && stepNum === 1 ?
                     <React.Fragment>
                         <div className="character-race-preview-wrap">
                             <div className="character-race-preview-title">
@@ -46,11 +49,6 @@ const CharacterStepsPreiew = () => {
                                 }
                             </div>
                         </div>
-
-                        {/* <div className="character-race-ability-bonuce">
-                            <div className="character-race-ability-bonuce"><span>Test skill:</span> Вы владеете навыком test skill</div>
-                            <div className="character-race-ability-bonuce"><span>Test skill:</span> Вы владеете навыком test skill</div>
-                        </div> */}
 
                         <div className="character-race-preview-bonuce-skills-wrap">
                             {!subraceState ? 
@@ -105,6 +103,115 @@ const CharacterStepsPreiew = () => {
                             </div>
                         </div>
                     </React.Fragment>
+                
+                : stepNum === 2 && classState && previewActive ? 
+                    <React.Fragment>
+                        <div className="character-class-preview-wrap">
+                        <div className="character-class-preview-title">{classState.className}</div>
+                        <div className="character-class-preview-subtitle">features</div>
+
+                        <div className="сlass-features">
+                            <span className="class-view-title-span">Возможности класса</span>
+                            <div className="class-features-description">
+
+                            </div>
+                            <div>
+                                <button className="class-info-btn-full">Полная информация</button>
+                            </div>
+                        </div>
+                        <div className="class-saving-throws">
+                            <span className="class-view-title-span">Мастерство спасбросков</span>
+                            <div className="class-saving-throws-description">
+                                <p>Ловкость, Интелект</p>
+                            </div>
+                        </div>
+                        <div className="class-weapon-mastery-wrap">
+                            <span className="class-view-title-span">Мастерство оружия</span>
+                            <div className="weapon-mastery-row">
+                                <div className="weapon-mastery-item">Test weapon</div>
+                                <div className="weapon-mastery-item">Test weapon</div>
+                                <div className="weapon-mastery-item">Test weapon</div>
+                            </div>
+                            <div className="weapon-mastery-row">
+                                <div className="weapon-mastery-item">Test weapon</div>
+                                <div className="weapon-mastery-item">Test weapon</div>
+                                <div className="weapon-mastery-item">Test weapon</div>
+                            </div>
+
+                        </div>
+
+                        <div className="class-armor-weapon-mastery-wrap">
+                            <span className="class-view-title-span">Мастерство доспехов</span>
+                            <div className="armor-mastery-row">
+                                <div className="armor-mastery-item">Test armor</div>
+                                <div className="armor-mastery-item">Test armor</div>
+                                <div className="armor-mastery-item">Test armor</div>
+                            </div>
+                        </div>
+       
+
+                        <div className="class-equipment-wrap">
+                            <span className="class-view-title-span">Снаряжение класса</span>
+                            <div className="class-equipment">
+                                <div className="equipment-item"><a href="#">test item</a></div>
+                                <div className="equipment-item"><a href="#">test item</a></div>
+                                <div className="equipment-item"><a href="#">test item</a></div>
+                                <div className="equipment-item"><a href="#">test item</a></div>
+                                <div className="equipment-item"><a href="#">test item</a></div>
+                            </div>
+                        </div>
+                    
+
+                        <div className="class-skills-wrap">
+                            <div className="class-skills">
+                                <span className="class-view-title-span">Навыки:</span> Выберите четыре навыка из следующих:
+                                    Акробатика, Атлетика, Восприятие, Выступление, Запугивание, 
+                                    Ловкость рук, Обман, Проницательность, Расследование, Скрытность, Убеждение.
+                            </div>
+                        </div>
+
+                        <div className="class-start-equipment-wrap">
+                        <span className="class-view-title-span">Стартовое снаряжение</span>
+                            <div className="start-equipment-row">
+                                <div className="start-equipment-item">
+                                    <ul className="start-equipment-list">
+                                        <li className="weapon">start-equipment</li>
+                                        <li className="item">start-equipment</li>
+                                        <li className="item">start-equipment</li>
+                                        <li className="weapon">start-equipment</li>
+                                    </ul>
+                                </div>
+                                <div className="start-equipment-item">
+                                    <ul className="start-equipment-list">
+                                        <li className="armor">start-equipment</li>
+                                        <li className="item">start-equipment</li>
+                                        <li className="item">start-equipment</li>
+                                        <li className="item">start-equipment</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="start-equipment-edit-wrap">
+                                <button className="start-equipment-edit-btn">Изменить снаряжение</button>
+                            </div>
+                        </div>
+
+
+                        <div className="class-description-wrap">
+                        <span className="class-view-title-span">Описание класса</span>
+                            <div className="class-description-content">
+                                Вне зависимости от происхождения и миссии, паладинов объединяет их клятва противостоять силам зла.
+                                Принесённая ли перед алтарём бога и заверенная священником, или же на священной поляне перед духами природы и феями,
+                                 или в момент отчаяния и горя смерти, присяга паладина — могущественный договор. 
+                                Это источник силы, который превращает набожного воина в благословенного героя.
+                                Вне зависимости от происхождения и миссии, паладинов объединяет их клятва противостоять силам зла.
+                                Принесённая ли перед алтарём бога и заверенная священником, или же на священной поляне перед духами природы и феями,
+                                или в момент отчаяния и горя смерти, присяга паладина — могущественный договор. 
+                                Это источник силы, который превращает набожного воина в благословенного героя.
+                            </div>
+                        </div>
+
+                    </div>
+                </React.Fragment> 
                 
                 : null}
                 
