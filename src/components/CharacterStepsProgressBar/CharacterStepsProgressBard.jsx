@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
-import { setCharacterStep, activeNextBtn, activePrevBtn} from "../../redux/slices/characterStepsSlice";
+import { setCharacterStep, activeNextBtn, activePrevBtn, unsetClass} from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsProgressBar = () => {
     const dispatch = useDispatch();
@@ -28,12 +28,12 @@ const CharacterStepsProgressBar = () => {
     };
 
     useEffect(() => {
-        console.log()
         if (characterStepNum <= maxPage) {
             navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`)
         }
         if (characterStepNum === 1) {
             dispatch(activePrevBtn(true));
+            dispatch(unsetClass());
         }
         dispatch(activePrevBtn(false));
        

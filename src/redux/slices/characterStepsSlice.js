@@ -24,16 +24,17 @@ const characterStepsSlice = createSlice({
     reducers: {
         setCharacterStep(state, action) {
             if (isNaN(action.payload)) {
-               return 'test';
+               state.characterStepPage = 1;
+               return;
             }
             const checkNum = Math.sign(Number(action.payload));
 
             if (state.characterStepPage > 5) state.characterStepPage = state.characterStepMaxPage;
-            if (checkNum === -1 && state.characterStepPage > 1) {
+            if (checkNum === -1 && state.characterStepPage > 1 && !isNaN(action.payload)) {
                 state.characterStepPage += Number(checkNum);
                 return;
             }
-            else if (checkNum === 1 && state.characterStepPage >= 1) {
+            else if (checkNum === 1 && state.characterStepPage >= 1 && !isNaN(action.payload)) {
                 state.characterStepPage += Number(checkNum);
                 return;
             }
@@ -58,14 +59,22 @@ const characterStepsSlice = createSlice({
             state.characterSum.subraceActive = false;
             state.characterSum.subraceData = null;   
         },
+        unsetRace(state) {
+            state.characterSum.subraceActive = undefined;
+            state.characterSum.raceData = undefined;
+            state.characterSum.subraceData = undefined;
+        },
         addClasses(state, action) {
             state.allClasses = [...JSON.parse(action.payload)]
                 .sort((a, b) => a.class_data.name.toLowerCase().localeCompare(a.class_data.name.toLowerCase()))
         },
         selectClass(state, action) {
-            console.log(action.payload)
             state.characterSum.classData = action.payload;
             state.navNextBtnDisable = false;
+        },
+        unsetClass(state) {
+            state.characterSum.classData = undefined;
+            state.navNextBtnDisable = true;
         },
         activeNextBtn(state, action) {
             state.navNextBtnDisable = action.payload;
@@ -87,6 +96,7 @@ export const {
     selectSubrace,
     addClasses,
     selectClass,
+    unsetClass,
     activeNextBtn,
     activePrevBtn,
     showPreviewPage,

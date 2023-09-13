@@ -1,10 +1,19 @@
 import React from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-
 import { setCharacterStep } from "../../redux/slices/characterStepsSlice";
 
+
 const CharacterBuilder = () => {
+    const dispatch = useDispatch();
+    const stepPage =  useSelector((state) => state.characterSteps.characterStepPage);
+
+    useEffect(() => {
+        if (stepPage && stepPage >= 1) {
+            dispatch(setCharacterStep('reset'))
+        }
+    }, []);
 
     return (
         <React.Fragment>

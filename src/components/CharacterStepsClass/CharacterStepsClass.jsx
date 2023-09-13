@@ -27,8 +27,8 @@ const CharacterStepsClass = () => {
         fetchFunc();
     };
 
-    const selectSubclassHandler = (subClassObj) => {
-        console.log(subClassObj);
+    const selectSubclassHandler = (subClassId) => {
+        console.log(subClassId);
     };
 
     useEffect(() => {
@@ -73,7 +73,7 @@ const CharacterStepsClass = () => {
                                                 {item.subclases ? item.subclases.map((subclass) => {
                                                     return (
                                                         <React.Fragment key={Math.random()}>
-                                                            <li className="character-class-features-btn"></li>
+                                                            <li className="character-class-features-btn" onClick={() => selectSubclassHandler(subclass.id)}></li>
                                                         </React.Fragment>
                                                     )
                                                 }) : null}
