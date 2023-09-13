@@ -128,15 +128,19 @@ const CharacterStepsPreiew = () => {
                         <div className="class-weapon-mastery-wrap">
                             <span className="class-view-title-span">Мастерство оружия</span>
                             <div className="weapon-mastery-row">
-                                <div className="weapon-mastery-item">Test weapon</div>
-                                <div className="weapon-mastery-item">Test weapon</div>
-                                <div className="weapon-mastery-item">Test weapon</div>
+                                {classState.classWeaponMastery.map((item) => {
+                                    return (
+                                        <React.Fragment key={Math.random()}>
+                                            <div className="weapon-mastery-item">{item.name}</div>
+                                        </React.Fragment>
+                                    )
+                                })}
                             </div>
-                            <div className="weapon-mastery-row">
+                            {/* <div className="weapon-mastery-row">
                                 <div className="weapon-mastery-item">Test weapon</div>
                                 <div className="weapon-mastery-item">Test weapon</div>
                                 <div className="weapon-mastery-item">Test weapon</div>
-                            </div>
+                            </div> */}
 
                         </div>
 

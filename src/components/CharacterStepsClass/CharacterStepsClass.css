@@ -267,18 +267,16 @@
     align-items: center;
     margin-bottom: 10px;
 }
-.weapon-mastery-item:nth-child(1), .armor-mastery-item:nth-child(1)  {
-    margin-left: 0;
-}
 .weapon-mastery-item, .armor-mastery-item  {
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid;
-    width: 28%;
+    width: 30%;
     font-size: 14px;
     margin-left: 10px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 .class-equipment-wrap {
     display: inline-flex;
