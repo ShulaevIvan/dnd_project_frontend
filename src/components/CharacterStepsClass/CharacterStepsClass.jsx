@@ -20,15 +20,28 @@ const CharacterStepsClass = () => {
             .then((response) => response.json())
             .then((data) => {
                 dispatch(selectClass(data));
-                // dispatch()
             });
         };
 
         fetchFunc();
     };
 
-    const selectSubclassHandler = (subClassId) => {
-        console.log(subClassId);
+    const selectSubclassHandler = (classId, subClassId) => {
+
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/class/${classId}/?subclass=${subClassId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+            })
+        };
+
+        fetchFunc();
     };
 
     useEffect(() => {
@@ -73,7 +86,9 @@ const CharacterStepsClass = () => {
                                                 {item.subclases ? item.subclases.map((subclass) => {
                                                     return (
                                                         <React.Fragment key={Math.random()}>
-                                                            <li className="character-class-features-btn" onClick={() => selectSubclassHandler(subclass.id)}></li>
+                                                            <li className="character-class-features-btn" 
+                                                                onClick={() => selectSubclassHandler(item.class_data.id, subclass.id)}
+                                                            ></li>
                                                         </React.Fragment>
                                                     )
                                                 }) : null}
