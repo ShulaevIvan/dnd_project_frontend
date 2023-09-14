@@ -273,6 +273,7 @@
     justify-content: center;
     border: 1px solid;
     width: 30%;
+    min-height: 35px;
     font-size: 14px;
     margin-left: 10px;
     cursor: pointer;
