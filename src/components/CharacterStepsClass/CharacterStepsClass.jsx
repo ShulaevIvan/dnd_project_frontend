@@ -1,13 +1,14 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addClasses, selectClass, showPreviewPage } from "../../redux/slices/characterStepsSlice";
+import { addClasses, selectClass, selectSubclass, showPreviewPage, unsetClass } from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsClass = () => {
     const dispatch = useDispatch();
     const allCharClasses = useSelector((state) => state.characterSteps.allClasses);
     const characterCreateState =  useSelector((state) => state.characterSteps);
-    const classState = useSelector((state) => state.characterSteps.characterSum.classData)
+    const classState = useSelector((state) => state.characterSteps.characterSum.classData);
+    const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
 
     const selectClassHandler = (classId) => {
         const fetchFunc = async () => {
@@ -19,6 +20,7 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                dispatch(unsetClass());
                 dispatch(selectClass(data));
             });
         };
@@ -26,7 +28,9 @@ const CharacterStepsClass = () => {
         fetchFunc();
     };
 
-    const selectSubclassHandler = (classId, subClassId) => {
+    const selectSubclassHandler = (e, classId, subClassId) => {
+        e.preventDefault();
+        e.stopPropagation();
 
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/class/${classId}/?subclass=${subClassId}`, {
@@ -37,7 +41,13 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
+                dispatch(unsetClass());
+                const main_class = data.id;
+                selectClassHandler(main_class);
+                setTimeout(() => {
+                    dispatch(selectSubclass(data));
+                }, 100);
+                
             })
         };
 
@@ -87,7 +97,7 @@ const CharacterStepsClass = () => {
                                                     return (
                                                         <React.Fragment key={Math.random()}>
                                                             <li className="character-class-features-btn" 
-                                                                onClick={() => selectSubclassHandler(item.class_data.id, subclass.id)}
+                                                                onClick={(e) => selectSubclassHandler(e, item.class_data.id, subclass.id)}
                                                             ></li>
                                                         </React.Fragment>
                                                     )

@@ -12,6 +12,7 @@ const initialState = {
         subraceActive: undefined,
         subraceData: undefined,
         classData: undefined,
+        subclassData: undefined,
         classActive: undefined,
     },
     navNextBtnDisable: true,
@@ -72,8 +73,13 @@ const characterStepsSlice = createSlice({
             state.characterSum.classData = action.payload;
             state.navNextBtnDisable = false;
         },
+        selectSubclass(state, action) {
+            state.characterSum.subclassData = action.payload;
+            state.navNextBtnDisable = false;
+        },
         unsetClass(state) {
             state.characterSum.classData = undefined;
+            state.characterSum.subclassData = undefined;
             state.navNextBtnDisable = true;
         },
         activeNextBtn(state, action) {
@@ -96,6 +102,7 @@ export const {
     selectSubrace,
     addClasses,
     selectClass,
+    selectSubclass,
     unsetClass,
     activeNextBtn,
     activePrevBtn,

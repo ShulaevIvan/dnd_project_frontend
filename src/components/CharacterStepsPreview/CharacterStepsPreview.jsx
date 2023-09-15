@@ -6,6 +6,7 @@ const CharacterStepsPreiew = () => {
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
+    const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
     const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
     const previewActive = useSelector((state) => state.characterSteps.showPreviewPage);
 
@@ -107,7 +108,10 @@ const CharacterStepsPreiew = () => {
                 : stepNum === 2 && classState && previewActive ? 
                     <React.Fragment>
                         <div className="character-class-preview-wrap">
-                        <div className="character-class-preview-title">{classState.className}</div>
+                        <div className="character-class-preview-title">
+                            {classState.className} 
+                            {subclassState && subclassState.subraceActive ? `(${subclassState.subclassInfo.name})` : null}
+                        </div>
                         <div className="character-class-preview-subtitle">features</div>
 
                         <div className="сlass-features">
