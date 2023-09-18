@@ -46,6 +46,7 @@ const characterStepsSlice = createSlice({
         selectRace(state, action) {
             const data = JSON.parse(action.payload);
             state.characterSum.raceData = data.raceData;
+            state.characterSum.subraceActive = false;
             state.navNextBtnDisable = false;
         },
         selectSubrace(state, action) {
@@ -56,9 +57,8 @@ const characterStepsSlice = createSlice({
                 state.navNextBtnDisable = false;
                 return;
             }
-
             state.characterSum.subraceActive = false;
-            state.characterSum.subraceData = null;   
+            state.characterSum.subraceData = null;
         },
         unsetRace(state) {
             state.characterSum.subraceActive = undefined;

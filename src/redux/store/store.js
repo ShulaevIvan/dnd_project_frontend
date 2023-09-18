@@ -4,7 +4,9 @@ import subMenuSlice from '../slices/subMenuSlice';
 import headerLoginFormSlice from '../slices/headerLoginFormSlice';
 import referenceBookSlice from '../slices/referenceBookSlice';
 import characterStepsSlice from '../slices/characterStepsSlice';
+import calculateStatsSlice from '../slices/calculateStatsSlice';
 import instrumentsSlice from '../slices/instrumentsSlice';
+
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +15,7 @@ export const store = configureStore({
         headerLoginForm: headerLoginFormSlice,
         referenceBook: referenceBookSlice,
         characterSteps: characterStepsSlice,
+        calculateCharStats: calculateStatsSlice,
         instruments: instrumentsSlice,
     },
     middleware: (getDefaultMiddleware)  => getDefaultMiddleware(),

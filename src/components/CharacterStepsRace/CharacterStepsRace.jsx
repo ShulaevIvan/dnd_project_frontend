@@ -2,14 +2,21 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addRaces, selectRace, selectSubrace, showPreviewPage } from "../../redux/slices/characterStepsSlice";
+import { addBaseStats } from "../../redux/slices/calculateStatsSlice";
 
 const  CharacterStepsRace = () => {
     const characterCreateState =  useSelector((state) => state.characterSteps);
     const allRaces = useSelector((state) => state.characterSteps.allRaces);
-    const [selectedRaceState, setSelectedRaceState] = useState({raceData: undefined})
+    const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+
+    const [selectedRaceState, setSelectedRaceState] = useState({
+        raceData: undefined, 
+        subraceData: undefined,
+        subraceActiveBtn: undefined,
+    });
     const dispatch = useDispatch();
 
-    const selectRaceHandler = (raceId) => {
+    const selectRaceHandler = (raceId, autoSelect=false) => {
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/race/${raceId}/`, {
                 method: 'GET',
@@ -19,7 +26,11 @@ const  CharacterStepsRace = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                
+                if (!autoSelect) {
+                    dispatch(selectSubrace(null));
+                    dispatch(addBaseStats(data.race_bonuces));
+                }
+
                 const raceData = {
                     raceData: data.data[0],
                     skills: data.skills,
@@ -30,11 +41,12 @@ const  CharacterStepsRace = () => {
                 setSelectedRaceState(prevState => ({
                     ...prevState,
                     raceData: prevState.raceData = raceData,
+                    subraceData: prevState.subraceData = undefined,
+                    subraceActiveBtn: undefined
                 }));
 
-                if (!data.data[0].subrace_avalible) dispatch(selectSubrace(null));
-                dispatch(showPreviewPage(true))
-            })
+                dispatch(showPreviewPage(true));
+            });
         }
         fetchFunc();
     };
@@ -51,7 +63,11 @@ const  CharacterStepsRace = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                const baseRaceId = data.data[0].id;
+                selectRaceHandler(baseRaceId, true);
+
                 const subraceData = {
+                    subraceId: data.subrace_bonuce_data[0].id,
                     baseRace: data.data[0],
                     subrace_name: data.subrace_bonuce_data[0].subrace_active_name,
                     subraceSkills: data.subrace_bonuce_data[0].skills,
@@ -59,22 +75,34 @@ const  CharacterStepsRace = () => {
                     languges: data.languages,
                 };
                 
-                if (!selectedRaceState.raceData || subraceData.baseRace.id === raceId) selectRaceHandler(subraceData.baseRace.id);
+                if (subraceData.baseRace.id === raceId) dispatch(selectSubrace(JSON.stringify(subraceData)));
+                    
+                dispatch(addBaseStats(subraceData.subraceBonuces));
+                dispatch(showPreviewPage(true));
 
                 setTimeout(() => {
-                    dispatch(selectSubrace(JSON.stringify(subraceData)));
-                }, 200);
-                dispatch(showPreviewPage(true));
+                    setSelectedRaceState(prevState => ({
+                        ...prevState,
+                        subraceData: prevState.subraceData = subraceData,
+                        subraceActiveBtn: prevState.subraceActiveBtn = subraceObj.id,
+                    }));
+                }, 100);
+                
             });
         }
         fetchFunc();
     }
 
     useEffect(() => {
-        dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
-        dispatch(selectSubrace(false));
+        if (!selectedRaceState.subraceData) {
+            const raceStats = selectedRaceState.raceData
+            dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
+            return;
+        }
+        dispatch(selectSubrace(JSON.stringify(selectedRaceState.subraceData)));
+
         // eslint-disable-next-line
-    }, [selectedRaceState])
+    }, [selectedRaceState, characterCreateState.characterSum.subraceActive]);
 
     useEffect(() => {
         dispatch(showPreviewPage(false))
@@ -101,6 +129,7 @@ const  CharacterStepsRace = () => {
             <div className="character-steps-race-column">
                 <div className="character-race-row">
                     {allRaces.map((item) => {
+                        // {console.log(subraceState)}
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div 
@@ -116,7 +145,14 @@ const  CharacterStepsRace = () => {
                                             {item.subrace_avalible ? item.subraces.map((subrace) => {
                                                 return (
                                                     <React.Fragment key={Math.random()}>
-                                                        <li className="character-race-features-btn" onClick={(e) => subraceHandler(e, item.id, subrace)}></li>
+                                                        <li 
+                                                            className = {
+                                                                selectedRaceState.subraceActiveBtn === subrace.id ? 
+                                                                    `character-race-features-btn-active` : `character-race-features-btn`
+                                                            } 
+                                                            onClick={(e) => subraceHandler(e, item.id, subrace)}
+                                                        >
+                                                        </li>
                                                     </React.Fragment>
                                                 )
                                             }) : null}

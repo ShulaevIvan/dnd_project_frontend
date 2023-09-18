@@ -3,9 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 const CharacterStepsInfo = () => {
-    const characterCreateState =  useSelector((state) => state.characterSteps);
+    // const characterCreateState =  useSelector((state) => state.characterSteps);
     const characterRaceInfo = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+    const charStats = useSelector((state) => state.calculateCharStats);
+
+    // console.log(subraceState)
 
     return (
         <React.Fragment>

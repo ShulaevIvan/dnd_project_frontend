@@ -238,6 +238,15 @@
     background-color:red;
     cursor: pointer;
 }
+.character-race-features-btn-active {
+    margin: 0 5px 0 5px;
+    content: '';
+    width: 30px;
+    height: 8px;
+    border: 1px solid;
+    background-color:red;
+    cursor: pointer;
+}
 .character-race-features-btn-wrap li {
     display: inline-flex;
     list-style: none;

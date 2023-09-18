@@ -46,7 +46,7 @@ const CharacterStepsClass = () => {
                 selectClassHandler(main_class);
                 setTimeout(() => {
                     dispatch(selectSubclass(data));
-                }, 100);
+                }, 200);
                 
             })
         };
