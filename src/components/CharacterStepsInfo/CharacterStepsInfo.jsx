@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 const CharacterStepsInfo = () => {
-    // const characterCreateState =  useSelector((state) => state.characterSteps);
     const characterRaceInfo = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+    const classState = useSelector((state) => state.characterSteps.characterSum.classData);
+    const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
     const charStats = useSelector((state) => state.calculateCharStats);
-
-    // console.log(subraceState)
+    console.log(charStats.raceStats)
 
     return (
         <React.Fragment>
@@ -24,7 +24,12 @@ const CharacterStepsInfo = () => {
                             <span className="character-race-subrace">{subraceState ? `(${subraceState.subrace_name})` : ''}</span>
                         </span>
                         
-                        <span className="character-class-info"><span className="character-class-content">Class: Test-Class</span></span>
+                        <span className="character-class-info">
+                            <span className="character-class-content">
+                                Class: {classState ? classState.className : null}
+                                {subclassState && subclassState.subraceActive ? `(${subclassState.subclassInfo.name})` : null}
+                            </span>
+                        </span>
                     </div>
                 </div>
 

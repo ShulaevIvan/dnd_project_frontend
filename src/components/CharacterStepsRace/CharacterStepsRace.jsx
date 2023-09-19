@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addRaces, selectRace, selectSubrace, showPreviewPage } from "../../redux/slices/characterStepsSlice";
+import { addRaces, selectRace, selectSubrace, unsetRace, showPreviewPage } from "../../redux/slices/characterStepsSlice";
 import { addBaseStats } from "../../redux/slices/calculateStatsSlice";
 
 const  CharacterStepsRace = () => {
@@ -26,23 +26,20 @@ const  CharacterStepsRace = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                if (!autoSelect) {
-                    dispatch(selectSubrace(null));
-                    dispatch(addBaseStats(data.race_bonuces));
-                }
-
                 const raceData = {
                     raceData: data.data[0],
                     skills: data.skills,
                     race_bonuces: data.race_bonuces,
                     languages: data.languages
                 };
+
+                if (!autoSelect) dispatch(addBaseStats({stats: raceData.race_bonuces, subrace: false}));
                 
                 setSelectedRaceState(prevState => ({
                     ...prevState,
                     raceData: prevState.raceData = raceData,
                     subraceData: prevState.subraceData = undefined,
-                    subraceActiveBtn: undefined
+                    subraceActiveBtn: prevState.subraceActiveBtn = undefined,
                 }));
 
                 dispatch(showPreviewPage(true));
@@ -77,7 +74,7 @@ const  CharacterStepsRace = () => {
                 
                 if (subraceData.baseRace.id === raceId) dispatch(selectSubrace(JSON.stringify(subraceData)));
                     
-                dispatch(addBaseStats(subraceData.subraceBonuces));
+                dispatch(addBaseStats({stats: subraceData.subraceBonuces, subrace: true}));
                 dispatch(showPreviewPage(true));
 
                 setTimeout(() => {
@@ -95,7 +92,7 @@ const  CharacterStepsRace = () => {
 
     useEffect(() => {
         if (!selectedRaceState.subraceData) {
-            const raceStats = selectedRaceState.raceData
+            dispatch(unsetRace());
             dispatch(selectRace(JSON.stringify({raceData: selectedRaceState.raceData})));
             return;
         }

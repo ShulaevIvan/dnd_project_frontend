@@ -100,6 +100,7 @@ export const {
     addRaces,
     selectRace,
     selectSubrace,
+    unsetRace,
     addClasses,
     selectClass,
     selectSubclass,
