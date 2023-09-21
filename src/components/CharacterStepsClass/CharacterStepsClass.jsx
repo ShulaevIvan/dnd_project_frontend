@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addClasses, selectClass, selectSubclass, showPreviewPage, unsetClass } from "../../redux/slices/characterStepsSlice";
 
@@ -10,7 +10,7 @@ const CharacterStepsClass = () => {
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
 
-    const selectClassHandler = (classId) => {
+    const selectClassHandler = (classId, autoSelect=false) => {
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/class/${classId}/`, {
                 method: 'GET',
@@ -20,6 +20,12 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                if (autoSelect) {
+                    dispatch(unsetClass());
+                    dispatch(selectClass(data));
+                    dispatch(selectSubclass(autoSelect));
+                    return;
+                }
                 dispatch(unsetClass());
                 dispatch(selectClass(data));
             });
@@ -43,11 +49,7 @@ const CharacterStepsClass = () => {
             .then((data) => {
                 dispatch(unsetClass());
                 const main_class = data.id;
-                selectClassHandler(main_class);
-                setTimeout(() => {
-                    dispatch(selectSubclass(data));
-                }, 200);
-                
+                selectClassHandler(main_class, data); 
             })
         };
 
@@ -55,6 +57,9 @@ const CharacterStepsClass = () => {
     };
 
     useEffect(() => {
+        if (subclassState && subclassState.id) {
+            console.log(subclassState.id)
+        }
         if (classState) {
             dispatch(showPreviewPage(true));
             return;
@@ -96,7 +101,12 @@ const CharacterStepsClass = () => {
                                                 {item.subclases ? item.subclases.map((subclass) => {
                                                     return (
                                                         <React.Fragment key={Math.random()}>
-                                                            <li className="character-class-features-btn" 
+                                                            <li 
+                                                                className={
+                                                                    subclassState && subclassState.subclassInfo && 
+                                                                        subclassState.subclassInfo.id === subclass.id ? 
+                                                                            'character-class-features-btn-active'  : 'character-class-features-btn'
+                                                                }
                                                                 onClick={(e) => selectSubclassHandler(e, item.class_data.id, subclass.id)}
                                                             ></li>
                                                         </React.Fragment>

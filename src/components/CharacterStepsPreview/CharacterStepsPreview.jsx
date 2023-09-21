@@ -140,11 +140,6 @@ const CharacterStepsPreiew = () => {
                                     )
                                 })}
                             </div>
-                            {/* <div className="weapon-mastery-row">
-                                <div className="weapon-mastery-item">Test weapon</div>
-                                <div className="weapon-mastery-item">Test weapon</div>
-                                <div className="weapon-mastery-item">Test weapon</div>
-                            </div> */}
 
                         </div>
 

@@ -8,7 +8,6 @@ const CharacterStepsInfo = () => {
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
     const charStats = useSelector((state) => state.calculateCharStats);
-    console.log(charStats.raceStats)
 
     return (
         <React.Fragment>

@@ -399,6 +399,15 @@
     border: 1px solid;
     background-color: #000;
 }
+.character-class-features-btn-active {
+    margin: 0 5px 0 5px;
+    content: '';
+    width: 25px;
+    height: 8px;
+    border: 1px solid;
+    background-color:red;
+    cursor: pointer;
+}
 .character-class-features-btn:hover::before {
     margin: 0 5px 0 5px;
     content: '';

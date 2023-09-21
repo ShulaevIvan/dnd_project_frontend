@@ -14,6 +14,7 @@ const initialState = {
         classData: undefined,
         subclassData: undefined,
         classActive: undefined,
+        subclassActive: undefined,
     },
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
@@ -67,20 +68,24 @@ const characterStepsSlice = createSlice({
         },
         addClasses(state, action) {
             state.allClasses = [...JSON.parse(action.payload)]
-                .sort((a, b) => a.class_data.name.toLowerCase().localeCompare(a.class_data.name.toLowerCase()))
+                .sort((a, b) => a.class_data.name.toLowerCase().localeCompare(b.class_data.name.toLowerCase()))
         },
         selectClass(state, action) {
             state.characterSum.classData = action.payload;
             state.navNextBtnDisable = false;
+            state.subclassActive = undefined;
+            
         },
         selectSubclass(state, action) {
             state.characterSum.subclassData = action.payload;
             state.navNextBtnDisable = false;
+            state.subclassActive = action.payload.subclassInfo.id;
         },
         unsetClass(state) {
             state.characterSum.classData = undefined;
             state.characterSum.subclassData = undefined;
             state.navNextBtnDisable = true;
+            state.subclassActive = undefined;
         },
         activeNextBtn(state, action) {
             state.navNextBtnDisable = action.payload;
