@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addClasses, selectClass, selectSubclass, showPreviewPage, unsetClass } from "../../redux/slices/characterStepsSlice";
+import { addBaseHits } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsClass = () => {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                dispatch(addBaseHits({minHits: data.minHitsLvl, maxHits: data.maxHitsLvl}));
                 if (autoSelect) {
                     dispatch(unsetClass());
                     dispatch(selectClass(data));

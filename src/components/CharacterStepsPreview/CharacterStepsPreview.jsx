@@ -88,7 +88,7 @@ const CharacterStepsPreiew = () => {
                         </div>
 
                         <div className="character-race-preview-worldview">
-                            <span className="character-race-preview-span-title">Worldview:</span> любое
+                            <span className="character-race-preview-span-title">Worldview:</span> {raceState.raceData.preferred_worldview}
                         </div>
 
                         <div className="character-race-gender-wrap">

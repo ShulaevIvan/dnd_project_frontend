@@ -18,6 +18,14 @@ const initialState = {
         wis: 0,
         cha: 0,
     },
+    totalStats: {
+        str: 0,
+        dex: 0,
+        con: 0,
+        int: 0,
+        wis: 0,
+        cha: 0,
+    },
     minHitDice: 0,
     maxHitDice: 0,
     subraceActive: undefined,
@@ -52,12 +60,18 @@ const calculateStatsSlice = createSlice({
                     state.raceStats[stat[0]] = stat[1]
                 });
             }
+            state.totalStats = state.raceStats;
         },
+        addBaseHits(state, action) {
+            state.minHitDice = action.payload.minHits;
+            state.maxHitDice = action.payload.maxHits;
+        }
     }
 });
 
 export const {
     addBaseStats,
+    addBaseHits,
 
 } = calculateStatsSlice.actions;
 

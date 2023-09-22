@@ -9,6 +9,7 @@ const CharacterStepsInfo = () => {
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
     const charStats = useSelector((state) => state.calculateCharStats);
 
+
     return (
         <React.Fragment>
             <div className="character-steps-info-column">
@@ -36,34 +37,34 @@ const CharacterStepsInfo = () => {
                     <div className="character-steps-stats-row">
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-str">STR</div>
-                            <div className="character-stat-item-body">1</div>
+                            <div className="character-stat-item-body">{charStats ? charStats.totalStats.str : '0'}</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-dex">DEX</div>
-                            <div className="character-stat-item-body">-</div>
+                            <div className="character-stat-item-body">{charStats ? charStats.totalStats.dex : '0'}</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-con">CON</div>
-                            <div className="character-stat-item-body">-</div>
+                            <div className="character-stat-item-body">{charStats ? charStats.totalStats.con : '0'}</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
                     </div>
                     <div className="character-steps-stats-row">
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-int">INT</div>
-                            <div className="character-stat-item-body">+5</div>
+                            <div className="character-stat-item-body">{charStats ? charStats.totalStats.int : '0'}</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-wis">WIS</div>
-                            <div className="character-stat-item-body">-</div>
+                            <div className="character-stat-item-body">{charStats ? charStats.totalStats.wis : '0'}</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-cha">CHA</div>
-                            <div className="character-stat-item-body">-</div>
+                            <div className="character-stat-item-body">{charStats ? charStats.totalStats.cha : '0'}</div>
                             <div className="character-stat-item-modif">+0</div>
                         </div>
                     </div>
@@ -79,7 +80,7 @@ const CharacterStepsInfo = () => {
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-move">MOVE</div>
-                            <div className="character-basic-combat-item-body">-</div>
+                            <div className="character-basic-combat-item-body">{characterRaceInfo ? characterRaceInfo.raceData.speed : null}</div>
                         </div>
                     </div>
 
@@ -94,7 +95,9 @@ const CharacterStepsInfo = () => {
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-hit-dice">HIT DICE</div>
-                            <div className="character-basic-combat-item-body">-</div>
+                            <div className="character-basic-combat-item-body">{
+                                charStats ? `${charStats.minHitDice}k${charStats.maxHitDice}`  : '-'}
+                            </div>
                         </div>
                     </div>
                 </div>
