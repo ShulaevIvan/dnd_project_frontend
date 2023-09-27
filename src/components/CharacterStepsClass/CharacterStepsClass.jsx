@@ -59,9 +59,6 @@ const CharacterStepsClass = () => {
     };
 
     useEffect(() => {
-        if (subclassState && subclassState.id) {
-            console.log(subclassState.id)
-        }
         if (classState) {
             dispatch(showPreviewPage(true));
             return;

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 
 const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
@@ -157,7 +158,7 @@ const CharacterStepsPreiew = () => {
                         </div>
        
 
-                        <div className="class-equipment-wrap">
+                        {/* <div className="class-equipment-wrap">
                             <span className="class-view-title-span">Снаряжение класса</span>
                             <div className="class-equipment">
                                 <div className="equipment-item"><a href="#">test item</a></div>
@@ -166,14 +167,24 @@ const CharacterStepsPreiew = () => {
                                 <div className="equipment-item"><a href="#">test item</a></div>
                                 <div className="equipment-item"><a href="#">test item</a></div>
                             </div>
-                        </div>
+                        </div> */}
                     
 
                         <div className="class-skills-wrap">
                             <div className="class-skills">
-                                <span className="class-view-title-span">Навыки:</span> Выберите четыре навыка из следующих:
-                                    Акробатика, Атлетика, Восприятие, Выступление, Запугивание, 
-                                    Ловкость рук, Обман, Проницательность, Расследование, Скрытность, Убеждение.
+                                <span className="class-view-title-span">Навыки класса</span>
+                                <div className="class-abilities-count">{`Выберите ${classState.classAbilityPoints} навыка(ов) из списка:`}</div>
+                                <ul className="class-abilities-items-wrap">
+                                    {classState.classAbilities ? classState.classAbilities.map((item, i) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <li className="class-abilities-item">
+                                                    <Link>{item.name}</Link>{classState.classAbilities.length -1 === i ? '; ' : ', '}
+                                                </li>
+                                            </React.Fragment>
+                                        )
+                                    }): null}
+                                </ul>
                             </div>
                         </div>
 
@@ -182,18 +193,23 @@ const CharacterStepsPreiew = () => {
                             <div className="start-equipment-row">
                                 <div className="start-equipment-item">
                                     <ul className="start-equipment-list">
-                                        <li className="weapon">start-equipment</li>
-                                        <li className="item">start-equipment</li>
-                                        <li className="item">start-equipment</li>
-                                        <li className="weapon">start-equipment</li>
-                                    </ul>
-                                </div>
-                                <div className="start-equipment-item">
-                                    <ul className="start-equipment-list">
-                                        <li className="armor">start-equipment</li>
-                                        <li className="item">start-equipment</li>
-                                        <li className="item">start-equipment</li>
-                                        <li className="item">start-equipment</li>
+                                        {classState.startEqip.weapons ? classState.startEqip.weapons.map((item) => {
+                                            return (
+                                                <li className="weapon">{item.name}</li>
+                                            )
+                                        }) : null}
+
+                                        {classState.startEqip.weapons ? classState.startEqip.armor.map((item) => {
+                                            return (
+                                                <li className="armor">{item.name}</li>
+                                            )
+                                        }) : null}
+
+                                        {classState.startEqip.instruments ? classState.startEqip.instruments.map((item) => {
+                                            return (
+                                                <li className="item">{item.name}</li>
+                                            )
+                                        }) : null}
                                     </ul>
                                 </div>
                             </div>
