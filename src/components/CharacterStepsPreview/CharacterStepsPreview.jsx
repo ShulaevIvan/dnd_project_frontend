@@ -116,9 +116,17 @@ const CharacterStepsPreiew = () => {
                         <div className="character-class-preview-subtitle">features</div>
 
                         <div className="сlass-features">
-                            <span className="class-view-title-span">Возможности класса</span>
+                            <span className="class-view-title-span">Способности</span>
                             <div className="class-features-description">
-
+                                <ul className="class-skills-list">
+                                    {classState.classSkills ? classState.classSkills.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <li className="class-skills-item">{item.name}</li>
+                                            </React.Fragment>
+                                        )
+                                    }) : null}
+                                </ul>
                             </div>
                             <div>
                                 <button className="class-info-btn-full">Полная информация</button>
@@ -195,19 +203,19 @@ const CharacterStepsPreiew = () => {
                                     <ul className="start-equipment-list">
                                         {classState.startEqip.weapons ? classState.startEqip.weapons.map((item) => {
                                             return (
-                                                <li className="weapon">{item.name}</li>
+                                                <li key={Math.random()} className="weapon">{item.name}</li>
                                             )
                                         }) : null}
 
                                         {classState.startEqip.weapons ? classState.startEqip.armor.map((item) => {
                                             return (
-                                                <li className="armor">{item.name}</li>
+                                                <li key={Math.random()} className="armor">{item.name}</li>
                                             )
                                         }) : null}
 
                                         {classState.startEqip.instruments ? classState.startEqip.instruments.map((item) => {
                                             return (
-                                                <li className="item">{item.name}</li>
+                                                <li key={Math.random()} className="item">{item.name}</li>
                                             )
                                         }) : null}
                                     </ul>

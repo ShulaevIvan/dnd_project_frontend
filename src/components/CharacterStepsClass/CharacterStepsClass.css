@@ -267,7 +267,7 @@
     align-items: center;
     margin-bottom: 10px;
 }
-.weapon-mastery-item, .armor-mastery-item, .equipment-item  {
+.weapon-mastery-item, .armor-mastery-item, .equipment-item, .class-skills-item  {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -445,5 +445,23 @@
 .class-abilities-items-wrap .class-abilities-item {
     list-style: none;
     margin-right: 7px;
+    margin-bottom: 10px;
+}
+.class-skills-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    width: 90%;
+    margin: 0 0 20px 10px;
+    padding: 0;
+}
+.class-skills-list .class-skills-item {
+    display: flex;
+    min-width: 159px;
+    max-width: 50%;
+    font-size: 14px;
     margin-bottom: 10px;
 }
