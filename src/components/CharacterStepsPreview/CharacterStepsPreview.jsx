@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 
+
 const CharacterStepsPreiew = () => {
     const characterCreateState = useSelector((state) => state.characterSteps);
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
@@ -10,6 +11,7 @@ const CharacterStepsPreiew = () => {
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
     const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
     const previewActive = useSelector((state) => state.characterSteps.showPreviewPage);
+
 
     return (
         <React.Fragment>
@@ -119,13 +121,25 @@ const CharacterStepsPreiew = () => {
                             <span className="class-view-title-span">Способности</span>
                             <div className="class-features-description">
                                 <ul className="class-skills-list">
-                                    {classState.classSkills ? classState.classSkills.map((item) => {
-                                        return (
-                                            <React.Fragment key={Math.random()}>
-                                                <li className="class-skills-item">{item.name}</li>
-                                            </React.Fragment>
-                                        )
-                                    }) : null}
+                                    { 
+                                        subclassState ? subclassState.subclassInfo.subclassSkills.map((item) => {
+                                            return (
+                                                <React.Fragment key={Math.random()}>
+                                                    <li className="class-skills-item">{item.name}</li>
+                                                </React.Fragment>
+                                            )
+                                        }) : null
+                                    }
+                                    {
+                                        classState.classSkills ? classState.classSkills.map((item) => {
+                                           
+                                            return (
+                                                <React.Fragment key={Math.random()}>
+                                                    <li className="class-skills-item">{item.name}</li>
+                                                </React.Fragment>
+                                            )
+                                        }) : null
+                                    }
                                 </ul>
                             </div>
                             <div>
