@@ -14,6 +14,7 @@ import './components/CharacterStepsInfo/CharacterStepsInfo.css';
 import './components/CharacterStepsRace/CharacterStepsRace.css';
 import './components/CharacterStepsClass/CharacterStepsClass.css';
 import './components/CharacterStepsPreview/CharacterStepsPreview.css';
+import './components/CharacterBackground/CharacterBackground.css';
 
 
 

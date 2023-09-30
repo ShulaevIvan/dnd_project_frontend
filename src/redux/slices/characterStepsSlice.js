@@ -87,9 +87,6 @@ const characterStepsSlice = createSlice({
             state.navNextBtnDisable = true;
             state.subclassActive = undefined;
         },
-        rebuildClassSkils(state, action) {
-            state.characterSum.classData.classSkills.filter((skill) => action.payload.levelRequired !== skill.levelRequired)
-        },
         activeNextBtn(state, action) {
             state.navNextBtnDisable = action.payload;
         },
@@ -113,7 +110,6 @@ export const {
     selectClass,
     selectSubclass,
     unsetClass,
-    rebuildClassSkils,
     activeNextBtn,
     activePrevBtn,
     showPreviewPage,

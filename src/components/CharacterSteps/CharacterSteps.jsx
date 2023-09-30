@@ -6,6 +6,7 @@ import CharacterStepsRace from "../CharacterStepsRace/CharacterStepsRace";
 import CharacterStepsClass from "../CharacterStepsClass/CharacterStepsClass";
 import CharacterStepsPreiew from "../CharacterStepsPreview/CharacterStepsPreview";
 import CharacterStepsProgressBar from "../CharacterStepsProgressBar/CharacterStepsProgressBard";
+import CharacterBackground from "../CharacterBackground/CharacterBackground";
 
 const CharacterSteps = () => {
 
@@ -19,8 +20,11 @@ const CharacterSteps = () => {
             break;
         case 2: 
             bodyElem = <CharacterStepsClass />;
-          
+
             break;
+
+        case 3: 
+            bodyElem = <CharacterBackground />;
 
         default:
 
