@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
     allRaces: [],
@@ -15,6 +15,9 @@ const initialState = {
         subclassData: undefined,
         classActive: undefined,
         subclassActive: undefined,
+        backgroundAllData: undefined,
+        backgroundData: undefined,
+        backgroundActive: undefined,
     },
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
@@ -87,6 +90,29 @@ const characterStepsSlice = createSlice({
             state.navNextBtnDisable = true;
             state.subclassActive = undefined;
         },
+        addBackground(state, action) {
+            state.characterSum.backgroundAllData = [...JSON.parse(action.payload)]
+            if (state.characterSum.backgroundAllData.length > 10) {
+                state.characterSum.backgroundData = [...state.characterSum.backgroundAllData.slice(0, 10)].sort((a, b) => a.name > b.name ? 1 : -1);
+                
+                return;
+            }
+            state.characterSum.backgroundData = [...JSON.parse(action.payload)]
+        },
+        selectBackground(state, action) {
+            state.characterSum.backgroundActive = action.payload;
+        },
+        showMoreBackground(state, action) {
+            const maxLength = state.characterSum.backgroundAllData.length;
+            const currentLength = state.characterSum.backgroundData.length;
+
+            if (currentLength + action.payload >= maxLength) {
+                state.characterSum.backgroundData = [...state.characterSum.backgroundAllData].sort((a, b) => a.name > b.name ? 1 : -1);
+                return;
+            }
+            state.characterSum.backgroundData = [...state.characterSum.backgroundAllData.slice(0, currentLength + action.payload)]
+                .sort((a, b) => a.name > b.name ? 1 : -1)
+        },
         activeNextBtn(state, action) {
             state.navNextBtnDisable = action.payload;
         },
@@ -110,6 +136,9 @@ export const {
     selectClass,
     selectSubclass,
     unsetClass,
+    addBackground,
+    selectBackground,
+    showMoreBackground,
     activeNextBtn,
     activePrevBtn,
     showPreviewPage,

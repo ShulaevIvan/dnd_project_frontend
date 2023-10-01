@@ -1,3 +1,11 @@
+.background-view-title {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 .character-steps-background-column {
     display: flex;
     flex-direction: column;
@@ -104,13 +112,9 @@
     font-size: 24px;
     margin-bottom: 5px;
     width: 100%;
+    margin-bottom: 20px;
 }
-/* .character-background-preview-subtitle {
 
-} */
-.worldview-title, .background-other-title {
-    margin: 0 0 10px 0;
-}
 .worldview-row {
     display: flex;
     flex-direction: row;
@@ -175,8 +179,50 @@
 .character-background-equipment {
     margin-bottom: 20px;
 }
-.character-background-equipment h4, .character-background-skills h4, .background-attrs-title h4 {
-    margin: 0 0 10px 0;
+.character-background-equipment h4, 
+.character-background-skills h4, 
+.background-attrs-title h4, 
+.background-other-title h4, 
+.character-worldview-wrap h4,
+.background-description-wrap h4,
+.character-background-attrs h4,
+.character-background-other h4 {
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.character-background-name-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.character-background-attrs {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.character-background-attrs-row, .character-background-skills-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-background-attr-item, .character-background-skill-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    width: 30%;
+    max-width: 33%;
+    min-height: 35px;
+    font-size: 14px;
+    margin-left: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
 }
 .background-equipment-row {
     display: flex;
