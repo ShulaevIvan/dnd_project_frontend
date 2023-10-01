@@ -112,7 +112,6 @@
     font-size: 24px;
     margin-bottom: 5px;
     width: 100%;
-    margin-bottom: 20px;
 }
 
 .worldview-row {
@@ -183,10 +182,12 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 20px;
+    margin: 0 0 20px 0;
+}
+.background-non-combat-eqip p {
+   margin: 0 0 20px 0;
 }
 .character-background-equipment h4, 
-.character-background-skills h4, 
 .background-attrs-title h4, 
 .background-other-title h4, 
 .character-worldview-wrap h4,
@@ -197,6 +198,10 @@
     font-size: 16px;
     margin: 10px;
     width: 100%;
+    margin: 0 0 10px 0;
+}
+.character-background-skills {
+    margin-bottom: 20px;
 }
 .character-background-name-title {
     display: flex;

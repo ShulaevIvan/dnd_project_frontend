@@ -41,9 +41,9 @@ const CharacterStepsPreviewClass = () => {
                                 }
                             </ul>
                         </div>
-                        <div>
+                        {/* <div>
                             <button className="class-info-btn-full">Полная информация</button>
-                        </div>
+                        </div> */}
                 </div>
 
                 <div className="class-saving-throws">

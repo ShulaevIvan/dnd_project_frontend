@@ -7,7 +7,8 @@ const CharacterStepsPreiewBackground = () => {
     return (
         <React.Fragment>
             <div className="character-background-preview-wrap">
-                <div className="character-background-preview-title">{activeBackground.name}</div>  
+                <div className="character-background-preview-title">{activeBackground.name}</div>
+                <div className="character-class-preview-subtitle">features</div>
                     <div className="character-background-attrs">
                         <span className="background-view-title">Навыки</span>
                         <div className="character-background-attrs-row">
@@ -62,7 +63,6 @@ const CharacterStepsPreiewBackground = () => {
 
                         {activeBackground.languages.length > 0 ? 
                             <React.Fragment>
-                                <span className="background-view-title">Дополнительные языки</span>
                                     <div className="character-background-other">
                                         {activeBackground.languages.length > 0 ? <span className="background-view-title">Дополнительные языки</span>: null}
                                         <div className="background-other-content">
