@@ -1,12 +1,13 @@
 import React from "react";
-import { addBackground, selectBackground, showMoreBackground, showPreviewPage } from "../../redux/slices/characterStepsSlice";
+import { addBackground, selectBackground, showMoreBackground, showPreviewPage, activeNextBtn } from "../../redux/slices/characterStepsSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
 const CharacterStepsBackground = () => {
     const dispatch = useDispatch();
     const backgroundData = useSelector((state) => state.characterSteps.characterSum.backgroundData);
-
+    const selectedBackground = useSelector((state) => state.characterSteps.characterSum.backgroundActive)
+    
     const loadMoreBackgroundHandler = () => {
         dispatch(showMoreBackground(5))
     };
@@ -45,6 +46,15 @@ const CharacterStepsBackground = () => {
         dispatch(showPreviewPage(false));
         fetchFunc();
     }, []);
+
+    useEffect(() => {
+        
+        if (selectedBackground) {
+            dispatch(activeNextBtn(false));
+            return;
+        }
+        dispatch(activeNextBtn(true));
+    });
 
 
     return (
