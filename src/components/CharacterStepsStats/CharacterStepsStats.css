@@ -2,34 +2,32 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-between;
+    margin-right: 10px;
+    border: 1px solid;
+    justify-content: center;
     align-items: center;
     width: 45%;
 }
 .character-steps-choose-wrap, .character-steps-switcher-wrap {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 90%;
     justify-content: center;
     align-items: center;
     font-size: 16px;
     margin: 0 0 20px 0;
 }
 .character-steps-dice-wrap {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
 }
 .character-steps-choose-wrap h4 {
     font-size: 24px;
     margin: 0 0 20px 0;
-}
-.character-steps-switcher-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    margin-bottom: 20px;
 }
 .character-steps-switcher-row {
     display: flex;
@@ -37,7 +35,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 90%;
 }
 .character-steps-switcher {
     width: 33%;
@@ -98,18 +96,18 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
+    width: 90%;
 }
 .character-steps-dice-title {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 90%;
     justify-content: center;
     margin-bottom: 20px;
 }
 .character-steps-dice-title h4 {
     font-size: 24px;
-    margin: 0 0 20px 0;
+    /* margin: 0 0 20px 0; */
 }
 .character-steps-dice-row, .character-steps-result-dice-row {
     display: flex;
@@ -117,7 +115,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 .character-steps-dice-item {
     width: 65px;
@@ -161,13 +159,15 @@
 .character-steps-dice-btns-wrap {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 75%;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 .character-steps-dice-btn-roll, .character-steps-dice-btn-roll-save, .character-steps-dice-counter {
     display: flex;
+    justify-content: center;
     width: 33%;
 }
 .character-steps-dice-btn-roll {

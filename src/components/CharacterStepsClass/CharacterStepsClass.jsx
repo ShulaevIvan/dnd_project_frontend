@@ -7,7 +7,6 @@ import { addBaseHits } from "../../redux/slices/calculateStatsSlice";
 const CharacterStepsClass = () => {
     const dispatch = useDispatch();
     const allCharClasses = useSelector((state) => state.characterSteps.allClasses);
-    const characterCreateState =  useSelector((state) => state.characterSteps);
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
 
@@ -54,12 +53,11 @@ const CharacterStepsClass = () => {
                 selectClassHandler(main_class, data); 
             })
         };
-
         fetchFunc();
     };
 
     useEffect(() => {
-        if (classState) {
+        if (classState || subclassState) {
             dispatch(showPreviewPage(true));
             return;
         }
@@ -80,7 +78,8 @@ const CharacterStepsClass = () => {
                 dispatch(addClasses(JSON.stringify(data)))
             });
         }
-        dispatch(showPreviewPage(false));
+        dispatch(unsetClass());
+        dispatch(showPreviewPage(true));
         fetchFunc();
     }, []);
 

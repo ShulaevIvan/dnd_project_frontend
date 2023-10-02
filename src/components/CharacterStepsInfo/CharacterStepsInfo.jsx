@@ -7,6 +7,7 @@ const CharacterStepsInfo = () => {
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
+    const backgroundState = useSelector((state) => state.characterSteps.characterSum.backgroundActive);
     const charStats = useSelector((state) => state.calculateCharStats);
 
 
@@ -28,6 +29,12 @@ const CharacterStepsInfo = () => {
                             <span className="character-class-content">
                                 Class: {classState ? classState.className : null}
                                 {subclassState && subclassState.subraceActive ? `(${subclassState.subclassInfo.name})` : null}
+                            </span>
+                        </span>
+
+                        <span className="character-background-info">
+                            <span className="character-background-content">
+                                Background: {backgroundState ? backgroundState[0].name : null}
                             </span>
                         </span>
                     </div>

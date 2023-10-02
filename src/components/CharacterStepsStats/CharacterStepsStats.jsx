@@ -1,151 +1,20 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
+import ChooseStatsMode from "./ChooseStatsMode";
+import CharacterBuyDice from "./CharacterBuyDice";
 
 const CharacterStepsStats = () => {
+    const switcherState = useSelector((state) => state.characterSteps.statModeSwitcher);
+
     return (
         <React.Fragment>
             <div className="character-steps-roll-column">
-                <div className="character-steps-choose-wrap">
-                    <h4>Выберите генерацию или покупку характеристик</h4>
-                        <div className="character-steps-switcher-wrap">
-                            <div className="character-steps-switcher-row">
-                                <div className="character-steps-switcher-dice">Режим бросков</div>
-                                <div className="character-steps-switcher">
-                                    <div className="switch-btn"></div>
-                                    {/* <div className="switch-btn switch-on"></div> */}
-                                </div>
-                                <div className="character-steps-switcher-buy">Режим покупки</div>
-                            </div>
-                            
-                        </div>
-                </div>
+                <ChooseStatsMode />
 
-                <div className="character-steps-dice-wrap">
-                    <div className="character-steps-dice-title">
-                        <h4>Доступные характеристики</h4>
-                    </div>
-                        
-                    <div className="character-steps-dice-row">
-                        <div className="character-steps-auto-dice-item">
-                            <div className="character-steps-dice-item">
-                                <span className="dice-value">15</span>
-                                <div className="dice-value-modif">+2</div>
-                            </div>
-                        </div>
+                <CharacterBuyDice />
 
-                        <div className="character-steps-auto-dice-item">
-                            <div className="character-steps-dice-item">
-                                <span className="dice-value">7</span>
-                                <div className="dice-value-modif">-2</div>
-                            </div>
-                        </div>
-                        
-                        <div className="character-steps-auto-dice-item">
-                            <div className="character-steps-dice-item">
-                                <span className="dice-value">20</span>
-                                <div className="dice-value-modif">+5</div>
-                            </div>
-                        </div>
-
-                        <div className="character-steps-auto-dice-item">
-                            <div className="character-steps-dice-item">
-                                <span className="dice-value">13</span>
-                                <div className="dice-value-modif">+1</div>
-                            </div>
-                        </div>
-
-                        <div className="character-steps-auto-dice-item">
-                            <div className="character-steps-dice-item">
-                                <span className="dice-value">15</span>
-                                <div className="dice-value-modif">+2</div>
-                            </div>
-                        </div>
-
-                        <div className="character-steps-auto-dice-item">
-                            <div className="character-steps-dice-item">
-                                <span className="dice-value">9</span>
-                                <div className="dice-value-modif">-1</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="character-steps-result-dice-row">
-                    <div className="character-steps-result-dice-item">
-                    
-                        <select className="stat-select">
-                            <option value="">to ...</option>
-                            <option value="">STR</option>
-                            <option value="">DEX</option>
-                            <option value="">CON</option>
-                            <option value="">INT</option>
-                            <option value="">WIS</option>
-                            <option value="">CHA</option>
-                        </select>
-                    </div>
-
-                    <div className="character-steps-result-dice-item">
-
-                        <select className="stat-select">
-                            <option value="">to ...</option>
-                            <option value="">STR</option>
-                            <option value="">DEX</option>
-                            <option value="">CON</option>
-                            <option value="">INT</option>
-                            <option value="">WIS</option>
-                            <option value="">CHA</option>
-                        </select>
-                    </div>
-
-                    <div className="character-steps-result-dice-item">
-                        <select className="stat-select">
-                            <option value="">to ...</option>
-                            <option value="">STR</option>
-                            <option value="">DEX</option>
-                            <option value="">CON</option>
-                            <option value="">INT</option>
-                            <option value="">WIS</option>
-                            <option value="">CHA</option>
-                        </select>
-                    </div>
-
-                    <div className="character-steps-result-dice-item">
-                        <select className="stat-select">
-                            <option className="">to ...</option>
-                            <option className="dog">STR</option>
-                            <option className="cat">DEX</option>
-                            <option className="hamster">CON</option>
-                            <option className="cat">INT</option>
-                            <option className="parrot">WIS</option>
-                            <option className="spider">CHA</option>
-                        </select>
-                    </div>
-
-                    <div className="character-steps-result-dice-item">
-                        <select className="stat-select">
-                            <option value="">to ...</option>
-                            <option value="">STR</option>
-                            <option value="">DEX</option>
-                            <option value="">CON</option>
-                            <option value="">INT</option>
-                            <option value="">WIS</option>
-                            <option value="">CHA</option>
-                        </select>
-                    </div>
-
-                    <div className="character-steps-result-dice-item">
-                        <select className="stat-select">
-                            <option value="">to ...</option>
-                            <option value="">STR</option>
-                            <option value="">DEX</option>
-                            <option value="">CON</option>
-                            <option value="">INT</option>
-                            <option value="">WIS</option>
-                            <option value="">CHA</option>
-                        </select>
-                    </div>
-                </div>
-
+        
                 <div className="character-steps-dice-btns-wrap">
                     <div className="character-steps-dice-btn-roll"><button>Бросить</button></div>
                     <div className="character-steps-dice-counter">Всего бросков: 0</div>

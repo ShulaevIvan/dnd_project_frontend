@@ -17,6 +17,7 @@ const CharacterStepsProgressBar = () => {
     const prevBtnActiveState = useSelector((state) => state.characterSteps.navPrevBtnDisable);
     const createCharSum = useSelector((state) => state.characterSteps.characterSum.raceData);
     const classCharSum = useSelector((state) => state.characterSteps.characterSum.classData);
+    const backgroundCharSum = useSelector((state) => state.characterSteps.characterSum.backgroundData);
     const currentPage =  useSelector((state) => state.characterSteps.characterStepPage);
     
 
@@ -46,6 +47,11 @@ const CharacterStepsProgressBar = () => {
             return;
         }
         if (!classCharSum && currentPage === 2) {
+            dispatch(activeNextBtn(true));
+            dispatch(activePrevBtn(false));
+            return;
+        }
+        if (!backgroundCharSum && currentPage === 3) {
             dispatch(activeNextBtn(true));
             dispatch(activePrevBtn(false));
             return;

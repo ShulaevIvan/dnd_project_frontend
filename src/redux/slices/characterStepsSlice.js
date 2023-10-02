@@ -19,6 +19,7 @@ const initialState = {
         backgroundData: undefined,
         backgroundActive: undefined,
     },
+    statModeSwitcher: false,
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
 };
@@ -121,6 +122,13 @@ const characterStepsSlice = createSlice({
         },
         showPreviewPage(state, action) {
             state.showPreviewPage = action.payload;
+        },
+        statSwitcherMode(state, action) {
+            if (action.payload === 1) {
+                state.statModeSwitcher = true;
+                return;
+            }
+            state.statModeSwitcher = false;
         }
     }
 });
@@ -142,6 +150,8 @@ export const {
     activeNextBtn,
     activePrevBtn,
     showPreviewPage,
+    statSwitcherMode,
+    
 } = characterStepsSlice.actions;
 
 export default characterStepsSlice.reducer;

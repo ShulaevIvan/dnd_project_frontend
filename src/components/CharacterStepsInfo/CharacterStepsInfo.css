@@ -76,6 +76,8 @@
 .character-race-info,
 .character-race-content,
 .character-class-info,
+.character-background-info,
+.character-background-content
 .character-class-content {
     /* padding-right: 20px; */
     margin-bottom: 5px;
