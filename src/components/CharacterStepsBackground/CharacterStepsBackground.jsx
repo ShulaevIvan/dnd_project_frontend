@@ -3,7 +3,7 @@ import { addBackground, selectBackground, showMoreBackground, showPreviewPage } 
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 
-const CharacterBackground = () => {
+const CharacterStepsBackground = () => {
     const dispatch = useDispatch();
     const backgroundData = useSelector((state) => state.characterSteps.characterSum.backgroundData);
 
@@ -73,4 +73,4 @@ const CharacterBackground = () => {
     );
 };
 
-export default CharacterBackground
+export default CharacterStepsBackground

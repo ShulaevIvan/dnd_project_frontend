@@ -1,0 +1,267 @@
+.character-steps-roll-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 45%;
+}
+.character-steps-choose-wrap, .character-steps-switcher-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    margin: 0 0 20px 0;
+}
+.character-steps-dice-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.character-steps-choose-wrap h4 {
+    font-size: 24px;
+    margin: 0 0 20px 0;
+}
+.character-steps-switcher-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.character-steps-switcher-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.character-steps-switcher {
+    width: 33%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.character-steps-switcher-buy {
+    display: flex;
+    justify-content: flex-start;
+    width: 33%;
+    color: blue;
+    cursor: pointer;
+}
+.character-steps-switcher-dice {
+    display: flex;
+    justify-content: flex-end;
+    width: 33%;
+    color: blue;
+    cursor: pointer;
+}
+.switch-btn {
+    display: inline-flex;
+    width: 50px;
+    height: 20px; 
+    border-radius: 12px; 
+    background: #bfbfbf; 
+    z-index: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition-duration: 300ms;
+  }
+.switch-btn::after {
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 18px;
+    background: #fff;
+    top: -3px;
+    left: -6px;
+    transition-duration: 300ms;
+    box-shadow: 0 0 10px 0 #999999;
+    position: absolute;
+    z-index: 1;
+  }
+.switch-on {
+    background: #fff;
+    box-shadow: inset 0 0 10px 0 #999999;
+}
+.switch-on::after {
+    left: 30px;
+    background: black;
+}
+.character-steps-switcher-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-steps-dice-title {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.character-steps-dice-title h4 {
+    font-size: 24px;
+    margin: 0 0 20px 0;
+}
+.character-steps-dice-row, .character-steps-result-dice-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.character-steps-dice-item {
+    width: 65px;
+    height: 35px;
+    background: black;
+    position: relative;
+    display: inline-flex;
+    margin-left: 10px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.dice-value {
+    pointer-events: none;
+    user-select: none;
+}
+.character-steps-dice-item::before {
+    content: "";
+    position: absolute;
+    top: -19.8675px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 32px solid transparent;
+    border-right: 32px solid transparent;
+    border-bottom: 20.8675px solid black;
+  }
+.character-steps-dice-item::after {
+    content: "";
+    position: absolute;
+    bottom: -19.8675px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 32px solid transparent;
+    border-right: 32px solid transparent;
+    border-top: 20.8675px solid black;
+}
+.character-steps-dice-btns-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.character-steps-dice-btn-roll, .character-steps-dice-btn-roll-save, .character-steps-dice-counter {
+    display: flex;
+    width: 33%;
+}
+.character-steps-dice-btn-roll {
+    justify-content: center;
+}
+.character-steps-dice-counter {
+    margin: 0;
+}
+.character-steps-result-dice-item {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+}
+.character-steps-result-dice-item select  {
+    max-width: 65px;
+}
+.character-steps-hand-dice-item, .character-steps-auto-dice-item {
+    display: flex;
+    flex-wrap: wrap;
+    width: 17%;
+}
+.character-steps-hand-dice-title {
+    width: 100%;
+    max-width: 85px;
+    display: flex;
+    justify-content: center;
+}
+.dice-value-plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 5%;
+    color: black;
+    border: 1px solid;
+    top: 25%;
+    min-height: 15px;
+    max-height: 15px;
+    min-width: 15px;
+    max-width: 15px;
+    z-index: 2;
+    background: blue;
+    color: white;
+
+}
+.dice-value-min {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 5%;
+    top: 25%;
+    color: black;
+    border: 1px solid;
+    min-height: 15px;
+    max-height: 15px;
+    min-width: 15px;
+    max-width: 15px;
+    z-index: 2;
+    background: blue;
+    color: white;
+}
+.dice-value-modif {
+    display: flex;
+    width: 21px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: -100%;
+    font-size: 14px;
+    border: 1px solid;
+    z-index: 2;
+    background: blue;
+    color: white;
+}
+.character-steps-dice-sum-wrap {
+    display: flex;
+    width: 100%;
+    max-width: 75px;
+    justify-content: center;
+    margin-top: 30%;
+    font-size: 14px;
+    font-weight: bold;
+}
+.character-steps-dice-sum {
+    display: flex;
+    max-width: 75px;
+}
+.character-steps-dice-value-bonuce {
+    padding-left: 5px;
+}
+.reset-dice-btn-wrap {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}

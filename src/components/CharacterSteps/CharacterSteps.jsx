@@ -6,12 +6,14 @@ import CharacterStepsRace from "../CharacterStepsRace/CharacterStepsRace";
 import CharacterStepsClass from "../CharacterStepsClass/CharacterStepsClass";
 import CharacterStepsPreiew from "../CharacterStepsPreview/CharacterStepsPreview";
 import CharacterStepsProgressBar from "../CharacterStepsProgressBar/CharacterStepsProgressBard";
-import CharacterBackground from "../CharacterBackground/CharacterBackground";
+import CharacterStepsBackground from "../CharacterStepsBackground/CharacterStepsBackground";
+import CharacterStepsStats from "../CharacterStepsStats/CharacterStepsStats";
 
 const CharacterSteps = () => {
 
     const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
     let bodyElem;
+    console.log(stepNum)
 
     switch(stepNum) {
         case 1:
@@ -24,7 +26,14 @@ const CharacterSteps = () => {
             break;
 
         case 3: 
-            bodyElem = <CharacterBackground />;
+            bodyElem = <CharacterStepsBackground />;
+
+            break;
+        
+        case 4: 
+            bodyElem = <CharacterStepsStats />;
+
+            break;
 
         default:
 
