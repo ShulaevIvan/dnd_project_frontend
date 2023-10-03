@@ -1,8 +1,8 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import ChooseStatsMode from "./ChooseStatsMode";
-import CharacterBuyDice from "./CharacterBuyDice";
+import CharacterRollStatsDice from "./CharacterRollStatsDice";
 import CharacterChooseDice from "./CharacterChooseDice";
 import DiceRollModule from "./DiceRollModule";
 
@@ -14,7 +14,7 @@ const CharacterStepsStats = () => {
             <div className="character-steps-roll-column">
                 <ChooseStatsMode />
 
-                {switcherState ? <CharacterChooseDice /> : <CharacterBuyDice />}
+                {switcherState ? <CharacterChooseDice /> : <CharacterRollStatsDice />}
                 {!switcherState ? <DiceRollModule /> : null}
                 
             </div>

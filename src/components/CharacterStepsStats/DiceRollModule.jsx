@@ -1,22 +1,26 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { setStatsTotalRoll, resetStatsTotalRoll } from "../../redux/slices/characterStepsSlice";
+import { generateStatsRoll, resetStatsTotalRoll, generateStatModif } from "../../redux/slices/characterStepsSlice";
 
 const DiceRollModule = () => {
     const dispatch = useDispatch();
-    const totalRoll = useSelector((state) => state.characterSteps.characterSum.statsTotalRoll);
     const rollCounter = useSelector((state) => state.characterSteps.statsRollCount);
+    const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsTotalRoll);
 
     const rollHandler = (e, count, dice) => {
-        dispatch(setStatsTotalRoll({count: count, dice: dice}));
+        dispatch(generateStatsRoll({count: count, dice: dice}));
+        dispatch(generateStatModif(totalStatsRoll));
     };
     
-
     const reset = () => {
         dispatch(resetStatsTotalRoll());
     }
+
+    useEffect(() => {
+        dispatch(resetStatsTotalRoll());
+    }, []);
 
     return (
         <React.Fragment>
