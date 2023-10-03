@@ -18,7 +18,9 @@ const initialState = {
         backgroundAllData: undefined,
         backgroundData: undefined,
         backgroundActive: undefined,
+        statsTotalRoll: [],
     },
+    statsRollCount: 0,
     statModeSwitcher: false,
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
@@ -129,6 +131,22 @@ const characterStepsSlice = createSlice({
                 return;
             }
             state.statModeSwitcher = false;
+        },
+        setStatsTotalRoll(state, action) {
+            const dice = action.payload.dice;
+            const count = action.payload.count;
+            state.characterSum.statsTotalRoll = [];
+            state.statsRollCount += 1;
+            
+            for (let i = 0; i < 6; i += 1) {
+                const randStatNum = Math.floor(1  + Math.random() * (dice + 1 - 1));
+
+                state.characterSum.statsTotalRoll = [...state.characterSum.statsTotalRoll, randStatNum * count]
+            }
+        },
+        resetStatsTotalRoll(state) {
+            state.characterSum.statsTotalRoll = []
+            state.statRollInProgress = false;
         }
     }
 });
@@ -151,6 +169,8 @@ export const {
     activePrevBtn,
     showPreviewPage,
     statSwitcherMode,
+    setStatsTotalRoll,
+    resetStatsTotalRoll,
     
 } = characterStepsSlice.actions;
 
