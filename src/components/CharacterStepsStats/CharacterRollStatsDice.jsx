@@ -1,9 +1,12 @@
 import React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import CharacterStepsStatsDestribPanel from "./CharacterStepsStatsDestribPanel";
 
 const CharacterRollStatsDice = () => {
     const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsModifers);
+    const charStats = useSelector((state) => state.calculateCharStats.raceStats);
+    
 
     return (
         <React.Fragment>

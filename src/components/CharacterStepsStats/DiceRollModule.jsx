@@ -7,7 +7,7 @@ import { generateStatsRoll, resetStatsTotalRoll, generateStatModif } from "../..
 const DiceRollModule = () => {
     const dispatch = useDispatch();
     const rollCounter = useSelector((state) => state.characterSteps.statsRollCount);
-    const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsTotalRoll);
+    const totalStatsRoll = useSelector((state) => state.characterSteps.statsTotalRoll);
 
     const rollHandler = (e, count, dice) => {
         dispatch(generateStatsRoll({count: count, dice: dice}));

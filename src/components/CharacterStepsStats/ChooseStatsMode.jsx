@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { statSwitcherMode } from "../../redux/slices/characterStepsSlice";
 
 

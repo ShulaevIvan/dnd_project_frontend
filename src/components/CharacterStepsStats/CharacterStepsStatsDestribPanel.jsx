@@ -4,8 +4,8 @@ import CharacterStepsStatsDestribItem from "./CharacterStepsStatDestribItem";
 
 const CharacterStepsStatsDestribPanel = () => {
 
-    const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsTotalRoll);
-
+    const totalStatsRoll = useSelector((state) => state.characterSteps.statsTotalRoll);
+    
     return (
         <React.Fragment>
             <div className="character-steps-result-dice-row">

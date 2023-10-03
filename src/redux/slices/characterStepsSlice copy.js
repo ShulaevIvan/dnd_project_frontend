@@ -18,12 +18,11 @@ const initialState = {
         backgroundAllData: undefined,
         backgroundData: undefined,
         backgroundActive: undefined,
+        statsTotalRoll: [0, 0, 0, 0, 0, 0],
         statsModifers: [],
-        resultCharStats: [],
-
+        
     },
     statsRollCount: 0,
-    statsTotalRoll: [0, 0, 0, 0, 0, 0],
     statModeSwitcher: false,
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
