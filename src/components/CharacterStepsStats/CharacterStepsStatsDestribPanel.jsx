@@ -4,14 +4,15 @@ import CharacterStepsStatsDestribItem from "./CharacterStepsStatDestribItem";
 
 const CharacterStepsStatsDestribPanel = () => {
 
-    const totalStatsRoll = useSelector((state) => state.characterSteps.statsTotalRoll);
+    // const totalStatsRoll = useSelector((state) => state.characterSteps.statsTotalRoll);
+    const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsModifers);
     
     return (
         <React.Fragment>
             <div className="character-steps-result-dice-row">
-                {totalStatsRoll ? totalStatsRoll.map((num) => {
+                {totalStatsRoll ? totalStatsRoll.map((item) => {
                     return (
-                        <CharacterStepsStatsDestribItem key={Math.random()} />
+                        <CharacterStepsStatsDestribItem {...item} key={Math.random()} />
                     )  
                 }) : null}
             </div>

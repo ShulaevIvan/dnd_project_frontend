@@ -11,16 +11,19 @@ const DiceRollModule = () => {
 
     const rollHandler = (e, count, dice) => {
         dispatch(generateStatsRoll({count: count, dice: dice}));
-        dispatch(generateStatModif(totalStatsRoll));
     };
     
     const reset = () => {
         dispatch(resetStatsTotalRoll());
-    }
+    };
 
     useEffect(() => {
         dispatch(resetStatsTotalRoll());
     }, []);
+
+    useEffect(() => {
+        dispatch(generateStatModif(totalStatsRoll));
+    }, [totalStatsRoll]);
 
     return (
         <React.Fragment>

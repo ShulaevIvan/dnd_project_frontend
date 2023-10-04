@@ -18,7 +18,7 @@ const initialState = {
         backgroundAllData: undefined,
         backgroundData: undefined,
         backgroundActive: undefined,
-        statsModifers: [],
+        statsModifers: [0, 0, 0, 0, 0, 0],
         resultCharStats: [],
 
     },
@@ -170,12 +170,25 @@ const characterStepsSlice = createSlice({
         },
         generateStatModif(state, action) {
             const statsArr = action.payload;
-            const statsModifers = statsArr.map((statValue) => {
+            const statsModifers = statsArr.map((statValue, i) => {
                 const modif = Math.floor((Number(statValue) - 10) / 2);
-                return {value: statValue, modifer:modif};
+                return {id: Math.floor(Math.random() * 1000), value: statValue, modifer:modif};
             })
             state.characterSum.statsModifers = [...statsModifers];
-        }
+        },
+        spendStatFormRoll(state, action) {
+            const statChange = action.payload;
+
+            if (state.characterSum.resultCharStats.find((item) => item.id === statChange.id)) {
+                state.characterSum.resultCharStats = [
+                    ...state.characterSum.resultCharStats.filter((item) => item.id !== statChange.id),
+                    statChange,
+                ];
+                return;
+            }
+            
+            state.characterSum.resultCharStats = [...state.characterSum.resultCharStats, statChange];    
+        },
     }
 });
 
@@ -200,6 +213,7 @@ export const {
     generateStatsRoll,
     resetStatsTotalRoll,
     generateStatModif,
+    spendStatFormRoll,
     
 } = characterStepsSlice.actions;
 
