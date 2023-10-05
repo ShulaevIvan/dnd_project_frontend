@@ -150,3 +150,98 @@
     max-height: 300px;
     overflow-y: scroll;
 }
+.character-bonuce-stats-increase-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 29%;
+    border: 1px solid;
+    padding: 5px;
+}
+.reset-dice-btn {
+    width: 25%;
+}
+.character-bonuce-stats-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.character-bonuce-stats-preview-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.character-bonuce-stats-preview-subtitle {
+    margin-bottom: 20px;
+}
+.character-bounce-stats-increase-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-bonuce-stat-increase-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.character-bonuce-stat-increase-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.character-bonuce-stat-increase-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 33%;
+    margin-right: 5px;
+    min-width: 50px;
+}
+.character-bonuce-stat-increase-str {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+.character-bonuce-stat-increase-str-input-wrap  {
+    display: flex;
+    max-width: 33%;
+    margin-right: 5px;
+}
+.character-bonuce-stat-increase-str-input-wrap input {
+    border: 1px solid;
+    max-width: 50px;
+    max-height: 25px;
+}
+.character-bonuce-stat-increase-btns-wrap {
+    display: flex;
+    max-width: 33%;
+    margin-right: 5px;
+}
+.character-bonuce-stat-increase-plus, .character-bonuce-stat-increase-min {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 20px;
+    min-height: 20px;
+    border: 1px solid;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.character-bonuce-stat-increase-title-bottom-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.character-bonuce-stat-increase-recomendation-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.character-bonuce-stat-increase-recomendation-wrap h4 {
+    margin: 0 0 10px 0;
+}

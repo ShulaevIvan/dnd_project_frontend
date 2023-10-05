@@ -179,7 +179,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
+    width: 95px;
 }
 .character-steps-result-dice-item select  {
     max-width: 65px;

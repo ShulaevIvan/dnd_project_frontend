@@ -24,6 +24,8 @@ const initialState = {
     },
     statsRollCount: 0,
     statsTotalRoll: [0, 0, 0, 0, 0, 0],
+    statSelectedRoll: [],
+    resultCharStatsBackup: [],
     statModeSwitcher: false,
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
@@ -169,6 +171,7 @@ const characterStepsSlice = createSlice({
             state.statRollInProgress = false;
         },
         generateStatModif(state, action) {
+            state.characterSum.resultCharStats = [];
             const statsArr = action.payload;
             const statsModifers = statsArr.map((statValue, i) => {
                 const modif = Math.floor((Number(statValue) - 10) / 2);
@@ -178,7 +181,8 @@ const characterStepsSlice = createSlice({
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
-
+            state.characterSum.resultCharStats = [...state.characterSum.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
+            
             if (state.characterSum.resultCharStats.find((item) => item.id === statChange.id)) {
                 state.characterSum.resultCharStats = [
                     ...state.characterSum.resultCharStats.filter((item) => item.id !== statChange.id),
@@ -187,8 +191,23 @@ const characterStepsSlice = createSlice({
                 return;
             }
             
-            state.characterSum.resultCharStats = [...state.characterSum.resultCharStats, statChange];    
+            state.characterSum.resultCharStats = [...state.characterSum.resultCharStats, statChange];
         },
+        backupCharStats(state) {
+            if (state.resultCharStatsBackup.length === 0) {
+                state.resultCharStatsBackup = [...state.characterSum.statsModifers];
+                return;
+            }
+            state.characterSum.resultCharStats = [];
+            
+        },
+        restoreCharStats(state) {
+            if (state.resultCharStatsBackup.length > 0) {
+                state.characterSum.statsModifers = [...state.resultCharStatsBackup];
+                state.resultCharStatsBackup = [];
+                return;
+            }
+        }
     }
 });
 
@@ -214,6 +233,8 @@ export const {
     resetStatsTotalRoll,
     generateStatModif,
     spendStatFormRoll,
+    backupCharStats,
+    restoreCharStats
     
 } = characterStepsSlice.actions;
 

@@ -4,6 +4,7 @@ import { useSelector} from 'react-redux';
 import CharacterStepsPreiewRace from "../CharacterStepsPreviewRace/CharacterStepsPreviewRace";
 import CharacterStepsPreviewClass from "../CharacterStepsPreviewClass/CharacterStepsPreviewClass";
 import CharacterStepsPreiewBackground from "../CharacterStepsPreviewBackground/CharacterStepsPreviewBackground";
+import CharacterStepsPreiewStats from "../CharacterStepsPreviewStats/CharacterStepsPreviewStats";
 
 
 const CharacterStepsPreiew = () => {
@@ -25,6 +26,9 @@ const CharacterStepsPreiew = () => {
                 
                 : stepNum === 3 && backgroundState && previewActive ? 
                     <CharacterStepsPreiewBackground />
+                : stepNum === 4 ? 
+                    <CharacterStepsPreiewStats />
+                
                 : null}
                 
             </div>

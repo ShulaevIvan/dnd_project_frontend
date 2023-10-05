@@ -6,7 +6,11 @@ import CharacterStepsStatsDestribPanel from "./CharacterStepsStatsDestribPanel";
 const CharacterRollStatsDice = () => {
     const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsModifers);
     const charStats = useSelector((state) => state.calculateCharStats.raceStats);
-    
+    const charResultStats = useSelector((state) => state.characterSteps.characterSum.resultCharStats);
+
+    useEffect(() => {
+        // console.log(charResultStats)
+    }, [charResultStats, totalStatsRoll])
 
     return (
         <React.Fragment>

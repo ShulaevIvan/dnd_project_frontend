@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 import CharacterStepsStatsDestribItem from "./CharacterStepsStatDestribItem";
 
 const CharacterStepsStatsDestribPanel = () => {
-
-    // const totalStatsRoll = useSelector((state) => state.characterSteps.statsTotalRoll);
     const totalStatsRoll = useSelector((state) => state.characterSteps.characterSum.statsModifers);
     
     return (
