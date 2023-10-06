@@ -212,6 +212,17 @@
     max-width: 33%;
     margin-right: 5px;
 }
+.character-bonuce-stat-increase-value {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    max-width: 50px;
+    max-height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+}
 .character-bonuce-stat-increase-str-input-wrap input {
     border: 1px solid;
     max-width: 50px;

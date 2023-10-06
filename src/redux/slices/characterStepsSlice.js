@@ -181,6 +181,7 @@ const characterStepsSlice = createSlice({
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
+            console.log(statChange)
             state.characterSum.resultCharStats = [...state.characterSum.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
             
             if (state.characterSum.resultCharStats.find((item) => item.id === statChange.id)) {
