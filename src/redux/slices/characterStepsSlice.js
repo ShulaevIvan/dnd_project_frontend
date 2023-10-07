@@ -23,6 +23,7 @@ const initialState = {
 
     },
     statsRollCount: 0,
+    increaseStatsCount: 0,
     statsTotalRoll: [0, 0, 0, 0, 0, 0],
     statSelectedRoll: [],
     resultCharStatsBackup: [],
@@ -137,78 +138,6 @@ const characterStepsSlice = createSlice({
             }
             state.statModeSwitcher = false;
         },
-        generateStatsRoll(state, action) {
-            const dice = action.payload.dice;
-            const count = action.payload.count;
-            let name = undefined;
-            let diceNumTmpArr = []
-            const resultArr = []
-
-            state.statsTotalRoll = [];
-            state.statsRollCount += 1;
-
-            for (let i = 0; i < 6; i += 1) {
-                for (let j = 0; j < count; j += 1) {
-                    const randStatNum = Math.floor(1  + Math.random() * (dice + 1 - 1));
-                    diceNumTmpArr.push(randStatNum)
-                }
-                const minNum = Math.min.apply(null, diceNumTmpArr);
-                const minNumIndex = diceNumTmpArr.indexOf(minNum);
-                diceNumTmpArr.pop(minNumIndex);
-                diceNumTmpArr = diceNumTmpArr.reduce((prev, next) => {
-                    return prev+next;
-                });
-                
-                resultArr.push(diceNumTmpArr);
-                diceNumTmpArr = [];
-            }
-            
-            state.statsTotalRoll = [...resultArr];
-        },
-        resetStatsTotalRoll(state) {
-            state.statsTotalRoll = [0, 0, 0, 0, 0, 0];
-            state.statsRollCount = 0;
-            state.statRollInProgress = false;
-        },
-        generateStatModif(state, action) {
-            state.characterSum.resultCharStats = [];
-            const statsArr = action.payload;
-            const statsModifers = statsArr.map((statValue, i) => {
-                const modif = Math.floor((Number(statValue) - 10) / 2);
-                return {id: Math.floor(Math.random() * 1000), value: statValue, modifer:modif};
-            })
-            state.characterSum.statsModifers = [...statsModifers];
-        },
-        spendStatFormRoll(state, action) {
-            const statChange = action.payload;
-            console.log(statChange)
-            state.characterSum.resultCharStats = [...state.characterSum.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
-            
-            if (state.characterSum.resultCharStats.find((item) => item.id === statChange.id)) {
-                state.characterSum.resultCharStats = [
-                    ...state.characterSum.resultCharStats.filter((item) => item.id !== statChange.id),
-                    statChange,
-                ];
-                return;
-            }
-            
-            state.characterSum.resultCharStats = [...state.characterSum.resultCharStats, statChange];
-        },
-        backupCharStats(state) {
-            if (state.resultCharStatsBackup.length === 0) {
-                state.resultCharStatsBackup = [...state.characterSum.statsModifers];
-                return;
-            }
-            state.characterSum.resultCharStats = [];
-            
-        },
-        restoreCharStats(state) {
-            if (state.resultCharStatsBackup.length > 0) {
-                state.characterSum.statsModifers = [...state.resultCharStatsBackup];
-                state.resultCharStatsBackup = [];
-                return;
-            }
-        }
     }
 });
 
@@ -230,12 +159,6 @@ export const {
     activePrevBtn,
     showPreviewPage,
     statSwitcherMode,
-    generateStatsRoll,
-    resetStatsTotalRoll,
-    generateStatModif,
-    spendStatFormRoll,
-    backupCharStats,
-    restoreCharStats
     
 } = characterStepsSlice.actions;
 

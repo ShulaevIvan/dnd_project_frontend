@@ -233,6 +233,14 @@
     max-width: 33%;
     margin-right: 5px;
 }
+.character-bonuce-stat-increase-btns-wrap .character-bonuce-stat-auto-increase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 25px;
+    min-height: 25px;
+    margin-right: 5px;
+}
 .character-bonuce-stat-increase-plus, .character-bonuce-stat-increase-min {
     display: flex;
     justify-content: center;

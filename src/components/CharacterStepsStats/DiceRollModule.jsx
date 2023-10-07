@@ -2,13 +2,19 @@ import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { generateStatsRoll, generateStatModif, backupCharStats, restoreCharStats } from "../../redux/slices/characterStepsSlice";
+import {
+    generateStatsRoll, 
+    generateStatsModif, 
+    backupCharStats, 
+    restoreCharStats,
+} from '../../redux/slices/calculateStatsSlice';
 
 const DiceRollModule = () => {
     const dispatch = useDispatch();
     const rollCounter = useSelector((state) => state.characterSteps.statsRollCount);
-    const totalStatsRoll = useSelector((state) => state.characterSteps.statsTotalRoll);
-    const rollBackCharStats = useSelector((state) => state.characterSteps.resultCharStatsBackup);
+    const totalStatsRoll = useSelector((state) => state.calculateCharStats.statsTotalRoll);
+    const rollBackCharStats = useSelector((state) => state.calculateCharStats.resultCharStatsBackup);
+    
 
     const rollHandler = (e, count, dice) => {
         dispatch(generateStatsRoll({count: count, dice: dice}));
@@ -24,7 +30,8 @@ const DiceRollModule = () => {
     };
 
     useEffect(() => {
-        dispatch(generateStatModif(totalStatsRoll));
+        console.log(totalStatsRoll)
+        dispatch(generateStatsModif(totalStatsRoll));
     }, [totalStatsRoll]);
 
     return (

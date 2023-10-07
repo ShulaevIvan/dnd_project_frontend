@@ -2,7 +2,9 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+
 const CharacterStepsPreiewStats = () => {
+    const dispatch = useDispatch();
     const [bonuceStatState, setBonuceStatState] = useState({
         bonuces: [],
         bonuceCount: 0,
@@ -15,149 +17,94 @@ const CharacterStepsPreiewStats = () => {
             'cha_bonuce': 'CHA',
         }
     })
-    const resultCharStatsRoll = useSelector((state) => state.characterSteps.characterSum.resultCharStats);
+    const resultCharStatsRoll = useSelector((state) => state.calculateCharStats.resultCharStats);
     const raceBonuceStat = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
+    const statIncreaseCount = useSelector((state) => state.characterSteps.increaseStatsCount);
+    const statMode = useSelector((state) => state.characterSteps.statModeSwitcher);
+
+
+    const bonuceSpendHandler = (e, param, stat) => {
+        let statIncrease = undefined;
+        if (param === 1) {
+            statIncrease = bonuceStatState.bonuces.find((item) => item.stat === stat.statParam);
+            return;   
+        }
+        console.log('min');
+    };
 
     useEffect(() => {
-        Object.entries(raceBonuceStat).forEach((key, i) => {
+        Object.entries(raceBonuceStat).forEach((key) => {
             if (key[1] !== 0) {
                 const statObj = {};
                 statObj.stat = bonuceStatState.convertStats[key[0]];
-                statObj.value = key[1]
-
+                statObj.value = key[1];
                 setBonuceStatState(prevState => ({
                     ...prevState,
-                    bonuces: prevState.bonuces.find((item) => key[0] !== item.stat) ? [...prevState.bonuces] : [...prevState.bonuces, statObj],
-                    bonuceCount: prevState.bonuces.length
+                    bonuces: prevState.bonuces.find((item) => item.stat === statObj.stat) ? 
+                        [...prevState.bonuces] : [...prevState.bonuces, statObj]
                 }));
             }
         });
-        console.log(bonuceStatState)
-    }, [resultCharStatsRoll])
+        
+    }, [resultCharStatsRoll]);
 
     return (
         <React.Fragment>
             <div className="character-bonuce-stats-preview-wrap">
                 <div className="character-bonuce-stats-preview-title">Stats increase</div>
-                <div className="character-bonuce-stats-preview-subtitle">
-                    {/* increase stats str + 2 and other stats +1 */}
-                    {bonuceStatState.bonuces.map((item) => {
-                        return (
-                            <React.Fragment>
-                                {item.stat}
-                                {item.value}
-                            </React.Fragment>
-                        )
-                    })}
-                    </div>
             </div>
 
             <div className="character-bounce-stats-increase-wrap">
                 {resultCharStatsRoll.map((item) => {
-                    
-                    return (
-                        <React.Fragment key={Math.random()}>
-                            <div className="character-bonuce-stat-increase-row">
-                                <div className="character-bonuce-stat-increase-item">
-                                    <div className="character-bonuce-stat-increase-title">{item.statParam}</div>
-                                    <div className="character-bonuce-stat-increase-str-input-wrap">
-                                        <span className="character-bonuce-stat-increase-value">{item.value}</span>
-                                    </div> 
-                                    <div className="character-bonuce-stat-increase-btns-wrap">
-                                        <span className="character-bonuce-stat-increase-plus">+</span>
-                                        <span className="character-bonuce-stat-increase-min">-</span>
+                    if (item.statParam) {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className="character-bonuce-stat-increase-row">
+                                    <div className="character-bonuce-stat-increase-item">
+                                        <div className="character-bonuce-stat-increase-title">{item.statParam}</div>
+                                        <div className="character-bonuce-stat-increase-str-input-wrap">
+                                            <span className="character-bonuce-stat-increase-value">
+                                                {item.value}                          
+                                            </span>
+                                        </div>
+                                        {statMode ?  
+                                            <React.Fragment key={Math.random()}>
+                                                <div className="character-bonuce-stat-increase-btns-wrap">
+                                                    <span 
+                                                        className="character-bonuce-stat-increase-plus" 
+                                                        onClick={((e) => bonuceSpendHandler(e, 1, item))}
+                                                    >+</span>
+                                                    <span 
+                                                        className="character-bonuce-stat-increase-min" 
+                                                        onClick={((e) => bonuceSpendHandler(e, 0, item))}
+                                                    >-</span>
+                                                </div>
+                                            </React.Fragment>
+                                        :  
+                                            <React.Fragment key={Math.random()}>
+                                                {bonuceStatState.bonuces.map((bonuce) => {
+                                                    if (bonuce.stat === item.statParam) {
+                                                        return (
+                                                            <React.Fragment key={Math.random()}>
+                                                                <div className="character-bonuce-stat-increase-btns-wrap">
+                                                                <span className="character-bonuce-stat-auto-increase">bonuce: + ({bonuce.value})</span>
+                                                            </div>
+                                                            </React.Fragment>
+                                                        )
+                                                    }
+                                                })}
+                                            </React.Fragment>
+                                        }
                                     </div>
                                 </div>
-
-                            </div>
-                        </React.Fragment>
-                    )
+                            </React.Fragment>
+                        )
+                    }
                 })}
-                {/* <div className="character-bonuce-stat-increase-row">
-                    <div className="character-bonuce-stat-increase-item">
-                        <div className="character-bonuce-stat-increase-title">STR</div>
-                            <div className="character-bonuce-stat-increase-str-input-wrap"><input type="text" /></div>
-                            <div className="character-bonuce-stat-increase-btns-wrap">
-                                <span className="character-bonuce-stat-increase-plus">+</span>
-                                <span className="character-bonuce-stat-increase-min">-</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div className="character-bonuce-stat-increase-row">
-                        <div className="character-bonuce-stat-increase-item">
-                            <div className="character-bonuce-stat-increase-title">DEX</div>
-                            <div className="character-bonuce-stat-increase-str-input-wrap">
-                                <input type="text" />
-                            </div>
-                            <div className="character-bonuce-stat-increase-btns-wrap">
-                                <span className="character-bonuce-stat-increase-plus">+</span>
-                                <span className="character-bonuce-stat-increase-min">-</span>
-                            </div>
-                        </div>
-                            
-                </div>
-
-                
-                <div className="character-bonuce-stat-increase-row">
-                    <div className="character-bonuce-stat-increase-item">
-                        <div className="character-bonuce-stat-increase-title">CON</div>
-                            <div className="character-bonuce-stat-increase-str-input-wrap">
-                                <input type="text" />
-                            </div>
-                            <div className="character-bonuce-stat-increase-btns-wrap">
-                                <span className="character-bonuce-stat-increase-plus">+</span>
-                                <span className="character-bonuce-stat-increase-min">-</span>
-                            </div>
-                        </div>
-                            
-                    </div>
-
-                    <div className="character-bonuce-stat-increase-row">
-                        <div className="character-bonuce-stat-increase-item">
-                            <div className="character-bonuce-stat-increase-title">INT</div>
-                            <div className="character-bonuce-stat-increase-str-input-wrap">
-                                <input type="text" />
-                            </div>
-                            <div className="character-bonuce-stat-increase-btns-wrap">
-                                <span className="character-bonuce-stat-increase-plus">+</span>
-                                <span className="character-bonuce-stat-increase-min">-</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div className="character-bonuce-stat-increase-row">
-                        <div className="character-bonuce-stat-increase-item">
-                            <div className="character-bonuce-stat-increase-title">WIS</div>
-                            <div className="character-bonuce-stat-increase-str-input-wrap">
-                                <input type="text" />
-                            </div>
-                            <div className="character-bonuce-stat-increase-btns-wrap">
-                                <span className="character-bonuce-stat-increase-plus">+</span>
-                                <span className="character-bonuce-stat-increase-min">-</span>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                    <div className="character-bonuce-stat-increase-row">
-                        <div className="character-bonuce-stat-increase-item">
-                            <div className="character-bonuce-stat-increase-title">CHA</div>
-                            <div className="character-bonuce-stat-increase-str-input-wrap">
-                                <input className="text" />
-                            </div>
-                            <div className="character-bonuce-stat-increase-btns-wrap">
-                                <span className="character-bonuce-stat-increase-plus">+</span>
-                                <span className="character-bonuce-stat-increase-min">-</span>
-                            </div>
-                        </div>
-                    </div> */}
 
                     <div className="character-bonuce-stat-increase-title-bottom-wrap">
                         <div className="character-bonuce-stat-increase-title-bottom">
-                            Remaining points 0/{bonuceStatState.bonuceCount}
+                            Remaining points 0/{statIncreaseCount}
                         </div>
                     </div>
 

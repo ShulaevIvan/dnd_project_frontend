@@ -29,6 +29,13 @@ const initialState = {
     minHitDice: 0,
     maxHitDice: 0,
     subraceActive: undefined,
+    statsModifers: [0, 0, 0, 0, 0, 0],
+    statsRollCount: 0,
+    increaseStatsCount: 0,
+    statsTotalRoll: [0, 0, 0, 0, 0, 0],
+    statSelectedRoll: [],
+    resultCharStats: [],
+    resultCharStatsBackup: [],
 };
 
 const calculateStatsSlice = createSlice({
@@ -65,13 +72,87 @@ const calculateStatsSlice = createSlice({
         addBaseHits(state, action) {
             state.minHitDice = action.payload.minHits;
             state.maxHitDice = action.payload.maxHits;
-        }
+        },
+        generateStatsRoll(state, action) {
+            const dice = action.payload.dice;
+            const count = action.payload.count;
+            let name = undefined;
+            let diceNumTmpArr = []
+            const resultArr = []
+
+            state.statsTotalRoll = [];
+            state.statsRollCount += 1;
+
+            for (let i = 0; i < 6; i += 1) {
+                for (let j = 0; j < count; j += 1) {
+                    const randStatNum = Math.floor(1  + Math.random() * (dice + 1 - 1));
+                    diceNumTmpArr.push(randStatNum)
+                }
+                const minNum = Math.min.apply(null, diceNumTmpArr);
+                const minNumIndex = diceNumTmpArr.indexOf(minNum);
+                diceNumTmpArr.pop(minNumIndex);
+                diceNumTmpArr = diceNumTmpArr.reduce((prev, next) => {
+                    return prev+next;
+                });
+                
+                resultArr.push(diceNumTmpArr);
+                diceNumTmpArr = [];
+            }
+            
+            state.statsTotalRoll = [...resultArr];
+        },
+        generateStatsModif(state, action) {
+            state.resultCharStats = [];
+            const statsArr = action.payload;
+            const statsModifers = statsArr.map((statValue, i) => {
+                const modif = Math.floor((Number(statValue) - 10) / 2);
+                return {id: Math.floor(Math.random() * 1000), value: statValue, modifer:modif};
+            })
+            state.statsModifers = [...statsModifers];
+        },
+        spendStatFormRoll(state, action) {
+            const statChange = action.payload;
+            state.resultCharStats = [...state.resultCharStats]
+                .filter((item) => item.statParam !== statChange.statParam && item.statParam);
+            
+            if (state.resultCharStats.find((item) => item.id === statChange.id)) {
+                state.resultCharStats = [
+                    ...state.resultCharStats.filter((item) => item.id !== statChange.id && item.statParam),
+                    statChange,
+                ];
+                return;
+            }
+            
+            state.resultCharStats = [...state.resultCharStats, statChange];
+        },
+        backupCharStats(state) {
+            if (state.resultCharStatsBackup.length === 0) {
+                state.resultCharStatsBackup = [...state.statsModifers];
+                return;
+            }
+            state.characterSum.resultCharStats = [];
+            
+        },
+        restoreCharStats(state) {
+            if (state.resultCharStatsBackup.length > 0) {
+                state.statsModifers = [...state.resultCharStatsBackup];
+                state.resultCharStatsBackup = [];
+                return;
+            }
+        },
+
     }
 });
 
 export const {
     addBaseStats,
     addBaseHits,
+    generateStatsRoll,
+    generateStatsModif,
+    spendStatFormRoll,
+    backupCharStats,
+    restoreCharStats,
+    addBonuceStatsFromRoll
 
 } = calculateStatsSlice.actions;
 

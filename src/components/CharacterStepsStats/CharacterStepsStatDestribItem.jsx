@@ -1,10 +1,10 @@
 import React from "react";
 import { useRef, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { spendStatFormRoll } from "../../redux/slices/characterStepsSlice";
+import { spendStatFormRoll } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsStatsDestribItem = (props) => {
-    const charResultStats = useSelector((state) => state.characterSteps.characterSum.resultCharStats);
+    const charResultStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const dispatch = useDispatch();
     const selectStatRef = useRef(null);
 
