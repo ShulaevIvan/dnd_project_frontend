@@ -49,8 +49,6 @@ const CharacterStepsPreviewClass = () => {
                 <div className="class-saving-throws">
                     <span className="class-view-title-span">Мастерство спасбросков</span>
                         <div className="class-saving-throws-description">
-                            
-                            {console.log(classState)}
                             <p>{classState.classSaveThrows ? classState.classSaveThrows.map((item) =>{
                                 return `${item.name.charAt(0).toUpperCase() + item.name.slice(1)}, `
                             }): null}</p>

@@ -13,7 +13,6 @@ const CharacterSteps = () => {
 
     const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
     let bodyElem;
-    console.log(stepNum)
 
     switch(stepNum) {
         case 1:

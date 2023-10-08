@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
 import {
     generateStatsRoll, 
     generateStatsModif, 
@@ -35,7 +35,7 @@ const DiceRollModule = () => {
 
     useEffect(() => {
         dispatch(resetCharStats());
-    }, [])
+    }, []);
 
     return (
         <React.Fragment>
