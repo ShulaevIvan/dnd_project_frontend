@@ -106,14 +106,13 @@ const calculateStatsSlice = createSlice({
             const statsArr = action.payload;
             const statsModifers = statsArr.map((statValue, i) => {
                 const modif = Math.floor((Number(statValue) - 10) / 2);
-                return {id: Math.floor(Math.random() * 1000), value: statValue, modifer:modif};
+                return {id: Math.floor(Math.random() * 1000), value: statValue, modifer: modif};
             })
             state.statsModifers = [...statsModifers];
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
-            state.resultCharStats = [...state.resultCharStats]
-                .filter((item) => item.statParam !== statChange.statParam && item.statParam);
+            state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam && item.statParam);
             
             if (state.resultCharStats.find((item) => item.id === statChange.id)) {
                 state.resultCharStats = [
@@ -140,6 +139,28 @@ const calculateStatsSlice = createSlice({
                 return;
             }
         },
+        resetCharStats(state) {
+            state.statsModifers = [0, 0, 0, 0, 0, 0];
+            state.statsRollCount = 0;
+            state.increaseStatsCount = 0;
+            state.statsTotalRoll = [0, 0, 0, 0, 0, 0];
+            state.statSelectedRoll = [];
+            state.resultCharStats = [];
+            state.resultCharStatsBackup = [];
+            
+        },
+        recalcModifers(state) {
+            state.resultCharStats = [...state.resultCharStats.map((item) => {
+                const modif = Math.floor((Number(item.value) - 10) / 2);
+                return (
+                    {
+                        ...item,
+                        modifer: modif,
+
+                    }
+                )
+            })]
+        }
 
     }
 });
@@ -149,10 +170,12 @@ export const {
     addBaseHits,
     generateStatsRoll,
     generateStatsModif,
+    addBonuceStatToRoll,
     spendStatFormRoll,
     backupCharStats,
     restoreCharStats,
-    addBonuceStatsFromRoll
+    resetCharStats,
+    recalcModifers
 
 } = calculateStatsSlice.actions;
 

@@ -7,11 +7,12 @@ import {
     generateStatsModif, 
     backupCharStats, 
     restoreCharStats,
+    resetCharStats,
 } from '../../redux/slices/calculateStatsSlice';
 
 const DiceRollModule = () => {
     const dispatch = useDispatch();
-    const rollCounter = useSelector((state) => state.characterSteps.statsRollCount);
+    const rollCounter = useSelector((state) => state.calculateCharStats.statsRollCount);
     const totalStatsRoll = useSelector((state) => state.calculateCharStats.statsTotalRoll);
     const rollBackCharStats = useSelector((state) => state.calculateCharStats.resultCharStatsBackup);
     
@@ -26,13 +27,15 @@ const DiceRollModule = () => {
             return;
         }
         dispatch(restoreCharStats());
-        
     };
 
     useEffect(() => {
-        console.log(totalStatsRoll)
         dispatch(generateStatsModif(totalStatsRoll));
     }, [totalStatsRoll]);
+
+    useEffect(() => {
+        dispatch(resetCharStats());
+    }, [])
 
     return (
         <React.Fragment>

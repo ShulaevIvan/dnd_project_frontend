@@ -230,7 +230,9 @@
 }
 .character-bonuce-stat-increase-btns-wrap {
     display: flex;
-    max-width: 33%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
     margin-right: 5px;
 }
 .character-bonuce-stat-increase-btns-wrap .character-bonuce-stat-auto-increase {

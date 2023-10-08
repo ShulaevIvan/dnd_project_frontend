@@ -12,7 +12,7 @@ const CharacterStepsPreiewStats = () => {
             'str_bonuce': 'STR',
             'dex_bonuce': 'DEX',
             'con_bonuce': 'CON',
-            'int_bonuce': 'STR',
+            'int_bonuce': 'INT',
             'wis_bonuce': 'WIS',
             'cha_bonuce': 'CHA',
         }
@@ -87,7 +87,12 @@ const CharacterStepsPreiewStats = () => {
                                                         return (
                                                             <React.Fragment key={Math.random()}>
                                                                 <div className="character-bonuce-stat-increase-btns-wrap">
-                                                                <span className="character-bonuce-stat-auto-increase">bonuce: + ({bonuce.value})</span>
+                                                                <span className="character-bonuce-stat-auto-increase">
+                                                                    bonuce: + ({bonuce.value})
+                                                                </span>
+                                                                <span>
+                                                                    modifer {Math.sign(item.modifer) === 1 ? `+${item.modifer}` : `${item.modifer}`}
+                                                                </span>
                                                             </div>
                                                             </React.Fragment>
                                                         )
