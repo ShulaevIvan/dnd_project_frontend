@@ -36,6 +36,8 @@ const initialState = {
     statSelectedRoll: [],
     resultCharStats: [],
     resultCharStatsBackup: [],
+    backupRaceStats: [],
+    disableStatSelectors: []
 };
 
 const calculateStatsSlice = createSlice({
@@ -80,6 +82,9 @@ const calculateStatsSlice = createSlice({
             let diceNumTmpArr = []
             const resultArr = []
 
+            if (state.statsRollCount === 0) state.backupRaceStats = state.totalStats;
+            state.totalStats = state.backupRaceStats;
+            state.disableStatSelectors = [];
             state.statsTotalRoll = [];
             state.statsRollCount += 1;
 
@@ -134,8 +139,10 @@ const calculateStatsSlice = createSlice({
         },
         restoreCharStats(state) {
             if (state.resultCharStatsBackup.length > 0) {
+                state.totalStats = state.backupRaceStats;
                 state.statsModifers = [...state.resultCharStatsBackup];
                 state.resultCharStatsBackup = [];
+                state.disableStatSelectors = [];
                 return;
             }
         },
@@ -160,6 +167,16 @@ const calculateStatsSlice = createSlice({
                     }
                 )
             })]
+        },
+        addCharStats(state, action) {
+            const statType = action.payload.statParam.toLowerCase();
+            state.totalStats = {
+                ...state.totalStats,
+                [statType]: action.payload.value
+            }
+        },
+        disableSelectStat(state, action) {
+            state.disableStatSelectors = [...state.disableStatSelectors, action.payload]
         }
 
     }
@@ -175,7 +192,9 @@ export const {
     backupCharStats,
     restoreCharStats,
     resetCharStats,
-    recalcModifers
+    recalcModifers,
+    addCharStats,
+    disableSelectStat
 
 } = calculateStatsSlice.actions;
 

@@ -169,8 +169,24 @@
 }
 .character-bonuce-stats-preview-title {
     font-size: 24px;
-    margin-bottom: 5px;
     width: 100%;
+}
+.character-bonuce-stat-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+.character-bonuce-stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.character-bonuce-stats-preview-bonuces {
+    margin-bottom: 20px;
 }
 .character-bonuce-stats-preview-subtitle {
     margin-bottom: 20px;
