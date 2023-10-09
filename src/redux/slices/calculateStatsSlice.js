@@ -219,11 +219,12 @@ const calculateStatsSlice = createSlice({
             if (calcType) {
                 modifer = 0;
                 statValue = action.payload.data.value + 1;
-                if (statValue > 15 || state.currentStatBuyPoints >= 27 && calcType) return;
-                if (statValue === state.statPrice.minValue) modifer = 0;
-                else if (statValue <= 13 && statValue !== 8) modifer = statValue - state.statPrice.minValue;
+                if (statValue > 15 && calcType) return;
+                if (statValue === state.statPrice.minValue || statValue === 9) modifer = 0;
+                else if (statValue <= 13 && statValue !== 9) modifer = statValue - state.statPrice.minValue;
                 else if (statValue === 14) modifer = (statValue - 1 - state.statPrice.minValue) + state.statPrice.modifer + 1;
                 else if (statValue === 15) modifer = (statValue -1 - state.statPrice.minValue) + state.statPrice.modifer + 2;
+                if (modifer !== 0 && state.currentStatBuyPoints >= 27 && calcType) return;
             }
             else {
                 statValue = action.payload.data.value - 1;
@@ -244,6 +245,7 @@ const calculateStatsSlice = createSlice({
                 }
                 return item;
             });
+            
             state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
         },
     }

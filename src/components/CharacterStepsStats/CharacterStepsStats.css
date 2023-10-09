@@ -268,3 +268,15 @@
     width: 100%;
     justify-content: center;
 }
+.character-steps-dice-apply-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-steps-dice-max-points-title {
+    font-size: 16px;
+    padding-right: 10px;
+}
+.character-steps-dice-max-points-value {
+    font-size: 20px;
+}

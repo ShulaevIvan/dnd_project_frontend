@@ -7,6 +7,8 @@ const CharacterStepsPreiewStats = () => {
     const statIncreaseCount = useSelector((state) => state.characterSteps.increaseStatsCount);
     const statMode = useSelector((state) => state.characterSteps.statModeSwitcher);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
+    const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
+    const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
 
     return (
         <React.Fragment>
@@ -74,7 +76,7 @@ const CharacterStepsPreiewStats = () => {
 
             <div className="character-bonuce-stat-increase-title-bottom-wrap">
                 <div className="character-bonuce-stat-increase-title-bottom">
-                    {statMode ? `Remaining points 0/${{statIncreaseCount}}`: null }
+                    {statMode ? `Remaining points ${maxStatPoints-spendedStatPoints}/${maxStatPoints}`: null }
                             
                 </div>
             </div>

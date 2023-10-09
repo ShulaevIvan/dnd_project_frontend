@@ -1,16 +1,13 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { buyStats } from "../../redux/slices/calculateStatsSlice";
+import { buyStats, resetCharStats } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
     const dispatch = useDispatch();
     const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
-    const currentPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
-
-    useEffect(() => {
-        // console.log(currentPoints)
-    }, [currentPoints]);
+    const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
+    const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
 
     const plusHandler = (e, statObj) => {
         dispatch(buyStats({data: statObj, plus: true}));
@@ -19,6 +16,10 @@ const CharacterChooseDice = () => {
     const minHandler = (e, statObj) => {
         dispatch(buyStats({data: statObj, plus: false}));
     }
+
+    useEffect(() => {
+        dispatch(resetCharStats());
+    }, [])
 
     return (
         <React.Fragment>
@@ -30,7 +31,7 @@ const CharacterChooseDice = () => {
                 <div className="character-steps-dice-row">
                     {charStats ? charStats.map((item) => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={Math.random()}>
                                 <div className="character-steps-hand-dice-item">
                                     <div className="character-steps-hand-dice-title">
                                         <h5>{item.name.toUpperCase()}</h5>
@@ -45,8 +46,7 @@ const CharacterChooseDice = () => {
 
                                     <div className="character-steps-dice-sum-wrap">
                                         <div className="character-steps-dice-sum">
-                                            <span className="character-steps-dice-value">{item.value} +</span>
-                                            <span className="character-steps-dice-value-bonuce">{item.spend}</span>
+                                            <span className="character-steps-dice-value-bonuce">{item.spend > 0 ? `-${item.spend}` : 0}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -55,10 +55,14 @@ const CharacterChooseDice = () => {
                     }) : null}
                 </div>
 
+                <div className="character-steps-dice-max-points-wrap">
+                        <span className="character-steps-dice-max-points-title">Всего очков:</span>
+                        <span className="character-steps-dice-max-points-value">{maxStatPoints - spendedStatPoints}</span>
+                </div>
+
                 <div className="character-steps-dice-apply-wrap">
                     <div className="character-steps-dice-apply-btn">
-                        {/* <button>Запомнить</button> */}
-                        {27 - currentPoints}
+                        <button>Запомнить</button>
                     </div>
                 </div>         
             </div>
