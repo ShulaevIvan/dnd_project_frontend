@@ -37,7 +37,26 @@ const initialState = {
     resultCharStats: [],
     resultCharStatsBackup: [],
     backupRaceStats: [],
-    disableStatSelectors: []
+    disableStatSelectors: [],
+    statBuyPoints: 27,
+    currentStatBuyPoints: 0,
+    statPrice: {maxValue: 13, minValue: 8, modifer: 1},
+    charStatsTotal: [
+        {name: 'str', value: 8, spend: 0},
+        {name: 'dex', value: 8, spend: 0},
+        {name: 'con', value: 8, spend: 0},
+        {name: 'int', value: 8, spend: 0},
+        {name: 'wis', value: 8, spend: 0},
+        {name: 'cha', value: 8, spend: 0},
+    ],
+    spendPointsByStat: [
+        {name: 'str', spend: 0},
+        {name: 'dex', spend: 0},
+        {name: 'con', spend: 0},
+        {name: 'int', spend: 0},
+        {name: 'wis', spend: 0},
+        {name: 'cha', spend: 0},
+    ]
 };
 
 const calculateStatsSlice = createSlice({
@@ -147,6 +166,8 @@ const calculateStatsSlice = createSlice({
             }
         },
         resetCharStats(state) {
+            if (state.statsRollCount === 0) state.backupRaceStats = state.totalStats;
+            state.totalStats = state.backupRaceStats;
             state.statsModifers = [0, 0, 0, 0, 0, 0];
             state.statsRollCount = 0;
             state.increaseStatsCount = 0;
@@ -154,6 +175,16 @@ const calculateStatsSlice = createSlice({
             state.statSelectedRoll = [];
             state.resultCharStats = [];
             state.resultCharStatsBackup = [];
+            state.currentStatBuyPoints =  0;
+            state.statPrice = {maxValue: 13, minValue: 8, modifer: 1};
+            state.charStatsTotal = [
+                {name: 'str', value: 8, spend: 0},
+                {name: 'dex', value: 8, spend: 0},
+                {name: 'con', value: 8, spend: 0},
+                {name: 'int', value: 8, spend: 0},
+                {name: 'wis', value: 8, spend: 0},
+                {name: 'cha', value: 8, spend: 0},
+            ];
             
         },
         recalcModifers(state) {
@@ -177,8 +208,44 @@ const calculateStatsSlice = createSlice({
         },
         disableSelectStat(state, action) {
             state.disableStatSelectors = [...state.disableStatSelectors, action.payload]
-        }
+        },
+        buyStats(state, action) {
+            state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
+            const calcType = action.payload.plus;
+            const statName = action.payload.data.name;
+            let statValue = action.payload.data.value;
+            let modifer = 0;
 
+            if (calcType) {
+                modifer = 0;
+                statValue = action.payload.data.value + 1;
+                if (statValue > 15 || state.currentStatBuyPoints >= 27 && calcType) return;
+                if (statValue === state.statPrice.minValue) modifer = 0;
+                else if (statValue <= 13 && statValue !== 8) modifer = statValue - state.statPrice.minValue;
+                else if (statValue === 14) modifer = (statValue - 1 - state.statPrice.minValue) + state.statPrice.modifer + 1;
+                else if (statValue === 15) modifer = (statValue -1 - state.statPrice.minValue) + state.statPrice.modifer + 2;
+            }
+            else {
+                statValue = action.payload.data.value - 1;
+                if (statValue < 8 && !calcType) return;
+                if (action.payload.data.value === state.statPrice.minValue) modifer = 0;
+                if (statValue === 15) modifer = 9;
+                else if (statValue === 14) modifer = 7;
+                else if (statValue <= 13 && statValue > 8) modifer = statValue - state.statPrice.minValue;
+            }
+
+            state.charStatsTotal = [...state.charStatsTotal].map((item) => {
+                if (item.name === statName) {
+                    return {
+                        ...item,
+                        value: statValue,
+                        spend: modifer
+                    }
+                }
+                return item;
+            });
+            state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
+        },
     }
 });
 
@@ -194,7 +261,8 @@ export const {
     resetCharStats,
     recalcModifers,
     addCharStats,
-    disableSelectStat
+    disableSelectStat,
+    buyStats
 
 } = calculateStatsSlice.actions;
 

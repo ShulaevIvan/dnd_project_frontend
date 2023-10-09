@@ -1,6 +1,25 @@
 import React from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { buyStats } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
+    const dispatch = useDispatch();
+    const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
+    const currentPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
+
+    useEffect(() => {
+        // console.log(currentPoints)
+    }, [currentPoints]);
+
+    const plusHandler = (e, statObj) => {
+        dispatch(buyStats({data: statObj, plus: true}));
+    };
+
+    const minHandler = (e, statObj) => {
+        dispatch(buyStats({data: statObj, plus: false}));
+    }
+
     return (
         <React.Fragment>
             <div className="character-steps-dice-wrap">
@@ -9,131 +28,37 @@ const CharacterChooseDice = () => {
                 </div>
                             
                 <div className="character-steps-dice-row">
-                    <div className="character-steps-hand-dice-item">
-                        <div className="character-steps-hand-dice-title">
-                            <h5>STR</h5>
-                        </div>
+                    {charStats ? charStats.map((item) => {
+                        return (
+                            <React.Fragment>
+                                <div className="character-steps-hand-dice-item">
+                                    <div className="character-steps-hand-dice-title">
+                                        <h5>{item.name.toUpperCase()}</h5>
+                                    </div>
 
-                        <div className="character-steps-dice-item">
-                            <span className="dice-value">10</span>
-                            <div className="dice-value-plus">+</div>
-                            <div className="dice-value-min">-</div>
-                            <div className="dice-value-modif">+0</div>
-                        </div>
+                                    <div className="character-steps-dice-item">
+                                        <span className="dice-value">{item.value}</span>
+                                        <div className="dice-value-plus" onClick={(e) => plusHandler(e, item)}>+</div>
+                                        <div className="dice-value-min" onClick={(e) => minHandler(e, item)}>-</div>
+                                        <div className="dice-value-modif">+0</div>
+                                    </div>
 
-                        <div className="character-steps-dice-sum-wrap">
-                            <div className="character-steps-dice-sum">
-                                <span className="character-steps-dice-value">10 +</span>
-                                <span className="character-steps-dice-value-bonuce">2</span>
-                            </div>
-                        </div>
-                    </div>
-                                
-                    <div className="character-steps-hand-dice-item">
-                        <div className="character-steps-hand-dice-title">
-                            <h5>DEX</h5>
-                        </div>
-
-                        <div className="character-steps-dice-item">
-                            <span className="dice-value">14</span>
-                            <div className="dice-value-plus">+</div>
-                            <div className="dice-value-min">-</div>
-                            <div className="dice-value-modif">+2</div>
-                        </div>
-
-                        <div className="character-steps-dice-sum-wrap">
-                            <div className="character-steps-dice-sum">
-                                <span className="character-steps-dice-value">14 +</span>
-                                <span className="character-steps-dice-value-bonuce">2</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="character-steps-hand-dice-item">
-                        <div className="character-steps-hand-dice-title">
-                            <h5>CON</h5>
-                        </div>
-
-                        <div className="character-steps-dice-item">
-                            <span className="dice-value">16</span>
-                            <div className="dice-value-plus">+</div>
-                            <div className="dice-value-min">-</div>
-                            <div className="dice-value-modif">+3</div>
-                        </div>
-
-                        <div className="character-steps-dice-sum-wrap">
-                            <div className="character-steps-dice-sum">
-                                <span className="character-steps-dice-value">16 +</span>
-                                <span className="character-steps-dice-value-bonuce">2</span>
-                            </div>
-                        </div>
-  
-                        </div>
-                                
-                    <div className="character-steps-hand-dice-item">
-                        <div className="character-steps-hand-dice-title">
-                            <h5>INT</h5>
-                        </div>
-
-                        <div className="character-steps-dice-item">
-                            <span className="dice-value">0</span>
-                            <div className="dice-value-plus">+</div>
-                            <div className="dice-value-min">-</div>
-                            <div className="dice-value-modif">+0</div>
-                        </div>
-
-                        <div className="character-steps-dice-sum-wrap">
-                            <div className="character-steps-dice-sum">
-                                <span className="character-steps-dice-value">0 +</span>
-                                <span className="character-steps-dice-value-bonuce">2</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="character-steps-hand-dice-item">
-                        <div className="character-steps-hand-dice-title">
-                            <h5>WIS</h5>
-                        </div>
-
-                        <div className="character-steps-dice-item">
-                            <span className="dice-value">0</span>
-                            <div className="dice-value-plus">+</div>
-                            <div className="dice-value-min">-</div>
-                            <div className="dice-value-modif">+0</div>
-                        </div>
-                                    
-                        <div className="character-steps-dice-sum-wrap">
-                            <div className="character-steps-dice-sum">
-                                <span className="character-steps-dice-value">0 +</span>
-                                <span className="character-steps-dice-value-bonuce">2</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="character-steps-hand-dice-item">
-                        <div className="character-steps-hand-dice-title">
-                            <h5>CHA</h5>
-                        </div>
-
-                        <div className="character-steps-dice-item">
-                            <span className="dice-value">0</span>
-                            <div className="dice-value-plus">+</div>
-                            <div className="dice-value-min">-</div>
-                            <div className="dice-value-modif">+0</div>
-                        </div>
-
-                        <div className="character-steps-dice-sum-wrap">
-                            <div className="character-steps-dice-sum">
-                                <span className="character-steps-dice-value">0 +</span>
-                                <span className="character-steps-dice-value-bonuce">2</span>
-                            </div>
-                        </div>
-                    </div>
+                                    <div className="character-steps-dice-sum-wrap">
+                                        <div className="character-steps-dice-sum">
+                                            <span className="character-steps-dice-value">{item.value} +</span>
+                                            <span className="character-steps-dice-value-bonuce">{item.spend}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        )
+                    }) : null}
                 </div>
 
                 <div className="character-steps-dice-apply-wrap">
                     <div className="character-steps-dice-apply-btn">
-                        <button>Запомнить</button>
+                        {/* <button>Запомнить</button> */}
+                        {27 - currentPoints}
                     </div>
                 </div>         
             </div>
