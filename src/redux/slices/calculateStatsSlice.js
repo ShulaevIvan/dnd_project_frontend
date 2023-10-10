@@ -130,17 +130,22 @@ const calculateStatsSlice = createSlice({
             const statsArr = action.payload;
             const statsModifers = statsArr.map((statValue, i) => {
                 const modif = Math.floor((Number(statValue) - 10) / 2);
-                return {id: Math.floor(Math.random() * 1000), value: statValue, modifer: modif};
+                return {
+                    id: Math.floor(Math.random() * 1000), 
+                    value: statValue, 
+                    modifer: Math.sign(modif) && statValue >= 10 ? `+${modif}` : `${modif}`
+                };
             })
             state.statsModifers = [...statsModifers];
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
-            state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam && item.statParam);
+            console.log(statChange)
+            state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
             
-            if (state.resultCharStats.find((item) => item.id === statChange.id)) {
+            if (state.resultCharStats.find((item) => item.statParam === statChange.statParam)) {
                 state.resultCharStats = [
-                    ...state.resultCharStats.filter((item) => item.id !== statChange.id && item.statParam),
+                    ...state.resultCharStats.filter((item) => item.statParam !== statChange.statParam),
                     statChange,
                 ];
                 return;
@@ -193,13 +198,25 @@ const calculateStatsSlice = createSlice({
                 return (
                     {
                         ...item,
-                        modifer: modif,
+                        modifer: Math.sign(modif) && item.value >= 10 ? `+${modif}` : `${modif}`,
 
                     }
                 )
-            })]
+            })];
+            state.charStatsTotal = [...state.charStatsTotal.map((item) => {
+                const modif = Math.floor((Number(item.value) - 10) / 2);
+                return (
+                    {
+                        ...item,
+                        modifer: Math.sign(modif) && item.value >= 10 ? `+${modif}` : `${modif}`,
+
+                    }
+                )
+            })];
+            
         },
         addCharStats(state, action) {
+            console.log(action.payload)
             const statType = action.payload.statParam.toLowerCase();
             state.totalStats = {
                 ...state.totalStats,
@@ -247,7 +264,7 @@ const calculateStatsSlice = createSlice({
             });
             
             state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
-        },
+        }
     }
 });
 
@@ -264,7 +281,8 @@ export const {
     recalcModifers,
     addCharStats,
     disableSelectStat,
-    buyStats
+    buyStats,
+    addChooseCharStats
 
 } = calculateStatsSlice.actions;
 

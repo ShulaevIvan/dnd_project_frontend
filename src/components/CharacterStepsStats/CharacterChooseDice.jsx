@@ -1,25 +1,47 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { buyStats, resetCharStats } from "../../redux/slices/calculateStatsSlice";
+import { buyStats, resetCharStats, recalcModifers, spendStatFormRoll, addCharStats } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
+    const [minMaxState, setMinMaxState] = useState({
+        value: 0,
+        modifer: 0, 
+        statParam: 'STR'
+    });
     const dispatch = useDispatch();
     const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
 
     const plusHandler = (e, statObj) => {
+        console.log(statObj)
+        setMinMaxState(prevState => ({
+            ...prevState,
+            ...statObj,
+        }));
         dispatch(buyStats({data: statObj, plus: true}));
+        dispatch(spendStatFormRoll(minMaxState));
     };
 
     const minHandler = (e, statObj) => {
+        setMinMaxState(prevState => ({
+            ...prevState,
+            ...statObj,
+        }));
         dispatch(buyStats({data: statObj, plus: false}));
-    }
+        dispatch(spendStatFormRoll(minMaxState));
+    };
+
+    useEffect(() => {
+        dispatch(recalcModifers());
+        dispatch(addCharStats(minMaxState));
+    }, [minMaxState])
 
     useEffect(() => {
         dispatch(resetCharStats());
-    }, [])
+        dispatch(recalcModifers());
+    }, []);
 
     return (
         <React.Fragment>
@@ -41,7 +63,7 @@ const CharacterChooseDice = () => {
                                         <span className="dice-value">{item.value}</span>
                                         <div className="dice-value-plus" onClick={(e) => plusHandler(e, item)}>+</div>
                                         <div className="dice-value-min" onClick={(e) => minHandler(e, item)}>-</div>
-                                        <div className="dice-value-modif">+0</div>
+                                        <div className="dice-value-modif">{item.modifer}</div>
                                     </div>
 
                                     <div className="character-steps-dice-sum-wrap">

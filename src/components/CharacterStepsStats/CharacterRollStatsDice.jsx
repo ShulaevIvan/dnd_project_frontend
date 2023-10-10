@@ -21,7 +21,7 @@ const CharacterRollStatsDice = () => {
                                     <div className="character-steps-dice-item">
                                         <span className="dice-value">{item.value}</span>
                                         <div className="dice-value-modif">
-                                            {Math.sign(item.modifer) && item.value > 10 ? `+${item.modifer}` : item.modifer}
+                                            {item.modifer}
                                         </div>
                                     </div>
                                 </div>
