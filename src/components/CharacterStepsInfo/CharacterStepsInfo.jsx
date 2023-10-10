@@ -10,7 +10,10 @@ const CharacterStepsInfo = () => {
     const backgroundState = useSelector((state) => state.characterSteps.characterSum.backgroundActive);
     const charStats = useSelector((state) => state.calculateCharStats.totalStats);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
-    console.log(resultCharStats)
+
+    useEffect(() => {
+        console.log(charStats)
+    })
 
     return (
         <React.Fragment>

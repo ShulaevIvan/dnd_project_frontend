@@ -216,12 +216,29 @@ const calculateStatsSlice = createSlice({
             
         },
         addCharStats(state, action) {
-            console.log(action.payload)
+            const chooseType = action.payload.opType;
             const statType = action.payload.statParam.toLowerCase();
+            let plusValue = action.payload.value + 1;
+            let minValue = action.payload.value - 1
+            
+            
+            
+
+            if (chooseType !== undefined) {
+                if (chooseType && plusValue >= 15) plusValue = 15;
+                if (!chooseType && minValue <= 8) minValue = 8;
+
+                state.totalStats = {
+                    ...state.totalStats,
+                    [statType]: chooseType ? plusValue : minValue,
+                };
+                return;
+            }
+
             state.totalStats = {
                 ...state.totalStats,
                 [statType]: action.payload.value
-            }
+            };
         },
         disableSelectStat(state, action) {
             state.disableStatSelectors = [...state.disableStatSelectors, action.payload]

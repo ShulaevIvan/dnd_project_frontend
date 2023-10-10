@@ -15,33 +15,32 @@ const CharacterChooseDice = () => {
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
 
     const plusHandler = (e, statObj) => {
-        console.log(statObj)
+        e.stopPropagation();
+
         setMinMaxState(prevState => ({
             ...prevState,
             ...statObj,
+            statParam: prevState.statParam = statObj.name,
+            opType: prevState.opType = true,
         }));
-        dispatch(buyStats({data: statObj, plus: true}));
-        dispatch(spendStatFormRoll(minMaxState));
     };
 
     const minHandler = (e, statObj) => {
+        e.stopPropagation();
+
         setMinMaxState(prevState => ({
             ...prevState,
             ...statObj,
+            statParam: prevState.statParam = statObj.name,
+            opType: prevState.opType = false,
         }));
-        dispatch(buyStats({data: statObj, plus: false}));
-        dispatch(spendStatFormRoll(minMaxState));
     };
 
     useEffect(() => {
-        dispatch(recalcModifers());
+        dispatch(buyStats({data: minMaxState, plus: minMaxState.opType}));
         dispatch(addCharStats(minMaxState));
-    }, [minMaxState])
-
-    useEffect(() => {
-        dispatch(resetCharStats());
         dispatch(recalcModifers());
-    }, []);
+    }, [minMaxState]);
 
     return (
         <React.Fragment>
