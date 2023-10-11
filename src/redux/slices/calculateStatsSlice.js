@@ -56,7 +56,7 @@ const initialState = {
         {name: 'int', spend: 0},
         {name: 'wis', spend: 0},
         {name: 'cha', spend: 0},
-    ]
+    ],
 };
 
 const calculateStatsSlice = createSlice({
@@ -140,6 +140,7 @@ const calculateStatsSlice = createSlice({
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
+ 
             state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
             
             if (state.resultCharStats.find((item) => item.statParam === statChange.statParam)) {
@@ -149,6 +150,8 @@ const calculateStatsSlice = createSlice({
                 ];
                 return;
             }
+
+
             
             state.resultCharStats = [...state.resultCharStats, statChange];
         },
@@ -171,7 +174,7 @@ const calculateStatsSlice = createSlice({
         },
         resetCharStats(state) {
             if (state.statsRollCount === 0) state.backupRaceStats = state.totalStats;
-            state.totalStats = state.backupRaceStats;
+            state.totalStats = [];
             state.statsModifers = [0, 0, 0, 0, 0, 0];
             state.statsRollCount = 0;
             state.increaseStatsCount = 0;
@@ -192,7 +195,9 @@ const calculateStatsSlice = createSlice({
             ];
             
         },
-        recalcModifers(state) {
+        recalcModifers(state, action) {
+            const raceBonuces = action.payload;;
+
             state.resultCharStats = [...state.resultCharStats.map((item) => {
                 const modif = Math.floor((Number(item.value) - 10) / 2);
                 return (
@@ -203,6 +208,7 @@ const calculateStatsSlice = createSlice({
                     }
                 )
             })];
+
             state.charStatsTotal = [...state.charStatsTotal.map((item) => {
                 const modif = Math.floor((Number(item.value) - 10) / 2);
                 return (
@@ -218,6 +224,7 @@ const calculateStatsSlice = createSlice({
         addCharStats(state, action) {
             const chooseType = action.payload.opType;
             const statType = action.payload.statParam.toLowerCase();
+
             let plusValue = action.payload.value + 1;
             let minValue = action.payload.value - 1
             
@@ -278,6 +285,17 @@ const calculateStatsSlice = createSlice({
             });
             
             state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
+        },
+        addRaceBonuces(state, action) {
+            const bonuces = action.payload;
+
+            state.charStatsTotal = [...state.charStatsTotal].map((item) => {
+                return {
+                    ...item,
+                    value: bonuces.find((bonuce) => bonuce.name === item.name).value + item.value
+                }
+            });
+
         }
     }
 });
@@ -296,7 +314,8 @@ export const {
     addCharStats,
     disableSelectStat,
     buyStats,
-    addChooseCharStats
+    addChooseCharStats,
+    addRaceBonuces
 
 } = calculateStatsSlice.actions;
 

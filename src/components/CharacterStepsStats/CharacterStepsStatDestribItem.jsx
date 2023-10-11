@@ -13,14 +13,14 @@ const CharacterStepsStatsDestribItem = (props) => {
 
     const chooseStatHandler = (e, statObj) => {
         const convertStats = {
-            'str_bonuce': 'STR',
-            'dex_bonuce': 'DEX',
-            'con_bonuce': 'CON',
-            'int_bonuce': 'INT',
-            'wis_bonuce': 'WIS',
-            'cha_bonuce': 'CHA',
+            'str_bonuce': 'str',
+            'dex_bonuce': 'dex',
+            'con_bonuce': 'con',
+            'int_bonuce': 'int',
+            'wis_bonuce': 'wis',
+            'cha_bonuce': 'cha',
         };
-        
+
         const statToStateObj = {
             ...statObj,
             statParam: selectStatRef.current.value.toLowerCase(),
@@ -41,19 +41,19 @@ const CharacterStepsStatsDestribItem = (props) => {
         if (selectedParam) {
             selectStatRef.current.value = selectedParam.statParam;
         }
-    });
+    }, [selectStatRef]);
 
     return (
         <React.Fragment>
             <div className="character-steps-result-dice-item">   
                 <select disabled={disabledSelectors.find((item) => item.id === props.id)} ref={selectStatRef} className="stat-select" onChange={(e) => chooseStatHandler(e, props)}>
                     <option>{selectStatRef.current ? selectStatRef.current.value : null}</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'STR')}>STR</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'DEX')}>DEX</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'CON')}>CON</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'INT')}>INT</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'WIS')}>WIS</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'CHA')}>CHA</option>
+                    <option disabled={disabledSelectors.find((item) => item.stat === 'str')}>STR</option>
+                    <option disabled={disabledSelectors.find((item) => item.stat === 'dex')}>DEX</option>
+                    <option disabled={disabledSelectors.find((item) => item.stat === 'con')}>CON</option>
+                    <option disabled={disabledSelectors.find((item) => item.stat === 'int')}>INT</option>
+                    <option disabled={disabledSelectors.find((item) => item.stat === 'wis')}>WIS</option>
+                    <option disabled={disabledSelectors.find((item) => item.stat === 'cha')}>CHA</option>
                 </select>
             </div>
         </React.Fragment>

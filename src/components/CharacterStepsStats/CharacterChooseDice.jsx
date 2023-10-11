@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { buyStats, recalcModifers, addCharStats, spendStatFormRoll } from "../../redux/slices/calculateStatsSlice";
+import { buyStats, recalcModifers, addCharStats, spendStatFormRoll, addRaceBonuces} from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
     const [minMaxState, setMinMaxState] = useState({
@@ -13,18 +13,18 @@ const CharacterChooseDice = () => {
     const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
-    const raceBonuces = useSelector((state) => state.ch)
+    const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
+   
 
     const plusHandler = (e, statObj) => {
-        console.log(statObj)
         e.stopPropagation();
-
         setMinMaxState(prevState => ({
             ...prevState,
             ...statObj,
             value: prevState.value = statObj.value,
             statParam: prevState.statParam = statObj.name,
             opType: prevState.opType = true,
+            raceBonuces: prevState.raceBonuces = statRaceBonuce,
         }));
     };
 
@@ -40,8 +40,7 @@ const CharacterChooseDice = () => {
     };
 
     useEffect(() => {
-        if (minMaxState.statParam) {
-            console.log(minMaxState)
+        if (minMaxState.statParam ) {
             dispatch(spendStatFormRoll({...minMaxState}))
             dispatch(buyStats({data: minMaxState, plus: minMaxState.opType}));
             dispatch(addCharStats(minMaxState));
@@ -49,6 +48,20 @@ const CharacterChooseDice = () => {
         }
       
     }, [minMaxState]);
+
+    // useEffect(() => {
+    //     console.log(spendedStatPoints)
+    //     const convertStats = [
+    //         {name: 'str', value: statRaceBonuce.str_bonuce,},
+    //         {name: 'dex', value: statRaceBonuce.dex_bonuce,},
+    //         {name: 'con', value: statRaceBonuce.con_bonuce,},
+    //         {name: 'int', value: statRaceBonuce.int_bonuce,},
+    //         {name: 'wis', value: statRaceBonuce.wis_bonuce,},
+    //         {name: 'cha', value: statRaceBonuce.cha_bonuce,},
+    //     ]
+    //     dispatch(addRaceBonuces(convertStats))
+
+    // }, [spendedStatPoints])
 
     return (
         <React.Fragment>

@@ -1,6 +1,8 @@
 import React from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { statSwitcherMode } from "../../redux/slices/characterStepsSlice";
+import { resetCharStats } from "../../redux/slices/calculateStatsSlice";
 
 
 const ChooseStatsMode = () => {
@@ -16,6 +18,9 @@ const ChooseStatsMode = () => {
         dispatch(statSwitcherMode(1));
     };
     
+    useEffect(() => {
+        dispatch(resetCharStats());
+    }, [switcherState])
 
     return (
         <React.Fragment>
