@@ -41,7 +41,7 @@ const CharacterStepsPreiewStats = () => {
                             <React.Fragment key={Math.random()}>
                                 <div className="character-bonuce-stat-increase-row">
                                     <div className="character-bonuce-stat-increase-item">
-                                        <div className="character-bonuce-stat-increase-title">{item.statParam}</div>
+                                        <div className="character-bonuce-stat-increase-title">{item.statParam.toUpperCase()}</div>
                                         <div className="character-bonuce-stat-increase-str-input-wrap">
                                             <span className="character-bonuce-stat-increase-value">
                                                 {item.value}                          
@@ -62,7 +62,7 @@ const CharacterStepsPreiewStats = () => {
                                             <React.Fragment key={Math.random()}>
                                                <div className="character-bonuce-stat-increase-btns-wrap">
                                                     <span>
-                                                        modifer {Math.sign(item.modifer) === 1 ? `+${item.modifer}` : `${item.modifer}`}
+                                                        modifer {Math.sign(item.modifer) === 1 ? `${item.modifer}` : `${item.modifer}`}
                                                     </span>
                                                 </div>
                                             </React.Fragment>

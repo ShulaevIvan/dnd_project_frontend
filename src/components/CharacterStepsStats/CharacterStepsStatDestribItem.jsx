@@ -23,7 +23,7 @@ const CharacterStepsStatsDestribItem = (props) => {
         
         const statToStateObj = {
             ...statObj,
-            statParam: selectStatRef.current.value
+            statParam: selectStatRef.current.value.toLowerCase(),
         };
 
         Object.entries(statRaceBonuce).forEach((statArr) => {

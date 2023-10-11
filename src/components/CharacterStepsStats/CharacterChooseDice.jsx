@@ -1,25 +1,28 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { buyStats, resetCharStats, recalcModifers, spendStatFormRoll, addCharStats } from "../../redux/slices/calculateStatsSlice";
+import { buyStats, recalcModifers, addCharStats, spendStatFormRoll } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
     const [minMaxState, setMinMaxState] = useState({
         value: 0,
         modifer: 0, 
-        statParam: 'STR'
+        statParam: ''
     });
     const dispatch = useDispatch();
     const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
+    const raceBonuces = useSelector((state) => state.ch)
 
     const plusHandler = (e, statObj) => {
+        console.log(statObj)
         e.stopPropagation();
 
         setMinMaxState(prevState => ({
             ...prevState,
             ...statObj,
+            value: prevState.value = statObj.value,
             statParam: prevState.statParam = statObj.name,
             opType: prevState.opType = true,
         }));
@@ -37,9 +40,14 @@ const CharacterChooseDice = () => {
     };
 
     useEffect(() => {
-        dispatch(buyStats({data: minMaxState, plus: minMaxState.opType}));
-        dispatch(addCharStats(minMaxState));
-        dispatch(recalcModifers());
+        if (minMaxState.statParam) {
+            console.log(minMaxState)
+            dispatch(spendStatFormRoll({...minMaxState}))
+            dispatch(buyStats({data: minMaxState, plus: minMaxState.opType}));
+            dispatch(addCharStats(minMaxState));
+            dispatch(recalcModifers());
+        }
+      
     }, [minMaxState]);
 
     return (

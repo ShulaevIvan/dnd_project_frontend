@@ -140,12 +140,11 @@ const calculateStatsSlice = createSlice({
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
-            console.log(statChange)
             state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
             
             if (state.resultCharStats.find((item) => item.statParam === statChange.statParam)) {
                 state.resultCharStats = [
-                    ...state.resultCharStats.filter((item) => item.statParam !== statChange.statParam),
+                    ...state.resultCharStats.filter((item) => item.statParam.toLowerCase() !== statChange.statParam),
                     statChange,
                 ];
                 return;
@@ -180,6 +179,7 @@ const calculateStatsSlice = createSlice({
             state.statSelectedRoll = [];
             state.resultCharStats = [];
             state.resultCharStatsBackup = [];
+            state.charStatsTotal = [];
             state.currentStatBuyPoints =  0;
             state.statPrice = {maxValue: 13, minValue: 8, modifer: 1};
             state.charStatsTotal = [
@@ -221,9 +221,6 @@ const calculateStatsSlice = createSlice({
             let plusValue = action.payload.value + 1;
             let minValue = action.payload.value - 1
             
-            
-            
-
             if (chooseType !== undefined) {
                 if (chooseType && plusValue >= 15) plusValue = 15;
                 if (!chooseType && minValue <= 8) minValue = 8;

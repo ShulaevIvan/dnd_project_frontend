@@ -12,7 +12,8 @@ const CharacterStepsInfo = () => {
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
 
     useEffect(() => {
-        console.log(charStats)
+        console.log(resultCharStats)
+        // console.log(charStats)
     })
 
     return (
@@ -50,24 +51,24 @@ const CharacterStepsInfo = () => {
                             <div className="character-stat-item-header char-stat-str">STR</div>
                             <div className="character-stat-item-body">{charStats ? charStats.str : '0'}</div>
                             <div className="character-stat-item-modif">
-                                { resultCharStats.find((stat) => stat.statParam === 'STR') ?
-                                    resultCharStats.find((stat) => stat.statParam === 'STR').modifer : '-'  }
+                                { resultCharStats.find((stat) => stat.statParam === 'str') ?
+                                    resultCharStats.find((stat) => stat.statParam === 'str').modifer : '-'  }
                             </div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-dex">DEX</div>
                             <div className="character-stat-item-body">{charStats ? charStats.dex : '0'}</div>
                             <div className="character-stat-item-modif">
-                            { resultCharStats.find((stat) => stat.statParam === 'DEX') ?
-                                    resultCharStats.find((stat) => stat.statParam === 'DEX').modifer : '-'  }
+                            { resultCharStats.find((stat) => stat.statParam === 'dex') ?
+                                    resultCharStats.find((stat) => stat.statParam === 'dex').modifer : '-'  }
                             </div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-con">CON</div>
                             <div className="character-stat-item-body">{charStats ? charStats.con : '0'}</div>
                             <div className="character-stat-item-modif">
-                            { resultCharStats.find((stat) => stat.statParam === 'CON') ?
-                                    resultCharStats.find((stat) => stat.statParam === 'CON').modifer : '-'  }
+                            { resultCharStats.find((stat) => stat.statParam === 'con') ?
+                                    resultCharStats.find((stat) => stat.statParam === 'con').modifer : '-'  }
                             </div>
                         </div>
                     </div>
@@ -76,23 +77,23 @@ const CharacterStepsInfo = () => {
                             <div className="character-stat-item-header char-stat-int">INT</div>
                             <div className="character-stat-item-body">{charStats ? charStats.int : '0'}</div>
                             <div className="character-stat-item-modif">
-                                { resultCharStats.find((stat) => stat.statParam === 'INT') ?
-                                    resultCharStats.find((stat) => stat.statParam === 'INT').modifer : '-'  }</div>
+                                { resultCharStats.find((stat) => stat.statParam === 'int') ?
+                                    resultCharStats.find((stat) => stat.statParam === 'int').modifer : '-'  }</div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-wis">WIS</div>
                             <div className="character-stat-item-body">{charStats ? charStats.wis : '0'}</div>
                             <div className="character-stat-item-modif">
-                            { resultCharStats.find((stat) => stat.statParam === 'WIS') ?
-                                    resultCharStats.find((stat) => stat.statParam === 'WIS').modifer : '-'  }
+                            { resultCharStats.find((stat) => stat.statParam === 'wis') ?
+                                    resultCharStats.find((stat) => stat.statParam === 'wis').modifer : '-'  }
                             </div>
                         </div>
                         <div className="character-steps-stats-item">
                             <div className="character-stat-item-header char-stat-cha">CHA</div>
                             <div className="character-stat-item-body">{charStats ? charStats.cha : '0'}</div>
                             <div className="character-stat-item-modif">
-                            { resultCharStats.find((stat) => stat.statParam === 'CHA') ?
-                                    resultCharStats.find((stat) => stat.statParam === 'CHA').modifer : '-' }
+                            { resultCharStats.find((stat) => stat.statParam === 'cha') ?
+                                    resultCharStats.find((stat) => stat.statParam === 'cha').modifer : '-' }
                             </div>
                         </div>
                     </div>
