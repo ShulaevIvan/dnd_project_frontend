@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-
+import { useEffect } from "react";
 
 const CharacterStepsPreiewStats = () => {
     const resultCharStatsRoll = useSelector((state) => state.calculateCharStats.resultCharStats);
@@ -9,6 +9,7 @@ const CharacterStepsPreiewStats = () => {
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
+    const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
 
     return (
         <React.Fragment>
@@ -27,6 +28,9 @@ const CharacterStepsPreiewStats = () => {
                                 <div className="character-bonuce-stat-value">
                                     +{item[1]}
                                 </div>
+                                <div className="character-bonuce-stat-spend-btn">
+                                    <button>Spend</button>
+                                </div>
                             </div>
                            
                         </React.Fragment>
@@ -35,60 +39,23 @@ const CharacterStepsPreiewStats = () => {
             </div>
 
             <div className="character-bounce-stats-increase-wrap">
-                {resultCharStatsRoll.map((item) => {
-                    if (item.statParam) {
-                        return (
-                            <React.Fragment key={Math.random()}>
-                                <div className="character-bonuce-stat-increase-row">
-                                    <div className="character-bonuce-stat-increase-item">
-                                        <div className="character-bonuce-stat-increase-title">{item.statParam.toUpperCase()}</div>
-                                        <div className="character-bonuce-stat-increase-str-input-wrap">
-                                            <span className="character-bonuce-stat-increase-value">
-                                                {item.value}                          
-                                            </span>
-                                        </div>
-                                        {statMode ?  
-                                            <React.Fragment key={Math.random()}>
-                                                <div className="character-bonuce-stat-increase-btns-wrap">
-                                                    <span 
-                                                        className="character-bonuce-stat-increase-plus"
-                                                    >+</span>
-                                                    <span 
-                                                        className="character-bonuce-stat-increase-min" 
-                                                    >-</span>
-                                                </div>
-                                            </React.Fragment>
-                                        :  
-                                            <React.Fragment key={Math.random()}>
-                                               <div className="character-bonuce-stat-increase-btns-wrap">
-                                                    <span>
-                                                        modifer {Math.sign(item.modifer) === 1 ? `${item.modifer}` : `${item.modifer}`}
-                                                    </span>
-                                                </div>
-                                            </React.Fragment>
-                                        }
-                                    </div>
-                                </div>
-                            </React.Fragment>
-                        )
-                    }
-                })}
+                
 
-            <div className="character-bonuce-stat-increase-title-bottom-wrap">
-                <div className="character-bonuce-stat-increase-title-bottom">
-                    {statMode ? `Remaining points ${maxStatPoints-spendedStatPoints}/${maxStatPoints}`: null }
+                <div className="character-bonuce-stat-increase-title-bottom-wrap">
+                    <div className="character-bonuce-stat-increase-title-bottom">
+                        {statMode ? `Remaining points ${maxStatPoints-spendedStatPoints}/${maxStatPoints}`: null }
                             
+                    </div>
                 </div>
-            </div>
 
-            <div className="character-bonuce-stat-increase-recomendation-wrap">
-                <h4>Tip</h4>
-                <div className="character-bonuce-stat-increase-recomendation-content">
-                    Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
-                    Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
+                <div className="character-bonuce-stat-increase-recomendation-wrap">
+                    <h4>Tip</h4>
+                    <div className="character-bonuce-stat-increase-recomendation-content">
+                        Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
+                        Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
+                    </div>
                 </div>
             </div>
-        </div>
         </React.Fragment>
     );
 };

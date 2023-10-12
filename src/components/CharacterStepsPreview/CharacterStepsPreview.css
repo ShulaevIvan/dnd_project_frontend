@@ -183,7 +183,49 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+}
+.character-bonuce-stat {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    min-width: 35px;
+    min-height: 35px;
+    max-width: 35px;
+    border: 1px solid black;
+    padding: 2px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+.character-bonuce-stat-value {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    min-width: 25px;
+    min-height: 35px;
+    max-width: 33%;
+    padding: 2px;
+    margin-right: 10px;
+}
+.character-bonuce-stat-spend-btn {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    min-width: 25px;
+    min-height: 25px;
+    max-width: 33%;
+    padding: 2px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.character-bonuce-stat-spend-btn button {
+    cursor: pointer;
 }
 .character-bonuce-stats-preview-bonuces {
     margin-bottom: 20px;

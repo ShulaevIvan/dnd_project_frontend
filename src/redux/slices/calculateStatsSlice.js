@@ -257,6 +257,7 @@ const calculateStatsSlice = createSlice({
             if (calcType) {
                 modifer = 0;
                 statValue = action.payload.data.value + 1;
+                
                 if (statValue > 15 && calcType) return;
                 if (statValue === state.statPrice.minValue || statValue === 9) modifer = 0;
                 else if (statValue <= 13 && statValue !== 9) modifer = statValue - state.statPrice.minValue;
@@ -272,9 +273,9 @@ const calculateStatsSlice = createSlice({
                 else if (statValue === 14) modifer = 7;
                 else if (statValue <= 13 && statValue > 8) modifer = statValue - state.statPrice.minValue;
             }
-
+            
             state.charStatsTotal = [...state.charStatsTotal].map((item) => {
-                if (item.name === statName) {
+                if (item.name === statName && state.currentStatBuyPoints <= 27) {
                     return {
                         ...item,
                         value: statValue,
@@ -283,19 +284,11 @@ const calculateStatsSlice = createSlice({
                 }
                 return item;
             });
-            
+
             state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
         },
         addRaceBonuces(state, action) {
             const bonuces = action.payload;
-
-            state.charStatsTotal = [...state.charStatsTotal].map((item) => {
-                return {
-                    ...item,
-                    value: bonuces.find((bonuce) => bonuce.name === item.name).value + item.value
-                }
-            });
-
         }
     }
 });

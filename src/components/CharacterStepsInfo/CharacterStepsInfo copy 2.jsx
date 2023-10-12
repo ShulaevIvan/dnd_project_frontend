@@ -11,7 +11,7 @@ const CharacterStepsInfo = () => {
     const charStats = useSelector((state) => state.calculateCharStats.totalStats);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     
-    
+
     return (
         <React.Fragment>
             <div className="character-steps-info-column">
