@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { buyStats, recalcModifers, addCharStats, spendStatFormRoll, addRaceBonuces} from "../../redux/slices/calculateStatsSlice";
+import { buyStats, recalcModifers, addCharStats, spendStatFormRoll} from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
     const [minMaxState, setMinMaxState] = useState({
@@ -13,7 +13,7 @@ const CharacterChooseDice = () => {
     const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
-    const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
+    const raceBonuceStats = useSelector((state) => state.calculateCharStats.allRaceBonuceStats);
    
 
     const plusHandler = (e, statObj) => {
@@ -55,8 +55,8 @@ const CharacterChooseDice = () => {
     }, [minMaxState]);
 
     useEffect(() => {
-        dispatch(addRaceBonuces(statRaceBonuce))
-    }, [spendedStatPoints]);
+        dispatch(recalcModifers());
+    }, [raceBonuceStats])
     
     return (
         <React.Fragment>

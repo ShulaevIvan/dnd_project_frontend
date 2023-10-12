@@ -313,8 +313,15 @@
 }
 .character-bonuce-stat-increase-title-bottom-wrap {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     margin-bottom: 20px;
+}
+.character-bonuce-stat-remaining-points, .character-bonuce-stat-free-points {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 .character-bonuce-stat-increase-recomendation-wrap {
     display: flex;

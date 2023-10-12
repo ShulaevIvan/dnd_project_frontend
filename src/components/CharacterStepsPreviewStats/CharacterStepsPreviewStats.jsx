@@ -1,15 +1,34 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { addRaceBonuceStat } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsPreiewStats = () => {
-    const resultCharStatsRoll = useSelector((state) => state.calculateCharStats.resultCharStats);
-    const statIncreaseCount = useSelector((state) => state.characterSteps.increaseStatsCount);
+    const dispatch = useDispatch();
     const statMode = useSelector((state) => state.characterSteps.statModeSwitcher);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
-    const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
+    const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
+
+    const spendCharBounceStatHandler = (e, bonuceObj) => {
+        dispatch(addRaceBonuceStat(bonuceObj))
+        // const bonuceStats = Object.entries(statRaceBonuce)
+        //     .map((item) => item[1] !== 0 ? {name : item[0].replace(/_\w+$/g, ''), value: item[1]} : null)
+        //     .filter((item) => item !== null);
+        
+        // dispatch(addRaceBonuces(bonuceStats))
+
+        
+       
+        // dispatch(addRaceBonuces(statRaceBonuce));
+    };
+
+    useEffect(() => {
+        if (statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0) {
+
+        }
+    }, [spendedStatPoints, statBuyFreePoints]);
 
     return (
         <React.Fragment>
@@ -29,7 +48,10 @@ const CharacterStepsPreiewStats = () => {
                                     +{item[1]}
                                 </div>
                                 <div className="character-bonuce-stat-spend-btn">
-                                    <button>Spend</button>
+                                    <button 
+                                        disabled={statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0 ? false : true}
+                                        onClick={(e) => spendCharBounceStatHandler(e, {name: item[0].replace(/_\w+$/g, ''), value: item[1]})}
+                                    >Spend</button>
                                 </div>
                             </div>
                            
@@ -42,9 +64,11 @@ const CharacterStepsPreiewStats = () => {
                 
 
                 <div className="character-bonuce-stat-increase-title-bottom-wrap">
-                    <div className="character-bonuce-stat-increase-title-bottom">
-                        {statMode ? `Remaining points ${maxStatPoints-spendedStatPoints}/${maxStatPoints}`: null }
-                            
+                    <div className="character-bonuce-stat-remaining-points">
+                        <span>{statMode ? `Remaining Points ${maxStatPoints-spendedStatPoints} / ${maxStatPoints}`: null }</span>
+                    </div>
+                    <div className="character-bonuce-stat-free-points">
+                        <span>{statMode ? `Free bonuce Points ${statBuyFreePoints === 0 ? '0': statBuyFreePoints} / 6` : null}</span>
                     </div>
                 </div>
 

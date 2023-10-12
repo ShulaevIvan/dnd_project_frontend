@@ -39,8 +39,10 @@ const initialState = {
     backupRaceStats: [],
     disableStatSelectors: [],
     statBuyPoints: 27,
+    statBuyFreePoints: 6,
     currentStatBuyPoints: 0,
     statPrice: {maxValue: 13, minValue: 8, modifer: 1},
+    allRaceBonuceStats:  [],
     charStatsTotal: [
         {name: 'str', value: 8, spend: 0},
         {name: 'dex', value: 8, spend: 0},
@@ -97,9 +99,8 @@ const calculateStatsSlice = createSlice({
         generateStatsRoll(state, action) {
             const dice = action.payload.dice;
             const count = action.payload.count;
-            let name = undefined;
-            let diceNumTmpArr = []
-            const resultArr = []
+            let diceNumTmpArr = [];
+            const resultArr = [];
 
             if (state.statsRollCount === 0) state.backupRaceStats = state.totalStats;
             state.totalStats = state.backupRaceStats;
@@ -183,7 +184,9 @@ const calculateStatsSlice = createSlice({
             state.resultCharStats = [];
             state.resultCharStatsBackup = [];
             state.charStatsTotal = [];
+            state.allRaceBonuceStats = [];
             state.currentStatBuyPoints =  0;
+            state.statBuyFreePoints = 6;
             state.statPrice = {maxValue: 13, minValue: 8, modifer: 1};
             state.charStatsTotal = [
                 {name: 'str', value: 8, spend: 0},
@@ -195,8 +198,8 @@ const calculateStatsSlice = createSlice({
             ];
             
         },
-        recalcModifers(state, action) {
-            const raceBonuces = action.payload;;
+        recalcModifers(state) {
+            state.statBuyFreePoints = state.charStatsTotal.filter((item) => item.value === 8).length;
 
             state.resultCharStats = [...state.resultCharStats.map((item) => {
                 const modif = Math.floor((Number(item.value) - 10) / 2);
@@ -287,8 +290,48 @@ const calculateStatsSlice = createSlice({
 
             state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
         },
-        addRaceBonuces(state, action) {
-            const bonuces = action.payload;
+        addAllRaceBonuceStats(state, action) {
+            state.allRaceBonuceStats = [...action.payload];
+        },
+        addRaceBonuceStat(state, action) {
+            const bonuceStat = action.payload;
+            
+            state.charStatsTotal = [...state.charStatsTotal.map((item) => {
+                if (item.name === bonuceStat.name && !state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) {
+                    const newValue = state.charStatsTotal.find((item) => item.name === bonuceStat.name).value += bonuceStat.value
+
+                    return {
+                        ...item,
+                        value: newValue,
+                    }
+                }
+                return item;
+            })];
+
+            if (!state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) {
+                state.resultCharStats = [...state.resultCharStats.map((item) => {
+                    const newValue = state.charStatsTotal.find((item) => item.name === bonuceStat.name).value += bonuceStat.value;
+                    console.log(newValue)
+                    const modif = Math.floor((Number(newValue) - 10) / 2);
+                    
+                    if (item.name === bonuceStat.name && !state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) {
+                        console.log(item.name)
+                        console.log(item.value)
+                        return {
+                             ...item,
+                             value: newValue,
+                             modif: modif,
+                        }
+                    }
+                    return item;
+                })];
+            }
+
+            
+
+            
+           
+            state.allRaceBonuceStats = [...state.allRaceBonuceStats, bonuceStat];
         }
     }
 });
@@ -308,7 +351,8 @@ export const {
     disableSelectStat,
     buyStats,
     addChooseCharStats,
-    addRaceBonuces
+    addAllRaceBonuceStats,
+    addRaceBonuceStat
 
 } = calculateStatsSlice.actions;
 
