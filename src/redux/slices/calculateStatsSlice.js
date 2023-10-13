@@ -266,7 +266,7 @@ const calculateStatsSlice = createSlice({
                 else if (statValue <= 13 && statValue !== 9) modifer = statValue - state.statPrice.minValue;
                 else if (statValue === 14) modifer = (statValue - 1 - state.statPrice.minValue) + state.statPrice.modifer + 1;
                 else if (statValue === 15) modifer = (statValue -1 - state.statPrice.minValue) + state.statPrice.modifer + 2;
-                if (modifer !== 0 && state.currentStatBuyPoints >= 27 && calcType) return;
+                if (modifer !== 0 && state.currentStatBuyPoints > 27 && (calcType || !calcType)) return;
             }
             else {
                 statValue = action.payload.data.value - 1;
@@ -295,10 +295,13 @@ const calculateStatsSlice = createSlice({
         },
         addRaceBonuceStat(state, action) {
             const bonuceStat = action.payload;
+
+            if (state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) return;
+
             
             state.charStatsTotal = [...state.charStatsTotal.map((item) => {
                 if (item.name === bonuceStat.name && !state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) {
-                    const newValue = state.charStatsTotal.find((item) => item.name === bonuceStat.name).value += bonuceStat.value
+                    const newValue = state.charStatsTotal.find((item) => item.name === bonuceStat.name).value += bonuceStat.value;
 
                     return {
                         ...item,
@@ -307,30 +310,29 @@ const calculateStatsSlice = createSlice({
                 }
                 return item;
             })];
+            
+            const newValue = state.totalStats[bonuceStat.name] + bonuceStat.value;
 
-            if (!state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) {
-                state.resultCharStats = [...state.resultCharStats.map((item) => {
-                    const newValue = state.charStatsTotal.find((item) => item.name === bonuceStat.name).value += bonuceStat.value;
-                    console.log(newValue)
+            state.totalStats = {
+                ...state.totalStats,
+                [bonuceStat.name.replace(/_\w+$/, '')]: newValue,
+            };
+
+
+            state.resultCharStats = [...state.resultCharStats.map((item) => {
+                if (item.name === bonuceStat.name) {
                     const modif = Math.floor((Number(newValue) - 10) / 2);
-                    
-                    if (item.name === bonuceStat.name && !state.allRaceBonuceStats.some((item) => item.name === bonuceStat.name)) {
-                        console.log(item.name)
-                        console.log(item.value)
-                        return {
-                             ...item,
-                             value: newValue,
-                             modif: modif,
-                        }
+                    return {
+                        ...item,
+                        value: newValue,
+                        modifer:  Math.sign(modif) && item.value >= 10 ? `+${modif}` : `${modif}`,
                     }
-                    return item;
-                })];
-            }
+                }
+               return item;
+            })]
+
 
             
-
-            
-           
             state.allRaceBonuceStats = [...state.allRaceBonuceStats, bonuceStat];
         }
     }

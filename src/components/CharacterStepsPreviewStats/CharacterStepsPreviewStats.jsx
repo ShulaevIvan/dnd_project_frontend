@@ -13,15 +13,6 @@ const CharacterStepsPreiewStats = () => {
 
     const spendCharBounceStatHandler = (e, bonuceObj) => {
         dispatch(addRaceBonuceStat(bonuceObj))
-        // const bonuceStats = Object.entries(statRaceBonuce)
-        //     .map((item) => item[1] !== 0 ? {name : item[0].replace(/_\w+$/g, ''), value: item[1]} : null)
-        //     .filter((item) => item !== null);
-        
-        // dispatch(addRaceBonuces(bonuceStats))
-
-        
-       
-        // dispatch(addRaceBonuces(statRaceBonuce));
     };
 
     useEffect(() => {
