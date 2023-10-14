@@ -108,13 +108,16 @@
     font-size: 24px;
     /* margin: 0 0 20px 0; */
 }
-.character-steps-dice-row, .character-steps-result-dice-row {
+.character-steps-dice-row, .character-steps-dice-row-hidden, .character-steps-result-dice-row {
     display: flex;
     flex-direction: row;
     width: 100%;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+}
+.character-steps-dice-row-hidden {
+    opacity: 0.3;
 }
 .character-steps-dice-item {
     width: 65px;

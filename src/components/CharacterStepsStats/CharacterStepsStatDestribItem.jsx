@@ -12,6 +12,8 @@ const CharacterStepsStatsDestribItem = (props) => {
     const selectStatRef = useRef(null);
 
     const chooseStatHandler = (e, statObj) => {
+        if (statObj.value === 0) return;
+
         const convertStats = {
             'str_bonuce': 'str',
             'dex_bonuce': 'dex',
@@ -35,11 +37,15 @@ const CharacterStepsStatsDestribItem = (props) => {
         dispatch(addCharStats(statToStateObj));
         dispatch(disableSelectStat({id: props.id, stat: statToStateObj.statParam}))
     };
+
+    const checkDisableSelect = (select) => {
+        return disabledSelectors.find((item) => item.stat === select);
+    };
     
     useEffect(() => {
         const selectedParam = charResultStats.find((item) => item.id === props.id);
         if (selectedParam) {
-            selectStatRef.current.value = selectedParam.statParam;
+            selectStatRef.current.value = selectedParam.statParam.toUpperCase();
         }
     }, [selectStatRef]);
 
@@ -48,12 +54,12 @@ const CharacterStepsStatsDestribItem = (props) => {
             <div className="character-steps-result-dice-item">   
                 <select disabled={disabledSelectors.find((item) => item.id === props.id)} ref={selectStatRef} className="stat-select" onChange={(e) => chooseStatHandler(e, props)}>
                     <option>{selectStatRef.current ? selectStatRef.current.value : null}</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'str')}>STR</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'dex')}>DEX</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'con')}>CON</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'int')}>INT</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'wis')}>WIS</option>
-                    <option disabled={disabledSelectors.find((item) => item.stat === 'cha')}>CHA</option>
+                    <option disabled={checkDisableSelect('str')}>STR</option>
+                    <option disabled={checkDisableSelect('dex')}>DEX</option>
+                    <option disabled={checkDisableSelect('con')}>CON</option>
+                    <option disabled={checkDisableSelect('int')}>INT</option>
+                    <option disabled={checkDisableSelect('wis')}>WIS</option>
+                    <option disabled={checkDisableSelect('cha')}>CHA</option>
                 </select>
             </div>
         </React.Fragment>

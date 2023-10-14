@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addRaceBonuceStat } from "../../redux/slices/calculateStatsSlice";
+import { addRaceBonuceStat, blockIncreaseBtns } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsPreiewStats = () => {
     const dispatch = useDispatch();
@@ -10,16 +10,21 @@ const CharacterStepsPreiewStats = () => {
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
     const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
+    const btnsBlock = useSelector((state) => state.calculateCharStats.minMaxBtnsBlock);
+    const spendedRaceStats = useSelector((state) => state.calculateCharStats.allRaceBonuceStats);
+    const statsComplite = useSelector((state) => state.calculateCharStats.setupStatsComplete)
 
     const spendCharBounceStatHandler = (e, bonuceObj) => {
-        dispatch(addRaceBonuceStat(bonuceObj))
+        dispatch(addRaceBonuceStat(bonuceObj));
     };
 
     useEffect(() => {
-        if (statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0) {
-
+        if ((statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0)) {
+            dispatch(blockIncreaseBtns(true));
         }
-    }, [spendedStatPoints, statBuyFreePoints]);
+    }, [spendedStatPoints, statBuyFreePoints,]);
+
+
 
     return (
         <React.Fragment>
@@ -38,12 +43,15 @@ const CharacterStepsPreiewStats = () => {
                                 <div className="character-bonuce-stat-value">
                                     +{item[1]}
                                 </div>
-                                <div className="character-bonuce-stat-spend-btn">
-                                    <button 
-                                        disabled={statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0 ? false : true}
-                                        onClick={(e) => spendCharBounceStatHandler(e, {name: item[0].replace(/_\w+$/g, ''), value: item[1]})}
-                                    >Spend</button>
-                                </div>
+                                {statMode ?  
+                                    <div className="character-bonuce-stat-spend-btn">
+                                        <button 
+                                            disabled={!btnsBlock || spendedRaceStats.find((stat) => stat.name === item[0].replace(/_\w+$/g, ''))}
+                                            onClick={(e) => spendCharBounceStatHandler(e, {name: item[0].replace(/_\w+$/g, ''), value: item[1]})}
+                                        >Spend</button>
+                                    </div> : null
+                                }
+                               
                             </div>
                            
                         </React.Fragment>

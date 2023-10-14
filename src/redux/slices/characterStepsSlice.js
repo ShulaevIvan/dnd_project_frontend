@@ -128,7 +128,10 @@ const characterStepsSlice = createSlice({
                 state.statModeSwitcher = true;
                 return;
             }
-            state.statModeSwitcher = false;
+            else if (action.payload === -1) {
+                state.statModeSwitcher = false;
+            }
+            
         },
     }
 });

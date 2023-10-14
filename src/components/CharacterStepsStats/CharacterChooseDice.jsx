@@ -14,11 +14,12 @@ const CharacterChooseDice = () => {
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
     const raceBonuceStats = useSelector((state) => state.calculateCharStats.allRaceBonuceStats);
+    const btnsBlock = useSelector((state) => state.calculateCharStats.minMaxBtnsBlock);
+    const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
    
 
     const plusHandler = (e, statObj) => {
         e.stopPropagation();
-        
         if (spendedStatPoints === 27 && statObj.value === 9) {
             return;
         }
@@ -34,7 +35,6 @@ const CharacterChooseDice = () => {
 
     const minHandler = (e, statObj) => {
         e.stopPropagation();
-
         setMinMaxState(prevState => ({
             ...prevState,
             ...statObj,
@@ -51,12 +51,11 @@ const CharacterChooseDice = () => {
             dispatch(recalcModifers());
             
         }
-      
     }, [minMaxState]);
 
     useEffect(() => {
         dispatch(recalcModifers());
-    }, [raceBonuceStats])
+    }, [raceBonuceStats]);
     
     return (
         <React.Fragment>
@@ -65,7 +64,8 @@ const CharacterChooseDice = () => {
                     <h4>Доступные характеристики</h4>
                 </div>
                             
-                <div className="character-steps-dice-row">
+                <div className={statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0 ? 
+                    "character-steps-dice-row-hidden" : "character-steps-dice-row"}>
                     {charStats ? charStats.map((item) => {
                         return (
                             <React.Fragment key={Math.random()}>
@@ -76,8 +76,16 @@ const CharacterChooseDice = () => {
 
                                     <div className="character-steps-dice-item">
                                         <span className="dice-value">{item.value}</span>
-                                        <div className="dice-value-plus" onClick={(e) => plusHandler(e, item)}>+</div>
-                                        <div className="dice-value-min" onClick={(e) => minHandler(e, item)}>-</div>
+                                        <button
+                                            disabled={btnsBlock}
+                                            className="dice-value-plus" 
+                                            onClick={(e) => plusHandler(e, item)}
+                                        >+</button>
+                                        <button
+                                            disabled={btnsBlock}
+                                            className="dice-value-min" 
+                                            onClick={(e) => minHandler(e, item)}
+                                        >-</button>
                                         <div className="dice-value-modif">{item.modifer}</div>
                                     </div>
 

@@ -41,8 +41,10 @@ const initialState = {
     statBuyPoints: 27,
     statBuyFreePoints: 6,
     currentStatBuyPoints: 0,
-    statPrice: {maxValue: 13, minValue: 8, modifer: 1},
+    statPrice: {maxValue: 13, minValue: 8, maxValue: 15, modifer: 1},
     allRaceBonuceStats:  [],
+    minMaxBtnsBlock: false,
+    setupStatsComplete: false,
     charStatsTotal: [
         {name: 'str', value: 8, spend: 0},
         {name: 'dex', value: 8, spend: 0},
@@ -141,7 +143,7 @@ const calculateStatsSlice = createSlice({
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
- 
+
             state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
             
             if (state.resultCharStats.find((item) => item.statParam === statChange.statParam)) {
@@ -152,9 +154,9 @@ const calculateStatsSlice = createSlice({
                 return;
             }
 
-
-            
             state.resultCharStats = [...state.resultCharStats, statChange];
+
+            if (state.resultCharStats.length === 6) state.setupStatsComplete = true;
         },
         backupCharStats(state) {
             if (state.resultCharStatsBackup.length === 0) {
@@ -187,7 +189,9 @@ const calculateStatsSlice = createSlice({
             state.allRaceBonuceStats = [];
             state.currentStatBuyPoints =  0;
             state.statBuyFreePoints = 6;
+            state.setupStatsComplete = false;
             state.statPrice = {maxValue: 13, minValue: 8, modifer: 1};
+            state.minMaxBtnsBlock = false;
             state.charStatsTotal = [
                 {name: 'str', value: 8, spend: 0},
                 {name: 'dex', value: 8, spend: 0},
@@ -257,28 +261,50 @@ const calculateStatsSlice = createSlice({
             let statValue = action.payload.data.value;
             let modifer = 0;
 
-            if (calcType) {
-                modifer = 0;
-                statValue = action.payload.data.value + 1;
-                
-                if (statValue > 15 && calcType) return;
-                if (statValue === state.statPrice.minValue || statValue === 9) modifer = 0;
-                else if (statValue <= 13 && statValue !== 9) modifer = statValue - state.statPrice.minValue;
-                else if (statValue === 14) modifer = (statValue - 1 - state.statPrice.minValue) + state.statPrice.modifer + 1;
-                else if (statValue === 15) modifer = (statValue -1 - state.statPrice.minValue) + state.statPrice.modifer + 2;
-                if (modifer !== 0 && state.currentStatBuyPoints > 27 && (calcType || !calcType)) return;
-            }
-            else {
-                statValue = action.payload.data.value - 1;
-                if (statValue < 8 && !calcType) return;
-                if (action.payload.data.value === state.statPrice.minValue) modifer = 0;
-                if (statValue === 15) modifer = 9;
-                else if (statValue === 14) modifer = 7;
-                else if (statValue <= 13 && statValue > 8) modifer = statValue - state.statPrice.minValue;
+            if (Math.sign(state.currentStatBuyPoints + 1)) {
+                switch(calcType ? statValue + 1 : statValue - 1) {
+                    case 8:
+                        modifer = 0
+                        break
+                    case 9:
+                        modifer = 0;
+                        break
+                    case 10:
+                        modifer = 2;
+                        break
+                    case 11:
+                        modifer = 3;
+                        break
+                    case 12:
+                        modifer = 4;
+                        break
+                    case 13:
+                        modifer = 5;
+                        break
+                    case 14:
+                        modifer = 7;
+                        break
+                    case 15:
+                        modifer = 9;
+                        break
+                    default:
+                        break;
+                }
+                if ((statValue === 15 && calcType) || (statValue === 8 && !calcType)  || state.currentStatBuyPoints + modifer === state.statBuyPoints -1) return;
+                calcType ? statValue = action.payload.data.value + 1 : statValue = action.payload.data.value - 1;
             }
             
+            state.currentStatBuyPoints = state.statBuyPoints - modifer;
+
             state.charStatsTotal = [...state.charStatsTotal].map((item) => {
-                if (item.name === statName && state.currentStatBuyPoints <= 27) {
+                if (item.name === statName && (state.currentStatBuyPoints + modifer === state.statBuyPoints && calcType)) {
+                    return {
+                        ...item,
+                        value: statValue,
+                        spend: modifer
+                    }
+                }
+                else if ((item.name === statName && (state.currentStatBuyPoints + modifer === state.statBuyPoints && !calcType))) {
                     return {
                         ...item,
                         value: statValue,
@@ -288,7 +314,19 @@ const calculateStatsSlice = createSlice({
                 return item;
             });
 
-            state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
+            state.resultCharStats = [...state.resultCharStats.map((item) => {
+                if (item.name === statName) {
+                    const modif = Math.floor((Number(statValue) - 10) / 2);
+                    return {
+                        ...item,
+                        value: statValue,
+                        modifer:  Math.sign(modifer) && modifer >= 10 ? `+${modif}` : `${modif}`,
+                    }
+                }
+               return item;
+            })];
+
+            state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0)
         },
         addAllRaceBonuceStats(state, action) {
             state.allRaceBonuceStats = [...action.payload];
@@ -329,11 +367,16 @@ const calculateStatsSlice = createSlice({
                     }
                 }
                return item;
-            })]
-
+            })];
 
             
             state.allRaceBonuceStats = [...state.allRaceBonuceStats, bonuceStat];
+            if (state.allRaceBonuceStats.length === 0) {
+                state.setupStatsComplete = true;
+            }
+        },
+        blockIncreaseBtns(state, action) {
+            state.minMaxBtnsBlock = action.payload;
         }
     }
 });
@@ -354,7 +397,8 @@ export const {
     buyStats,
     addChooseCharStats,
     addAllRaceBonuceStats,
-    addRaceBonuceStat
+    addRaceBonuceStat,
+    blockIncreaseBtns
 
 } = calculateStatsSlice.actions;
 

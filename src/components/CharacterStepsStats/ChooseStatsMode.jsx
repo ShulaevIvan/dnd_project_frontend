@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { statSwitcherMode } from "../../redux/slices/characterStepsSlice";
-import { resetCharStats } from "../../redux/slices/calculateStatsSlice";
+import { statSwitcherMode, blockIncreaseBtns, activeNextBtn } from "../../redux/slices/characterStepsSlice";
+import { resetCharStats } from "../../redux/slices/calculateStatsSlice";;
 
 
 const ChooseStatsMode = () => {
@@ -14,13 +14,13 @@ const ChooseStatsMode = () => {
             dispatch(statSwitcherMode(-1));
             return;
         }
-
         dispatch(statSwitcherMode(1));
     };
     
     useEffect(() => {
         dispatch(resetCharStats());
-    }, [switcherState])
+        dispatch(activeNextBtn(true));
+    }, [switcherState]);
 
     return (
         <React.Fragment>
