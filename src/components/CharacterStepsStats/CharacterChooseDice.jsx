@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { buyStats, recalcModifers, addCharStats, spendStatFormRoll} from "../../redux/slices/calculateStatsSlice";
+import { buyStats, recalcModifers, addCharStats, spendStatFormRoll } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterChooseDice = () => {
     const [minMaxState, setMinMaxState] = useState({
@@ -38,6 +38,7 @@ const CharacterChooseDice = () => {
         setMinMaxState(prevState => ({
             ...prevState,
             ...statObj,
+            value: prevState.value = statObj.value,
             statParam: prevState.statParam = statObj.name,
             opType: prevState.opType = false,
         }));
@@ -45,7 +46,7 @@ const CharacterChooseDice = () => {
 
     useEffect(() => {
         if (minMaxState.statParam) {
-            dispatch(spendStatFormRoll({...minMaxState}))
+            dispatch(spendStatFormRoll({...minMaxState, manual: true}))
             dispatch(buyStats({data: minMaxState, plus: minMaxState.opType}));
             dispatch(addCharStats(minMaxState));
             dispatch(recalcModifers());
@@ -104,12 +105,6 @@ const CharacterChooseDice = () => {
                         <span className="character-steps-dice-max-points-title">Всего очков:</span>
                         <span className="character-steps-dice-max-points-value">{maxStatPoints - spendedStatPoints}</span>
                 </div>
-
-                <div className="character-steps-dice-apply-wrap">
-                    <div className="character-steps-dice-apply-btn">
-                        <button>Запомнить</button>
-                    </div>
-                </div>         
             </div>
         </React.Fragment>
     )

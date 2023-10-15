@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { calculateOtherStats } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsInfo = () => {
+    const dispatch = useDispatch();
     const characterRaceInfo = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
@@ -10,6 +11,24 @@ const CharacterStepsInfo = () => {
     const backgroundState = useSelector((state) => state.characterSteps.characterSum.backgroundActive);
     const charStats = useSelector((state) => state.calculateCharStats.totalStats);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
+    const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
+
+    useEffect(() => {
+        
+        if ((characterRaceInfo && classState) || (characterRaceInfo && subclassState)) {
+            const otherStats = {
+                armorClass: 10,
+                initiative: 0,
+                speed: characterRaceInfo.raceData.speed,
+                prof: 1,
+                hp: 0,
+                baseHits: classState.baseHits,
+                minDiceHit: classState.minHitsLvl,
+                maxDiceHit: classState.maxHitsLvl,
+            }
+            dispatch(calculateOtherStats(otherStats));
+        }
+    }, [resultCharStats, characterRaceInfo])
     
     
     return (
@@ -97,30 +116,30 @@ const CharacterStepsInfo = () => {
                     <div className="character-steps-basic-combat-stats-row">
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-ac">AC</div>
-                            <div className="character-basic-combat-item-body">-</div>
+                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.ac : '-'}</div>
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-init">INIT</div>
-                            <div className="character-basic-combat-item-body">-</div>
+                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.init : '-'}</div>
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-move">MOVE</div>
-                            <div className="character-basic-combat-item-body">{characterRaceInfo ? characterRaceInfo.raceData.speed : null}</div>
+                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.move : '-'}</div>
                         </div>
                     </div>
 
                     <div className="character-steps-basic-combat-stats-row">
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-prof">PROF</div>
-                            <div className="character-basic-combat-item-body">-</div>
+                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.prof : '-'}</div>
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-hp">HP</div>
-                            <div className="character-basic-combat-item-body">-</div>
+                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.hp : '-'}</div>
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-hit-dice">HIT DICE</div>
-                            <div className="character-basic-combat-item-body">{'-'}
+                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.hitDice : '-'}
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { addRaceBonuceStat, blockIncreaseBtns } from "../../redux/slices/calculateStatsSlice";
+import { addRaceBonuceStat, blockIncreaseBtns, resetCharStats } from "../../redux/slices/calculateStatsSlice";
+import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsPreiewStats = () => {
     const dispatch = useDispatch();
@@ -12,7 +13,6 @@ const CharacterStepsPreiewStats = () => {
     const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
     const btnsBlock = useSelector((state) => state.calculateCharStats.minMaxBtnsBlock);
     const spendedRaceStats = useSelector((state) => state.calculateCharStats.allRaceBonuceStats);
-    const statsComplite = useSelector((state) => state.calculateCharStats.setupStatsComplete)
 
     const spendCharBounceStatHandler = (e, bonuceObj) => {
         dispatch(addRaceBonuceStat(bonuceObj));
@@ -24,6 +24,17 @@ const CharacterStepsPreiewStats = () => {
         }
     }, [spendedStatPoints, statBuyFreePoints,]);
 
+    useEffect(() => {
+        const raceBonuceLength = Object.entries(statRaceBonuce).filter((arr) => arr[1] !== 0).length;
+        if (spendedRaceStats.length === raceBonuceLength) {
+            dispatch(activeNextBtn(false));
+        }
+    }, [spendedRaceStats]);
+
+    useEffect(() => {
+        dispatch(resetCharStats());
+        dispatch(activeNextBtn(true));
+    }, [])
 
 
     return (

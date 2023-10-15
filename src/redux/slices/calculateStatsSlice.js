@@ -61,6 +61,14 @@ const initialState = {
         {name: 'wis', spend: 0},
         {name: 'cha', spend: 0},
     ],
+    charOtherStats: {
+        ac: 0,
+        init: 0,
+        move: 0,
+        prof: 0,
+        hp: 0,
+        hitDice: 0,
+    }
 };
 
 const calculateStatsSlice = createSlice({
@@ -143,6 +151,7 @@ const calculateStatsSlice = createSlice({
         },
         spendStatFormRoll(state, action) {
             const statChange = action.payload;
+            const actionType = action.payload.manual;
 
             state.resultCharStats = [...state.resultCharStats].filter((item) => item.statParam !== statChange.statParam);
             
@@ -156,7 +165,7 @@ const calculateStatsSlice = createSlice({
 
             state.resultCharStats = [...state.resultCharStats, statChange];
 
-            if (state.resultCharStats.length === 6) state.setupStatsComplete = true;
+            if (state.resultCharStats.length === 6 && !actionType) state.setupStatsComplete = true;
         },
         backupCharStats(state) {
             if (state.resultCharStatsBackup.length === 0) {
@@ -192,6 +201,7 @@ const calculateStatsSlice = createSlice({
             state.setupStatsComplete = false;
             state.statPrice = {maxValue: 13, minValue: 8, modifer: 1};
             state.minMaxBtnsBlock = false;
+            state.charOtherStats = {};
             state.charStatsTotal = [
                 {name: 'str', value: 8, spend: 0},
                 {name: 'dex', value: 8, spend: 0},
@@ -233,7 +243,7 @@ const calculateStatsSlice = createSlice({
             const statType = action.payload.statParam.toLowerCase();
 
             let plusValue = action.payload.value + 1;
-            let minValue = action.payload.value - 1
+            let minValue = action.payload.value - 1;
             
             if (chooseType !== undefined) {
                 if (chooseType && plusValue >= 15) plusValue = 15;
@@ -245,11 +255,6 @@ const calculateStatsSlice = createSlice({
                 };
                 return;
             }
-
-            state.totalStats = {
-                ...state.totalStats,
-                [statType]: action.payload.value
-            };
         },
         disableSelectStat(state, action) {
             state.disableStatSelectors = [...state.disableStatSelectors, action.payload]
@@ -260,14 +265,14 @@ const calculateStatsSlice = createSlice({
             const statName = action.payload.data.name;
             let statValue = action.payload.data.value;
             let modifer = 0;
-
-            if (Math.sign(state.currentStatBuyPoints + 1)) {
+            if (state.currentStatBuyPoints > 27) return;
+            if (state.currentStatBuyPoints <= 28) {
                 switch(calcType ? statValue + 1 : statValue - 1) {
                     case 8:
                         modifer = 0
                         break
                     case 9:
-                        modifer = 0;
+                        modifer = 1;
                         break
                     case 10:
                         modifer = 2;
@@ -371,12 +376,24 @@ const calculateStatsSlice = createSlice({
 
             
             state.allRaceBonuceStats = [...state.allRaceBonuceStats, bonuceStat];
-            if (state.allRaceBonuceStats.length === 0) {
-                state.setupStatsComplete = true;
-            }
         },
         blockIncreaseBtns(state, action) {
             state.minMaxBtnsBlock = action.payload;
+        },
+        calculateOtherStats(state, action) {
+            const { speed, baseHits, minDiceHit, maxDiceHit,} = action.payload;
+            const charDex = state.resultCharStats.find((item) => item.statParam === 'dex');
+            const charCon = state.resultCharStats.find((item) => item.statParam === 'con');
+            
+            state.charOtherStats = {
+                ...state.charOtherStats,
+                ac: charDex ? Math.sign(charDex.modifer)  === 1 ? 10 + Number(charDex.modifer) : 10 - Number(charDex.modifer) : '-',
+                init: charDex ? Math.sign(charDex.modifer)  === 1 ? 10 + Number(charDex.modifer) : 10 - Number(charDex.modifer) : '-',
+                move: speed,
+                prof: 1,
+                hp: charCon ? Number(baseHits) + Number(charCon.modifer) : '-',
+                hitDice: `${minDiceHit} k ${maxDiceHit}`,
+            };
         }
     }
 });
@@ -398,7 +415,8 @@ export const {
     addChooseCharStats,
     addAllRaceBonuceStats,
     addRaceBonuceStat,
-    blockIncreaseBtns
+    blockIncreaseBtns,
+    calculateOtherStats
 
 } = calculateStatsSlice.actions;
 

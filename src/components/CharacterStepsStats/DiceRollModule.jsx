@@ -7,6 +7,7 @@ import {
     backupCharStats, 
     restoreCharStats,
     resetCharStats,
+    blockIncreaseBtns,
 } from '../../redux/slices/calculateStatsSlice';
 
 const DiceRollModule = () => {
@@ -14,6 +15,8 @@ const DiceRollModule = () => {
     const rollCounter = useSelector((state) => state.calculateCharStats.statsRollCount);
     const totalStatsRoll = useSelector((state) => state.calculateCharStats.statsTotalRoll);
     const rollBackCharStats = useSelector((state) => state.calculateCharStats.resultCharStatsBackup);
+    const blockBackupResotre = useSelector((state) => state.calculateCharStats.minMaxBtnsBlock);
+    const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     
 
     const rollHandler = (e, count, dice) => {
@@ -33,6 +36,12 @@ const DiceRollModule = () => {
     }, [totalStatsRoll]);
 
     useEffect(() => {
+        if (resultCharStats.length === 6) {
+            dispatch(blockIncreaseBtns(true))
+        }
+    }, [resultCharStats])
+
+    useEffect(() => {
         dispatch(resetCharStats());
     }, []);
 
@@ -42,7 +51,7 @@ const DiceRollModule = () => {
                 <div className="character-steps-dice-btn-roll"><button onClick={(e, count, dice) => rollHandler(e, count=4, dice=6)}>Бросить</button></div>
                 <div className="character-steps-dice-counter">Всего бросков: {rollCounter}</div>
                 <div className="character-steps-dice-btn-roll-save">
-                    <button onClick={saveStatsHandler}>{rollBackCharStats.length === 0 ? 'backup' : 'restore'}</button>
+                    <button disabled={blockBackupResotre} onClick={saveStatsHandler}>{rollBackCharStats.length === 0 ? 'backup' : 'restore'}</button>
                 </div>
             </div>
         </React.Fragment>

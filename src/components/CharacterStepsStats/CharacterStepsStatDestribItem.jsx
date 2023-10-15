@@ -52,7 +52,12 @@ const CharacterStepsStatsDestribItem = (props) => {
     return (
         <React.Fragment>
             <div className="character-steps-result-dice-item">   
-                <select disabled={disabledSelectors.find((item) => item.id === props.id)} ref={selectStatRef} className="stat-select" onChange={(e) => chooseStatHandler(e, props)}>
+                <select disabled={
+                    disabledSelectors.find((item) => item.id === props.id)} 
+                    ref={selectStatRef} 
+                    className="stat-select" 
+                    onChange={(e) => chooseStatHandler(e, props)
+                }>
                     <option>{selectStatRef.current ? selectStatRef.current.value : null}</option>
                     <option disabled={checkDisableSelect('str')}>STR</option>
                     <option disabled={checkDisableSelect('dex')}>DEX</option>
