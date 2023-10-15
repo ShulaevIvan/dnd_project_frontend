@@ -243,7 +243,7 @@ const calculateStatsSlice = createSlice({
             const statType = action.payload.statParam.toLowerCase();
 
             let plusValue = action.payload.value + 1;
-            let minValue = action.payload.value - 1;
+            let minValue = action.payload.value - 1
             
             if (chooseType !== undefined) {
                 if (chooseType && plusValue >= 15) plusValue = 15;
@@ -255,19 +255,23 @@ const calculateStatsSlice = createSlice({
                 };
                 return;
             }
+
+            state.totalStats = {
+                ...state.totalStats,
+                [statType]: action.payload.value
+            };
         },
         disableSelectStat(state, action) {
             state.disableStatSelectors = [...state.disableStatSelectors, action.payload]
         },
         buyStats(state, action) {
-            state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
             const calcType = action.payload.plus;
             const statName = action.payload.data.name;
             let statValue = action.payload.data.value;
             let modifer = 0;
-            if (state.currentStatBuyPoints > 27) return;
-            if (state.currentStatBuyPoints <= 28) {
-                switch(calcType ? statValue + 1 : statValue - 1) {
+           
+            if (calcType) {
+                switch(statValue + 1) {
                     case 8:
                         modifer = 0
                         break
@@ -295,21 +299,48 @@ const calculateStatsSlice = createSlice({
                     default:
                         break;
                 }
-                if ((statValue === 15 && calcType) || (statValue === 8 && !calcType)  || state.currentStatBuyPoints + modifer === state.statBuyPoints -1) return;
-                calcType ? statValue = action.payload.data.value + 1 : statValue = action.payload.data.value - 1;
+                if (statValue + 1 > 15 && calcType) return;
+                if (statValue + 1 == 9 && calcType) modifer = 0;
+                state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
+                statValue = action.payload.data.value + 1;
+                state.currentStatBuyPoints = state.statBuyPoints - modifer;
+            }
+            else if (!calcType) {
+                switch(statValue - 1) {
+                    case 15:
+                        modifer = 9;
+                        break
+                    case 14:
+                        modifer = 7;
+                        break
+                    case 13:
+                        modifer = 5;
+                        break
+                    case 12:
+                        modifer = 4;
+                        break
+                    case 11:
+                        modifer = 3;
+                        break
+                    case 10:
+                        modifer = 2;
+                        break
+                    case 9:
+                        modifer = 1;
+                        break
+                    case 8:
+                        modifer = 0;
+                        break
+                    default:
+                        break;
+                }
+                state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum - item.spend, 0);
+                statValue = action.payload.data.value - 1;
+                state.currentStatBuyPoints = state.statBuyPoints + modifer;
             }
             
-            state.currentStatBuyPoints = state.statBuyPoints - modifer;
-
             state.charStatsTotal = [...state.charStatsTotal].map((item) => {
-                if (item.name === statName && (state.currentStatBuyPoints + modifer === state.statBuyPoints && calcType)) {
-                    return {
-                        ...item,
-                        value: statValue,
-                        spend: modifer
-                    }
-                }
-                else if ((item.name === statName && (state.currentStatBuyPoints + modifer === state.statBuyPoints && !calcType))) {
+                if (item.name === statName) {
                     return {
                         ...item,
                         value: statValue,
