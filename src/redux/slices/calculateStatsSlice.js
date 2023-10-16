@@ -300,7 +300,7 @@ const calculateStatsSlice = createSlice({
                         break;
                 }
                 if (statValue + 1 > 15 && calcType) return;
-                if (statValue + 1 == 9 && calcType) modifer = 0;
+                if (statValue + 1 === 9 && calcType) modifer = 0;
                 state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum + item.spend, 0);
                 statValue = action.payload.data.value + 1;
                 state.currentStatBuyPoints = state.statBuyPoints - modifer;
@@ -334,6 +334,8 @@ const calculateStatsSlice = createSlice({
                     default:
                         break;
                 }
+                if (statValue - 1 < 8 && !calcType) return;
+                if (statValue - 1 === 9 && !calcType) modifer = 0;
                 state.currentStatBuyPoints = state.charStatsTotal.reduce((sum, item) => sum - item.spend, 0);
                 statValue = action.payload.data.value - 1;
                 state.currentStatBuyPoints = state.statBuyPoints + modifer;

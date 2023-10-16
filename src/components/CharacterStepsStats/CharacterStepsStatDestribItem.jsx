@@ -6,6 +6,7 @@ import { spendStatFormRoll, recalcModifers, addCharStats, disableSelectStat } fr
 const CharacterStepsStatsDestribItem = (props) => {
     const charResultStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
+    const subraceBonuce = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const disabledSelectors = useSelector((state) => state.calculateCharStats.disableStatSelectors);
 
     const dispatch = useDispatch();
@@ -13,7 +14,6 @@ const CharacterStepsStatsDestribItem = (props) => {
 
     const chooseStatHandler = (e, statObj) => {
         if (statObj.value === 0) return;
-
         const convertStats = {
             'str_bonuce': 'str',
             'dex_bonuce': 'dex',
@@ -27,10 +27,12 @@ const CharacterStepsStatsDestribItem = (props) => {
             ...statObj,
             statParam: selectStatRef.current.value.toLowerCase(),
         };
-
-        Object.entries(statRaceBonuce).forEach((statArr) => {
-            if (convertStats[statArr[0]] === statToStateObj.statParam && statArr[1] > 0) statToStateObj.value += statArr[1];
-        });
+        
+        Object.entries(subraceBonuce ? subraceBonuce.subraceBonuces : statRaceBonuce).filter((arr) => arr[1] > 0)
+            .forEach((statArr) => {
+                if (convertStats[statArr[0]] === statToStateObj.statParam && statArr[1] > 0) statToStateObj.value += statArr[1];
+            }
+        );
 
         dispatch(spendStatFormRoll(statToStateObj));
         dispatch(recalcModifers());

@@ -8,6 +8,7 @@ const CharacterStepsPreiewStats = () => {
     const dispatch = useDispatch();
     const statMode = useSelector((state) => state.characterSteps.statModeSwitcher);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
+    const subraceBonuce = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
     const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
@@ -25,7 +26,7 @@ const CharacterStepsPreiewStats = () => {
     }, [spendedStatPoints, statBuyFreePoints,]);
 
     useEffect(() => {
-        const raceBonuceLength = Object.entries(statRaceBonuce).filter((arr) => arr[1] !== 0).length;
+        const raceBonuceLength = Object.entries(subraceBonuce ? subraceBonuce.subraceBonuces : statRaceBonuce).filter((arr) => arr[1] !== 0).length;
         if (spendedRaceStats.length === raceBonuceLength) {
             dispatch(activeNextBtn(false));
         }
@@ -34,7 +35,7 @@ const CharacterStepsPreiewStats = () => {
     useEffect(() => {
         dispatch(resetCharStats());
         dispatch(activeNextBtn(true));
-    }, [])
+    }, []);
 
 
     return (
@@ -44,7 +45,8 @@ const CharacterStepsPreiewStats = () => {
             </div>
             <div className="character-bonuce-stats-preview-bonuces">
                 <div className="character-bonuce-stat-title">Bonuce Stats:</div>
-                {Object.entries(statRaceBonuce).filter((stat) => stat[1] !== 0).map((item) => {
+                {Object.entries(subraceBonuce ? subraceBonuce.subraceBonuces : statRaceBonuce)
+                    .filter((stat) => stat[1] !== 0).map((item) => {
                     return (
                         <React.Fragment key={Math.random()}>
                             <div className="character-bonuce-stat-row">

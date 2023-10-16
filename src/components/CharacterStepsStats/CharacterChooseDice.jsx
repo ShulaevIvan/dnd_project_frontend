@@ -46,7 +46,6 @@ const CharacterChooseDice = () => {
 
     useEffect(() => {
         if (minMaxState.statParam) {
-            console.log(minMaxState)
             dispatch(spendStatFormRoll({...minMaxState, manual: true}))
             dispatch(buyStats({data: minMaxState, plus: minMaxState.opType}));
             dispatch(addCharStats(minMaxState));
