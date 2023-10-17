@@ -1,80 +1,64 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addAbilites } from "../../redux/slices/characterStepsSlice";
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
+    const dispatch = useDispatch();
     const characterSum = useSelector((state) => state.characterSteps.characterSum);
+    const allAbilitesChunks = useSelector((state) => state.characterSteps.allAbilitesChunks);
 
-    console.log(characterSum)
+    useEffect(() => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/abilites/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addAbilites(JSON.stringify(data)));
+            });
+        }
+        fetchFunc();
+        console.log(allAbilitesChunks)
+    }, [])
     return (
         <React.Fragment>
            <div className="character-steps-skills-column">
                 
                 <CharacterStepsSavingThrows />
 
-                <div class="character-steps-skills-wrap">
+                <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
                     <div className="character-steps-skills-row">
                         <div className="character-steps-skills-has-item-row">
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Атлетика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Акробатика</div>
-                                <div className="character-skill-modif">+ 2</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Скрытность</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Лов. рук</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Акробатика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Акробатика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Акробатика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div class="character-skills-item">
-                                <span class="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Акробатика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-
+                            {allAbilitesChunks.part1 ? allAbilitesChunks.part2.map((item) => {
+                                return (
+                                    <React.Fragment key={Math.random()}>
+                                        <div className={`character-skills-item skills-item-modif-${item.abilityType}`}>
+                                            <span className="skill-plus-value-icon"></span>
+                                            <div className="character-skill-name">{item.name}</div>
+                                            <div className="character-skill-modif">+ 3</div>
+                                        </div>
+                                    </React.Fragment>
+                                )
+                            }) : null}
                         </div>
                         <div className="character-steps-skills-new-item-row">
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Атлетика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Атлетика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-                            <div className="character-skills-item">
-                                <span className="skill-plus-value-icon"></span>
-                                <div className="character-skill-name">Атлетика</div>
-                                <div className="character-skill-modif">+ 3</div>
-                            </div>
-
+                            {allAbilitesChunks.part2 ? allAbilitesChunks.part1.map((item) => {
+                                return (
+                                    <React.Fragment key={Math.random()}>
+                                        <div className={`character-skills-item skills-item-modif-${item.abilityType}`}>
+                                            <span className="skill-plus-value-icon"></span>
+                                            <div className="character-skill-name">{item.name}</div>
+                                            <div className="character-skill-modif">+ 3</div>
+                                        </div>
+                                    </React.Fragment>
+                                )
+                            }) : null}
                         </div>
                     </div>
                 </div>

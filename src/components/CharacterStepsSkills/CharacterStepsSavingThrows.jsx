@@ -23,7 +23,8 @@ const CharacterStepsSavingThrows = () => {
                                             )
                                         }
                                     })}
-                                    <div className="character-steps-saving-throws-item-header">
+                                    <div className={`character-steps-saving-throws-item-header`}>
+                                    {/* <div className={`character-steps-saving-throws-item-header character-steps-saving-throws-title-${item.statParam}`}> */}
                                         {item.statParam.toUpperCase()}
                                     </div>
                                     <div className="character-steps-saving-throws-item-body">{item.value}</div>

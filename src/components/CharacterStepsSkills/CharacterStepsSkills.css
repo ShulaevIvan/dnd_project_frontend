@@ -97,7 +97,7 @@
 }
 .character-skills-item {
     position: relative;
-    width: 30%;
+    width: 43%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -106,8 +106,44 @@
     min-height: 60px;
     max-height: 60px;
     max-width: 140px;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.character-steps-saving-throws-title-str {
+    color: red;
+}
+.character-steps-saving-throws-title-dex {
+    color: orange;
+}
+.character-steps-saving-throws-title-con {
+    color: green;
+}
+.character-steps-saving-throws-title-int {
+    color: blue;
+}
+.character-steps-saving-throws-title-wis {
+    color: violet;
+}
+.character-steps-saving-throws-title-cha {
+    color:  peru;
+}
+.skills-item-modif-str {
+    border-color: red;
+}
+.skills-item-modif-dex {
+    border-color: orange;
+}
+.skills-item-modif-con {
+    border-color: green;
+}
+.skills-item-modif-int {
+    border-color: blue;
+}
+.skills-item-modif-wis {
+    border-color: violet;
+}
+.skills-item-modif-cha {
+    border-color: peru;
 }
 .character-skill-name, .character-skill-modif {
     display: flex;

@@ -3,6 +3,8 @@ import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
     allRaces: [],
     allClasses: [],
+    allAbilites: [],
+    allAbilitesChunks: {},
     showPreviewPage: false,
     characterStepPage: 1,
     characterStepMaxPage: 5,
@@ -133,6 +135,13 @@ const characterStepsSlice = createSlice({
             }
             
         },
+        addAbilites(state, action) {
+            const initalArr = JSON.parse(action.payload);
+            const part1 = initalArr.slice(0, initalArr.length / 2);
+            const part2 = initalArr.slice(initalArr.length /2);
+            state.allAbilites = [...initalArr];
+            state.allAbilitesChunks = {part1: part1, part2: part2};
+        }
     }
 });
 
@@ -154,6 +163,7 @@ export const {
     activePrevBtn,
     showPreviewPage,
     statSwitcherMode,
+    addAbilites,
     
 } = characterStepsSlice.actions;
 
