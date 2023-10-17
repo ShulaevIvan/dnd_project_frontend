@@ -20,6 +20,7 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                console.log(data)
                 dispatch(addBaseHits({minHits: data.minHitsLvl, maxHits: data.maxHitsLvl}));
                 if (autoSelect) {
                     dispatch(unsetClass());
@@ -75,7 +76,7 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                dispatch(addClasses(JSON.stringify(data)))
+                dispatch(addClasses(JSON.stringify(data)));
             });
         }
         dispatch(unsetClass());

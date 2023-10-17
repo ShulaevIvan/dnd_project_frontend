@@ -9,6 +9,7 @@ const CharacterStepsPreiewStats = () => {
     const statMode = useSelector((state) => state.characterSteps.statModeSwitcher);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
     const subraceBonuce = useSelector((state) => state.characterSteps.characterSum.subraceData);
+    const recomendedStats = useSelector((state) => state.characterSteps.characterSum.classData);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
     const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
@@ -85,10 +86,13 @@ const CharacterStepsPreiewStats = () => {
                 </div>
 
                 <div className="character-bonuce-stat-increase-recomendation-wrap">
-                    <h4>Tip</h4>
+                    <h4>Recomended stats {recomendedStats.className} : </h4>
                     <div className="character-bonuce-stat-increase-recomendation-content">
-                        Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
-                        Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века.
+                        <p>
+                            {
+                                recomendedStats.classMainStats.map((item) => <span key={Math.random()} className="character-recomended-stat">{item.name}</span>)
+                            }
+                        </p>
                     </div>
                 </div>
             </div>

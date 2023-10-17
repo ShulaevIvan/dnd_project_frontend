@@ -8,6 +8,7 @@ import CharacterStepsPreiew from "../CharacterStepsPreview/CharacterStepsPreview
 import CharacterStepsProgressBar from "../CharacterStepsProgressBar/CharacterStepsProgressBard";
 import CharacterStepsBackground from "../CharacterStepsBackground/CharacterStepsBackground";
 import CharacterStepsStats from "../CharacterStepsStats/CharacterStepsStats";
+import CharacterStepsSkills from "../CharacterStepsSkills/CharacterStepsSkills";
 
 const CharacterSteps = () => {
 
@@ -34,6 +35,10 @@ const CharacterSteps = () => {
 
             break;
 
+        case 5:
+            bodyElem = <CharacterStepsSkills />
+            
+            break;
         default:
 
             break
