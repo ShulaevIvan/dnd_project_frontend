@@ -5,6 +5,7 @@ const initialState = {
     allClasses: [],
     allAbilites: [],
     allAbilitesChunks: {},
+    allInstruments: [],
     showPreviewPage: false,
     characterStepPage: 1,
     characterStepMaxPage: 5,
@@ -141,6 +142,9 @@ const characterStepsSlice = createSlice({
             const part2 = initalArr.slice(initalArr.length /2);
             state.allAbilites = [...initalArr];
             state.allAbilitesChunks = {part1: part1, part2: part2};
+        },
+        addInstruments(state, action) {
+            state.allInstruments = [...JSON.parse(action.payload)];
         }
     }
 });
@@ -164,6 +168,7 @@ export const {
     showPreviewPage,
     statSwitcherMode,
     addAbilites,
+    addInstruments,
     
 } = characterStepsSlice.actions;
 
