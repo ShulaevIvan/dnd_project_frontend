@@ -1,15 +1,18 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAbilites, addInstruments } from "../../redux/slices/characterStepsSlice";
+import { addAbilites, addMastery} from "../../redux/slices/characterStepsSlice";
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
     const dispatch = useDispatch();
     const characterSum = useSelector((state) => state.characterSteps.characterSum);
     const allAbilitesChunks = useSelector((state) => state.characterSteps.allAbilitesChunks);
-    const allInstruments = useSelector((state) => state.characterSteps.allInstruments);
-
+    const allInstrumentMastery = useSelector((state) => state.characterSteps.allInstruments);
+    const allWeaponMastery = useSelector((state) => state.characterSteps.allWeapons);
+    const allArmorMastery = useSelector((state) => state.characterSteps.allArmor);
+    // const charWeapons = state.characterSum.classData.classWeaponMastery;
+    // const charArmor = state.characterSum.classData.classArmorMastery;
     useEffect(() => {
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/abilites/`, {
@@ -28,7 +31,7 @@ const CharacterStepsSkills = () => {
 
     useEffect(() => {
         const fetchFunc = async () => {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/instruments/`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/mastery/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,11 +39,15 @@ const CharacterStepsSkills = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                dispatch(addInstruments(JSON.stringify(data)))
+                console.log(data)
+                dispatch(addMastery({'data': JSON.stringify(data.armor), param: 'armor'}))
+                dispatch(addMastery({'data': JSON.stringify(data.weapons), param: 'weapons'}))
+                dispatch(addMastery({'data': JSON.stringify(data.instruments), param: 'instruments'}))
             });
         }
         fetchFunc();
     }, []);
+
 
 
     return (
@@ -84,7 +91,7 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-tools-wrap">
                     <h3>Инструменты</h3>
                     <div className="character-steps-skills-tools-row">
-                        {allInstruments.map((item) => {
+                        {allInstrumentMastery.map((item) => {
                             return (
                                 <React.Fragment key={Math.random()}>
                                     <div className="character-steps-skills-tools-item">
@@ -98,21 +105,33 @@ const CharacterStepsSkills = () => {
                     </div>
                 </div>
 
+                <div className="character-steps-skills-armor-wrap">
+                    <h3>Оружие</h3>
+                    <div className="character-steps-armor-row">
+                        {allArmorMastery ? allArmorMastery.map((item) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    <div className="character-steps-armor-item">
+                                        <span>{item.name}</span>
+                                    </div>
+                                </React.Fragment>
+                            )
+                        }) : null}
+                    </div>
+                </div>
+
                 <div className="character-steps-skills-weapon-wrap">
-                    <h3>Оружие и Доспехи</h3>
+                    <h3>Оружие</h3>
                     <div className="character-steps-weapon-row">
-                        <div className="character-steps-weapon-item">
-                            <span>Простое оружие</span>
-                        </div>
-                        <div className="character-steps-weapon-item">
-                            <span>Воинское оружие</span>
-                        </div>
-                        <div className="character-steps-weapon-item">
-                            <span>Легкие доспехи</span>
-                        </div>
-                        <div className="character-steps-weapon-item">
-                            <span>Средние доспехи</span>
-                        </div>
+                        {allWeaponMastery ? allWeaponMastery.map((item) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    <div className="character-steps-weapon-item">
+                                        <span>{item.name}</span>
+                                    </div>
+                                </React.Fragment>
+                            )
+                        }) : null}
                     </div>
                 </div>
 

@@ -6,6 +6,8 @@ const initialState = {
     allAbilites: [],
     allAbilitesChunks: {},
     allInstruments: [],
+    allWeapons: [],
+    allArmor: [],
     showPreviewPage: false,
     characterStepPage: 1,
     characterStepMaxPage: 5,
@@ -21,6 +23,7 @@ const initialState = {
         backgroundAllData: undefined,
         backgroundData: undefined,
         backgroundActive: undefined,
+        allCharMastery: undefined,
     },
     statModeSwitcher: false,
     navNextBtnDisable: true,
@@ -143,8 +146,13 @@ const characterStepsSlice = createSlice({
             state.allAbilites = [...initalArr];
             state.allAbilitesChunks = {part1: part1, part2: part2};
         },
-        addInstruments(state, action) {
-            state.allInstruments = [...JSON.parse(action.payload)];
+        addMastery(state, action) {
+            const data = action.payload.data;
+            const param = action.payload.param;
+            
+            if (param === 'instruments') state.allInstruments = [...JSON.parse(data)];
+            else if (param === 'weapons')state.allWeapons = [...JSON.parse(data)];
+            else if (param === 'armor') state.allArmor = [...JSON.parse(data)];
         }
     }
 });
@@ -168,7 +176,7 @@ export const {
     showPreviewPage,
     statSwitcherMode,
     addAbilites,
-    addInstruments,
+    addMastery,
     
 } = characterStepsSlice.actions;
 
