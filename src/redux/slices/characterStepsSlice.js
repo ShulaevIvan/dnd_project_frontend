@@ -23,7 +23,9 @@ const initialState = {
         backgroundAllData: undefined,
         backgroundData: undefined,
         backgroundActive: undefined,
-        allCharMastery: undefined,
+        allCharArmorMastery: [],
+        allWeaponMastery: [],
+        allCharInstrumentMastery: [],
     },
     statModeSwitcher: false,
     navNextBtnDisable: true,
@@ -149,10 +151,28 @@ const characterStepsSlice = createSlice({
         addMastery(state, action) {
             const data = action.payload.data;
             const param = action.payload.param;
-            
-            if (param === 'instruments') state.allInstruments = [...JSON.parse(data)];
-            else if (param === 'weapons')state.allWeapons = [...JSON.parse(data)];
-            else if (param === 'armor') state.allArmor = [...JSON.parse(data)];
+
+            if (param === 'instruments') {
+                state.characterSum.allCharInstrumentMastery = [
+                    ...state.characterSum.classData.classInstrumentMastery,
+                    ...state.characterSum.backgroundActive[0].instrumentMastery,  
+                ]
+                state.allInstruments = [...JSON.parse(data)];
+            }
+            else if (param === 'weapons') {
+                state.characterSum.allCharWeaponMastery = [
+                    ...state.characterSum.classData.classWeaponMastery,
+                    ...state.characterSum.backgroundActive[0].weaponMastery,  
+                ]
+                state.allWeapons = [...JSON.parse(data)];
+            }
+            else if (param === 'armor') {
+                state.characterSum.allCharArmorMastery = [
+                    ...state.characterSum.classData.classArmorMastery,
+                    ...state.characterSum.backgroundActive[0].armorMastery,  
+                ]
+                state.allArmor = [...JSON.parse(data)];
+            }
         }
     }
 });

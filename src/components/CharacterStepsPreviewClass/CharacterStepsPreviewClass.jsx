@@ -55,7 +55,8 @@ const CharacterStepsPreviewClass = () => {
                         </div>
                 </div>
 
-                <div className="class-weapon-mastery-wrap">
+                {classState.classWeaponMastery.length > 0 ? 
+                    <div className="class-weapon-mastery-wrap">
                     <span className="class-view-title-span">Мастерство оружия</span>
                         <div className="weapon-mastery-row">
                             {classState.classWeaponMastery.map((item) => {
@@ -67,7 +68,10 @@ const CharacterStepsPreviewClass = () => {
                             })}
                         </div>
                 </div>
+                : null}
+                
 
+                {classState.classArmorMastery.length > 0 ? 
                 <div className="class-armor-weapon-mastery-wrap">
                     <span className="class-view-title-span">Мастерство доспехов</span>
                         <div className="armor-mastery-row">
@@ -80,6 +84,25 @@ const CharacterStepsPreviewClass = () => {
                             })}
                         </div>
                 </div>
+                : null}
+                
+
+                {classState.classInstrumentMastery.length > 0 ? 
+                <div className="class-armor-weapon-mastery-wrap">
+                    <span className="class-view-title-span">Мастерство инструментов</span>
+                        <div className="armor-mastery-row">
+                            {classState.classInstrumentMastery.map((item) => {
+                                return (
+                                    <React.Fragment key={Math.random()}>
+                                        <div className="armor-mastery-item">{item.name}</div>
+                                    </React.Fragment>
+                                )
+                            })}
+                        </div>
+                </div>
+                : null}
+                
+                
                     
 
                 <div className="class-skills-wrap">

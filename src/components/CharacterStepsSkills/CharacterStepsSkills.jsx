@@ -13,6 +13,8 @@ const CharacterStepsSkills = () => {
     const allArmorMastery = useSelector((state) => state.characterSteps.allArmor);
     // const charWeapons = state.characterSum.classData.classWeaponMastery;
     // const charArmor = state.characterSum.classData.classArmorMastery;
+    console.log(characterSum)
+    
     useEffect(() => {
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/abilites/`, {
@@ -91,7 +93,7 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-tools-wrap">
                     <h3>Инструменты</h3>
                     <div className="character-steps-skills-tools-row">
-                        {allInstrumentMastery.map((item) => {
+                        {characterSum.allCharInstrumentMastery.map((item) => {
                             return (
                                 <React.Fragment key={Math.random()}>
                                     <div className="character-steps-skills-tools-item">
@@ -108,7 +110,7 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-armor-wrap">
                     <h3>Оружие</h3>
                     <div className="character-steps-armor-row">
-                        {allArmorMastery ? allArmorMastery.map((item) => {
+                        {characterSum.allCharWeaponMastery.map((item) => {
                             return (
                                 <React.Fragment key={Math.random()}>
                                     <div className="character-steps-armor-item">
@@ -116,14 +118,14 @@ const CharacterStepsSkills = () => {
                                     </div>
                                 </React.Fragment>
                             )
-                        }) : null}
+                        })}
                     </div>
                 </div>
 
                 <div className="character-steps-skills-weapon-wrap">
                     <h3>Оружие</h3>
                     <div className="character-steps-weapon-row">
-                        {allWeaponMastery ? allWeaponMastery.map((item) => {
+                        {characterSum.allCharArmorMastery.map((item) => {
                             return (
                                 <React.Fragment key={Math.random()}>
                                     <div className="character-steps-weapon-item">
@@ -131,7 +133,7 @@ const CharacterStepsSkills = () => {
                                     </div>
                                 </React.Fragment>
                             )
-                        }) : null}
+                        })}
                     </div>
                 </div>
 
