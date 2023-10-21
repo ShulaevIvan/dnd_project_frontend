@@ -274,3 +274,10 @@
     margin-bottom: 5px;
     width: 100%;
 }
+.skillExists {
+    border: 1px solid red;
+}
+.skillnotExists {
+    opacity: 0.5;
+    background-color: lightgray;
+}

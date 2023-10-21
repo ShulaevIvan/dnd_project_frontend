@@ -8,6 +8,7 @@ const initialState = {
     allInstruments: [],
     allWeapons: [],
     allArmor: [],
+    allLanguages: [],
     showPreviewPage: false,
     characterStepPage: 1,
     characterStepMaxPage: 5,
@@ -24,7 +25,7 @@ const initialState = {
         backgroundData: undefined,
         backgroundActive: undefined,
         allCharArmorMastery: [],
-        allWeaponMastery: [],
+        allCharWeaponMastery: [],
         allCharInstrumentMastery: [],
     },
     statModeSwitcher: false,
@@ -153,10 +154,16 @@ const characterStepsSlice = createSlice({
             const param = action.payload.param;
 
             if (param === 'instruments') {
-                state.characterSum.allCharInstrumentMastery = [
-                    ...state.characterSum.classData.classInstrumentMastery,
-                    ...state.characterSum.backgroundActive[0].instrumentMastery,  
-                ]
+                if (state.characterSum.backgroundActive[0].instrumentMastery) {
+                    state.characterSum.allCharInstrumentMastery = [
+                        ...state.characterSum.backgroundActive[0].instrumentMastery,
+                    ]
+                }
+                else if (state.characterSum.classData.classInstrumentMastery) {
+                    state.characterSum.allCharInstrumentMastery = [
+                        ...state.characterSum.classData.classInstrumentMastery,
+                    ]
+                }
                 state.allInstruments = [...JSON.parse(data)];
             }
             else if (param === 'weapons') {
@@ -173,6 +180,9 @@ const characterStepsSlice = createSlice({
                 ]
                 state.allArmor = [...JSON.parse(data)];
             }
+        },
+        addLanguages(state, action) {
+            state.allLanguages = [...JSON.parse(action.payload)];
         }
     }
 });
@@ -197,6 +207,7 @@ export const {
     statSwitcherMode,
     addAbilites,
     addMastery,
+    addLanguages,
     
 } = characterStepsSlice.actions;
 

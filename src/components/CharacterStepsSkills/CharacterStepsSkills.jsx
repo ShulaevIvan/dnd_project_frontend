@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAbilites, addMastery} from "../../redux/slices/characterStepsSlice";
+import { addAbilites, addMastery, addLanguages} from "../../redux/slices/characterStepsSlice";
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
@@ -11,9 +11,8 @@ const CharacterStepsSkills = () => {
     const allInstrumentMastery = useSelector((state) => state.characterSteps.allInstruments);
     const allWeaponMastery = useSelector((state) => state.characterSteps.allWeapons);
     const allArmorMastery = useSelector((state) => state.characterSteps.allArmor);
-    // const charWeapons = state.characterSum.classData.classWeaponMastery;
-    // const charArmor = state.characterSum.classData.classArmorMastery;
-    console.log(characterSum)
+    const allLanguages = useSelector((state) => state.characterSteps.allLanguages);
+    const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     
     useEffect(() => {
         const fetchFunc = async () => {
@@ -29,7 +28,7 @@ const CharacterStepsSkills = () => {
             });
         }
         fetchFunc();
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -41,14 +40,31 @@ const CharacterStepsSkills = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
+                dispatch(addMastery({'data': JSON.stringify(data.instruments), param: 'instruments'}))
                 dispatch(addMastery({'data': JSON.stringify(data.armor), param: 'armor'}))
                 dispatch(addMastery({'data': JSON.stringify(data.weapons), param: 'weapons'}))
-                dispatch(addMastery({'data': JSON.stringify(data.instruments), param: 'instruments'}))
             });
         }
         fetchFunc();
-    }, []);
+
+    }, [dispatch]);
+
+    useEffect(() => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/languages/`, {
+                method: 'GET',
+                headers: {
+                    'content-type': 'application/json',
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addLanguages(JSON.stringify(data)));
+            })
+        }
+
+        fetchFunc();
+    }, [dispatch])
 
 
 
@@ -68,7 +84,8 @@ const CharacterStepsSkills = () => {
                                         <div className={`character-skills-item skills-item-modif-${item.abilityType}`}>
                                             <span className="skill-plus-value-icon"></span>
                                             <div className="character-skill-name">{item.name}</div>
-                                            <div className="character-skill-modif">+ 3</div>
+                                            <div className="character-skill-modif">
+                                                {resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer}</div>
                                         </div>
                                     </React.Fragment>
                                 )
@@ -81,7 +98,9 @@ const CharacterStepsSkills = () => {
                                         <div className={`character-skills-item skills-item-modif-${item.abilityType}`}>
                                             <span className="skill-plus-value-icon"></span>
                                             <div className="character-skill-name">{item.name}</div>
-                                            <div className="character-skill-modif">+ 3</div>
+                                            <div className="character-skill-modif">
+                                                {resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer}
+                                            </div>
                                         </div>
                                     </React.Fragment>
                                 )
@@ -93,43 +112,52 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-tools-wrap">
                     <h3>Инструменты</h3>
                     <div className="character-steps-skills-tools-row">
-                        {characterSum.allCharInstrumentMastery.map((item) => {
+                        {allInstrumentMastery.map((instrument) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    <div className="character-steps-skills-tools-item">
+                                    <div className={
+                                        characterSum.allCharInstrumentMastery.find((item) => item.name === instrument.name && item.id === instrument.id) ? 
+                                            'character-steps-skills-tools-item skillExists' : 'character-steps-skills-tools-item skillnotExists' 
+                                    }>
                                         <span className="skill-plus-value-icon"></span>
-                                        <div className="character-skill-tool-name">{item.name}</div>
+                                        <div className="character-skill-tool-name">{instrument.name}</div>
                                         <div className="character-skill-tool-modif">+ 3</div>
                                     </div>
                                 </React.Fragment>
                             )
                         })}
+                        
                     </div>
                 </div>
 
                 <div className="character-steps-skills-armor-wrap">
                     <h3>Оружие</h3>
                     <div className="character-steps-armor-row">
-                        {characterSum.allCharWeaponMastery.map((item) => {
-                            return (
-                                <React.Fragment key={Math.random()}>
-                                    <div className="character-steps-armor-item">
-                                        <span>{item.name}</span>
-                                    </div>
-                                </React.Fragment>
+                    {allWeaponMastery.map((weapon) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className={characterSum.allCharWeaponMastery.find((item) => item.id === weapon.id && item.name === item.name) ?
+                                'character-steps-skills-tools-item skillExists' : 'character-steps-skills-tools-item skillnotExists'}>
+                                    <span className="skill-plus-value-icon"></span>
+                                    <div className="character-skill-tool-name">{weapon.name}</div>
+                                    <div className="character-skill-tool-modif">+3</div>
+                                </div>
+                            </React.Fragment>
                             )
-                        })}
+                        })
+                    }
                     </div>
                 </div>
 
                 <div className="character-steps-skills-weapon-wrap">
-                    <h3>Оружие</h3>
+                    <h3>Доспехи</h3>
                     <div className="character-steps-weapon-row">
-                        {characterSum.allCharArmorMastery.map((item) => {
+                        {allArmorMastery.map((armor) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    <div className="character-steps-weapon-item">
-                                        <span>{item.name}</span>
+                                    <div className={characterSum.allCharArmorMastery.find((item) => item.id === armor.id && item.name === armor.name) ?
+                                    'character-steps-weapon-item skillExists' : 'character-steps-weapon-item skillnotExists'}>
+                                        <span>{armor.name}</span>
                                     </div>
                                 </React.Fragment>
                             )
@@ -140,7 +168,17 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-language-wrap">
                     <h3>Языки</h3>
                     <div className="character-steps-language-row">
-                        <div class="character-steps-language-item">Общий</div>
+                        {allLanguages.map((language) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    <div className={characterSum.raceData.languages.find((item) => item.name === language.name && item.id === language.id) ? 
+                                            "character-steps-language-item skillExists" : "character-steps-language-item skillnotExists"}>
+                                        {language.name}
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })}
+                        
                     </div>
                 </div>
             </div>

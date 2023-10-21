@@ -25,6 +25,7 @@ const CharacterStepsPreiewRace = () => {
                         {!characterCreateState.characterSum.subraceData ? 
                             <React.Fragment>
                                 <ul>
+                                    <li>{`Str: + ${raceState.race_bonuces.str_bonuce}`}</li>
                                     <li>{`Dex: + ${raceState.race_bonuces.dex_bonuce}`}</li>
                                     <li>{`Con: + ${raceState.race_bonuces.con_bonuce}`}</li>
                                     <li>{`Int: + ${raceState.race_bonuces.int_bonuce}`}</li>
@@ -35,6 +36,7 @@ const CharacterStepsPreiewRace = () => {
                         
                             <React.Fragment>
                                 <ul>
+                                    <li>{`Str: + ${subraceState.subraceBonuces.str_bonuce}`}</li>
                                     <li>{`Dex: + ${subraceState.subraceBonuces.dex_bonuce}`}</li>
                                     <li>{`Con: + ${subraceState.subraceBonuces.con_bonuce}`}</li>
                                     <li>{`Int: + ${subraceState.subraceBonuces.int_bonuce}`}</li>

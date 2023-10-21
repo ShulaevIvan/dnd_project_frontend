@@ -55,7 +55,7 @@ const CharacterStepsPreviewClass = () => {
                         </div>
                 </div>
 
-                {classState.classWeaponMastery.length > 0 ? 
+                {classState.classWeaponMastery && classState.classWeaponMastery.length > 0 ? 
                     <div className="class-weapon-mastery-wrap">
                     <span className="class-view-title-span">Мастерство оружия</span>
                         <div className="weapon-mastery-row">
@@ -71,7 +71,7 @@ const CharacterStepsPreviewClass = () => {
                 : null}
                 
 
-                {classState.classArmorMastery.length > 0 ? 
+                {classState.classArmorMastery && classState.classArmorMastery.length > 0 ? 
                 <div className="class-armor-weapon-mastery-wrap">
                     <span className="class-view-title-span">Мастерство доспехов</span>
                         <div className="armor-mastery-row">
@@ -87,7 +87,7 @@ const CharacterStepsPreviewClass = () => {
                 : null}
                 
 
-                {classState.classInstrumentMastery.length > 0 ? 
+                {classState.classInstrumentMastery && classState.classInstrumentMastery.length > 0 ? 
                 <div className="class-armor-weapon-mastery-wrap">
                     <span className="class-view-title-span">Мастерство инструментов</span>
                         <div className="armor-mastery-row">
