@@ -27,6 +27,7 @@ const initialState = {
         allCharArmorMastery: [],
         allCharWeaponMastery: [],
         allCharInstrumentMastery: [],
+        choosenCharAbilites: [],
     },
     statModeSwitcher: false,
     navNextBtnDisable: true,
@@ -183,6 +184,10 @@ const characterStepsSlice = createSlice({
         },
         addLanguages(state, action) {
             state.allLanguages = [...JSON.parse(action.payload)];
+        },
+        chooseCharAbility(state, action) {
+            const ability = action.payload
+            state.characterSum.choosenCharAbilites = [...state.characterSum.choosenCharAbilites.filter((item) => item.id !== ability.id), ability]
         }
     }
 });
@@ -208,6 +213,7 @@ export const {
     addAbilites,
     addMastery,
     addLanguages,
+    chooseCharAbility,
     
 } = characterStepsSlice.actions;
 

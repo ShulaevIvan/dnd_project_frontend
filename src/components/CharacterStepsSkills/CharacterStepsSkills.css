@@ -70,6 +70,36 @@
     left: -1%;
     bottom: 10%;
 }
+.main-ability-param::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '\2606';
+    position: absolute;
+    max-height: 16px;
+    width: 16px;
+    font-size: 18px;
+    padding: 2px;
+    background-color: white;
+    right: -1%;
+    bottom: 10%;
+    cursor: pointer;
+}
+.main-ability-param-active::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '\2605';
+    position: absolute;
+    max-height: 16px;
+    width: 16px;
+    font-size: 18px;
+    padding: 2px;
+    background-color: white;
+    right: -1%;
+    bottom: 10%;
+    cursor: pointer;
+}
 .character-steps-skills-wrap {
     display: flex;
     flex-direction: column;
@@ -280,4 +310,11 @@
 .skillnotExists {
     opacity: 0.5;
     background-color: lightgray;
+}
+.ability-points-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
 }

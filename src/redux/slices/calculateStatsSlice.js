@@ -423,10 +423,13 @@ const calculateStatsSlice = createSlice({
                 ac: charDex ? Math.sign(charDex.modifer)  === 1 ? 10 + Number(charDex.modifer) : 10 - Number(charDex.modifer) : '-',
                 init: charDex ? Math.sign(charDex.modifer)  === 1 ? 10 + Number(charDex.modifer) : 10 - Number(charDex.modifer) : '-',
                 move: speed,
-                prof: 1,
+                prof: 2,
                 hp: charCon ? Number(baseHits) + Number(charCon.modifer) : '-',
                 hitDice: `${minDiceHit} k ${maxDiceHit}`,
             };
+        },
+        calculateCharSkillsModifer(state, action) {
+
         }
     }
 });

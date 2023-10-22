@@ -131,7 +131,7 @@ const CharacterStepsInfo = () => {
                     <div className="character-steps-basic-combat-stats-row">
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-prof">PROF</div>
-                            <div className="character-basic-combat-item-body">{otherCharStats ? otherCharStats.prof : '-'}</div>
+                            <div className="character-basic-combat-item-body">{otherCharStats ? `+ ${otherCharStats.prof}` : '-'}</div>
                         </div>
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-hp">HP</div>

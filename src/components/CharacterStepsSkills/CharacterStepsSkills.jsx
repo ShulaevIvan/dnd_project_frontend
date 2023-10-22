@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAbilites, addMastery, addLanguages} from "../../redux/slices/characterStepsSlice";
+import { addAbilites, addMastery, addLanguages, chooseCharAbility} from "../../redux/slices/characterStepsSlice";
+import { addAbilityPoins, chooseAbility } from "../../redux/slices/calculateAbilitiesSlice";
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
@@ -13,6 +14,8 @@ const CharacterStepsSkills = () => {
     const allArmorMastery = useSelector((state) => state.characterSteps.allArmor);
     const allLanguages = useSelector((state) => state.characterSteps.allLanguages);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
+    const abilityPoints = useSelector((state) => state.calculateAbilites);
+    const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
     
     useEffect(() => {
         const fetchFunc = async () => {
@@ -28,7 +31,7 @@ const CharacterStepsSkills = () => {
             });
         }
         fetchFunc();
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -47,7 +50,7 @@ const CharacterStepsSkills = () => {
         }
         fetchFunc();
 
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -64,9 +67,22 @@ const CharacterStepsSkills = () => {
         }
 
         fetchFunc();
-    }, [dispatch])
+    }, []);
 
+    useEffect(() => {
+        dispatch(addAbilityPoins({
+            abilityPoints: characterSum.classData.classAbilityPoints,
+            intBonuce: resultCharStats.find((item) => item.statParam === 'int').modifer,
+        }));
+    }, []);
 
+    const chooseAbilityHandler = (abilObj) => {
+        dispatch(chooseAbility(abilObj));
+    };
+
+    useEffect(() => {
+        console.log(abilityPoints.choosenAbilities)
+    }, [abilityPoints]);
 
     return (
         <React.Fragment>
@@ -76,6 +92,7 @@ const CharacterStepsSkills = () => {
 
                 <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
+                    <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilitiesPoints}</div>
                     <div className="character-steps-skills-row">
                         <div className="character-steps-skills-has-item-row">
                             {allAbilitesChunks.part1 ? allAbilitesChunks.part2.map((item) => {
@@ -84,8 +101,23 @@ const CharacterStepsSkills = () => {
                                         <div className={`character-skills-item skills-item-modif-${item.abilityType}`}>
                                             <span className="skill-plus-value-icon"></span>
                                             <div className="character-skill-name">{item.name}</div>
+                                            {characterSum.classData.classAbilities.find((abil) => abil.name === item.name) ?  
+                                                <span 
+                                                    className={
+                                                        abilityPoints.choosenAbilities.find((abil) => abil.id === item.id) ? 
+                                                            'main-ability-param-active' : 'main-ability-param'
+                                                    } 
+                                                    onClick={() => chooseAbilityHandler(item)}>
+                                                    
+                                                </span> : null
+                                            }
+                                           
                                             <div className="character-skill-modif">
-                                                {resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer}</div>
+                                                {abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === item.id) ?
+                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer) + otherCharStats.prof :
+                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer)
+                                                }
+                                            </div>
                                         </div>
                                     </React.Fragment>
                                 )
@@ -98,8 +130,21 @@ const CharacterStepsSkills = () => {
                                         <div className={`character-skills-item skills-item-modif-${item.abilityType}`}>
                                             <span className="skill-plus-value-icon"></span>
                                             <div className="character-skill-name">{item.name}</div>
+                                            {characterSum.classData.classAbilities.find((abil) => abil.name === item.name) ?  
+                                                <span 
+                                                className={
+                                                    abilityPoints.choosenAbilities.find((abil) => abil.id === item.id) ? 
+                                                        'main-ability-param-active' : 'main-ability-param'
+                                                } 
+                                                onClick={() => chooseAbilityHandler(item)}>
+                                                
+                                                </span> : null
+                                            }
                                             <div className="character-skill-modif">
-                                                {resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer}
+                                                {abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === item.id) ?
+                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer) + otherCharStats.prof :
+                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer)
+                                                }
                                             </div>
                                         </div>
                                     </React.Fragment>
@@ -108,6 +153,7 @@ const CharacterStepsSkills = () => {
                         </div>
                     </div>
                 </div>
+                
 
                 <div className="character-steps-skills-tools-wrap">
                     <h3>Инструменты</h3>
@@ -121,7 +167,7 @@ const CharacterStepsSkills = () => {
                                     }>
                                         <span className="skill-plus-value-icon"></span>
                                         <div className="character-skill-tool-name">{instrument.name}</div>
-                                        <div className="character-skill-tool-modif">+ 3</div>
+                                        <div className="character-skill-tool-modif"></div>
                                     </div>
                                 </React.Fragment>
                             )
