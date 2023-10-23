@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAbilites, addMastery, addLanguages, chooseCharAbility} from "../../redux/slices/characterStepsSlice";
-import { addAbilityPoins, chooseAbility } from "../../redux/slices/calculateAbilitiesSlice";
+import { addAbilityPoints, chooseAbility } from "../../redux/slices/calculateAbilitiesSlice";
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
@@ -20,11 +20,16 @@ const CharacterStepsSkills = () => {
     const calcAblilModif = (abilObj) => {
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
         const abilModifer = resultCharStats.find((statObj) => statObj.statParam === abilObj.abilityType).modifer;
+        console.log(characterSum)
 
         if (abilExists) {
             return Number(abilModifer) + Number(abilitesState.charOtherStats.prof);
         }
         return Number(abilModifer);
+    };
+
+    const chooseAbilityHandler = (abilObj) => {
+        dispatch(chooseAbility(abilObj));
     };
     
     useEffect(() => {
@@ -80,15 +85,11 @@ const CharacterStepsSkills = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(addAbilityPoins({
+        dispatch(addAbilityPoints({
             abilityPoints: characterSum.classData.classAbilityPoints,
             intBonuce: resultCharStats.find((item) => item.statParam === 'int').modifer,
         }));
     }, []);
-
-    const chooseAbilityHandler = (abilObj) => {
-        dispatch(chooseAbility(abilObj));
-    };
 
     useEffect(() => {
         console.log(abilityPoints.choosenAbilities)
@@ -139,11 +140,11 @@ const CharacterStepsSkills = () => {
                                             <div className="character-skill-name">{item.name}</div>
                                             {characterSum.classData.classAbilities.find((abil) => abil.name === item.name) ?  
                                                 <span 
-                                                className={
-                                                    abilityPoints.choosenAbilities.find((abil) => abil.id === item.id) ? 
-                                                        'main-ability-param-active' : 'main-ability-param'
-                                                } 
-                                                onClick={() => chooseAbilityHandler(item)}>
+                                                    className={
+                                                        abilityPoints.choosenAbilities.find((abil) => abil.id === item.id) ? 
+                                                            'main-ability-param-active' : 'main-ability-param'
+                                                    } 
+                                                    onClick={() => chooseAbilityHandler(item)}>
                                                 
                                                 </span> : null
                                             }

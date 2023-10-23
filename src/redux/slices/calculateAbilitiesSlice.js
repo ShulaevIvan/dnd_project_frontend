@@ -1,4 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     currentAbilityPoints: 0,
@@ -6,6 +6,8 @@ const initialState = {
     baseAbilityPoints: 0,
     masteryPoints: 2,
     choosenAbilities: [],
+    bonuceAbilities: [],
+    bonuceAbilitiyPoints: 0,
 
 };
 
@@ -13,41 +15,51 @@ const calculateAbilitiesSlice = createSlice({
     name: 'calculateAbility',
     initialState,
     reducers: {
-        addAbilityPoins(state, action) {
-            const abilityPoints = action.payload.abilityPoints;
-            const intBonuce = action.payload.intBonuce;
+        addAbilityPoints(state, action) {
+            const abilityPoints = Number(action.payload.abilityPoints);
+            const intBonuce = Number(action.payload.intBonuce);
             state.choosenAbilities = [];
             state.baseAbilityPoints = abilityPoints;
-            state.maxAbilitiesPoints = Number(abilityPoints) + Number(intBonuce);
-            if (Math.sign(state.maxAbilitiesPoints) === -1) state.maxAbilitiesPoints = state.baseAbilityPoints;
+
+            if (abilityPoints + intBonuce <= abilityPoints) {
+                state.maxAbilitiesPoints = abilityPoints;
+                state.currentAbilityPoints = abilityPoints;
+                return;
+            }
+            state.maxAbilitiesPoints = abilityPoints;
             state.currentAbilityPoints = state.maxAbilitiesPoints;
         },
         chooseAbility(state, action) {
             const ability = action.payload;
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
 
-            if (state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists && state.currentAbilityPoints > 0) {
+            if (state.currentAbilityPoints > 0 && state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
                 return;
             }
-            else if (abilExists) {
+            else if (abilExists && state.currentAbilityPoints + 1 <= state.maxAbilitiesPoints) {
                 state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) + 1;
                 return;
             }
-            else if (!abilExists && state.currentAbilityPoints <= 0 && state.choosenAbilities.length <= state.baseAbilityPoints) {
-                state.choosenAbilities = [...state.choosenAbilities, ability];
-                return;
-            }
            
+        },
+        addBonuceAbilities(state, action) {
+            const { skills } = action.payload;
+            const pattern = /^addAbility/;
+            const abilities = skills.filter((item) => item.skill_type.match(pattern));
+            
+            state.bonuceAbilities = [...new Set(state.bonuceAbilities.concat(abilities))]
+            console.log(state.bonuceAbilities)
         }
     }
 });
 
 export const {
-    addAbilityPoins,
+    addAbilityPoints,
     chooseAbility,
+    addBonuceAbilities,
 
 } = calculateAbilitiesSlice.actions;
 
