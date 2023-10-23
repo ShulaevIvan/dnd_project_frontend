@@ -15,7 +15,17 @@ const CharacterStepsSkills = () => {
     const allLanguages = useSelector((state) => state.characterSteps.allLanguages);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const abilityPoints = useSelector((state) => state.calculateAbilites);
-    const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
+    const abilitesState = useSelector((state) => state.calculateCharStats);
+
+    const calcAblilModif = (abilObj) => {
+        const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
+        const abilModifer = resultCharStats.find((statObj) => statObj.statParam === abilObj.abilityType).modifer;
+
+        if (abilExists) {
+            return Number(abilModifer) + Number(abilitesState.charOtherStats.prof);
+        }
+        return Number(abilModifer);
+    };
     
     useEffect(() => {
         const fetchFunc = async () => {
@@ -113,10 +123,7 @@ const CharacterStepsSkills = () => {
                                             }
                                            
                                             <div className="character-skill-modif">
-                                                {abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === item.id) ?
-                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer) + otherCharStats.prof :
-                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer)
-                                                }
+                                                {calcAblilModif(item)}
                                             </div>
                                         </div>
                                     </React.Fragment>
@@ -141,10 +148,7 @@ const CharacterStepsSkills = () => {
                                                 </span> : null
                                             }
                                             <div className="character-skill-modif">
-                                                {abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === item.id) ?
-                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer) + otherCharStats.prof :
-                                                    Number(resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer)
-                                                }
+                                                {calcAblilModif(item)}
                                             </div>
                                         </div>
                                     </React.Fragment>

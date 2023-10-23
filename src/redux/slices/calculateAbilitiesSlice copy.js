@@ -19,16 +19,18 @@ const calculateAbilitiesSlice = createSlice({
             state.choosenAbilities = [];
             state.baseAbilityPoints = abilityPoints;
             state.maxAbilitiesPoints = Number(abilityPoints) + Number(intBonuce);
-            if (Math.sign(state.maxAbilitiesPoints) === -1) state.maxAbilitiesPoints = state.baseAbilityPoints;
             state.currentAbilityPoints = state.maxAbilitiesPoints;
         },
         chooseAbility(state, action) {
             const ability = action.payload;
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
-
-            if (state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists && state.currentAbilityPoints > 0) {
+            if (state.currentAbilityPoints < state.maxAbilitiesPoints && !abilExists && state.currentAbilityPoints > 0) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
+                return;
+            }
+            else if (abilExists && state.choosenAbilities.length < state.baseAbilityPoints && Math.sign(state.currentAbilityPoints) === -1) {
+                state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 return;
             }
             else if (abilExists) {
