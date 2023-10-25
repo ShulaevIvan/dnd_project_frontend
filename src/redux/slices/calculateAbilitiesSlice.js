@@ -46,12 +46,20 @@ const calculateAbilitiesSlice = createSlice({
            
         },
         addBonuceAbilities(state, action) {
-            const { skills } = action.payload;
-            const pattern = /^addAbility/;
-            const abilities = skills.filter((item) => item.skill_type.match(pattern));
-            
-            state.bonuceAbilities = [...new Set(state.bonuceAbilities.concat(abilities))]
-            console.log(state.bonuceAbilities)
+            const { raceBonuceAbilities, backgroundBonuceAbilities } = action.payload;
+            const bonuceAbilitiesSum = [];
+            raceBonuceAbilities.map((item) => {
+                if (item.skill_data === 'any' || item.skill_data === 'any ability') {
+                    console.log(item)
+                    state.currentAbilityPoints = state.currentAbilityPoints + Number(item.skill_value);
+                    state.maxAbilitiesPoints = state.maxAbilitiesPoints + Number(item.skill_value);
+                }
+                bonuceAbilitiesSum.push(item.skill_data);
+            })
+            backgroundBonuceAbilities.map((item) => {
+                bonuceAbilitiesSum.push(item.name);
+            })
+            console.log(bonuceAbilitiesSum)
         }
     }
 });

@@ -1,8 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAbilites, addMastery, addLanguages, chooseCharAbility} from "../../redux/slices/characterStepsSlice";
+import { addAbilites, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
 import { addAbilityPoints, chooseAbility } from "../../redux/slices/calculateAbilitiesSlice";
+import {addBonuceAbilities} from '../../redux/slices/calculateAbilitiesSlice';
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
@@ -20,7 +21,6 @@ const CharacterStepsSkills = () => {
     const calcAblilModif = (abilObj) => {
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
         const abilModifer = resultCharStats.find((statObj) => statObj.statParam === abilObj.abilityType).modifer;
-        console.log(characterSum)
 
         if (abilExists) {
             return Number(abilModifer) + Number(abilitesState.charOtherStats.prof);
@@ -88,6 +88,10 @@ const CharacterStepsSkills = () => {
         dispatch(addAbilityPoints({
             abilityPoints: characterSum.classData.classAbilityPoints,
             intBonuce: resultCharStats.find((item) => item.statParam === 'int').modifer,
+        }));
+        dispatch(addBonuceAbilities({
+            raceBonuceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
+            backgroundBonuceAbilities: characterSum.backgroundActive[0].bounceAbilities,
         }));
     }, []);
 

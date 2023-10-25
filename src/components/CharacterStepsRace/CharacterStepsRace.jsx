@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addRaces, selectRace, selectSubrace, unsetRace, showPreviewPage } from "../../redux/slices/characterStepsSlice";
 import { addBaseStats } from "../../redux/slices/calculateStatsSlice";
-import { addBonuceAbilities } from "../../redux/slices/calculateAbilitiesSlice";
 
 const  CharacterStepsRace = () => {
     const characterCreateState =  useSelector((state) => state.characterSteps);
@@ -34,10 +33,7 @@ const  CharacterStepsRace = () => {
                     languages: data.languages
                 };
 
-                if (!autoSelect) {
-                    dispatch(addBaseStats({stats: raceData.race_bonuces, subrace: false}));
-                    dispatch(addBonuceAbilities({'skills': [...raceData.skills]}));
-                }
+                if (!autoSelect) dispatch(addBaseStats({stats: raceData.race_bonuces, subrace: false}));
                 
                 setSelectedRaceState(prevState => ({
                     ...prevState,
@@ -79,7 +75,6 @@ const  CharacterStepsRace = () => {
                 if (subraceData.baseRace.id === raceId) dispatch(selectSubrace(JSON.stringify(subraceData)));
                     
                 dispatch(addBaseStats({stats: subraceData.subraceBonuces, subrace: true}));
-                dispatch(addBonuceAbilities({'skills': [...subraceData.subraceSkills]}));
                 dispatch(showPreviewPage(true));
 
                 setTimeout(() => {
