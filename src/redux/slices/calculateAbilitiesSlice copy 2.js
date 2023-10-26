@@ -42,29 +42,16 @@ const calculateAbilitiesSlice = createSlice({
             const bonuceAbilitiesSum = [];
 
             raceBonuceAbilities.map((item) => {
-                let abilObj = {
-                    name: item.skill_data,
-                    value: 0,
-                }
-                const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.skill_data);
-                if (abilExists)  abilObj.value += 1;
-                bonuceAbilitiesSum.push(abilObj);
+                bonuceAbilitiesSum.push(item.skill_data);
             });
 
             backgroundBonuceAbilities.map((item) => {
-                let abilObj = {
-                    name: item.name,
-                    value: 0,
-                }
-                const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.name);
-                if (abilExists) abilObj.value += 1;
-                bonuceAbilitiesSum.push(abilObj);
+                bonuceAbilitiesSum.push(item.name);
             });
             state.bonuceAbilities = bonuceAbilitiesSum;
         },
         removeBonuceAbility(state, action) {
-            const removeBonuce = action.payload;
-            state.bonuceAbilities.filter((item) => item !== removeBonuce.name);
+            state.bonuceAbilities.filter((item) => item !== action.payload.name);
         },
         addAdditionalAbilityPoints(state, action) {
         }

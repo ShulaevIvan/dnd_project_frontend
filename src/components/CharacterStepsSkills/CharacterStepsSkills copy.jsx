@@ -36,8 +36,8 @@ const CharacterStepsSkills = () => {
     };
 
     const checkAbilityBonuce = (abilObj) => {
-        const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
-        const checkAbilClass = characterSum.classData.classAbilities.find((item) => checkAbil && item.name === checkAbil.name);
+        const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil === abilObj.name);
+        const checkAbilClass = characterSum.classData.classAbilities.find((item) => item.name === checkAbil);
 
         if (checkAbil && !checkAbilClass) return true;
 

@@ -20,7 +20,6 @@ const CharacterStepsClass = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 dispatch(addBaseHits({minHits: data.minHitsLvl, maxHits: data.maxHitsLvl}));
                 if (autoSelect) {
                     dispatch(unsetClass());

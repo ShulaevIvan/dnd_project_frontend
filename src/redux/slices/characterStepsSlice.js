@@ -144,11 +144,20 @@ const characterStepsSlice = createSlice({
             
         },
         addAbilites(state, action) {
-            const initalArr = JSON.parse(action.payload);
-            const part1 = initalArr.slice(0, initalArr.length / 2);
-            const part2 = initalArr.slice(initalArr.length /2);
-            state.allAbilites = [...initalArr];
+            state.allAbilites = [];
+            const { abilities } = action.payload;
+            const part1 = abilities.slice(0, abilities.length / 2);
+            const part2 = abilities.slice(abilities.length /2);
+            state.allAbilites = [...abilities];
             state.allAbilitesChunks = {part1: part1, part2: part2};
+        },
+        addCharBonuceAbilites(state, action) {
+            const { bonuceAbilities } = action.payload;
+            state.bonuceAbilities = bonuceAbilities;
+        },
+        addBonuceAbility(state, action) {
+            const ability = action.payload;
+            state.characterSum.classData.classAbilities = [...state.characterSum.classData.classAbilities, ability];
         },
         addMastery(state, action) {
             const data = action.payload.data;
@@ -211,6 +220,8 @@ export const {
     showPreviewPage,
     statSwitcherMode,
     addAbilites,
+    addCharBonuceAbilites,
+    addBonuceAbility,
     addMastery,
     addLanguages,
     chooseCharAbility,
