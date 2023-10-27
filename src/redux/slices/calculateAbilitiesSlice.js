@@ -7,7 +7,8 @@ const initialState = {
     masteryPoints: 2,
     choosenAbilities: [],
     bonuceAbilities: [],
-    bonuceAbilitiyPoints: 0,
+    freeBonuceAbilities: [],
+    anyAbilitiesCount: 0,
 
 };
 
@@ -22,15 +23,25 @@ const calculateAbilitiesSlice = createSlice({
             state.currentAbilityPoints = abilityPoints;
         },
         chooseAbility(state, action) {
-            const ability = action.payload;
+            const ability = action.payload.ability;
+            const superAdd = action.payload.superAdd;
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
+            const checkFreeAbilities = state.freeBonuceAbilities.find((item) => item.id === ability.id);
 
-            if (state.currentAbilityPoints > 0 && state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists) {
+            if (!abilExists && superAdd && state.anyAbilitiesCount > 0) {
+                state.choosenAbilities = [...state.choosenAbilities, ability];
+                state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
+                state.anyAbilitiesCount = Number(state.anyAbilitiesCount) - 1;
+                return;
+            }
+
+
+            if (state.currentAbilityPoints > 0 && !superAdd && state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
                 return;
             }
-            else if (abilExists && state.currentAbilityPoints + 1 <= state.maxAbilitiesPoints) {
+            else if (abilExists && !superAdd && state.currentAbilityPoints + 1 <= state.maxAbilitiesPoints) {
                 state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) + 1;
                 return;
@@ -40,19 +51,22 @@ const calculateAbilitiesSlice = createSlice({
         addBonuceAbilities(state, action) {
             const { raceBonuceAbilities, backgroundBonuceAbilities } = action.payload;
             const bonuceAbilitiesSum = [];
+            state.anyAbilitiesCount = 0;
+            let abilObj;
 
             raceBonuceAbilities.map((item) => {
-                let abilObj = {
+                abilObj = {
                     name: item.skill_data,
                     value: 0,
                 }
                 const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.skill_data);
-                if (abilExists)  abilObj.value += 1;
+                if (abilExists) abilObj.value += 1;
                 bonuceAbilitiesSum.push(abilObj);
+                return item;
             });
 
             backgroundBonuceAbilities.map((item) => {
-                let abilObj = {
+                abilObj = {
                     name: item.name,
                     value: 0,
                 }
@@ -60,13 +74,19 @@ const calculateAbilitiesSlice = createSlice({
                 if (abilExists) abilObj.value += 1;
                 bonuceAbilitiesSum.push(abilObj);
             });
+            const anyAbilitiesCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
+            state.anyAbilitiesCount = anyAbilitiesCount;
             state.bonuceAbilities = bonuceAbilitiesSum;
         },
         removeBonuceAbility(state, action) {
             const removeBonuce = action.payload;
             state.bonuceAbilities.filter((item) => item !== removeBonuce.name);
         },
+        spendAnyAbilityBonuce(state, action) {
+            state.anyAbilitiesCount = state.anyAbilitiesCount - Number(action.payload);
+        },
         addAdditionalAbilityPoints(state, action) {
+            
         }
     }
 });
@@ -77,6 +97,7 @@ export const {
     addBonuceAbilities,
     addAdditionalAbilityPoints,
     removeBonuceAbility,
+    spendAnyAbilityBonuce,
 
 } = calculateAbilitiesSlice.actions;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAbilites, addBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
 import { addAbilityPoints, chooseAbility } from "../../redux/slices/calculateAbilitiesSlice";
@@ -29,20 +29,31 @@ const CharacterStepsSkills = () => {
     };
 
     const chooseAbilityHandler = (abilObj) => {
-        dispatch(chooseAbility(abilObj));
+        dispatch(chooseAbility({ability: abilObj, superAdd: false}));
     };
     const addBonuceAbilityHandler = (abilObj) => {
-        dispatch(addBonuceAbility(abilObj))
+        const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
+        const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
+        const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === checkAbil.name);
+
+        if (abilityPoints.anyAbilitiesCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil) {
+            dispatch(addBonuceAbility(abilObj));
+            dispatch(chooseAbility({ability: abilObj, superAdd: true}));
+            return;
+        }
+        dispatch(addBonuceAbility(abilObj));
     };
 
     const checkAbilityBonuce = (abilObj) => {
         const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
-        const checkAbilClass = characterSum.classData.classAbilities.find((item) => checkAbil && item.name === checkAbil.name);
+        const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
+        const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === checkAbil.name);
 
-        if (checkAbil && !checkAbilClass) return true;
-
+        if (checkAbil && checkAbilBackground && !checkAbilClass) return true;
+        if (!checkAbil && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilitiesCount > 0) return true
+       
         return false;
-    }
+    };
     
     useEffect(() => {
         const fetchFunc = async () => {
@@ -113,7 +124,13 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
                     <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilitiesPoints}</div>
-                    <div className="ability-points-wrap">Бонусные владения: {abilityPoints.bonuceAbilitiyPoints}</div>
+                    <div className="ability-points-wrap">
+                        {
+                            abilityPoints.anyAbilitiesCount > 0 ? 
+                                <span>Очки любых навыков: {abilityPoints.anyAbilitiesCount}</span>
+                            : null
+                        }
+                    </div>
                     <div className="character-steps-skills-row">
                         <div className="character-steps-skills-has-item-row">
                             {allAbilitesChunks.part2 ? allAbilitesChunks.part2.map((item) => {
