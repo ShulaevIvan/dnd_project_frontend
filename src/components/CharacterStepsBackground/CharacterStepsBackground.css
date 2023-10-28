@@ -125,7 +125,7 @@
 .worldview-item:nth-child(1) {
     margin: 0;
 }
-.worldview-item {
+.worldview-item, .worldview-active {
     display: flex;
     flex-direction: column;
     width: 30%;
@@ -138,6 +138,13 @@
 }
 .worldview-item:hover {
     outline: 1px solid black;
+}
+.worldview-active {
+    outline: 2px solid black;
+    filter: none;
+}
+.worldview-deactive {
+    filter: opacity(0.5);
 }
 .lg {
     background: linear-gradient(to bottom right, darkkhaki 50%, lightgreen 50%);

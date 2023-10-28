@@ -28,7 +28,7 @@ const CharacterStepsBackground = () => {
         };
 
         fetchFunc();
-    }
+    };
 
     useEffect(() => {
         const fetchFunc = async () => {

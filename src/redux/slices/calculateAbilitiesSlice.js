@@ -18,30 +18,35 @@ const calculateAbilitiesSlice = createSlice({
     reducers: {
         addAbilityPoints(state, action) {
             state.choosenAbilities = [];
+            state.freeBonuceAbilities = [];
+            state.bonuceAbilities = [];
+            
             const abilityPoints = Number(action.payload.abilityPoints);
             state.maxAbilitiesPoints = abilityPoints;
             state.currentAbilityPoints = abilityPoints;
         },
         chooseAbility(state, action) {
             const ability = action.payload.ability;
-            const superAdd = action.payload.superAdd;
+            const addType = action.payload.addType;
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
-            const checkFreeAbilities = state.freeBonuceAbilities.find((item) => item.id === ability.id);
 
-            if (!abilExists && superAdd && state.anyAbilitiesCount > 0) {
+            if (!abilExists && addType === 'any' && state.anyAbilitiesCount > 0) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
                 state.anyAbilitiesCount = Number(state.anyAbilitiesCount) - 1;
                 return;
             }
-
-
-            if (state.currentAbilityPoints > 0 && !superAdd && state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists) {
+            else if (!abilExists && addType === 'background') {
+                state.choosenAbilities = [...state.choosenAbilities, ability];
+                state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
+                return;
+            }
+            if (state.currentAbilityPoints > 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
                 return;
             }
-            else if (abilExists && !superAdd && state.currentAbilityPoints + 1 <= state.maxAbilitiesPoints) {
+            else if (abilExists && addType === 'regular' && state.currentAbilityPoints + 1 <= state.maxAbilitiesPoints) {
                 state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) + 1;
                 return;

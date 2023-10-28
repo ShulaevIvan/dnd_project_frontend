@@ -9,6 +9,23 @@ const initialState = {
     allWeapons: [],
     allArmor: [],
     allLanguages: [],
+    allWordViews: {
+        good: [
+            {name: 'lawfull good', shortName: 'lg'}, 
+            {name: 'neutral good', shortName: 'ng'}, 
+            {name: 'chaotic good',  shortName: 'chg'}
+        ],
+        neutral: [
+            {name: 'lawfull neutral', shortName: 'ln'}, 
+            {name: 'true neutral', shortName: 'tn'}, 
+            {name: 'chaotic neutral', shortName: 'chn'}
+        ],
+        evil: [
+            {name: 'lawfull evil', shortName: 'le'}, 
+            {name: 'neutral evil', shortName: 'ne'}, 
+            {name: 'chaotic evil', shortName: 'che'}
+        ],
+    },
     showPreviewPage: false,
     characterStepPage: 1,
     characterStepMaxPage: 5,
@@ -24,6 +41,7 @@ const initialState = {
         backgroundAllData: undefined,
         backgroundData: undefined,
         backgroundActive: undefined,
+        backgroundWorldViewActive: undefined,
         allCharArmorMastery: [],
         allCharWeaponMastery: [],
         allCharInstrumentMastery: [],
@@ -111,7 +129,13 @@ const characterStepsSlice = createSlice({
             state.characterSum.backgroundData = [...JSON.parse(action.payload)]
         },
         selectBackground(state, action) {
+            state.characterSum.backgroundWorldViewActive = undefined;
             state.characterSum.backgroundActive = action.payload;
+        },
+        selectWorldView(state, action) {
+            const { worldView } = action.payload;
+            state.characterSum.backgroundWorldViewActive = worldView;
+            
         },
         showMoreBackground(state, action) {
             const maxLength = state.characterSum.backgroundAllData.length;
@@ -214,6 +238,7 @@ export const {
     unsetClass,
     addBackground,
     selectBackground,
+    selectWorldView,
     showMoreBackground,
     activeNextBtn,
     activePrevBtn,

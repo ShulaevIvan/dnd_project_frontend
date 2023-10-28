@@ -1,15 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { selectWorldView } from "../../redux/slices/characterStepsSlice";
+import { useSelector } from 'react-redux';
 
 const CharacterStepsPreiewBackground = () => {
-    const dispatch = useDispatch();
     const activeBackground = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0]);
     const allWordViews = useSelector((state) => state.characterSteps.allWordViews);
-    const activeWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
 
-    const selectWorldViewHandler = (worldViewObj) => {
-        dispatch(selectWorldView({worldView: worldViewObj}));
+    const chooseBackgroundHandler = (backgroundObj) => {
+
     };
 
     return (
@@ -93,31 +90,35 @@ const CharacterStepsPreiewBackground = () => {
                             <span className="background-view-title">Мировозрение</span>
 
                             <div className="worldview-params-wrap">
-                                {Object.keys(allWordViews).map((worldview) => {
-                                    return (
-                                        <React.Fragment key={Math.random()}>
-                                            <div className="worldview-row">
-                                            {allWordViews[worldview].map((item) => {
-                                                return (
-                                                    <React.Fragment key={Math.random()}>
-                                                        <div
-                                                            onClick={() => selectWorldViewHandler(item)}
-                                                            className={
-                                                                activeWorldView ? activeWorldView.name === item.name ? 
-                                                                    `worldview-item worldview-active ${item.shortName}` : 
-                                                                    `worldview-item worldview-deactive  ${item.shortName}`
-                                                                : `worldview-item  ${item.shortName}`
-                                                            }
-                                                        >
-                                                            {item.name}  
-                                                        </div>
-                                                    </React.Fragment>
-                                            )
+
+                                <div className="worldview-row">
+                                    {allWordViews.good.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className={`worldview-item ${item.shortName}`}>{item.name}</div>
+                                            </React.Fragment>
+                                        )
                                     })}
-                                            </div>
-                                        </React.Fragment>
-                                    )
-                                })}
+                                </div>
+                                <div className="worldview-row">
+                                    {allWordViews.neutral.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className={`worldview-item ${item.shortName}`}>{item.name}</div>
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </div>
+
+                                <div className="worldview-row">
+                                    {allWordViews.evil.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className={`worldview-item ${item.shortName}`}>{item.name}</div>
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </div>
 

@@ -29,8 +29,11 @@ const CharacterStepsSkills = () => {
     };
 
     const chooseAbilityHandler = (abilObj) => {
-        dispatch(chooseAbility({ability: abilObj, superAdd: false}));
+        const checkBonuceAbil = abilityPoints.freeBonuceAbilities.find((item) => item.id === abilObj.id);
+        if (checkBonuceAbil) return;
+        dispatch(chooseAbility({ability: abilObj, addType: 'regular'}));
     };
+
     const addBonuceAbilityHandler = (abilObj) => {
         const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
         const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
@@ -38,7 +41,12 @@ const CharacterStepsSkills = () => {
 
         if (abilityPoints.anyAbilitiesCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil) {
             dispatch(addBonuceAbility(abilObj));
-            dispatch(chooseAbility({ability: abilObj, superAdd: true}));
+            dispatch(chooseAbility({ability: abilObj, addType: 'any'}));
+            return;
+        }
+        else if (checkAbilBackground) {
+            dispatch(addBonuceAbility(abilObj));
+            dispatch(chooseAbility({ability: abilObj, addType: 'background'}));
             return;
         }
         dispatch(addBonuceAbility(abilObj));
@@ -125,7 +133,7 @@ const CharacterStepsSkills = () => {
                     <h3>Навыки</h3>
                     <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilitiesPoints}</div>
                     <div className="ability-points-wrap">
-                        {
+                        { 
                             abilityPoints.anyAbilitiesCount > 0 ? 
                                 <span>Очки любых навыков: {abilityPoints.anyAbilitiesCount}</span>
                             : null
