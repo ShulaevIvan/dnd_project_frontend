@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAbilites, addBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
-import { addAbilityPoints, chooseAbility } from "../../redux/slices/calculateAbilitiesSlice";
+import { addAbilityPoints, chooseAbility, saveResultAbilities } from "../../redux/slices/calculateAbilitiesSlice";
 import { addBonuceAbilities } from '../../redux/slices/calculateAbilitiesSlice';
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
@@ -30,7 +30,7 @@ const CharacterStepsSkills = () => {
 
     const chooseAbilityHandler = (abilObj) => {
         const checkBonuceAbil = abilityPoints.freeBonuceAbilities.find((item) => item.id === abilObj.id);
-        if (checkBonuceAbil) return;
+        if (checkBonuceAbil || abilityPoints.currentAbilityPoints === 0) return;
         dispatch(chooseAbility({ability: abilObj, addType: 'regular'}));
     };
 
@@ -44,7 +44,7 @@ const CharacterStepsSkills = () => {
             dispatch(chooseAbility({ability: abilObj, addType: 'any'}));
             return;
         }
-        else if (checkAbilBackground) {
+        if (checkAbilBackground) {
             dispatch(addBonuceAbility(abilObj));
             dispatch(chooseAbility({ability: abilObj, addType: 'background'}));
             return;
@@ -62,6 +62,51 @@ const CharacterStepsSkills = () => {
        
         return false;
     };
+
+    const checkCharMastery = (mastery, masteryType) => {
+        let masteryState;
+
+        if (masteryType === 'instrument') {
+            masteryState = characterSum.allCharInstrumentMastery;
+        }
+        else if (masteryType === 'weapon') {
+            masteryState = characterSum.allCharWeaponMastery;
+        }
+        else if (masteryType === 'armor') {
+            masteryState = characterSum.allCharArmorMastery;
+        }
+        else if (masteryType === 'lang') {
+            masteryState = characterSum.raceData.languages;
+        }
+        return masteryState.find((item) => item.name === mastery.name && item.id === mastery.id);
+        
+    };
+
+    useEffect(() => {
+        if (allAbilitesChunks.part1 && abilityPoints.currentAbilityPoints === 0 && abilityPoints.anyAbilitiesCount === 0) {
+            let allAbilities = allAbilitesChunks.part1.concat(allAbilitesChunks.part2);
+
+            allAbilities = allAbilities.map((item) => {
+                const abilModifer = resultCharStats.find((statObj) => statObj.statParam === item.abilityType).modifer;
+                const abilChoosen = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === item.id);
+                let resultModifer = Number(abilModifer);
+
+                if (abilChoosen) {
+                    return {
+                        ...item,
+                        value: resultModifer + Number(abilitesState.charOtherStats.prof),
+                    };
+    
+                }
+                return {
+                    ...item,
+                    value: resultModifer,
+                }
+
+            });
+            dispatch(saveResultAbilities(allAbilities));
+        }
+    }, [abilityPoints.anyAbilitiesCount, abilityPoints.currentAbilityPoints]);
     
     useEffect(() => {
         const fetchFunc = async () => {
@@ -109,7 +154,7 @@ const CharacterStepsSkills = () => {
             .then((response) => response.json())
             .then((data) => {
                 dispatch(addLanguages(JSON.stringify(data)));
-            })
+            });
         }
 
         fetchFunc();
@@ -211,14 +256,14 @@ const CharacterStepsSkills = () => {
                         {allInstrumentMastery.map((instrument) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    <div className={
-                                        characterSum.allCharInstrumentMastery.find((item) => item.name === instrument.name && item.id === instrument.id) ? 
-                                            'character-steps-skills-tools-item skillExists' : 'character-steps-skills-tools-item skillnotExists' 
-                                    }>
-                                        <span className="skill-plus-value-icon"></span>
-                                        <div className="character-skill-tool-name">{instrument.name}</div>
-                                        <div className="character-skill-tool-modif"></div>
-                                    </div>
+                                    {checkCharMastery(instrument, 'instrument') ? 
+                                        <div className='character-steps-skills-tools-item'>
+                                            <div className="character-skill-tool-name">{instrument.name}</div>
+                                            <div className="character-skill-tool-modif">
+                                                {checkCharMastery(instrument, 'instrument') ? `+ ${Number(abilitesState.charOtherStats.prof)}` : `+ ${0}`}
+                                            </div>
+                                        </div>
+                                    : null}
                                 </React.Fragment>
                             )
                         })}
@@ -232,12 +277,16 @@ const CharacterStepsSkills = () => {
                     {allWeaponMastery.map((weapon) => {
                         return (
                             <React.Fragment key={Math.random()}>
-                                <div className={characterSum.allCharWeaponMastery.find((item) => item.id === weapon.id && item.name === item.name) ?
-                                'character-steps-skills-tools-item skillExists' : 'character-steps-skills-tools-item skillnotExists'}>
-                                    <span className="skill-plus-value-icon"></span>
-                                    <div className="character-skill-tool-name">{weapon.name}</div>
-                                    <div className="character-skill-tool-modif">+3</div>
-                                </div>
+                                {checkCharMastery(weapon, 'weapon') ? 
+                                    <div className='character-steps-skills-tools-item'>
+
+                                        <div className="character-skill-tool-name">{weapon.name}</div>
+                                        <div className="character-skill-tool-modif">{
+                                            checkCharMastery(weapon, 'weapon')  ? `+ ${Number(abilitesState.charOtherStats.prof)}` : `+ ${0}`
+                                        }
+                                        </div>
+                                    </div>
+                                : null} 
                             </React.Fragment>
                             )
                         })
@@ -251,10 +300,11 @@ const CharacterStepsSkills = () => {
                         {allArmorMastery.map((armor) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    <div className={characterSum.allCharArmorMastery.find((item) => item.id === armor.id && item.name === armor.name) ?
-                                    'character-steps-weapon-item skillExists' : 'character-steps-weapon-item skillnotExists'}>
-                                        <span>{armor.name}</span>
-                                    </div>
+                                    {checkCharMastery(armor, 'armor') ? 
+                                        <div className='character-steps-weapon-item'>
+                                            <span>{armor.name}</span>
+                                        </div> 
+                                    : null}
                                 </React.Fragment>
                             )
                         })}
@@ -267,10 +317,11 @@ const CharacterStepsSkills = () => {
                         {allLanguages.map((language) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    <div className={characterSum.raceData.languages.find((item) => item.name === language.name && item.id === language.id) ? 
-                                            "character-steps-language-item skillExists" : "character-steps-language-item skillnotExists"}>
-                                        {language.name}
-                                    </div>
+                                    {checkCharMastery(language, 'lang') ? 
+                                        <div className='character-steps-language-item'>
+                                            {language.name}
+                                        </div>
+                                    : null}
                                 </React.Fragment>
                             )
                         })}

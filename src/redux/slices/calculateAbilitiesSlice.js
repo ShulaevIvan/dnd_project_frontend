@@ -9,6 +9,7 @@ const initialState = {
     bonuceAbilities: [],
     freeBonuceAbilities: [],
     anyAbilitiesCount: 0,
+    resultCharAbilities: [],
 
 };
 
@@ -20,6 +21,7 @@ const calculateAbilitiesSlice = createSlice({
             state.choosenAbilities = [];
             state.freeBonuceAbilities = [];
             state.bonuceAbilities = [];
+            state.resultCharAbilities = [];
             
             const abilityPoints = Number(action.payload.abilityPoints);
             state.maxAbilitiesPoints = abilityPoints;
@@ -62,7 +64,7 @@ const calculateAbilitiesSlice = createSlice({
             raceBonuceAbilities.map((item) => {
                 abilObj = {
                     name: item.skill_data,
-                    value: 0,
+                    value: 1,
                 }
                 const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.skill_data);
                 if (abilExists) abilObj.value += 1;
@@ -73,13 +75,15 @@ const calculateAbilitiesSlice = createSlice({
             backgroundBonuceAbilities.map((item) => {
                 abilObj = {
                     name: item.name,
-                    value: 0,
+                    value: 1,
                 }
                 const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.name);
                 if (abilExists) abilObj.value += 1;
                 bonuceAbilitiesSum.push(abilObj);
             });
+            
             const anyAbilitiesCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
+            
             state.anyAbilitiesCount = anyAbilitiesCount;
             state.bonuceAbilities = bonuceAbilitiesSum;
         },
@@ -90,8 +94,9 @@ const calculateAbilitiesSlice = createSlice({
         spendAnyAbilityBonuce(state, action) {
             state.anyAbilitiesCount = state.anyAbilitiesCount - Number(action.payload);
         },
-        addAdditionalAbilityPoints(state, action) {
-            
+        saveResultAbilities(state, action) {
+            const abilities = action.payload;
+            state.resultCharAbilities = [...abilities];
         }
     }
 });
@@ -100,9 +105,9 @@ export const {
     addAbilityPoints,
     chooseAbility,
     addBonuceAbilities,
-    addAdditionalAbilityPoints,
     removeBonuceAbility,
     spendAnyAbilityBonuce,
+    saveResultAbilities,
 
 } = calculateAbilitiesSlice.actions;
 
