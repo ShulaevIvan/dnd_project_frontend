@@ -10,6 +10,8 @@ const initialState = {
     freeBonuceAbilities: [],
     anyAbilitiesCount: 0,
     resultCharAbilities: [],
+    raceBonuceAbilities: undefined,
+    backgroundBonuceAbilities: undefined,
 
 };
 
@@ -39,6 +41,7 @@ const calculateAbilitiesSlice = createSlice({
                 return;
             }
             else if (!abilExists && addType === 'background') {
+                console.log('test2')
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
                 return;
@@ -64,7 +67,7 @@ const calculateAbilitiesSlice = createSlice({
             raceBonuceAbilities.map((item) => {
                 abilObj = {
                     name: item.skill_data,
-                    value: 1,
+                    value: item.skill_value,
                 }
                 const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.skill_data);
                 if (abilExists) abilObj.value += 1;
@@ -80,8 +83,10 @@ const calculateAbilitiesSlice = createSlice({
                 const abilExists = state.bonuceAbilities.find((abil) => abil.name === item.name);
                 if (abilExists) abilObj.value += 1;
                 bonuceAbilitiesSum.push(abilObj);
+                return item;
             });
-            
+            state.raceBonuceAbilities = raceBonuceAbilities;
+            state.backgroundBonuceAbilities = backgroundBonuceAbilities;
             const anyAbilitiesCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
             
             state.anyAbilitiesCount = anyAbilitiesCount;

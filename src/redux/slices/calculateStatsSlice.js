@@ -41,7 +41,7 @@ const initialState = {
     statBuyPoints: 27,
     statBuyFreePoints: 6,
     currentStatBuyPoints: 0,
-    statPrice: {maxValue: 13, minValue: 8, maxValue: 15, modifer: 1},
+    statPrice: {maxValue: 13, minValue: 8, modifer: 1},
     allRaceBonuceStats:  [],
     minMaxBtnsBlock: false,
     setupStatsComplete: false,

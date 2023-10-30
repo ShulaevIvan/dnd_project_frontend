@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 const CharacterStepsPreiewStats = () => {
     const resultCharStatsRoll = useSelector((state) => state.calculateCharStats.resultCharStats);
@@ -10,10 +9,6 @@ const CharacterStepsPreiewStats = () => {
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
     const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
     const charStats = useSelector((state) => state.calculateCharStats.charStatsTotal);
-
-    useEffect(() => {
-        console.log(charStats)
-    }, [resultCharStatsRoll])
 
     return (
         <React.Fragment>

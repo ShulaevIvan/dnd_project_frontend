@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAbilites, addBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
 import { addAbilityPoints, chooseAbility, saveResultAbilities } from "../../redux/slices/calculateAbilitiesSlice";
@@ -30,23 +30,25 @@ const CharacterStepsSkills = () => {
 
     const chooseAbilityHandler = (abilObj) => {
         const checkBonuceAbil = abilityPoints.freeBonuceAbilities.find((item) => item.id === abilObj.id);
+        const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => item.name === abilObj.name);
+        const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
+
         if (checkBonuceAbil || abilityPoints.currentAbilityPoints === 0) return;
+        if (checkAbilBackground) {
+            dispatch(chooseAbility({ability: abilObj, addType: 'background'}));
+            return;
+        }
         dispatch(chooseAbility({ability: abilObj, addType: 'regular'}));
     };
 
     const addBonuceAbilityHandler = (abilObj) => {
         const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
         const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
-        const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === checkAbil.name);
+        const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === abilObj.name);
 
         if (abilityPoints.anyAbilitiesCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil) {
             dispatch(addBonuceAbility(abilObj));
             dispatch(chooseAbility({ability: abilObj, addType: 'any'}));
-            return;
-        }
-        if (checkAbilBackground) {
-            dispatch(addBonuceAbility(abilObj));
-            dispatch(chooseAbility({ability: abilObj, addType: 'background'}));
             return;
         }
         dispatch(addBonuceAbility(abilObj));

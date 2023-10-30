@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormActive, registerFormActive, forgotPasswordActive } from "../../redux/slices/headerLoginFormSlice";
 import { authUser } from "../../redux/slices/userSlice";

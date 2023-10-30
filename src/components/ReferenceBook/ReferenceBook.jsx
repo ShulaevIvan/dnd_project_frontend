@@ -1,11 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { referenceBookMenu, referenceBookCharClasses } from "../../redux/slices/referenceBookSlice";
+import { referenceBookMenu } from "../../redux/slices/referenceBookSlice";
 import { Link } from "react-router-dom";
 
 const ReferenceBook = () => {
-    const charClasses = useSelector((state) => state.referenceBook.referenceBookCharClasses);
     const referenceBookMenuState = useSelector((state) => state.referenceBook.menu)
     const dispatch = useDispatch();
 

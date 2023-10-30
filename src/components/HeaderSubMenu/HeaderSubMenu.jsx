@@ -9,7 +9,6 @@ import { logoutUser } from "../../redux/slices/userSlice";
 const HeaderSubMenu = () => {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.userData);
-    const headerLoginForm = useSelector((state) => state.headerLoginForm);
 
     const loginHandler = (e) => {
         dispatch(subMenuActive(false));

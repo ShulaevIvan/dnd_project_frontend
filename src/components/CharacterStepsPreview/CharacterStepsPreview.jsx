@@ -5,6 +5,7 @@ import CharacterStepsPreiewRace from "../CharacterStepsPreviewRace/CharacterStep
 import CharacterStepsPreviewClass from "../CharacterStepsPreviewClass/CharacterStepsPreviewClass";
 import CharacterStepsPreiewBackground from "../CharacterStepsPreviewBackground/CharacterStepsPreviewBackground";
 import CharacterStepsPreiewStats from "../CharacterStepsPreviewStats/CharacterStepsPreviewStats";
+import CharacterStepsSkillsPreview from "../CharacterStepsSkillsPreview/CharacterStepsSkillsPreview";
 
 
 const CharacterStepsPreiew = () => {
@@ -13,6 +14,7 @@ const CharacterStepsPreiew = () => {
     const backgroundState = useSelector((state) => state.characterSteps.characterSum.backgroundActive);
     const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
     const previewActive = useSelector((state) => state.characterSteps.showPreviewPage);
+    const setupStatsComplete =  useSelector((state) => state.calculateCharStats.setupStatsComplete);
     
 
     return (
@@ -28,6 +30,8 @@ const CharacterStepsPreiew = () => {
                     <CharacterStepsPreiewBackground />
                 : stepNum === 4 ? 
                     <CharacterStepsPreiewStats />
+                :stepNum === 5 && setupStatsComplete ? 
+                    <CharacterStepsSkillsPreview />
                 
                 : null}
                 

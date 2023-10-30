@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { statSwitcherMode, blockIncreaseBtns, activeNextBtn } from "../../redux/slices/characterStepsSlice";
+import { statSwitcherMode, activeNextBtn } from "../../redux/slices/characterStepsSlice";
 import { resetCharStats } from "../../redux/slices/calculateStatsSlice";;
 
 
