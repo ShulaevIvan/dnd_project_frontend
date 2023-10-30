@@ -18,6 +18,8 @@ const CharacterStepsSkills = () => {
     const abilityPoints = useSelector((state) => state.calculateAbilites);
     const abilitesState = useSelector((state) => state.calculateCharStats);
 
+    console.log(characterSum)
+
     const calcAblilModif = (abilObj) => {
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
         const abilModifer = resultCharStats.find((statObj) => statObj.statParam === abilObj.abilityType).modifer;
@@ -33,7 +35,7 @@ const CharacterStepsSkills = () => {
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => item.name === abilObj.name);
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
 
-        if (checkBonuceAbil || abilityPoints.currentAbilityPoints === 0) return;
+        if (checkBonuceAbil || abilityPoints.currentAbilityPoints === 0 && !checkAbilBackground) return;
         if (checkAbilBackground) {
             dispatch(chooseAbility({ability: abilObj, addType: 'background'}));
             return;
@@ -163,6 +165,7 @@ const CharacterStepsSkills = () => {
     }, []);
 
     useEffect(() => {
+        console.log(characterSum.raceData.skills)
         dispatch(addAbilityPoints({abilityPoints: characterSum.classData.classAbilityPoints}));
         dispatch(addBonuceAbilities({
             raceBonuceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
@@ -325,6 +328,13 @@ const CharacterStepsSkills = () => {
                                         </div>
                                     : null}
                                 </React.Fragment>
+                            )
+                        })}
+                        {characterSum.backgroundActive[0].languages.map((lang) => {
+                            return (
+                                <div className='character-steps-language-item'>
+                                    {lang.name}
+                                </div>
                             )
                         })}
                         

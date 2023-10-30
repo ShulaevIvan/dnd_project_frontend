@@ -18,7 +18,7 @@ const CharacterStepsSkillsPreview = () => {
                             {raceBonuceAbilities ? raceBonuceAbilities.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <li className={'ability-chosen'}>
+                                        <li>
                                             {`${item.name} (free)`}
                                         </li>
                                     </React.Fragment>
@@ -50,11 +50,7 @@ const CharacterStepsSkillsPreview = () => {
                             {backgroundBonuceAbilities ? backgroundBonuceAbilities.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <li className={abilityPoints.choosenAbilities.some((abil) => abil.name === item.name) ? 
-                                                'ability-chosen': 'ability-not-chosen'
-                                            }>
-                                            {`${item.name} (free)`}
-                                        </li>
+                                        <li>{`${item.name} (free)`}</li>
                                     </React.Fragment>
                                 )
                             }) : null} 

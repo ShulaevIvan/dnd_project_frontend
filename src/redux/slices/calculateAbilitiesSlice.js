@@ -87,8 +87,8 @@ const calculateAbilitiesSlice = createSlice({
             });
             state.raceBonuceAbilities = raceBonuceAbilities;
             state.backgroundBonuceAbilities = backgroundBonuceAbilities;
+
             const anyAbilitiesCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
-            
             state.anyAbilitiesCount = anyAbilitiesCount;
             state.bonuceAbilities = bonuceAbilitiesSum;
         },
