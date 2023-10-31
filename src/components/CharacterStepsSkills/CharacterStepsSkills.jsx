@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAbilites, addBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
-import { addAbilityPoints, chooseAbility, saveResultAbilities } from "../../redux/slices/calculateAbilitiesSlice";
+import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
+import { addAbilityPoints, chooseAbility, saveResultAbilities, resetAbilityPoints } from "../../redux/slices/calculateAbilitiesSlice";
 import { addBonuceAbilities } from '../../redux/slices/calculateAbilitiesSlice';
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
@@ -18,8 +18,6 @@ const CharacterStepsSkills = () => {
     const abilityPoints = useSelector((state) => state.calculateAbilites);
     const abilitesState = useSelector((state) => state.calculateCharStats);
 
-    console.log(characterSum)
-
     const calcAblilModif = (abilObj) => {
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
         const abilModifer = resultCharStats.find((statObj) => statObj.statParam === abilObj.abilityType).modifer;
@@ -31,16 +29,15 @@ const CharacterStepsSkills = () => {
     };
 
     const chooseAbilityHandler = (abilObj) => {
-        const checkBonuceAbil = abilityPoints.freeBonuceAbilities.find((item) => item.id === abilObj.id);
+        // const checkBonuceAbil = abilityPoints.freeBonuceAbilities.find((item) => item.id === abilObj.id);
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => item.name === abilObj.name);
-        const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
+        let type = 'regular';
+        
+        if (checkAbilBackground) type = 'background';
 
-        if (checkBonuceAbil || abilityPoints.currentAbilityPoints === 0 && !checkAbilBackground) return;
-        if (checkAbilBackground) {
-            dispatch(chooseAbility({ability: abilObj, addType: 'background'}));
-            return;
-        }
-        dispatch(chooseAbility({ability: abilObj, addType: 'regular'}));
+        if (abilityPoints.currentAbilityPoints === 0 && !checkAbilBackground) return;
+
+        dispatch(chooseAbility({ability: abilObj, addType: type}));
     };
 
     const addBonuceAbilityHandler = (abilObj) => {
@@ -48,7 +45,7 @@ const CharacterStepsSkills = () => {
         const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === abilObj.name);
 
-        if (abilityPoints.anyAbilitiesCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil) {
+        if (abilityPoints.anyAbilityCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil) {
             dispatch(addBonuceAbility(abilObj));
             dispatch(chooseAbility({ability: abilObj, addType: 'any'}));
             return;
@@ -62,7 +59,7 @@ const CharacterStepsSkills = () => {
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === checkAbil.name);
 
         if (checkAbil && checkAbilBackground && !checkAbilClass) return true;
-        if (!checkAbil && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilitiesCount > 0) return true
+        if (!checkAbil && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilityCount > 0) return true
        
         return false;
     };
@@ -86,8 +83,17 @@ const CharacterStepsSkills = () => {
         
     };
 
+    const resetAbilityPointsHandler = () => {
+        dispatch(resetAbilityPoints());
+        abilityPoints.addedAbilities.map((ability) => {
+            if (!abilityPoints.initialClassAbilities.find((item) => item.id === ability.id)) {
+                dispatch(removeBonuceAbility(ability));
+            }
+        });
+    };
+
     useEffect(() => {
-        if (allAbilitesChunks.part1 && abilityPoints.currentAbilityPoints === 0 && abilityPoints.anyAbilitiesCount === 0) {
+        if (allAbilitesChunks.part1 && abilityPoints.currentAbilityPoints === 0 && abilityPoints.anyAbilityCount === 0) {
             let allAbilities = allAbilitesChunks.part1.concat(allAbilitesChunks.part2);
 
             allAbilities = allAbilities.map((item) => {
@@ -110,7 +116,7 @@ const CharacterStepsSkills = () => {
             });
             dispatch(saveResultAbilities(allAbilities));
         }
-    }, [abilityPoints.anyAbilitiesCount, abilityPoints.currentAbilityPoints]);
+    }, [abilityPoints.anyAbilityCount, abilityPoints.currentAbilityPoints]);
     
     useEffect(() => {
         const fetchFunc = async () => {
@@ -165,9 +171,9 @@ const CharacterStepsSkills = () => {
     }, []);
 
     useEffect(() => {
-        console.log(characterSum.raceData.skills)
         dispatch(addAbilityPoints({abilityPoints: characterSum.classData.classAbilityPoints}));
         dispatch(addBonuceAbilities({
+            initialClassAbilities: characterSum.classData.classAbilities,
             raceBonuceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
             backgroundBonuceAbilities: characterSum.backgroundActive[0].bounceAbilities,
         }));
@@ -181,14 +187,19 @@ const CharacterStepsSkills = () => {
 
                 <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
-                    <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilitiesPoints}</div>
+                    <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}</div>
                     <div className="ability-points-wrap">
                         { 
-                            abilityPoints.anyAbilitiesCount > 0 ? 
-                                <span>Очки любых навыков: {abilityPoints.anyAbilitiesCount}</span>
+                            abilityPoints.anyAbilityCount > 0 ? 
+                                <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span>
                             : null
                         }
+                        <div className="reset-points-wrap">
+                            <button onClick={resetAbilityPointsHandler}>Сброс очков</button>
+                        </div>
                     </div>
+                    
+
                     <div className="character-steps-skills-row">
                         <div className="character-steps-skills-has-item-row">
                             {allAbilitesChunks.part2 ? allAbilitesChunks.part2.map((item) => {

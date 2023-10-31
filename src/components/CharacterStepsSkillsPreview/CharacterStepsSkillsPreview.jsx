@@ -6,6 +6,7 @@ const CharacterStepsSkillsPreview = () => {
     const raceBonuceAbilities = useSelector((state) => state.calculateAbilites.raceBonuceAbilities);
     const backgroundBonuceAbilities = useSelector((state) => state.calculateAbilites.backgroundBonuceAbilities);
     const abilityPoints = useSelector((state) => state.calculateAbilites);
+    const characterSum = useSelector((state) => state.characterSteps.characterSum);
     
 
     return (
@@ -14,21 +15,25 @@ const CharacterStepsSkillsPreview = () => {
                     <h3>Total bonuce abilities</h3>
                     <div className="total-bonuce-race-abilities">
                         <h4>Race boncue Abilities</h4>
-                        <ul className="total-bonuce-abilities-list">
-                            {raceBonuceAbilities ? raceBonuceAbilities.map((item) => {
-                                return (
-                                    <React.Fragment key={Math.random()}>
-                                        <li>
-                                            {`${item.name} (free)`}
-                                        </li>
-                                    </React.Fragment>
-                                )
-                            }) : null}
-                        </ul>
+                        {raceBonuceAbilities && raceBonuceAbilities.length > 0 ? 
+                            <ul className="total-bonuce-abilities-list">
+                            {
+                                raceBonuceAbilities.map((item) => {
+                                    return (
+                                        <React.Fragment key={Math.random()}>
+                                            <li>
+                                                {`${item.name} (free)`}
+                                            </li>
+                                        </React.Fragment>
+                                    )
+                                })
+                            }
+                        </ul> : null}
+
                     </div>
                     <div className="total-bonuce-class-abilities">
                         <h4>Class Abilities</h4>
-                        <p>Max ability points: {abilityPoints.maxAbilitiesPoints}</p>
+                        <p>Max ability points: {abilityPoints.maxAbilityPoints}</p>
                         <ul className="total-bonuce-abilities-list">
                             {classAbilities ? classAbilities.map((item) => {
                                 return (
@@ -60,6 +65,20 @@ const CharacterStepsSkillsPreview = () => {
                     <div className="total-bonuce-language-abilities">
                         <h4>Total Languages</h4>
                         <ul className="total-bonuce-abilities-list">
+                            {characterSum.raceData.languages.map((item) => {
+                                return (
+                                    <React.Fragment>
+                                        <li>{`${item.name} (race)`}</li>
+                                    </React.Fragment>
+                                )
+                            })}
+                            {characterSum.backgroundActive[0].languages.map((item) => {
+                                return (
+                                    <React.Fragment>
+                                        <li>{`${item.name} (background)`}</li>
+                                    </React.Fragment>
+                                )
+                            })}
 
                         </ul>
                     </div>

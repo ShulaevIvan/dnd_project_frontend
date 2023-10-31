@@ -2,13 +2,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     currentAbilityPoints: 0,
-    maxAbilitiesPoints: 0,
+    maxAbilityPoints: 0,
     baseAbilityPoints: 0,
     masteryPoints: 2,
     choosenAbilities: [],
+    choosenLanguages: [],
     bonuceAbilities: [],
     freeBonuceAbilities: [],
-    anyAbilitiesCount: 0,
+    anyAbilityCount: 0,
+    maxAnyAbilityCount: 0,
+    addedAbilities: [],
+    initialClassAbilities: [],
     resultCharAbilities: [],
     raceBonuceAbilities: undefined,
     backgroundBonuceAbilities: undefined,
@@ -26,32 +30,38 @@ const calculateAbilitiesSlice = createSlice({
             state.resultCharAbilities = [];
             
             const abilityPoints = Number(action.payload.abilityPoints);
-            state.maxAbilitiesPoints = abilityPoints;
+            state.maxAbilityPoints = abilityPoints;
             state.currentAbilityPoints = abilityPoints;
         },
         chooseAbility(state, action) {
             const ability = action.payload.ability;
             const addType = action.payload.addType;
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
+            
 
-            if (!abilExists && addType === 'any' && state.anyAbilitiesCount > 0) {
+            if (!abilExists && addType === 'any' && state.anyAbilityCount > 0) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
-                state.anyAbilitiesCount = Number(state.anyAbilitiesCount) - 1;
+                state.anyAbilityCount = Number(state.anyAbilityCount) - 1;
+                state.addedAbilities = [...state.addedAbilities, ability]
                 return;
             }
-            else if (!abilExists && addType === 'background') {
-                console.log('test2')
+            else if (addType === 'background') {
+                if (abilExists && state.anyAbilityCount > 0) {
+                    state.choosenAbilities = state.choosenAbilities.filter((item) => item.id !== ability.id)
+                    state.freeBonuceAbilities = state.freeBonuceAbilities.filter((item) => item.id !== ability.id)
+                    return;
+                }
                 state.choosenAbilities = [...state.choosenAbilities, ability];
-                state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
-                return;
+                state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability];
+                state.addedAbilities = [...state.addedAbilities, ability]
             }
-            if (state.currentAbilityPoints > 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilitiesPoints && !abilExists) {
+            if (state.currentAbilityPoints > 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilityPoints && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
                 return;
             }
-            else if (abilExists && addType === 'regular' && state.currentAbilityPoints + 1 <= state.maxAbilitiesPoints) {
+            else if (abilExists && addType === 'regular' && state.currentAbilityPoints + 1 <= state.maxAbilityPoints) {
                 state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) + 1;
                 return;
@@ -59,9 +69,10 @@ const calculateAbilitiesSlice = createSlice({
            
         },
         addBonuceAbilities(state, action) {
-            const { raceBonuceAbilities, backgroundBonuceAbilities } = action.payload;
+            const { initialClassAbilities, raceBonuceAbilities, backgroundBonuceAbilities } = action.payload;
+            state.initialClassAbilities = initialClassAbilities;
             const bonuceAbilitiesSum = [];
-            state.anyAbilitiesCount = 0;
+            state.anyAbilityCount = 0;
             let abilObj;
 
             raceBonuceAbilities.map((item) => {
@@ -88,8 +99,9 @@ const calculateAbilitiesSlice = createSlice({
             state.raceBonuceAbilities = raceBonuceAbilities;
             state.backgroundBonuceAbilities = backgroundBonuceAbilities;
 
-            const anyAbilitiesCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
-            state.anyAbilitiesCount = anyAbilitiesCount;
+            const anyAbilityCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
+            state.anyAbilityCount = anyAbilityCount;
+            state.maxAnyAbilityCount = state.anyAbilityCount;
             state.bonuceAbilities = bonuceAbilitiesSum;
         },
         removeBonuceAbility(state, action) {
@@ -97,11 +109,17 @@ const calculateAbilitiesSlice = createSlice({
             state.bonuceAbilities.filter((item) => item !== removeBonuce.name);
         },
         spendAnyAbilityBonuce(state, action) {
-            state.anyAbilitiesCount = state.anyAbilitiesCount - Number(action.payload);
+            state.anyAbilityCount = state.anyAbilityCount - Number(action.payload);
         },
         saveResultAbilities(state, action) {
             const abilities = action.payload;
             state.resultCharAbilities = [...abilities];
+        },
+        resetAbilityPoints(state) {
+            state.choosenAbilities = [];
+            state.freeBonuceAbilities = [];
+            state.currentAbilityPoints = state.maxAbilityPoints;
+            state.anyAbilityCount = state.maxAnyAbilityCount;
         }
     }
 });
@@ -113,6 +131,7 @@ export const {
     removeBonuceAbility,
     spendAnyAbilityBonuce,
     saveResultAbilities,
+    resetAbilityPoints
 
 } = calculateAbilitiesSlice.actions;
 

@@ -183,6 +183,10 @@ const characterStepsSlice = createSlice({
             const ability = action.payload;
             state.characterSum.classData.classAbilities = [...state.characterSum.classData.classAbilities, ability];
         },
+        removeBonuceAbility(state, action) {
+            const ability = action.payload;
+            state.characterSum.classData.classAbilities = state.characterSum.classData.classAbilities.filter((item) => item.id !== ability.id);
+        },
         addMastery(state, action) {
             const data = action.payload.data;
             const param = action.payload.param;
@@ -247,6 +251,7 @@ export const {
     addAbilites,
     addCharBonuceAbilites,
     addBonuceAbility,
+    removeBonuceAbility,
     addMastery,
     addLanguages,
     chooseCharAbility,

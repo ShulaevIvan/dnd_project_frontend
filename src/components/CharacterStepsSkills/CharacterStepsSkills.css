@@ -319,6 +319,9 @@
     width: 100%;
     margin-bottom: 20px;
 }
+.ability-points-wrap span {
+    padding: 0 0 20px 0;
+}
 .character-steps-preview-abilities-wrap {
     display: flex;
     flex-direction: column;
@@ -333,9 +336,14 @@
     flex-wrap: wrap;
     width: 100%;
 }
+.character-steps-preview-abilities-wrap h4, 
+.character-steps-preview-abilities-wrap h3,
+.character-steps-preview-abilities-wrap p {
+    margin:  0 0 20px 0;
+}
 .total-bonuce-abilities-list {
     padding: 0;
-    margin: 0;
+    margin: 0 0 20px 0;
 }
 .total-bonuce-abilities-list li {
     list-style: none;
@@ -348,4 +356,7 @@
 .ability-not-chosen {
     text-decoration: line-through;
     font-weight: normal;
+}
+.reset-points-wrap {
+    margin: 0 20px;
 }
