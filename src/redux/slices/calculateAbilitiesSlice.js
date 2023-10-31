@@ -11,6 +11,8 @@ const initialState = {
     freeBonuceAbilities: [],
     anyAbilityCount: 0,
     maxAnyAbilityCount: 0,
+    backgroundAbilityCount: 0,
+    maxBackgroundAbilityCount: 0,
     addedAbilities: [],
     initialClassAbilities: [],
     resultCharAbilities: [],
@@ -50,11 +52,13 @@ const calculateAbilitiesSlice = createSlice({
                 if (abilExists && state.anyAbilityCount > 0) {
                     state.choosenAbilities = state.choosenAbilities.filter((item) => item.id !== ability.id)
                     state.freeBonuceAbilities = state.freeBonuceAbilities.filter((item) => item.id !== ability.id)
+                    state.backgroundAbilityCount = state.backgroundAbilityCount  + 1;
                     return;
                 }
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability];
                 state.addedAbilities = [...state.addedAbilities, ability]
+                state.backgroundAbilityCount = state.backgroundAbilityCount - 1;
             }
             if (state.currentAbilityPoints > 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilityPoints && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
@@ -103,6 +107,8 @@ const calculateAbilitiesSlice = createSlice({
             state.anyAbilityCount = anyAbilityCount;
             state.maxAnyAbilityCount = state.anyAbilityCount;
             state.bonuceAbilities = bonuceAbilitiesSum;
+            state.maxBackgroundAbilityCount = state.backgroundBonuceAbilities.length;
+            state.backgroundAbilityCount = state.maxBackgroundAbilityCount;
         },
         removeBonuceAbility(state, action) {
             const removeBonuce = action.payload;
@@ -120,6 +126,7 @@ const calculateAbilitiesSlice = createSlice({
             state.freeBonuceAbilities = [];
             state.currentAbilityPoints = state.maxAbilityPoints;
             state.anyAbilityCount = state.maxAnyAbilityCount;
+            state.backgroundAbilityCount = state.maxBackgroundAbilityCount;
         }
     }
 });

@@ -29,7 +29,6 @@ const CharacterStepsSkills = () => {
     };
 
     const chooseAbilityHandler = (abilObj) => {
-        // const checkBonuceAbil = abilityPoints.freeBonuceAbilities.find((item) => item.id === abilObj.id);
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => item.name === abilObj.name);
         let type = 'regular';
         
@@ -188,12 +187,9 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
                     <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}</div>
+                    <div className="ability-points-wrap">Количество Test навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}</div>
                     <div className="ability-points-wrap">
-                        { 
-                            abilityPoints.anyAbilityCount > 0 ? 
-                                <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span>
-                            : null
-                        }
+                        <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span>
                         <div className="reset-points-wrap">
                             <button onClick={resetAbilityPointsHandler}>Сброс очков</button>
                         </div>
