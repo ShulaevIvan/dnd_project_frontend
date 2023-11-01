@@ -46,6 +46,7 @@ const initialState = {
         allCharWeaponMastery: [],
         allCharInstrumentMastery: [],
         choosenCharAbilites: [],
+
     },
     statModeSwitcher: false,
     navNextBtnDisable: true,

@@ -13,6 +13,7 @@ const initialState = {
     maxAnyAbilityCount: 0,
     backgroundAbilityCount: 0,
     maxBackgroundAbilityCount: 0,
+    anyLanguagePoints: 0,
     addedAbilities: [],
     initialClassAbilities: [],
     resultCharAbilities: [],
@@ -127,6 +128,12 @@ const calculateAbilitiesSlice = createSlice({
             state.currentAbilityPoints = state.maxAbilityPoints;
             state.anyAbilityCount = state.maxAnyAbilityCount;
             state.backgroundAbilityCount = state.maxBackgroundAbilityCount;
+        },
+        addAnyLanguagePoints(state, action) {
+            const { backgroundLanguages } = action.payload;
+            console.log(backgroundLanguages)
+            state.anyLanguagePoints = backgroundLanguages.filter((item) => item.id === 9).length;
+            console.log(state.anyLanguagePoints)
         }
     }
 });
@@ -138,7 +145,8 @@ export const {
     removeBonuceAbility,
     spendAnyAbilityBonuce,
     saveResultAbilities,
-    resetAbilityPoints
+    resetAbilityPoints,
+    addAnyLanguagePoints,
 
 } = calculateAbilitiesSlice.actions;
 

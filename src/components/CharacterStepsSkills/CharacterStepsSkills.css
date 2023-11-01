@@ -279,6 +279,7 @@
 }
 .character-steps-skills-language-wrap {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
@@ -359,4 +360,13 @@
 }
 .reset-points-wrap {
     margin: 0 20px;
+}
+.character-steps-skills-language-add-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
 }

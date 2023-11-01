@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
-import { addAbilityPoints, chooseAbility, saveResultAbilities, resetAbilityPoints } from "../../redux/slices/calculateAbilitiesSlice";
+import { addAbilityPoints, chooseAbility, saveResultAbilities, resetAbilityPoints, addAnyLanguagePoints } from "../../redux/slices/calculateAbilitiesSlice";
 import { addBonuceAbilities } from '../../redux/slices/calculateAbilitiesSlice';
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
@@ -91,6 +91,10 @@ const CharacterStepsSkills = () => {
         });
     };
 
+    const addAnyLanguageHandler = () => {
+        console.log('test')
+    };
+
     useEffect(() => {
         if (allAbilitesChunks.part1 && abilityPoints.currentAbilityPoints === 0 && abilityPoints.anyAbilityCount === 0) {
             let allAbilities = allAbilitesChunks.part1.concat(allAbilitesChunks.part2);
@@ -177,6 +181,22 @@ const CharacterStepsSkills = () => {
             backgroundBonuceAbilities: characterSum.backgroundActive[0].bounceAbilities,
         }));
     }, []);
+
+    useEffect(() => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/background/${characterSum.backgroundActive[0].id}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addAnyLanguagePoints({backgroundLanguages: data[0].languages}));
+            });
+        }
+        fetchFunc();
+    }, [])
 
     return (
         <React.Fragment>
@@ -325,6 +345,13 @@ const CharacterStepsSkills = () => {
 
                 <div className="character-steps-skills-language-wrap">
                     <h3>Языки</h3>
+                    {abilityPoints.anyLanguagePoints > 0 ? 
+                        <div className="character-steps-skills-language-add-btn-wrap">
+                            <p>Очки языков: {abilityPoints.anyLanguagePoints}</p>
+                            <button onClick={addAnyLanguageHandler}>Добавить язык</button>
+                        </div> 
+                    : null}
+                   
                     <div className="character-steps-language-row">
                         {allLanguages.map((language) => {
                             return (
@@ -337,9 +364,9 @@ const CharacterStepsSkills = () => {
                                 </React.Fragment>
                             )
                         })}
-                        {characterSum.backgroundActive[0].languages.map((lang) => {
+                        {characterSum.backgroundActive[0].languages.filter((langObj) => langObj.id !== 9).map((lang) => {
                             return (
-                                <div className='character-steps-language-item'>
+                                <div className='character-steps-language-item' key={Math.random()}>
                                     {lang.name}
                                 </div>
                             )
