@@ -67,7 +67,7 @@ const CharacterStepsSkillsPreview = () => {
                         <ul className="total-bonuce-abilities-list">
                             {characterSum.raceData.languages.map((item) => {
                                 return (
-                                    <React.Fragment>
+                                    <React.Fragment key={Math.random()}>
                                         <li>{`${item.name} (race)`}</li>
                                     </React.Fragment>
                                 )

@@ -1,8 +1,8 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
-import { addAbilityPoints, chooseAbility, saveResultAbilities, resetAbilityPoints, addAnyLanguagePoints } from "../../redux/slices/calculateAbilitiesSlice";
+import { addAbilityPoints, chooseAbility, saveResultAbilities, resetAbilityPoints, addAnyLanguagePoints, activeLanguagePanel, chooseLanguage } from "../../redux/slices/calculateAbilitiesSlice";
 import { addBonuceAbilities } from '../../redux/slices/calculateAbilitiesSlice';
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
@@ -17,6 +17,7 @@ const CharacterStepsSkills = () => {
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const abilityPoints = useSelector((state) => state.calculateAbilites);
     const abilitesState = useSelector((state) => state.calculateCharStats);
+    const languageRef = useRef();
 
     const calcAblilModif = (abilObj) => {
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
@@ -92,7 +93,12 @@ const CharacterStepsSkills = () => {
     };
 
     const addAnyLanguageHandler = () => {
-        console.log('test')
+        dispatch(activeLanguagePanel(true));
+    };
+
+    const chooseLanguageHandler = (langObj) => {
+        dispatch(activeLanguagePanel(false));
+        dispatch(chooseLanguage({language: langObj}));
     };
 
     useEffect(() => {
@@ -192,11 +198,13 @@ const CharacterStepsSkills = () => {
             })
             .then((response) => response.json())
             .then((data) => {
+                const allLanguages = [...data[0].languages, ...characterSum.raceData.languages]
                 dispatch(addAnyLanguagePoints({backgroundLanguages: data[0].languages}));
+                dispatch(chooseLanguage({language: allLanguages, typeAdd: 'arr'}));
             });
         }
         fetchFunc();
-    }, [])
+    }, []);
 
     return (
         <React.Fragment>
@@ -349,26 +357,39 @@ const CharacterStepsSkills = () => {
                         <div className="character-steps-skills-language-add-btn-wrap">
                             <p>Очки языков: {abilityPoints.anyLanguagePoints}</p>
                             <button onClick={addAnyLanguageHandler}>Добавить язык</button>
+                            
                         </div> 
                     : null}
+
+                    {abilityPoints.activeLanguagePanel ?
+                        <div className="character-steps-skills-language-panel-wrap">
+                            {allLanguages.map((language) => {
+                                if (!abilityPoints.choosenLanguages.find((item) => item.id === language.id)) {
+                                    return (
+                                        
+                                        <React.Fragment key={Math.random()}>
+                                            <div 
+                                                className='character-steps-language-item'
+                                                onClick={() => chooseLanguageHandler(language)}
+                                            >
+                                                {language.name}
+                                            </div>
+                                        </React.Fragment>
+                                    )
+                                }
+                            })}
+                        </div>
+                    : null}
+                   
                    
                     <div className="character-steps-language-row">
-                        {allLanguages.map((language) => {
+                        {abilityPoints.choosenLanguages.map((item) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    {checkCharMastery(language, 'lang') ? 
-                                        <div className='character-steps-language-item'>
-                                            {language.name}
-                                        </div>
-                                    : null}
+                                    <div className='character-steps-language-item'>
+                                        {item.name}
+                                    </div>
                                 </React.Fragment>
-                            )
-                        })}
-                        {characterSum.backgroundActive[0].languages.filter((langObj) => langObj.id !== 9).map((lang) => {
-                            return (
-                                <div className='character-steps-language-item' key={Math.random()}>
-                                    {lang.name}
-                                </div>
                             )
                         })}
                         

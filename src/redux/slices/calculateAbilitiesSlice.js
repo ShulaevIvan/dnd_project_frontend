@@ -19,6 +19,7 @@ const initialState = {
     resultCharAbilities: [],
     raceBonuceAbilities: undefined,
     backgroundBonuceAbilities: undefined,
+    languagePanelActive: false,
 
 };
 
@@ -131,9 +132,22 @@ const calculateAbilitiesSlice = createSlice({
         },
         addAnyLanguagePoints(state, action) {
             const { backgroundLanguages } = action.payload;
-            console.log(backgroundLanguages)
             state.anyLanguagePoints = backgroundLanguages.filter((item) => item.id === 9).length;
-            console.log(state.anyLanguagePoints)
+        },
+        chooseLanguage(state, action) {
+            const {language, typeAdd } = action.payload;
+          
+            if (typeAdd === 'arr') {
+                state.choosenLanguages = [
+                    ...language,
+                ].filter((item) => item.id !== 9);
+                return;
+            }
+            state.choosenLanguages = [...state.choosenLanguages, language];
+            state.anyLanguagePoints = Number(state.anyLanguagePoints) - 1;
+        },
+        activeLanguagePanel(state, action) {
+            state.activeLanguagePanel = action.payload;
         }
     }
 });
@@ -147,6 +161,8 @@ export const {
     saveResultAbilities,
     resetAbilityPoints,
     addAnyLanguagePoints,
+    chooseLanguage,
+    activeLanguagePanel
 
 } = calculateAbilitiesSlice.actions;
 
