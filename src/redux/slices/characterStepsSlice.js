@@ -106,19 +106,19 @@ const characterStepsSlice = createSlice({
         selectClass(state, action) {
             state.characterSum.classData = action.payload;
             state.navNextBtnDisable = false;
-            state.subclassActive = undefined;
+            state.characterSum.subclassActive = undefined;
             
         },
         selectSubclass(state, action) {
             state.characterSum.subclassData = action.payload;
             state.navNextBtnDisable = false;
-            state.subclassActive = action.payload.subclassInfo.id;
+            state.characterSum.subclassActive = action.payload.subclassInfo.id;
         },
         unsetClass(state) {
             state.characterSum.classData = undefined;
             state.characterSum.subclassData = undefined;
             state.navNextBtnDisable = true;
-            state.subclassActive = undefined;
+            state.characterSum.subclassActive = undefined;
         },
         addBackground(state, action) {
             state.characterSum.backgroundAllData = [...JSON.parse(action.payload)]
@@ -130,6 +130,9 @@ const characterStepsSlice = createSlice({
             state.characterSum.backgroundData = [...JSON.parse(action.payload)]
         },
         selectBackground(state, action) {
+            if (!action.payload) {
+                state.characterSum.backgroundActive = false;
+            }
             state.characterSum.backgroundWorldViewActive = undefined;
             state.characterSum.backgroundActive = action.payload;
         },

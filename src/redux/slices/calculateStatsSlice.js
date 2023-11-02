@@ -144,7 +144,7 @@ const calculateStatsSlice = createSlice({
                 return {
                     id: Math.floor(Math.random() * 1000), 
                     value: statValue, 
-                    modifer: Math.sign(modif) && statValue >= 10 ? `+${modif}` : `${modif}`
+                    modifer: Math.sign(modif) && statValue >= 10 ? `+${modif}` : `${modif}`,
                 };
             })
             state.statsModifers = [...statsModifers];
@@ -394,7 +394,6 @@ const calculateStatsSlice = createSlice({
                 [bonuceStat.name.replace(/_\w+$/, '')]: newValue,
             };
 
-
             state.resultCharStats = [...state.resultCharStats.map((item) => {
                 if (item.name === bonuceStat.name) {
                     const modif = Math.floor((Number(newValue) - 10) / 2);
@@ -428,8 +427,21 @@ const calculateStatsSlice = createSlice({
                 hitDice: `${minDiceHit} k ${maxDiceHit}`,
             };
         },
-        calculateCharSkillsModifer(state, action) {
-
+        sortResultCharStats(state) {
+            const order = [
+                {param: 'str', priority: 0},
+                {param: 'dex', priority: 1},
+                {param: 'con', priority: 2},
+                {param: 'int', priority: 3},
+                {param: 'wis', priority: 4},
+                {param: 'cha', priority: 5},
+            ];
+            state.resultCharStats = [...state.resultCharStats.map((item) => {
+                return {
+                    ...item,
+                    order: order.find((orderObj) => orderObj.param.toLowerCase() === item.statParam.toLowerCase()).priority,
+                }
+            }).sort((a, b) => a.order - b.order)];
         }
     }
 });
@@ -452,7 +464,8 @@ export const {
     addAllRaceBonuceStats,
     addRaceBonuceStat,
     blockIncreaseBtns,
-    calculateOtherStats
+    calculateOtherStats,
+    sortResultCharStats
 
 } = calculateStatsSlice.actions;
 

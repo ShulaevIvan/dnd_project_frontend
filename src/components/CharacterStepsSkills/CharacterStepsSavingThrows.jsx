@@ -1,9 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { sortResultCharStats } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsSavingThrows = () => {
+    const dispatch = useDispatch();
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const classData = useSelector((state) => state.characterSteps.characterSum.classData);
+    
+    useEffect(() => {
+        dispatch(sortResultCharStats());
+       
+    }, [])
+    useEffect(() => { console.log(resultCharStats)}, [resultCharStats])
 
     return (
         <React.Fragment>

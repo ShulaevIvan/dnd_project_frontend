@@ -1,9 +1,14 @@
 import React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
 import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
-import { addAbilityPoints, chooseAbility, saveResultAbilities, resetAbilityPoints, addAnyLanguagePoints, activeLanguagePanel, chooseLanguage } from "../../redux/slices/calculateAbilitiesSlice";
-import { addBonuceAbilities } from '../../redux/slices/calculateAbilitiesSlice';
+
+import { addAbilityPoints, chooseAbility,saveResultAbilities, 
+        resetAbilityPoints, addAnyLanguagePoints, activeAddMasteryPanel, 
+        chooseLanguage, addBonuceAbilities, chooseInstrument 
+    } from "../../redux/slices/calculateAbilitiesSlice";
+
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
 const CharacterStepsSkills = () => {
@@ -17,7 +22,6 @@ const CharacterStepsSkills = () => {
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const abilityPoints = useSelector((state) => state.calculateAbilites);
     const abilitesState = useSelector((state) => state.calculateCharStats);
-    const languageRef = useRef();
 
     const calcAblilModif = (abilObj) => {
         const abilExists = abilityPoints.choosenAbilities.find((chAbility) => chAbility.id === abilObj.id);
@@ -93,12 +97,25 @@ const CharacterStepsSkills = () => {
     };
 
     const addAnyLanguageHandler = () => {
-        dispatch(activeLanguagePanel(true));
+        dispatch(activeAddMasteryPanel({type: 'lang', value: true}));
+    };
+
+    const addAnyInstrumentHandler = () => {
+        if (abilityPoints.instrumentPanelActive) {
+            dispatch(activeAddMasteryPanel({type: 'instrument', value: false}));
+            return;
+        }
+        dispatch(activeAddMasteryPanel({type: 'instrument', value: true}));
     };
 
     const chooseLanguageHandler = (langObj) => {
-        dispatch(activeLanguagePanel(false));
+        dispatch(activeAddMasteryPanel({type: 'lang', value: false}));
         dispatch(chooseLanguage({language: langObj}));
+    };
+
+    const chooseInstrumentHandler = (instrumentObj) => {
+        dispatch(chooseInstrument({instrument: instrumentObj}));
+        dispatch(activeAddMasteryPanel({type: 'instrument', value: false}));
     };
 
     useEffect(() => {
@@ -206,6 +223,26 @@ const CharacterStepsSkills = () => {
         fetchFunc();
     }, []);
 
+    useEffect(() => { 
+        const allInstrumentMastery = [
+            ...characterSum.backgroundActive[0].instrumentMastery,
+            ...characterSum.raceData.skills.filter((item) => item.id === 10),
+            ...characterSum.classData.classInstrumentMastery,
+        ];
+
+        dispatch(chooseInstrument({instrument: allInstrumentMastery, typeAdd: 'arr'}))
+    }, []);
+
+    useEffect(() => {
+        if (abilityPoints.backgroundAbilityCount === 0 && 
+                abilityPoints.currentAbilityPoints === 0 && 
+                    abilityPoints.anyLanguagePoints === 0) {
+                        dispatch(activeNextBtn(false));
+                        return;
+        }
+        dispatch(activeNextBtn(true));
+    }, [abilityPoints.backgroundAbilityCount, abilityPoints.currentAbilityPoints, abilityPoints.anyLanguagePoints]);
+
     return (
         <React.Fragment>
            <div className="character-steps-skills-column">
@@ -214,12 +251,12 @@ const CharacterStepsSkills = () => {
 
                 <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
-                    <div className="ability-points-wrap">Количество очков навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}</div>
-                    <div className="ability-points-wrap">Количество Test навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}</div>
+                    <div className="ability-points-wrap">Количество классовых навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}</div>
+                    <div className="ability-points-wrap">Количество Free навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}</div>
                     <div className="ability-points-wrap">
                         <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span>
                         <div className="reset-points-wrap">
-                            <button onClick={resetAbilityPointsHandler}>Сброс очков</button>
+                            <button onClick={resetAbilityPointsHandler}>Сбросить все</button>
                         </div>
                     </div>
                     
@@ -292,21 +329,39 @@ const CharacterStepsSkills = () => {
 
                 <div className="character-steps-skills-tools-wrap">
                     <h3>Инструменты</h3>
-                    <div className="character-steps-skills-tools-row">
+                    {abilityPoints.currentAnyInstrumentPoints > 0 ?
+                        <div className="character-steps-skills-instrument-add-btn-wrap">
+                            <button onClick={addAnyInstrumentHandler}>Добавить инструмент</button>
+                        </div> 
+                    : null}
+
+                    {abilityPoints.instrumentPanelActive ? 
+                    <div className="character-steps-skills-language-panel-wrap">
                         {allInstrumentMastery.map((instrument) => {
+                            if (!abilityPoints.choosenInstruments.find((item) => item.name === instrument.name)) {
+                                return (
+                                    <div className="instrument-add-item" onClick={() => chooseInstrumentHandler(instrument)}>
+                                        {instrument.name}
+                                    </div>
+                                )
+                            }
+                        })}
+                    </div> : null}
+
+                    <div className="character-steps-skills-tools-row">
+                        {abilityPoints.choosenInstruments ? abilityPoints.choosenInstruments.filter((item) => item.id !== 10).map((instrument) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    {checkCharMastery(instrument, 'instrument') ? 
-                                        <div className='character-steps-skills-tools-item'>
-                                            <div className="character-skill-tool-name">{instrument.name}</div>
+                                    <div className='character-steps-skills-tools-item'>
+                                        <div className="character-skill-tool-name">{instrument.name}</div>
                                             <div className="character-skill-tool-modif">
                                                 {checkCharMastery(instrument, 'instrument') ? `+ ${Number(abilitesState.charOtherStats.prof)}` : `+ ${0}`}
                                             </div>
-                                        </div>
-                                    : null}
+                                    </div>
+
                                 </React.Fragment>
                             )
-                        })}
+                        }): null}
                         
                     </div>
                 </div>
@@ -356,8 +411,7 @@ const CharacterStepsSkills = () => {
                     {abilityPoints.anyLanguagePoints > 0 ? 
                         <div className="character-steps-skills-language-add-btn-wrap">
                             <p>Очки языков: {abilityPoints.anyLanguagePoints}</p>
-                            <button onClick={addAnyLanguageHandler}>Добавить язык</button>
-                            
+                            <button onClick={addAnyLanguageHandler}>Добавить язык</button>  
                         </div> 
                     : null}
 

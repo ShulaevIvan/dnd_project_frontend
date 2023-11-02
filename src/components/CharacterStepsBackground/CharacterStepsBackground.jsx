@@ -43,6 +43,7 @@ const CharacterStepsBackground = () => {
                 dispatch(addBackground(JSON.stringify(data)));
             })
         };
+        dispatch(selectBackground(false));
         dispatch(showPreviewPage(false));
         fetchFunc();
     }, []);
@@ -54,7 +55,7 @@ const CharacterStepsBackground = () => {
             return;
         }
         dispatch(activeNextBtn(true));
-    });
+    }, [selectedBackground]);
 
 
     return (

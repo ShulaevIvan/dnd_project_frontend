@@ -14,12 +14,17 @@ const initialState = {
     backgroundAbilityCount: 0,
     maxBackgroundAbilityCount: 0,
     anyLanguagePoints: 0,
+    maxLanguagePoints: 0,
     addedAbilities: [],
     initialClassAbilities: [],
+    initialLanguages: [],
     resultCharAbilities: [],
     raceBonuceAbilities: undefined,
     backgroundBonuceAbilities: undefined,
     languagePanelActive: false,
+    instrumentPanelActive: false,
+    maxAnyInstrumentPoints: 0,
+    currentAnyInstrumentPoints: 0,
 
 };
 
@@ -43,7 +48,7 @@ const calculateAbilitiesSlice = createSlice({
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
             
 
-            if (!abilExists && addType === 'any' && state.anyAbilityCount > 0) {
+            if (!abilExists && addType === 'any' && state.anyAbilityCount >= 0) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
                 state.anyAbilityCount = Number(state.anyAbilityCount) - 1;
@@ -51,7 +56,7 @@ const calculateAbilitiesSlice = createSlice({
                 return;
             }
             else if (addType === 'background') {
-                if (abilExists && state.anyAbilityCount > 0) {
+                if (abilExists && state.anyAbilityCount >= 0) {
                     state.choosenAbilities = state.choosenAbilities.filter((item) => item.id !== ability.id)
                     state.freeBonuceAbilities = state.freeBonuceAbilities.filter((item) => item.id !== ability.id)
                     state.backgroundAbilityCount = state.backgroundAbilityCount  + 1;
@@ -62,7 +67,7 @@ const calculateAbilitiesSlice = createSlice({
                 state.addedAbilities = [...state.addedAbilities, ability]
                 state.backgroundAbilityCount = state.backgroundAbilityCount - 1;
             }
-            if (state.currentAbilityPoints > 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilityPoints && !abilExists) {
+            if (state.currentAbilityPoints >= 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilityPoints && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
                 return;
@@ -126,18 +131,24 @@ const calculateAbilitiesSlice = createSlice({
         resetAbilityPoints(state) {
             state.choosenAbilities = [];
             state.freeBonuceAbilities = [];
+            state.choosenLanguages = [...state.initialLanguages].filter((item) => item.id !== 9);
             state.currentAbilityPoints = state.maxAbilityPoints;
             state.anyAbilityCount = state.maxAnyAbilityCount;
             state.backgroundAbilityCount = state.maxBackgroundAbilityCount;
+            state.anyLanguagePoints = state.maxLanguagePoints
+            state.currentAnyInstrumentPoints = state.maxAnyInstrumentPoints;
+            state.choosenInstruments = [...state.initialInstruments];
         },
         addAnyLanguagePoints(state, action) {
             const { backgroundLanguages } = action.payload;
             state.anyLanguagePoints = backgroundLanguages.filter((item) => item.id === 9).length;
+            state.maxLanguagePoints = state.anyLanguagePoints;
         },
         chooseLanguage(state, action) {
             const {language, typeAdd } = action.payload;
           
             if (typeAdd === 'arr') {
+                state.initialLanguages = [...language]
                 state.choosenLanguages = [
                     ...language,
                 ].filter((item) => item.id !== 9);
@@ -146,9 +157,32 @@ const calculateAbilitiesSlice = createSlice({
             state.choosenLanguages = [...state.choosenLanguages, language];
             state.anyLanguagePoints = Number(state.anyLanguagePoints) - 1;
         },
-        activeLanguagePanel(state, action) {
-            state.activeLanguagePanel = action.payload;
-        }
+        chooseInstrument(state, action) {
+            const {instrument, typeAdd } = action.payload;
+            if (typeAdd === 'arr') {
+                const filterInstrumentsArr = instrument.filter((obj, index, self) => index === self.findIndex((i) => (i.id === obj.id && i.name === obj.name)))
+                state.initialInstruments = [...filterInstrumentsArr]
+                state.choosenInstruments = [
+                    ...filterInstrumentsArr
+                ];
+
+                state.maxAnyInstrumentPoints = state.choosenInstruments.filter((item) => item.id === 10).length;
+                state.currentAnyInstrumentPoints = state.maxAnyInstrumentPoints;
+                return;
+            }
+            state.choosenInstruments = [...state.choosenInstruments, instrument];
+            state.currentAnyInstrumentPoints = state.currentAnyInstrumentPoints - 1;
+        },
+        activeAddMasteryPanel(state, action) {
+            const { type, value } = action.payload;
+            if (type === 'lang') {
+                state.activeLanguagePanel = value;
+            }
+            if (type === 'instrument') {
+                state.instrumentPanelActive = value;
+            }
+        },
+        
     }
 });
 
@@ -162,7 +196,8 @@ export const {
     resetAbilityPoints,
     addAnyLanguagePoints,
     chooseLanguage,
-    activeLanguagePanel
+    chooseInstrument,
+    activeAddMasteryPanel,
 
 } = calculateAbilitiesSlice.actions;
 
