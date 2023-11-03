@@ -35,9 +35,12 @@ const CharacterStepsSkills = () => {
 
     const chooseAbilityHandler = (abilObj) => {
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => item.name === abilObj.name);
+        const checkRaceAbility = characterSum.raceData.skills.find((item) => item.skill_data === abilObj.name);
+
         let type = 'regular';
         
         if (checkAbilBackground) type = 'background';
+        if (checkRaceAbility) type = 'race';
 
         if (abilityPoints.currentAbilityPoints === 0 && !checkAbilBackground) return;
 
@@ -242,7 +245,7 @@ const CharacterStepsSkills = () => {
         }
         dispatch(activeNextBtn(true));
     }, [abilityPoints.backgroundAbilityCount, abilityPoints.currentAbilityPoints, abilityPoints.anyLanguagePoints]);
-
+    console.log(abilityPoints)
     return (
         <React.Fragment>
            <div className="character-steps-skills-column">
@@ -251,8 +254,15 @@ const CharacterStepsSkills = () => {
 
                 <div className="character-steps-skills-wrap">
                     <h3>Навыки</h3>
-                    <div className="ability-points-wrap">Количество классовых навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}</div>
-                    <div className="ability-points-wrap">Количество Free навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}</div>
+                    <div className="ability-points-wrap">
+                        Количество классовых навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}
+                    </div>
+                    <div className="ability-points-wrap">
+                        Количество Free навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}
+                    </div>
+                    <div className="ability-points-wrap">
+                        Количество Race навыков: {abilityPoints.raceAbilityCount} / {abilityPoints.maxRaceAbilityCount}
+                    </div>
                     <div className="ability-points-wrap">
                         <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span>
                         <div className="reset-points-wrap">

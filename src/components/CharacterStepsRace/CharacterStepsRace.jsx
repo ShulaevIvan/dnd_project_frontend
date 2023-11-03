@@ -83,7 +83,7 @@ const  CharacterStepsRace = () => {
                         subraceData: prevState.subraceData = subraceData,
                         subraceActiveBtn: prevState.subraceActiveBtn = subraceObj.id,
                     }));
-                }, 100);
+                }, 300);
                 
             });
         }

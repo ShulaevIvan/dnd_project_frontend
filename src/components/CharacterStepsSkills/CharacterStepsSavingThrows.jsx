@@ -10,9 +10,7 @@ const CharacterStepsSavingThrows = () => {
     
     useEffect(() => {
         dispatch(sortResultCharStats());
-       
-    }, [])
-    useEffect(() => { console.log(resultCharStats)}, [resultCharStats])
+    }, []);
 
     return (
         <React.Fragment>
