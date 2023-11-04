@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 const CharacterStepsPreiewStats = () => {
     const resultCharStatsRoll = useSelector((state) => state.calculateCharStats.resultCharStats);
-    const statIncreaseCount = useSelector((state) => state.characterSteps.increaseStatsCount);
     const statMode = useSelector((state) => state.characterSteps.statModeSwitcher);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
     const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);

@@ -34,6 +34,7 @@ const CharacterStepsSkills = () => {
     };
 
     const chooseAbilityHandler = (abilObj) => {
+        
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => item.name === abilObj.name);
         const checkRaceAbility = characterSum.raceData.skills.find((item) => item.skill_data === abilObj.name);
 
@@ -42,8 +43,6 @@ const CharacterStepsSkills = () => {
         if (checkAbilBackground) type = 'background';
         if (checkRaceAbility) type = 'race';
 
-        if (abilityPoints.currentAbilityPoints === 0 && !checkAbilBackground) return;
-
         dispatch(chooseAbility({ability: abilObj, addType: type}));
     };
 
@@ -51,8 +50,9 @@ const CharacterStepsSkills = () => {
         const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
         const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === abilObj.name);
+        const checkAbilRace = characterSum.raceData.skills.find((item) => checkAbil && item.name === abilObj.name);
 
-        if (abilityPoints.anyAbilityCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil) {
+        if (abilityPoints.anyAbilityCount > 0 && !checkAbilClass && !checkAbilBackground && !checkAbil && !checkAbilRace) {
             dispatch(addBonuceAbility(abilObj));
             dispatch(chooseAbility({ability: abilObj, addType: 'any'}));
             return;
@@ -62,12 +62,14 @@ const CharacterStepsSkills = () => {
 
     const checkAbilityBonuce = (abilObj) => {
         const checkAbil = abilityPoints.bonuceAbilities.find((abil) => abil.name === abilObj.name);
+        const checkAbilRace = characterSum.raceData.skills.find((abil) => abil.skill_data === abilObj.name);
         const checkAbilClass = characterSum.classData.classAbilities.find((abil) => abil.name === abilObj.name);
         const checkAbilBackground = characterSum.backgroundActive[0].bounceAbilities.find((item) => checkAbil && item.name === checkAbil.name);
 
         if (checkAbil && checkAbilBackground && !checkAbilClass) return true;
-        if (!checkAbil && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilityCount > 0) return true
-       
+        if (!checkAbilClass &&  checkAbilRace && abilityPoints.raceAbilityCount > 0) return true;
+        if (!checkAbil && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilityCount > 0) return true;
+
         return false;
     };
 
@@ -206,6 +208,7 @@ const CharacterStepsSkills = () => {
             raceBonuceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
             backgroundBonuceAbilities: characterSum.backgroundActive[0].bounceAbilities,
         }));
+
     }, []);
 
     useEffect(() => {
@@ -239,13 +242,19 @@ const CharacterStepsSkills = () => {
     useEffect(() => {
         if (abilityPoints.backgroundAbilityCount === 0 && 
                 abilityPoints.currentAbilityPoints === 0 && 
-                    abilityPoints.anyLanguagePoints === 0) {
-                        dispatch(activeNextBtn(false));
-                        return;
+                    abilityPoints.anyLanguagePoints === 0 && 
+                        abilityPoints.raceAbilityCount === 0) {
+                            dispatch(activeNextBtn(false));
+                            return;
         }
         dispatch(activeNextBtn(true));
-    }, [abilityPoints.backgroundAbilityCount, abilityPoints.currentAbilityPoints, abilityPoints.anyLanguagePoints]);
-    console.log(abilityPoints)
+    }, [
+        abilityPoints.backgroundAbilityCount, 
+        abilityPoints.currentAbilityPoints, 
+        abilityPoints.anyLanguagePoints,
+        abilityPoints.raceAbilityCount,
+    ]);
+    
     return (
         <React.Fragment>
            <div className="character-steps-skills-column">
@@ -257,18 +266,26 @@ const CharacterStepsSkills = () => {
                     <div className="ability-points-wrap">
                         Количество классовых навыков: {abilityPoints.currentAbilityPoints} / {abilityPoints.maxAbilityPoints}
                     </div>
-                    <div className="ability-points-wrap">
-                        Количество Free навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}
-                    </div>
-                    <div className="ability-points-wrap">
-                        Количество Race навыков: {abilityPoints.raceAbilityCount} / {abilityPoints.maxRaceAbilityCount}
-                    </div>
-                    <div className="ability-points-wrap">
-                        <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span>
-                        <div className="reset-points-wrap">
-                            <button onClick={resetAbilityPointsHandler}>Сбросить все</button>
+                    {abilityPoints.maxBackgroundAbilityCount > 0 ? 
+                        <div className="ability-points-wrap">
+                             Количество Free навыков: {abilityPoints.backgroundAbilityCount} / {abilityPoints.maxBackgroundAbilityCount}
                         </div>
-                    </div>
+                    : null}
+
+                    {abilityPoints.maxRaceAbilityCount > 0 ? 
+                        <div className="ability-points-wrap">
+                            Количество Race навыков: {abilityPoints.raceAbilityCount} / {abilityPoints.maxRaceAbilityCount}
+                        </div>
+                    : null}
+                    
+                        <div className="ability-points-wrap">
+                        {abilityPoints.anyAbilityCount > 0 ? <span>Очки любых навыков: {abilityPoints.anyAbilityCount}</span> : null}
+                            <div className="reset-points-wrap">
+                                <button onClick={resetAbilityPointsHandler}>Сбросить все</button>
+                            </div>
+                        </div>
+                    
+                    
                     
 
                     <div className="character-steps-skills-row">

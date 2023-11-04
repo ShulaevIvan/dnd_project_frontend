@@ -15,6 +15,9 @@ const CharacterStepsPreiew = () => {
     const stepNum = useSelector((state) => state.characterSteps.characterStepPage);
     const previewActive = useSelector((state) => state.characterSteps.showPreviewPage);
     const setupStatsComplete =  useSelector((state) => state.calculateCharStats.setupStatsComplete);
+    const spendedStatPoints = useSelector((state) => state.calculateCharStats.currentStatBuyPoints);
+    const maxStatPoints = useSelector((state) => state.calculateCharStats.statBuyPoints);
+    const statBuyFreePoints = useSelector((state) => state.calculateCharStats.statBuyFreePoints);
     
 
     return (
@@ -30,7 +33,7 @@ const CharacterStepsPreiew = () => {
                     <CharacterStepsPreiewBackground />
                 : stepNum === 4 ? 
                     <CharacterStepsPreiewStats />
-                :stepNum === 5 && setupStatsComplete ? 
+                :stepNum === 5 && setupStatsComplete || (statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0) ? 
                     <CharacterStepsSkillsPreview />
                 
                 : null}

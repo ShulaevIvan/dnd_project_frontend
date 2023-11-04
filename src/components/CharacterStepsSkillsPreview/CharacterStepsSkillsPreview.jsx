@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const CharacterStepsSkillsPreview = () => {
     const classAbilities = useSelector((state) => state.characterSteps.characterSum.classData.classAbilities);
@@ -8,6 +9,10 @@ const CharacterStepsSkillsPreview = () => {
     const abilityPoints = useSelector((state) => state.calculateAbilites);
     const characterSum = useSelector((state) => state.characterSteps.characterSum);
     
+
+    useEffect(() => {
+        console.log(classAbilities)
+    })
 
     return (
         <React.Fragment>
@@ -32,20 +37,17 @@ const CharacterStepsSkillsPreview = () => {
 
                     </div>
                     <div className="total-bonuce-class-abilities">
-                        <h4>Class Abilities</h4>
-                        <p>Max ability points: {abilityPoints.maxAbilityPoints}</p>
+                        <h4>Выбранные навыки</h4>
                         <ul className="total-bonuce-abilities-list">
-                            {classAbilities ? classAbilities.map((item) => {
+                            {abilityPoints ? abilityPoints.choosenAbilities.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <li className={abilityPoints.choosenAbilities.some((abil) => abil.name === item.name) ? 
-                                                'ability-chosen': 'ability-not-chosen'
-                                            }>
+                                        <li className={'test'}>
                                             {item.name}
                                         </li>
                                     </React.Fragment>
                                 )
-                            }) : null} 
+                            }) : null}
                         </ul>
                     </div>
 

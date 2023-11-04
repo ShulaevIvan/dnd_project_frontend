@@ -48,29 +48,29 @@ const calculateAbilitiesSlice = createSlice({
             const ability = action.payload.ability;
             const addType = action.payload.addType;
             const abilExists = state.choosenAbilities.find((item) => item.id === ability.id);
-            
 
             if (!abilExists && addType === 'any' && state.anyAbilityCount >= 0) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
-                state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability]
+                state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability];
                 state.anyAbilityCount = Number(state.anyAbilityCount) - 1;
-                state.addedAbilities = [...state.addedAbilities, ability]
+                state.addedAbilities = [...state.addedAbilities, ability];
                 return;
             }
             else if (addType === 'race') {
                 if (abilExists && state.raceAbilityCount >= 0) {
-                    state.choosenAbilities = [...state.choosenAbilities, ability];
-                    state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability];
-                    state.addedAbilities = [...state.addedAbilities, ability];
+                    state.choosenAbilities = state.choosenAbilities.filter((item) => item.id !== ability.id)
+                    state.freeBonuceAbilities = state.freeBonuceAbilities.filter((item) => item.id !== ability.id)
+                    state.raceAbilityCount = state.raceAbilityCount + 1;
                     return;
                 }
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability];
-                state.addedAbilities = [...state.addedAbilities, ability]
+                state.addedAbilities = [...state.addedAbilities, ability];
                 state.raceAbilityCount = state.raceAbilityCount - 1;
+              
             }
             else if (addType === 'background') {
-                if (abilExists && state.anyAbilityCount >= 0) {
+                if (abilExists && state.backgroundAbilityCount >= 0) {
                     state.choosenAbilities = state.choosenAbilities.filter((item) => item.id !== ability.id)
                     state.freeBonuceAbilities = state.freeBonuceAbilities.filter((item) => item.id !== ability.id)
                     state.backgroundAbilityCount = state.backgroundAbilityCount  + 1;
@@ -78,16 +78,17 @@ const calculateAbilitiesSlice = createSlice({
                 }
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.freeBonuceAbilities = [...state.freeBonuceAbilities, ability];
-                state.addedAbilities = [...state.addedAbilities, ability]
+                state.addedAbilities = [...state.addedAbilities, ability];
                 state.backgroundAbilityCount = state.backgroundAbilityCount - 1;
             }
             
-            if (state.currentAbilityPoints >= 0 && addType === 'regular' && state.currentAbilityPoints <= state.maxAbilityPoints && !abilExists) {
+            if (state.currentAbilityPoints > 0 && addType === 'regular' && !abilExists) {
                 state.choosenAbilities = [...state.choosenAbilities, ability];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) - 1;
                 return;
             }
-            else if (abilExists && addType === 'regular' && state.currentAbilityPoints + 1 <= state.maxAbilityPoints) {
+            else if (abilExists && addType === 'regular') {
+                console.log('test2')
                 state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) + 1;
                 return;
@@ -127,12 +128,16 @@ const calculateAbilitiesSlice = createSlice({
 
             const anyAbilityCount = bonuceAbilitiesSum.filter((item) => item.name.replace(/\s\w+$/, '') === 'any').reduce((sum, item) => sum + item.value, 0);
             state.anyAbilityCount = anyAbilityCount;
-            state.maxAnyAbilityCount = state.anyAbilityCount;
+           
             state.bonuceAbilities = bonuceAbilitiesSum;
+            
             state.maxBackgroundAbilityCount = state.backgroundBonuceAbilities.length;
             state.backgroundAbilityCount = state.maxBackgroundAbilityCount;
-            state.maxRaceAbilityCount = raceBonuceAbilities.length;
             state.raceAbilityCount = state.maxRaceAbilityCount;
+
+            state.maxAnyAbilityCount = state.anyAbilityCount;
+            state.maxRaceAbilityCount = raceBonuceAbilities.filter((item) => item.skill_type === 'ability' && item.skill_data.replace(/\s\w+$/, '') !== 'any').length;
+            
         },
         removeBonuceAbility(state, action) {
             const removeBonuce = action.payload;
@@ -156,6 +161,7 @@ const calculateAbilitiesSlice = createSlice({
             state.anyLanguagePoints = state.maxLanguagePoints
             state.currentAnyInstrumentPoints = state.maxAnyInstrumentPoints;
             state.choosenInstruments = [...state.initialInstruments];
+            state.addedAbilities = [];
         },
         addAnyLanguagePoints(state, action) {
             const { backgroundLanguages } = action.payload;
