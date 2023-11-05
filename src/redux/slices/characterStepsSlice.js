@@ -28,8 +28,8 @@ const initialState = {
     },
     showPreviewPage: false,
     characterStepPage: 1,
-    characterStepMaxPage: 5,
-    stepsNames: ['race', 'class', 'background', 'stats', 'skills', 'total'],
+    characterStepMaxPage: 6,
+    stepsNames: ['race', 'class', 'background', 'stats', 'abilites', 'skills', 'total'],
     characterSum: {
         raceData: undefined,
         subraceActive: undefined,

@@ -1,0 +1,383 @@
+.character-steps-skills-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 10px;
+    border: 1px solid;
+    align-items: center;
+    width: 44%;
+    padding: 0 10px 0 0;
+}
+.character-steps-saving-throws-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-steps-saving-throws-wrap h3 {
+    margin: 0 0 20px 0;
+}
+.character-steps-saving-throws-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+.character-steps-saving-throws-item {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 14.5%;
+    margin-right: 6px;
+}
+.character-steps-saving-throws-item-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.character-steps-saving-throws-item-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    min-height: 50px;
+    max-width: 100px;
+    margin-bottom: 2px;
+}
+.character-steps-saving-throws-item-footer  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    min-height: 50px;
+    max-width: 100px;
+}
+.main-char-param::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '\2605';
+    position: absolute;
+    max-height: 16px;
+    width: 16px;
+    font-size: 18px;
+    padding: 2px;
+    background-color: gray;
+    left: -1%;
+    bottom: 10%;
+}
+.main-ability-param::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '\2606';
+    position: absolute;
+    max-height: 16px;
+    width: 16px;
+    font-size: 18px;
+    padding: 2px;
+    background-color: white;
+    right: -1%;
+    bottom: 10%;
+    cursor: pointer;
+}
+.main-ability-param-active::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '\2605';
+    position: absolute;
+    max-height: 16px;
+    width: 16px;
+    font-size: 18px;
+    padding: 2px;
+    background-color: white;
+    right: -1%;
+    bottom: 10%;
+    cursor: pointer;
+}
+.character-steps-skills-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-skills-wrap h3 {
+    margin: 0 0 10px 0;
+}
+.character-steps-skills-row  {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 4px;
+}
+.character-steps-skills-has-item-row, .character-steps-skills-new-item-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+}
+.character-skills-item {
+    position: relative;
+    width: 45%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid;
+    min-height: 60px;
+    max-height: 60px;
+    max-width: 140px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.character-steps-saving-throws-title-str {
+    color: red;
+}
+.character-steps-saving-throws-title-dex {
+    color: orange;
+}
+.character-steps-saving-throws-title-con {
+    color: green;
+}
+.character-steps-saving-throws-title-int {
+    color: blue;
+}
+.character-steps-saving-throws-title-wis {
+    color: violet;
+}
+.character-steps-saving-throws-title-cha {
+    color:  peru;
+}
+.skills-item-modif-str {
+    border-color: red;
+}
+.skills-item-modif-dex {
+    border-color: orange;
+}
+.skills-item-modif-con {
+    border-color: green;
+}
+.skills-item-modif-int {
+    border-color: blue;
+}
+.skills-item-modif-wis {
+    border-color: violet;
+}
+.skills-item-modif-cha {
+    border-color: peru;
+}
+.character-skill-name, .character-skill-modif {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+}
+.character-skill-name {
+    font-size: 14px;
+}
+
+.skill-plus-value-icon::before {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    content: '\002B';
+    position: absolute;
+    max-height: 16px;
+    width: 16px;
+    font-size: 18px;
+    padding: 2px;
+    background-color: gray;
+    left: -1%;
+    bottom: 10%;
+    cursor: pointer;
+}
+.character-steps-skills-tools-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+.character-steps-skills-tools-item {
+    position: relative;
+    width: 22%;
+    min-width: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    min-height: 60px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+.character-steps-skills-tools-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+.character-steps-skills-tools-wrap h3 {
+    margin: 0 0 10px 0;
+}
+.character-skill-tool-name, .character-skill-tool-modif {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    min-height: 20px;
+}
+.character-steps-skills-weapon-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-steps-skills-weapon-wrap h3 {
+    margin: 0 0 10px 0;
+}
+.character-steps-weapon-row,
+.character-steps-language-row,
+.character-steps-armor-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-steps-weapon-item, 
+.character-steps-language-item,
+.instrument-add-item, 
+.character-steps-armor-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    max-width: 25%;
+    min-width: 75px;
+    min-height: 25px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid;
+    cursor: pointer;
+}
+.character-steps-skills-language-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+.character-steps-skills-language-wrap h3 {
+    margin: 0 0 10px 0;
+}
+.character-steps-preview-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 29%;
+    border: 1px solid;
+    padding: 5px;
+}
+.character-mastery-preview-wrap , .character-mastery-description{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.character-mastery-preview-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+.skillExists {
+    border: 1px solid red;
+}
+.skillnotExists {
+    opacity: 0.5;
+    background-color: lightgray;
+}
+.ability-points-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.ability-points-wrap span {
+    padding: 0 0 20px 0;
+}
+.character-steps-preview-abilities-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.total-bonuce-class-abilities,
+.total-bonuce-race-abilities,
+.total-bonuce-background-abilities {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-steps-preview-abilities-wrap h4, 
+.character-steps-preview-abilities-wrap h3,
+.character-steps-preview-abilities-wrap p {
+    margin:  0 0 20px 0;
+}
+.total-bonuce-abilities-list {
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+.total-bonuce-abilities-list li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+.ability-chosen {
+    color: red;
+    text-decoration: underline;
+}
+.ability-not-chosen {
+    text-decoration: line-through;
+    font-weight: normal;
+}
+.reset-points-wrap {
+    margin: 0 20px;
+}
+.character-steps-skills-language-add-btn-wrap,
+.character-steps-skills-instrument-add-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-steps-skills-language-panel-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
