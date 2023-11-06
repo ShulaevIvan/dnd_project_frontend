@@ -14,7 +14,9 @@ const CharacterStepsSkills = () => {
                 <div className="character-steps-spellbook-wrap">
                     <div className="character-steps-spellbook-info">
                         <div className="spellbook-info-row">
-                            <div className="character-"></div>
+                            <div className="spellbook-info-spells-charm-count">1</div>
+                            <div className="spellbook-info-spells-spell-count">1</div>
+                            <div className="spellbook-info-spells-spell-count">1</div>
                         </div>
                     </div>
                     <div className="character-steps-spellbook-row">
