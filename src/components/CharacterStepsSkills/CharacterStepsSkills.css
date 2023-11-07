@@ -5,6 +5,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
 }
 .character-steps-spells-column {
     display: flex;
@@ -46,7 +47,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
@@ -59,8 +60,8 @@
     width: 75px;
     min-height: 75px;
     border: 1px solid;
-    margin-right: 5px;
-    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
     cursor: pointer;
     filter: grayscale();
     background-image: url('./img/spell.jpg');
@@ -73,11 +74,21 @@
     flex-wrap: wrap;
     width: 100%;
 }
-.character-steps-spellbook-info {
+.character-stps-spells-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.character-steps-spellbook-info,
+.character-stps-charm-info {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 100%;
+    max-width: 100%;
     margin-bottom: 20px;
 }
 .spellbook-info-row {
@@ -85,4 +96,61 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+}
+.character-steps-spellbook-lvl,
+.character-steps-rituals-lvl,
+.character-steps-charm-lvl {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 50%;
+    min-width: 33%;
+}
+.character-steps-spellbook-lvl h4,
+.character-steps-charm-lvl h4,
+.character-steps-rituals-lvl h4 {
+    margin-bottom: 5px;
+    padding: 0;
+}
+.character-steps-spellbook-lvl-list,
+.character-steps-charm-lvl-list,
+.character-steps-rituals-lvl-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+.character-steps-spellbook-lvl-list li,
+.character-steps-charm-lvl-list li,
+.character-steps-rituals-lvl li {
+    list-style: none;
+    max-width: 250px;
+    text-align: center;
+}
+.character-steps-skills-wrap,
+.character-steps-race-skills-wrap{
+    margin-top: 20px;
+}
+.character-steps-skills-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.character-steps-skills-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 25%;
+    min-width: 100px;
+    border: 1px solid;
+    padding: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
 }
