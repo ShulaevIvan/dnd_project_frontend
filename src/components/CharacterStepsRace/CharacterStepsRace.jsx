@@ -7,7 +7,6 @@ import { addBaseStats } from "../../redux/slices/calculateStatsSlice";
 const  CharacterStepsRace = () => {
     const characterCreateState =  useSelector((state) => state.characterSteps);
     const allRaces = useSelector((state) => state.characterSteps.allRaces);
-    const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
 
     const [selectedRaceState, setSelectedRaceState] = useState({
         raceData: undefined, 
