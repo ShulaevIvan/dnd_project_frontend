@@ -162,7 +162,7 @@
     padding-bottom: 10px;
 }
 .character-steps-skills-item:hover {
-    border-color: red;
+    border: 1px solid red;
 }
 .skill-item-title {
     font-size: 14px;
@@ -193,22 +193,37 @@
     width: 100%;
     z-index: 5;
     padding: 10px;
+    border: 1px solid #C14B3C;
+    margin: -5px -2px;
 }
 .skill-item-description-popup-wrap-hidden {
     display: none;
 }
-.skill-item-popup-close-wrap {
+.skill-item-remove-wrap {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 6;
+}
+.skill-item-add-wrap {
     position: absolute;
     top: 10px;
     right: 10px;
     z-index: 6;
 }
-.skill-item-popup-close::before {
+.skill-item-remove::before {
     position: relative;
     max-width: 20px;
     max-height: 20px;
     right: 0;
     content: '\2716';
+}
+.skill-item-add::before {
+    position: relative;
+    max-width: 20px;
+    max-height: 20px;
+    right: 0;
+    content: '\2795';
 }
 .skill-item-popup-title {
     display: flex;

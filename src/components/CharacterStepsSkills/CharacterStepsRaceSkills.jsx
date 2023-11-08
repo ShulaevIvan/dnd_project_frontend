@@ -25,6 +25,10 @@ const CharacterStepsRaceSkills = () => {
     const unselectRaceSkillHandler = (raceSkillObj) => {
         dispatch(deactivateRaceSkillHover(raceSkillObj));
     };
+    const closePopupItemSkillHandler = (e, raceSkillObj) => {
+        dispatch(deactivateRaceSkillHover(raceSkillObj));
+        e.stopPropagation();
+    };
 
     useEffect(() => {
         console.log(mouseX)
@@ -39,6 +43,7 @@ const CharacterStepsRaceSkills = () => {
 
                 <div className="character-steps-skills-row">
                     {raceSkills.map((raceSkill) => {
+                        console.log(raceSkill)
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div 
@@ -53,9 +58,6 @@ const CharacterStepsRaceSkills = () => {
                                             style={{left: `${mouseX}px`, top:`${mouseY}px` }} 
                                             className={'skill-item-description-popup-wrap'}
                                         >
-                                            <div className="skill-item-popup-close-wrap">
-                                                <span className="skill-item-popup-close" onClick={() => unselectRaceSkillHandler(raceSkill)}></span>
-                                            </div>
                                             <div className="skill-item-popup-title">{raceSkill.name}</div>
                                             <div className="skill-item-description-popup">
                                                 {raceSkill.description}

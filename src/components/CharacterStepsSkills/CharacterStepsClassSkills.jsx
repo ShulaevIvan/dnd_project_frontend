@@ -1,6 +1,8 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 
 const CharacterStepsClassSkills = () => {
+    const dispatch = useDispatch();
     return (
         <React.Fragment>
             <div className="character-steps-skills-wrap">
