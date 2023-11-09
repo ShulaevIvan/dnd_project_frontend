@@ -5,7 +5,7 @@ const CharacterStepsBackgroundSkills = () => {
         <React.Fragment>
             <div className="character-steps-skills-wrap">
                 <div className="character-steps-skills-title">
-                    <h3>Race Skills</h3>
+                    <h3>Background Skills</h3>
                 </div>
 
                 <div className="character-steps-skills-row">
