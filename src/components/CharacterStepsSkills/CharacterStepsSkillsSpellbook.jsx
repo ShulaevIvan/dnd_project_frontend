@@ -1,6 +1,32 @@
 import React from "react";
+import { useSelector, useDispatch} from 'react-redux';
+import { useEffect } from "react";
 
-const CharacterStepsSkillsSpellbook = () => {
+const CharacterStepsSkillsSpellbook = (props) => {
+
+    const dispatch = useDispatch();
+    const classSpells = useSelector((state) => state.characterSkills.classSpells);
+    const maxSpellLevel = useSelector((state) => state.characterSkills.maxSpellLevel);
+    const spellNavigate = useSelector((state) => state.characterSkills.spellLevelNavigate);
+    const spellLevels = classSpells.reduce((res, i) => {
+        const spellObj = {}
+        if (res.hasOwnProperty(i.spellLevel)) {
+            res[i.spellLevel] += 1;
+        } 
+        else {
+            res[i.spellLevel] = 1;
+        }
+        return res;
+    }, {});
+   
+
+    console.log(spellLevels)
+
+    // const changeSpellLvlHandler = () => {
+
+    // };
+
+
     return (
         <React.Fragment>
             <div className="character-steps-spellbook-wrap">
@@ -37,6 +63,16 @@ const CharacterStepsSkillsSpellbook = () => {
                             <li>5 уровень : 0 / 1 </li>
                         </ul>
                     </div>
+            </div>
+
+            <div className="spellbook-level-navigation-row">
+                {spellNavigate.map((item) => {
+                    return (
+                        <React.Fragment>
+                           <div className="spellbook-level-navigation-btn-level">{item.name}</div> 
+                        </React.Fragment>
+                    )
+                })}
             </div>
                 
                 
@@ -83,7 +119,7 @@ const CharacterStepsSkillsSpellbook = () => {
                  </div>
             </div>
 
-            <div className="spellbook-navigation-row">
+            {/* <div className="spellbook-navigation-row">
                 <div className="spellbook-navigation-btn-level">0</div>
                 <div className="spellbook-navigation-btn-level">1</div>
                 <div className="spellbook-navigation-btn-level">2</div>
@@ -94,7 +130,7 @@ const CharacterStepsSkillsSpellbook = () => {
                 <div className="spellbook-navigation-btn-level">7</div>
                 <div className="spellbook-navigation-btn-level">8</div>
                 <div className="spellbook-navigation-btn-level-disabled ">9</div>
-            </div>
+            </div> */}
         </div>
         </React.Fragment>
     )

@@ -42,7 +42,8 @@ const CharacterStepsSkills = () => {
                     unselectSkillHandler={unselectSkillHandler} 
                 />
                 <CharacterStepsBackgroundSkills />
-                <CharacterStepsSkillsSpellbook />
+                {classData.spellcaster ? <CharacterStepsSkillsSpellbook classSpells={classData.classSpells} /> : null}
+                
             </div>
         </React.Fragment>
     )
