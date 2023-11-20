@@ -25,10 +25,11 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .spellbook-navigation-btn-level,
 .spellbook-level-navigation-btn-level,
+.spellbook-level-navigation-btn-level-active,
 .spellbook-navigation-btn-level-disabled {
     display: flex;
     flex-wrap: wrap;
@@ -41,6 +42,9 @@
     border: 1px solid;
     cursor: pointer;
 }
+.spellbook-level-navigation-btn-level-active {
+    color: #C14B3C;
+}
 .spellbook-navigation-btn-level-disabled {
     opacity: 0.5;
     cursor: default;
@@ -52,8 +56,39 @@
     width: 100%;
     max-width: 500px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     margin-bottom: 20px;
+}
+.character-steps-spellbook-item-wrap,
+.character-steps-selected-spells-item-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 85px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+.character-steps-spellbook-item-title,
+.character-steps-selected-spells-item-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.character-steps-spellbook-btns-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.add-spell-btn button {
+    display: flex;
+    flex-wrap: wrap;
+    cursor: pointer;
 }
 .character-steps-spellbook-item {
     display: flex;
@@ -76,6 +111,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    color: #C14B3C;
 }
 .character-stps-spells-row {
     display: flex;
@@ -241,4 +277,29 @@
 .skill-item-description-popup {
     font-size: 14px;
     line-height: 1.4;
+}
+.character-steps-selected-spells-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    width: 100%;
+    max-width: 500px;
+}
+.character-steps-selected-spells-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-end;
+    border: 1px solid;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.character-steps-spellbook-lvl-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }

@@ -6,7 +6,11 @@ const initialState = {
     activeSkillHover: undefined,
     classSpells: [],
     maxSpellLevel: -1,
+    minSpellLevel: -1,
     spellLevelNavigate: [],
+    spellLevelNavigateActive: 0,
+    classSpellsActiveChunck: [],
+    selectedSpells: [],
 };
 
 const characterSkillsSlice = createSlice({
@@ -25,26 +29,42 @@ const characterSkillsSlice = createSlice({
         addClassSpells(state, action) {
             state.classSpells = [...action.payload];
             const maxSpellLevelValue = state.classSpells.reduce((prev, current) => prev.spellLevel > current.spellLevel ? prev : current, {});
-            if (maxSpellLevelValue && maxSpellLevelValue.spellLevel >= 0) state.maxSpellLevel = maxSpellLevelValue.spellLevel;
-            for (let i = 0; i < state.maxSpellLevel; i += 1) {
-                state.spellLevelNavigate.push({name: `${i}`, active: false})
-            }
-            // const spellLevels = state.classSpells.reduce((res, i) => {
-            //     if (res.hasOwnProperty(i.spellLevel)) {
-            //         res[i.spellLevel] += 1;
-            //     } 
-            //     else {
-            //         res[i.spellLevel] = 1;
-            //     }
-            //     return res;
-            // }, {});
-            // state.maxSpellLevel = spellLevels.reduce((prev, current) => prev.b > current.b ? prev : current, {});
+            const minSpellLevelValue = state.classSpells.reduce((prev, current) => prev.spellLevel < current.spellLevel ? prev : current, {});
 
+            if (maxSpellLevelValue && maxSpellLevelValue.spellLevel >= 0) state.maxSpellLevel = maxSpellLevelValue.spellLevel;
+            if (minSpellLevelValue && minSpellLevelValue.spellLevel >= 0) state.minSpellLevel = minSpellLevelValue.spellLevel;
+
+            for (let i = 0; i < state.maxSpellLevel; i += 1) {
+                state.spellLevelNavigate.push({name: `${i}`, active: i === state.minSpellLevel ? true : false})
+            }
         },
         unsetClassSpells(state) {
             state.classSpells = [];
             state.spellLevelNavigate = [];
             state.maxSpellLevel = -1;
+        },
+        showSpellsByLevel(state, action) {
+            const spellLevel = Number(action.payload);
+            state.spellLevelNavigateActive = spellLevel;
+            state.spellLevelNavigate = state.spellLevelNavigate.map((item) => {
+                item.active = false;
+                if (Number(item.name) === spellLevel) {
+                    return {
+                        ...item,
+                        active: true
+                    }
+                }
+                return item;
+            })
+            state.classSpellsActiveChunck = [...state.classSpells.filter((item) => item.spellLevel === spellLevel)];
+        },
+        selectSpell(state, action) {
+            const { spell } = action.payload;
+            state.selectedSpells = [...state.selectedSpells.filter((item) => item.id !== spell.id), spell].reverse();
+        },
+        unselectSpell(state, action) {
+            const { spell } = action.payload;
+            state.selectedSpells = state.selectedSpells.filter((item) => item.id !== spell.id).reverse();
         }
     }
 });
@@ -54,6 +74,9 @@ export const {
     deactivateRaceSkillHover,
     addClassSpells,
     unsetClassSpells,
+    showSpellsByLevel,
+    selectSpell,
+    unselectSpell,
 
 } = characterSkillsSlice.actions;
 
