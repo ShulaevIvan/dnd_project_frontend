@@ -63,11 +63,12 @@
 .character-steps-selected-spells-item-wrap {
     display: flex;
     flex-direction: column;
+    width: 25%;
     flex-wrap: wrap;
-    max-width: 85px;
+    /* min-width: 120px; */
     justify-content: center;
     align-items: center;
-    margin-right: 10px;
+    /* margin-right: 10px; */
     margin-bottom: 20px;
 }
 .character-steps-spellbook-item-title,
@@ -303,3 +304,37 @@
     flex-wrap: wrap;
     margin-bottom: 20px;
 }
+.character-steps-spellbook-image-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+.character-steps-spellbook-item-hover {
+    position: absolute;
+    background-color: gray;
+    color: black;
+    z-index: 5;
+    min-width: 400px;
+    min-height: 400px;
+}
+.character-steps-spellbook-item-close::before {
+    content: '\2716';
+    font-size: 16px;
+    color: black;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+/* .character-steps-spellbook-item-hover {
+    transform: translateY(-150%);
+    animation: ani 1s forwards;
+  }
+  
+@keyframes ani {
+    0% {transform: translateX(-150%);}
+    100% {transform: translateY(0);}
+} */

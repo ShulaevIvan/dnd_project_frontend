@@ -4,6 +4,7 @@ const initialState = {
     mousePositionX: 0,
     mousePositionY: 0,
     activeSkillHover: undefined,
+    activeSpellHover: undefined,
     classSpells: [],
     maxSpellLevel: -1,
     minSpellLevel: -1,
@@ -65,6 +66,15 @@ const characterSkillsSlice = createSlice({
         unselectSpell(state, action) {
             const { spell } = action.payload;
             state.selectedSpells = state.selectedSpells.filter((item) => item.id !== spell.id).reverse();
+        },
+        activeSpellHover(state, action) {
+            const { spell, cordX, cordY } = action.payload;
+            state.activeSpellHover = spell;
+            state.mousePositionX = cordX;
+            state.mousePositionY = cordY;
+        },
+        closeSpellHover(state) {
+            state.activeSpellHover = undefined;
         }
     }
 });
@@ -77,6 +87,8 @@ export const {
     showSpellsByLevel,
     selectSpell,
     unselectSpell,
+    activeSpellHover,
+    closeSpellHover
 
 } = characterSkillsSlice.actions;
 

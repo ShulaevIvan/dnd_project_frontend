@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
 import { useEffect } from "react";
-import { showSpellsByLevel, selectSpell, unselectSpell } from "../../redux/slices/characterSkillsSlice";
+import { showSpellsByLevel, selectSpell, unselectSpell, activeSpellHover, closeSpellHover } from "../../redux/slices/characterSkillsSlice";
 
 const CharacterStepsSkillsSpellbook = (props) => {
 
@@ -12,7 +12,11 @@ const CharacterStepsSkillsSpellbook = (props) => {
     const spellNavigate = useSelector((state) => state.characterSkills.spellLevelNavigate);
     const spellChuncks = useSelector((state) => state.characterSkills.classSpellsActiveChunck);
     const selectedSpells = useSelector((state) => state.characterSkills.selectedSpells);
-    const currentSpellLevelNav = useSelector((state) => state.characterSkills.spellLevelNavigateActive)
+    const currentSpellLevelNav = useSelector((state) => state.characterSkills.spellLevelNavigateActive);
+    const spellHoverActive = useSelector((state) => state.characterSkills.activeSpellHover);
+    const blockSpellHover = useSelector((state) => state.characterSkills.blockSpellHover);
+    console.log(blockSpellHover)
+
     // const spellLevels = classSpells.reduce((res, i) => {
     //     const spellObj = {}
     //     if (res.hasOwnProperty(i.spellLevel)) {
@@ -26,7 +30,6 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     const spellNavigateHandler = (spellNavObj) => {
         dispatch(showSpellsByLevel(spellNavObj.name));
-        console.log(spellChuncks)
     };
 
     const selectSpellHandler = (spellObj) => {
@@ -35,6 +38,19 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     const unselectSpellHandler = (spellObj) => {
         dispatch(unselectSpell({spell: spellObj}));
+    };
+
+    const spellHoverHandler = (e, spellObj) => {
+        const client = e.target.getBoundingClientRect();
+        dispatch(activeSpellHover({
+            spell: spellObj, 
+            cordX: Number(client.x - client.left), 
+            cordY: Number(client.y - client.top)
+        }));
+    };
+    
+    const spellHoverCloseHandler = () => {
+        dispatch(closeSpellHover());
     };
 
     useEffect(() => {
@@ -112,7 +128,22 @@ const CharacterStepsSkillsSpellbook = (props) => {
                             <div className="character-steps-spellbook-item-wrap">
                                 <div className="character-steps-spellbook-item-title">{spellObj.name}</div>
                                 <div className="character-steps-spellbook-image-wrap">
-                                    <div className="character-steps-spellbook-item"></div>
+                                    <div 
+                                        className="character-steps-spellbook-item"
+                                        onMouseOver={(e) => spellHoverHandler(e, spellObj)}
+                                    >
+                                        
+                                    </div>
+                                    {spellHoverActive && spellHoverActive.id === spellObj.id && !blockSpellHover ? 
+                                        <div className="character-steps-spellbook-item-hover">
+                                            <span 
+                                                className="character-steps-spellbook-item-close"
+                                                onClick={spellHoverCloseHandler}
+                                            ></span>
+                                            test
+                                        </div>
+                                    : null}
+                                    
                                 </div>
                                 <div className="add-spell-btn">
                                     <button 
