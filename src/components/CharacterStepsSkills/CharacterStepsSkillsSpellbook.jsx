@@ -125,13 +125,10 @@ const CharacterStepsSkillsSpellbook = (props) => {
                 {spellChuncks.map((spellObj) => {
                     return (
                         <React.Fragment key={Math.random()}>
-                            <div className="character-steps-spellbook-item-wrap">
+                            <div className="character-steps-spellbook-item-wrap" onMouseLeave={spellHoverCloseHandler}>
                                 <div className="character-steps-spellbook-item-title">{spellObj.name}</div>
                                 <div className="character-steps-spellbook-image-wrap">
-                                    <div 
-                                        className="character-steps-spellbook-item"
-                                        onMouseOver={(e) => spellHoverHandler(e, spellObj)}
-                                    >
+                                    <div className="character-steps-spellbook-item">
                                         
                                     </div>
                                     {spellHoverActive && spellHoverActive.id === spellObj.id && !blockSpellHover ? 
@@ -140,16 +137,27 @@ const CharacterStepsSkillsSpellbook = (props) => {
                                                 className="character-steps-spellbook-item-close"
                                                 onClick={spellHoverCloseHandler}
                                             ></span>
-                                            test
+                                            <div className="character-steps-spellbook-item-content">
+                                                <div className="character-steps-spellbook-item-descr-title">
+                                                    <h3>{spellObj.name}</h3>
+                                                </div>
+                                                <div className="character-steps-spellbook-item-description">
+                                                    {spellObj.description}
+                                                </div>
+                                            </div>
                                         </div>
                                     : null}
                                     
                                 </div>
-                                <div className="add-spell-btn">
+                                <div className="add-spell-btn-wrap">
                                     <button 
                                         onClick={() => selectSpellHandler(spellObj)}
                                         disabled={selectedSpells.find((item) => item.id === spellObj.id)}
                                     >add</button>
+                                    <span 
+                                        className="info-btn" 
+                                        onMouseOver={(e) => spellHoverHandler(e, spellObj)}
+                                        ></span>
                                 </div>
                             </div>
                         </React.Fragment>

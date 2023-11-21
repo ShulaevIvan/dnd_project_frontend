@@ -329,6 +329,48 @@
     padding: 5px;
     cursor: pointer;
 }
+.add-spell-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.info-btn::before {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    content: '\2139';
+    border: 1px solid;
+    padding: 0px 10px;
+    font-size: 16px;
+
+}
+.add-spell-btn-wrap  button, .info-btn {
+    margin-right: 10px;   
+    cursor: pointer;
+}
+.character-steps-spellbook-item-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+}
+.character-steps-spellbook-item-descr-title {
+    color: black;
+    text-decoration: underline;
+}
+.character-steps-spellbook-item-description {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: left;
+    line-height: 1.5;
+}
 /* .character-steps-spellbook-item-hover {
     transform: translateY(-150%);
     animation: ani 1s forwards;
