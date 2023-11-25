@@ -31,6 +31,7 @@ const initialState = {
     characterStepMaxPage: 6,
     stepsNames: ['race', 'class', 'background', 'stats', 'abilites', 'skills', 'total'],
     characterSum: {
+        charLevel: 1,
         raceData: undefined,
         subraceActive: undefined,
         subraceData: undefined,

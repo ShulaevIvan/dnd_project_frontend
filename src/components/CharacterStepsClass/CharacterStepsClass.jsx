@@ -4,12 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { addClasses, selectClass, selectSubclass, showPreviewPage, unsetClass } from "../../redux/slices/characterStepsSlice";
 import { addClassSpells, unsetClassSpells } from "../../redux/slices/characterSkillsSlice";
 import { addBaseHits } from "../../redux/slices/calculateStatsSlice";
+import { addClassSpellCells, unsetClassSpellCells } from "../../redux/slices/characterSkillsSlice";
 
 const CharacterStepsClass = () => {
     const dispatch = useDispatch();
     const allCharClasses = useSelector((state) => state.characterSteps.allClasses);
     const classState = useSelector((state) => state.characterSteps.characterSum.classData);
     const subclassState = useSelector((state) => state.characterSteps.characterSum.subclassData);
+    const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
 
     const selectClassHandler = (classId, autoSelect=false) => {
         const fetchFunc = async () => {
@@ -26,14 +28,17 @@ const CharacterStepsClass = () => {
                     dispatch(unsetClass());
                     dispatch(unsetClassSpells());
                     dispatch(selectClass(data));
-                    dispatch(addClassSpells(data.classSpells))
+                    dispatch(addClassSpells(data.classSpells));
+                    dispatch(addClassSpellCells({spellCells: data.spellCells, charLevel: characterLevel}));
                     dispatch(selectSubclass(autoSelect));
                     return;
                 }
                 dispatch(unsetClass());
                 dispatch(unsetClassSpells());
+                dispatch(unsetClassSpellCells());
                 dispatch(selectClass(data));
-                dispatch(addClassSpells(data.classSpells))
+                dispatch(addClassSpells(data.classSpells));
+                dispatch(addClassSpellCells({spellCells: data.spellCells, charLevel: characterLevel}));
             });
         };
 

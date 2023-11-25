@@ -12,6 +12,7 @@ const CharacterStepsInfo = () => {
     const charStats = useSelector((state) => state.calculateCharStats.totalStats);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
+    const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
 
     useEffect(() => {
         
@@ -36,7 +37,9 @@ const CharacterStepsInfo = () => {
             <div className="character-steps-info-column">
                 <div className="character-steps-info-title"><h4>Character-info</h4></div>
                 <div className="character-steps-base-info-wrap">
-                    <div className="character-face-image-wrap"><span className="character-face-level">1</span><img src={require('./img/demo.jpg')} alt="demo"  /></div>
+                    <div className="character-face-image-wrap">
+                        <span className="character-face-level">{characterLevel}</span><img src={require('./img/demo.jpg')} alt="demo"  />
+                    </div>
                     <div className="character-race-class-wrap">
                         <span className="character-race-info">Race: 
                             <span className="character-race-content"> 

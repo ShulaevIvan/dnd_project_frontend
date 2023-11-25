@@ -6,7 +6,11 @@ import { showSpellsByLevel, selectSpell, unselectSpell, activeSpellHover, closeS
 const CharacterStepsSkillsSpellbook = (props) => {
 
     const dispatch = useDispatch();
+    const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
     const classSpells = useSelector((state) => state.characterSkills.classSpells);
+    const avalibleCells = useSelector((state) => state.characterSkills.avalibleCellsLevel);
+    const classSpellCells = useSelector((state) => state.characterSkills.classSpellCells).find((item) => item.levelRequired <= characterLevel);
+    const maxAvalibleSpellLevel = useSelector((state) => state.characterSkills.maxAvalibleSpellLevel);
     const maxSpellLevel = useSelector((state) => state.characterSkills.maxSpellLevel);
     const minSpellLevel = useSelector((state) => state.characterSkills.minSpellLevel);
     const spellNavigate = useSelector((state) => state.characterSkills.spellLevelNavigate);
@@ -15,19 +19,11 @@ const CharacterStepsSkillsSpellbook = (props) => {
     const currentSpellLevelNav = useSelector((state) => state.characterSkills.spellLevelNavigateActive);
     const spellHoverActive = useSelector((state) => state.characterSkills.activeSpellHover);
     const blockSpellHover = useSelector((state) => state.characterSkills.blockSpellHover);
-    console.log(blockSpellHover)
 
-    // const spellLevels = classSpells.reduce((res, i) => {
-    //     const spellObj = {}
-    //     if (res.hasOwnProperty(i.spellLevel)) {
-    //         res[i.spellLevel] += 1;
-    //     } 
-    //     else {
-    //         res[i.spellLevel] = 1;
-    //     }
-    //     return res;
-    // }, {});
+    const calculateAvalibleSpells = () => {
+        console.log(maxAvalibleSpellLevel)
 
+    }
     const spellNavigateHandler = (spellNavObj) => {
         dispatch(showSpellsByLevel(spellNavObj.name));
     };
@@ -55,25 +51,25 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     useEffect(() => {
         dispatch(showSpellsByLevel(minSpellLevel))
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        calculateAvalibleSpells()
+    })
 
 
     return (
         <React.Fragment>
             <div className="character-steps-spellbook-wrap">
                 <div className="character-stps-spells-row">
-                    <div className="character-steps-charm-lvl">
+                    {/* <div className="character-steps-charm-lvl">
                         <h4>Доступные заговоры:</h4>
                             <ul className="character-steps-charm-lvl-list">
-                                <li>1 уровень : 0 / 1</li>
-                                <li>2 уровень : 0 / 2 </li>
-                                <li>3 уровень : 0 / 3 </li>
-                                <li>4 уровень : 0 / 4 </li>
-                                <li>5 уровень : 0 / 1 </li>
+                                <li>0 / {classSpellCells.cellsLevel0}</li>
                             </ul>
-                    </div>
+                    </div> */}
 
-                    <div className="character-steps-rituals-lvl">
+                    {/* <div className="character-steps-rituals-lvl">
                         <h4>Доступные ритуалы:</h4>
                             <ul className="character-steps-rituals-lvl-list">
                                 <li>1 уровень : 0 / 1</li>
@@ -82,16 +78,18 @@ const CharacterStepsSkillsSpellbook = (props) => {
                                 <li>4 уровень : 0 / 4 </li>
                                 <li>5 уровень : 0 / 1 </li>
                             </ul>
-                    </div>
+                    </div> */}
 
                     <div className="character-steps-spellbook-lvl">
                         <h4>Ячейки заклинаний:</h4>
                         <ul className="character-steps-spellbook-lvl-list">
-                            <li>1 уровень : 0 / 9</li>
-                            <li>2 уровень : 0 / 8 </li>
-                            <li>3 уровень : 0 / 5 </li>
-                            <li>4 уровень : 0 / 3 </li>
-                            <li>5 уровень : 0 / 1 </li>
+                            {avalibleCells.map((item) => {
+                                return (
+                                    <React.Fragment key={Math.random()}>
+                                        <li>уровень {item.level} : 0 / {item.value}</li>
+                                    </React.Fragment>
+                                )
+                            })}
                         </ul>
                     </div>
                 </div>
@@ -166,8 +164,8 @@ const CharacterStepsSkillsSpellbook = (props) => {
             </div>
 
             <div className="spellbook-level-navigation-row">
-                {spellNavigate.map((item) => {
-                    console.log(item)
+                {console.log(maxAvalibleSpellLevel)}
+                {spellNavigate.filter((navObj) => Number(navObj.name) <= maxAvalibleSpellLevel).map((item) => {
                     return (
                         <React.Fragment key={Math.random()}>
                             <div 

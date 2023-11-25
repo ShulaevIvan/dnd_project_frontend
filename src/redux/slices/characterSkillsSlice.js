@@ -3,11 +3,30 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     mousePositionX: 0,
     mousePositionY: 0,
+    charLevel: 0,
     activeSkillHover: undefined,
     activeSpellHover: undefined,
     classSpells: [],
+    classSpellCells: [],
     maxSpellLevel: -1,
     minSpellLevel: -1,
+    maxAvalibleSpellLevel: 0,
+    avalibleCellsLevel: [],
+    spellPoints: {
+        maxSpellsCount: undefined,
+        spellInvocation: undefined,
+        sorceryPoints: undefined,
+        spellLevel0: undefined,
+        spellLevel1: undefined,
+        spellLevel2: undefined,
+        spellLevel3: undefined,
+        spellLevel4: undefined,
+        spellLevel5: undefined,
+        spellLevel6: undefined,
+        spellLevel7: undefined,
+        spellLevel8: undefined,
+        spellLevel9: undefined,
+    },
     spellLevelNavigate: [],
     spellLevelNavigateActive: 0,
     classSpellsActiveChunck: [],
@@ -43,6 +62,36 @@ const characterSkillsSlice = createSlice({
             state.classSpells = [];
             state.spellLevelNavigate = [];
             state.maxSpellLevel = -1;
+        },
+        addClassSpellCells(state, action) {
+            const {spellCells, charLevel } = action.payload;
+            state.classSpellCells = [...spellCells];
+            state.charLevel = charLevel;
+
+            const avalibleCells =  state.classSpellCells.filter((item) => item.levelRequired === state.charLevel);
+            
+            if (avalibleCells.length > 0) {
+                const cellArr = [];
+                Object.entries(...avalibleCells).forEach((item, i) => {
+                    if (item[1] > 0 && item[0].match(/^cellsLevel\d$/)) {
+                        const cellObj = {};
+                        const spellLevel = item[0].match(/\d$/)[0];
+                        cellObj['level'] = `level ${item[0].match(/\d$/)}`;
+                        cellObj['value'] = item[1];
+                        cellArr.push(cellObj);
+                        state.spellPoints[`spellLevel${spellLevel}`] = item[1];
+                    }
+                });
+                state.spellPoints.maxSpellsCount = avalibleCells[0].maxSpells ? avalibleCells[0].maxSpells : null;
+                state.spellPoints.spellInvocation = avalibleCells[0].spellInvocation ? avalibleCells[0].spellInvocation : null;
+                state.spellPoints.sorceryPoints = avalibleCells[0].sorceryPoints ? avalibleCells[0].sorceryPoints : null;
+                state.avalibleCellsLevel = cellArr;
+                state.maxAvalibleSpellLevel = cellArr.length > 0 ? Number(cellArr[cellArr.length - 1].level.match(/\d$/)) : [];     
+            }
+            
+        },
+        unsetClassSpellCells(state) {
+            state.classSpellCells = [];
         },
         showSpellsByLevel(state, action) {
             const spellLevel = Number(action.payload);
@@ -88,7 +137,9 @@ export const {
     selectSpell,
     unselectSpell,
     activeSpellHover,
-    closeSpellHover
+    closeSpellHover,
+    addClassSpellCells,
+    unsetClassSpellCells
 
 } = characterSkillsSlice.actions;
 
