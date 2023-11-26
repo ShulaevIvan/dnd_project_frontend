@@ -90,6 +90,10 @@ const characterSkillsSlice = createSlice({
             }
             
         },
+        spendSpellPoints(state, action) {
+            const { targetSpellLevel } = action.payload;
+            console.log(targetSpellLevel)
+        },
         unsetClassSpellCells(state) {
             state.classSpellCells = [];
         },

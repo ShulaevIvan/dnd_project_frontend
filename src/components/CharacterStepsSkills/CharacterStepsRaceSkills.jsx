@@ -28,7 +28,7 @@ const CharacterStepsRaceSkills = (props) => {
                                     onMouseLeave={() => props.unselectSkillHandler(raceSkill)}
                                 >
                                     <div className="skill-item-title">{raceSkill.name}</div>
-                                    {activeSkillHover && activeSkillHover.id === raceSkill.id ?
+                                    {activeSkillHover && activeSkillHover.id === raceSkill.id && activeSkillHover.name === raceSkill.name ?
                                         <div
                                             style={{left: `${mouseX}px`, top:`${mouseY}px` }} 
                                             className={'skill-item-description-popup-wrap'}

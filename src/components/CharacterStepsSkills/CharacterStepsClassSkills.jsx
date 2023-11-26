@@ -19,7 +19,6 @@ const CharacterStepsClassSkills = (props) => {
 
                 <div className="character-steps-skills-row">
                     {props.subclassData ? sortSkillsByLvl(props.subclassData.subclassInfo.subclassSkills).map((skill) => {
-
                         return (
                             <React.Fragment>
                                 <div className="character-steps-skills-item"
@@ -28,7 +27,7 @@ const CharacterStepsClassSkills = (props) => {
                                 >
                                     <div className="skill-item-title">{skill.name}</div>
                                     <div className="skill-item-lvl-req">{skill.levelRequired}</div>
-                                    {activeSkillHover && activeSkillHover.id === skill.id ?
+                                    {activeSkillHover && activeSkillHover.id === skill.id && activeSkillHover.name === skill.name ?
                                         <div
                                             style={{left: `${mouseX}px`, top:`${mouseY}px` }} 
                                             className={'skill-item-description-popup-wrap'}

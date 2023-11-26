@@ -86,7 +86,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
                             {avalibleCells.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <li>уровень {item.level} : 0 / {item.value}</li>
+                                        <li>уровень {item.level.replace('level', '')} : 0 / {item.value}</li>
                                     </React.Fragment>
                                 )
                             })}
