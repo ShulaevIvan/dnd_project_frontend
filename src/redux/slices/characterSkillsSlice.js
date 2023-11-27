@@ -91,8 +91,15 @@ const characterSkillsSlice = createSlice({
             
         },
         spendSpellPoints(state, action) {
-            const { targetSpellLevel } = action.payload;
-            console.log(targetSpellLevel)
+            const { spellLevel, operation } = action.payload;
+            if (operation === 'add') {
+                state.spellPoints[`spellLevel${spellLevel}`] -= 1;
+                return;
+            }
+            if (operation === 'remove') {
+                state.spellPoints[`spellLevel${spellLevel}`] += 1;
+                return;
+            }
         },
         unsetClassSpellCells(state) {
             state.classSpellCells = [];
@@ -140,6 +147,7 @@ export const {
     showSpellsByLevel,
     selectSpell,
     unselectSpell,
+    spendSpellPoints,
     activeSpellHover,
     closeSpellHover,
     addClassSpellCells,

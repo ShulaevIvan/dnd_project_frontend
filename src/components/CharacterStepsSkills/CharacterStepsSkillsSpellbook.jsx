@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
 import { useEffect } from "react";
-import { showSpellsByLevel, selectSpell, unselectSpell, activeSpellHover, closeSpellHover } from "../../redux/slices/characterSkillsSlice";
+import { showSpellsByLevel, selectSpell, unselectSpell, activeSpellHover, closeSpellHover, spendSpellPoints } from "../../redux/slices/characterSkillsSlice";
 
 const CharacterStepsSkillsSpellbook = (props) => {
 
@@ -13,6 +13,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
     const maxAvalibleSpellLevel = useSelector((state) => state.characterSkills.maxAvalibleSpellLevel);
     const maxSpellLevel = useSelector((state) => state.characterSkills.maxSpellLevel);
     const minSpellLevel = useSelector((state) => state.characterSkills.minSpellLevel);
+    const spellPoints = useSelector((state) => state.characterSkills.spellPoints);
     const spellNavigate = useSelector((state) => state.characterSkills.spellLevelNavigate);
     const spellChuncks = useSelector((state) => state.characterSkills.classSpellsActiveChunck);
     const selectedSpells = useSelector((state) => state.characterSkills.selectedSpells);
@@ -21,7 +22,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
     const blockSpellHover = useSelector((state) => state.characterSkills.blockSpellHover);
 
     const calculateAvalibleSpells = () => {
-        console.log(maxAvalibleSpellLevel)
+
 
     }
     const spellNavigateHandler = (spellNavObj) => {
@@ -30,10 +31,22 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     const selectSpellHandler = (spellObj) => {
         dispatch(selectSpell({spell: spellObj}));
+        dispatch(spendSpellPoints(
+            {
+                spellLevel: spellObj.spellLevel,
+                operation: 'add',
+            }
+        ));
     };
 
     const unselectSpellHandler = (spellObj) => {
         dispatch(unselectSpell({spell: spellObj}));
+        dispatch(spendSpellPoints(
+            {
+                spellLevel: spellObj.spellLevel,
+                operation: 'remove',
+            }
+        ));
     };
 
     const spellHoverHandler = (e, spellObj) => {
@@ -84,9 +97,10 @@ const CharacterStepsSkillsSpellbook = (props) => {
                         <h4>Ячейки заклинаний:</h4>
                         <ul className="character-steps-spellbook-lvl-list">
                             {avalibleCells.map((item) => {
+                                const currentSpellPoints = spellPoints[`spellLevel${Number(item.level.replace('level', ''))}`];
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <li>уровень {item.level.replace('level', '')} : 0 / {item.value}</li>
+                                        <li>уровень {item.level.replace('level', '')} : {currentSpellPoints} / {item.value}</li>
                                     </React.Fragment>
                                 )
                             })}
@@ -101,9 +115,12 @@ const CharacterStepsSkillsSpellbook = (props) => {
                 <div className="character-steps-selected-spells-row">
                     {selectedSpells.map((item) => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={Math.random()}>
                                 <div className="character-steps-selected-spells-item-wrap">
-                                    <div className="character-steps-selected-spells-item-title">{item.name}</div>
+                                    <div className="character-steps-selected-spells-item-title">
+                                    <span className="character-steps-selected-spells-spell-level">spellLevel ({item.spellLevel})</span>
+                                        {item.name}
+                                    </div>
                                     <div className="character-steps-spellbook-image-wrap">
                                         <div className="character-steps-spellbook-item"></div>
                                     </div>
@@ -123,14 +140,14 @@ const CharacterStepsSkillsSpellbook = (props) => {
                 {spellChuncks.map((spellObj) => {
                     return (
                         <React.Fragment key={Math.random()}>
-                            <div className="character-steps-spellbook-item-wrap" onMouseLeave={spellHoverCloseHandler}>
+                            <div className="character-steps-spellbook-item-wrap">
                                 <div className="character-steps-spellbook-item-title">{spellObj.name}</div>
                                 <div className="character-steps-spellbook-image-wrap">
                                     <div className="character-steps-spellbook-item">
                                         
                                     </div>
                                     {spellHoverActive && spellHoverActive.id === spellObj.id && !blockSpellHover ? 
-                                        <div className="character-steps-spellbook-item-hover">
+                                        <div className="character-steps-spellbook-item-hover" onMouseLeave={spellHoverCloseHandler}>
                                             <span 
                                                 className="character-steps-spellbook-item-close"
                                                 onClick={spellHoverCloseHandler}
@@ -150,7 +167,10 @@ const CharacterStepsSkillsSpellbook = (props) => {
                                 <div className="add-spell-btn-wrap">
                                     <button 
                                         onClick={() => selectSpellHandler(spellObj)}
-                                        disabled={selectedSpells.find((item) => item.id === spellObj.id)}
+                                        disabled={
+                                            selectedSpells.find((item) => item.id === spellObj.id) ||
+                                            spellPoints[`spellLevel${spellObj.spellLevel}`] === 0
+                                        }
                                     >add</button>
                                     <span 
                                         className="info-btn" 
@@ -164,7 +184,6 @@ const CharacterStepsSkillsSpellbook = (props) => {
             </div>
 
             <div className="spellbook-level-navigation-row">
-                {console.log(maxAvalibleSpellLevel)}
                 {spellNavigate.filter((navObj) => Number(navObj.name) <= maxAvalibleSpellLevel).map((item) => {
                     return (
                         <React.Fragment key={Math.random()}>
