@@ -6,6 +6,7 @@ import CharacterStepsPreviewClass from "../CharacterStepsPreviewClass/CharacterS
 import CharacterStepsPreiewBackground from "../CharacterStepsPreviewBackground/CharacterStepsPreviewBackground";
 import CharacterStepsPreiewStats from "../CharacterStepsPreviewStats/CharacterStepsPreviewStats";
 import CharacterStepsSkillsPreview from "../CharacterStepsSkillsPreview/CharacterStepsSkillsPreview";
+import CharacterStepsSpellsPreview from "../CharacterStepsSpellsPreview/CharacterStepsSpellsPreview";
 
 
 const CharacterStepsPreiew = () => {
@@ -35,6 +36,8 @@ const CharacterStepsPreiew = () => {
                     <CharacterStepsPreiewStats />
                 :stepNum === 5 && setupStatsComplete || (statBuyFreePoints === 0 && maxStatPoints-spendedStatPoints === 0) ? 
                     <CharacterStepsSkillsPreview />
+                :stepNum === 6 ? 
+                    <CharacterStepsSpellsPreview />
                 
                 : null}
                 

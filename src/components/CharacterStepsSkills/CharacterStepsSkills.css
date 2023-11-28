@@ -178,7 +178,8 @@
 .character-steps-race-skills-wrap{
     margin-top: 20px;
 }
-.character-steps-skills-row {
+.character-steps-skills-row,
+.character-steps-instrument-mastery-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

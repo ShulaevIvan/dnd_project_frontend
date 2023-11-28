@@ -11,7 +11,6 @@ const CharacterStepsSkills = () => {
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     const classData = useSelector((state) => state.characterSteps.characterSum.classData);
     const subclassData = useSelector((state) => state.characterSteps.characterSum.subclassData);
-    const backgroundSkills = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0].skills);
 
     const selectSkillHandler = (e, skillObj) => {
         const client = e.target.getBoundingClientRect();
@@ -41,7 +40,10 @@ const CharacterStepsSkills = () => {
                     skillHoverHandler={selectSkillHandler} 
                     unselectSkillHandler={unselectSkillHandler} 
                 />
-                <CharacterStepsBackgroundSkills />
+                <CharacterStepsBackgroundSkills
+                    skillHoverHandler={selectSkillHandler} 
+                    unselectSkillHandler={unselectSkillHandler} 
+                />
                 {classData.spellcaster ? <CharacterStepsSkillsSpellbook classSpells={classData.classSpells} /> : null}
                 
             </div>

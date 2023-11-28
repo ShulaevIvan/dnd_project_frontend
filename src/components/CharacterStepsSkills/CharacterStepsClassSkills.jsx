@@ -20,7 +20,7 @@ const CharacterStepsClassSkills = (props) => {
                 <div className="character-steps-skills-row">
                     {props.subclassData ? sortSkillsByLvl(props.subclassData.subclassInfo.subclassSkills).map((skill) => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={Math.random()}>
                                 <div className="character-steps-skills-item"
                                     onMouseEnter={(e) => props.skillHoverHandler(e, skill)}
                                     onMouseLeave={() => props.unselectSkillHandler(skill)}
@@ -45,13 +45,13 @@ const CharacterStepsClassSkills = (props) => {
                     }) :
                     sortSkillsByLvl(props.classData.classSkills).map((skill) => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={Math.random()}>
                             <div className="character-steps-skills-item"
                                 onMouseEnter={(e) => props.skillHoverHandler(e, skill)}
                                 onMouseLeave={() => props.unselectSkillHandler(skill)}
                             >
                                 <div className="skill-item-title">{skill.name}</div>
-                                <div className="skill-item-lvl-req">{skill.levelRequired}</div>
+                                <div className="skill-item-lvl-req">{`level req ${skill.levelRequired}`}</div>
                                 {activeSkillHover && activeSkillHover.id === skill.id ?
                                     <div
                                         style={{left: `${mouseX}px`, top:`${mouseY}px` }} 
