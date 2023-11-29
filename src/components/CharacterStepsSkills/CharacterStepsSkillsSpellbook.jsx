@@ -7,9 +7,12 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     const dispatch = useDispatch();
     const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
+    const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
+    const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
     const classSpells = useSelector((state) => state.characterSkills.classSpells);
     const avalibleCells = useSelector((state) => state.characterSkills.avalibleCellsLevel);
     const classSpellCells = useSelector((state) => state.characterSkills.classSpellCells).find((item) => item.levelRequired <= characterLevel);
+    const charMainSpellStat = useSelector((state) => state.characterSteps.characterSum.classData.spellcasterMainStat);
     const maxAvalibleSpellLevel = useSelector((state) => state.characterSkills.maxAvalibleSpellLevel);
     const maxSpellLevel = useSelector((state) => state.characterSkills.maxSpellLevel);
     const minSpellLevel = useSelector((state) => state.characterSkills.minSpellLevel);
@@ -20,11 +23,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
     const currentSpellLevelNav = useSelector((state) => state.characterSkills.spellLevelNavigateActive);
     const spellHoverActive = useSelector((state) => state.characterSkills.activeSpellHover);
     const blockSpellHover = useSelector((state) => state.characterSkills.blockSpellHover);
-
-    const calculateAvalibleSpells = () => {
-
-
-    }
+    
     const spellNavigateHandler = (spellNavObj) => {
         dispatch(showSpellsByLevel(spellNavObj.name));
     };
@@ -51,11 +50,14 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     const spellHoverHandler = (e, spellObj) => {
         const client = e.target.getBoundingClientRect();
-        dispatch(activeSpellHover({
-            spell: spellObj, 
-            cordX: Number(client.x - client.left), 
-            cordY: Number(client.y - client.top)
-        }));
+        setTimeout(() => {
+            dispatch(activeSpellHover({
+                spell: spellObj, 
+                cordX: Number(client.x - client.left), 
+                cordY: Number(client.y - client.top)
+            }));
+        }, 300)
+       
     };
     
     const spellHoverCloseHandler = () => {
@@ -66,32 +68,17 @@ const CharacterStepsSkillsSpellbook = (props) => {
         dispatch(showSpellsByLevel(minSpellLevel))
     }, []);
 
-    useEffect(() => {
-        calculateAvalibleSpells()
-    })
-
 
     return (
         <React.Fragment>
             <div className="character-steps-spellbook-wrap">
                 <div className="character-stps-spells-row">
-                    {/* <div className="character-steps-charm-lvl">
-                        <h4>Доступные заговоры:</h4>
-                            <ul className="character-steps-charm-lvl-list">
-                                <li>0 / {classSpellCells.cellsLevel0}</li>
-                            </ul>
-                    </div> */}
-
-                    {/* <div className="character-steps-rituals-lvl">
-                        <h4>Доступные ритуалы:</h4>
-                            <ul className="character-steps-rituals-lvl-list">
-                                <li>1 уровень : 0 / 1</li>
-                                <li>2 уровень : 0 / 2 </li>
-                                <li>3 уровень : 0 / 3 </li>
-                                <li>4 уровень : 0 / 4 </li>
-                                <li>5 уровень : 0 / 1 </li>
-                            </ul>
-                    </div> */}
+                    <div className="character-steps-spellbook-main-stat">
+                        <p>{`Характеристика заклинаний: ${charMainSpellStat}`}</p>
+                        <p>{`Сложность спасброска от заклинания: 8  
+                            ${resultCharStats.find((item) => item.statParam === charMainSpellStat.toLowerCase()).modifer} + ${otherCharStats.prof} `}
+                        </p>
+                    </div>
 
                     <div className="character-steps-spellbook-lvl">
                         <h4>Ячейки заклинаний:</h4>

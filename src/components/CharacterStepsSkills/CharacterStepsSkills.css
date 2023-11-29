@@ -376,6 +376,16 @@
     text-align: left;
     line-height: 1.5;
 }
+.character-steps-spellbook-main-stat {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-spellbook-main-stat p {
+    margin: 0;
+}
 /* .character-steps-spellbook-item-hover {
     transform: translateY(-150%);
     animation: ani 1s forwards;
