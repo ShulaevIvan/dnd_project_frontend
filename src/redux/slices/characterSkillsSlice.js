@@ -16,21 +16,23 @@ const initialState = {
         maxSpellsCount: undefined,
         spellInvocation: undefined,
         sorceryPoints: undefined,
-        spellLevel0: undefined,
-        spellLevel1: undefined,
-        spellLevel2: undefined,
-        spellLevel3: undefined,
-        spellLevel4: undefined,
-        spellLevel5: undefined,
-        spellLevel6: undefined,
-        spellLevel7: undefined,
-        spellLevel8: undefined,
-        spellLevel9: undefined,
+        spellLevel0: 0,
+        spellLevel1: 0,
+        spellLevel2: 0,
+        spellLevel3: 0,
+        spellLevel4: 0,
+        spellLevel5: 0,
+        spellLevel6: 0,
+        spellLevel7: 0,
+        spellLevel8: 0,
+        spellLevel9: 0,
+        total: [],
     },
     spellLevelNavigate: [],
     spellLevelNavigateActive: 0,
     classSpellsActiveChunck: [],
     selectedSpells: [],
+    showSpellbook: true,
 };
 
 const characterSkillsSlice = createSlice({
@@ -135,6 +137,9 @@ const characterSkillsSlice = createSlice({
         },
         closeSpellHover(state) {
             state.activeSpellHover = undefined;
+        },
+        showHideSpellbook(state, action) {
+            state.showSpellbook = action.payload;
         }
     }
 });
@@ -151,7 +156,8 @@ export const {
     activeSpellHover,
     closeSpellHover,
     addClassSpellCells,
-    unsetClassSpellCells
+    unsetClassSpellCells,
+    showHideSpellbook
 
 } = characterSkillsSlice.actions;
 

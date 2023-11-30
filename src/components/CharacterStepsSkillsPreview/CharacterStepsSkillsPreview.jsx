@@ -1,6 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const CharacterStepsSkillsPreview = () => {
     const classAbilities = useSelector((state) => state.characterSteps.characterSum.classData.classAbilities);

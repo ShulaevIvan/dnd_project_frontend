@@ -79,6 +79,7 @@
     font-size: 14px;
     margin-bottom: 10px;
     width: 100%;
+    cursor: pointer;
 }
 .character-steps-selected-spells-spell-level {
     color: #C14B3C;
@@ -105,7 +106,6 @@
     border: 1px solid;
     margin-right: 10px;
     margin-bottom: 10px;
-    cursor: pointer;
     filter: grayscale();
     background-image: url('./img/spell.jpg');
     background-size: cover;
@@ -117,6 +117,10 @@
     flex-wrap: wrap;
     width: 100%;
     color: #C14B3C;
+    text-decoration: underline;
+}
+.character-steps-spellbook-item-title:hover {
+    text-decoration: none;
 }
 .character-stps-spells-row {
     display: flex;
@@ -379,12 +383,24 @@
 .character-steps-spellbook-main-stat {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     width: 100%;
     justify-content: center;
     align-items: center;
 }
 .character-steps-spellbook-main-stat p {
     margin: 0;
+}
+.result-skills-preview-list,
+.selected-spells-preview-list {
+    list-style: none;
+}
+.result-skills-preview-list li,
+.selected-spells-preview-list li {
+    margin-bottom: 5px;
+}
+.character-steps-selected-spels-title {
+    margin-bottom: 10px;
 }
 /* .character-steps-spellbook-item-hover {
     transform: translateY(-150%);
