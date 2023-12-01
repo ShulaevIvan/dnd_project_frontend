@@ -85,6 +85,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     useEffect(() => {
         const checkSelectedSpells = Object.entries(spellPoints).filter((item) => item[0].match(/spellLevel\d$/)).every((spell) => spell[1] === 0);
+
         if (checkSelectedSpells) {
             dispatch(activeNextBtn(false));
             dispatch(showHideSpellbook(true));
@@ -96,6 +97,12 @@ const CharacterStepsSkillsSpellbook = (props) => {
     }, [spellPoints]);
 
     useEffect(() => {
+        const checkSelectedSpells = Object.entries(spellPoints).filter((item) => item[0].match(/spellLevel\d$/)).every((spell) => spell[1] === 0);
+        if (checkSelectedSpells) {
+            dispatch(activeNextBtn(false));
+            dispatch(showHideSpellbook(true));
+            return;
+        }
         dispatch(activeNextBtn(true));
     }, []);
 
