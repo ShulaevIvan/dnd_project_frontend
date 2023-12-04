@@ -10,6 +10,7 @@ import CharacterStepsBackground from "../CharacterStepsBackground/CharacterSteps
 import CharacterStepsStats from "../CharacterStepsStats/CharacterStepsStats";
 import CharacterStepsAbilites from "../CharacterStepsAbilites/CharacterStepsAbilites";
 import CharacterStepsSkills from "../CharacterStepsSkills/CharacterStepsSkills";
+import CharacterStepsTotal from "../CharacterStepsTotal/CharacterStepsTotal";
 
 const CharacterSteps = () => {
 
@@ -43,6 +44,10 @@ const CharacterSteps = () => {
         case 6:
             bodyElem = <CharacterStepsSkills />
 
+            break;
+        case 7:
+            bodyElem = <CharacterStepsTotal />
+    
             break;
         default:
 

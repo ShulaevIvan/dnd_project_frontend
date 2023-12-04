@@ -8,7 +8,7 @@ import {
     activeSpellHover, 
     closeSpellHover, 
     spendSpellPoints, 
-    showHideSpellbook 
+    showHideSpellbook
 } from "../../redux/slices/characterSkillsSlice";
 import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
 
@@ -58,13 +58,11 @@ const CharacterStepsSkillsSpellbook = (props) => {
 
     const spellHoverHandler = (e, spellObj) => {
         const client = e.target.getBoundingClientRect();
-  
         dispatch(activeSpellHover({
             spell: spellObj, 
             cordX: Number(client.x - client.left), 
             cordY: Number(client.y - client.top)
         }));
-       
     };
     
     const spellHoverCloseHandler = () => {
@@ -80,7 +78,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
     };
 
     useEffect(() => {
-        dispatch(showSpellsByLevel(minSpellLevel))
+        dispatch(showSpellsByLevel(minSpellLevel));
     }, []);
 
     useEffect(() => {

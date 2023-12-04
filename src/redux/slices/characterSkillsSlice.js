@@ -129,6 +129,9 @@ const characterSkillsSlice = createSlice({
             const { spell } = action.payload;
             state.selectedSpells = state.selectedSpells.filter((item) => item.id !== spell.id).reverse();
         },
+        resetSelectedSpells(state) {
+            state.selectedSpells = [];
+        },
         activeSpellHover(state, action) {
             const { spell, cordX, cordY } = action.payload;
             state.activeSpellHover = spell;
@@ -152,6 +155,7 @@ export const {
     showSpellsByLevel,
     selectSpell,
     unselectSpell,
+    resetSelectedSpells,
     spendSpellPoints,
     activeSpellHover,
     closeSpellHover,
