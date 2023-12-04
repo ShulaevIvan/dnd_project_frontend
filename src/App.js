@@ -18,6 +18,7 @@ import './components/CharacterStepsBackground/CharacterStepsBackground.css';
 import './components/CharacterStepsStats/CharacterStepsStats.css';
 import './components/CharacterStepsAbilites/CharacterStepsAbilites.css';
 import './components/CharacterStepsSkills/CharacterStepsSkills.css';
+import './components/CharacterStepsTotal/CharacterStepsTotal.css';
 
 
 

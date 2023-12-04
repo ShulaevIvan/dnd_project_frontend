@@ -1,0 +1,68 @@
+.character-steps-total-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 45%;
+    border: 1px solid;
+}
+.character-steps-total-info-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-steps-total-info-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 33%;
+    border: 1px solid;
+}
+.character-total-race-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+.character-total-race-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-decoration: underline;
+    margin: 5px 0;
+}
+.character-total-race-skills-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+.character-total-race-stats {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+.character-total-skills-list, 
+.character-total-race-stats-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+.character-total-skills-list li {
+    margin-bottom: 5px;
+}
+.character-total-race-stats-list li {
+    margin-bottom: 5px;
+    list-style: none;
+}
+.character-total-skills-list-title {
+    list-style: none;
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
