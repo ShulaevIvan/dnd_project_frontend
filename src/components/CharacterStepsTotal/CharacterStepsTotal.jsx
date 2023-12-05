@@ -37,10 +37,195 @@ const CharacterStepsTotal = () => {
                         </div>
                     </div>
                     <div className="character-steps-total-info-item">
-                        item
+                        <div className="character-total-class-wrap">
+                            <div className="character-total-class-title">Class lvl 1</div>
+                            <ul className="character-total-skills-list">
+                                <li className="character-total-skills-list-title">Skills</li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div className="character-steps-total-info-item">
-                        item
+                        <div className="character-total-background-wrap">
+                            <div className="character-total-background-title">Background</div>
+                            <ul className="character-total-skills-list">
+                                <li className="character-total-skills-list-title">Skills</li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                                <li><a href="#">skill 1 name tetst 1</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="character-total-savethrows-wrap">
+                    <div className="character-total-savethrow-title">Savethrows</div>
+                    <div className="character-total-savethrows-row">
+                        <div className="character-total-savethrow-item">savethrow-item</div>
+                        <div className="character-total-savethrow-item">savethrow-item</div>
+                        <div className="character-total-savethrow-item">savethrow-item</div>
+                        <div className="character-total-savethrow-item">savethrow-item</div>
+                        <div className="character-total-savethrow-item">savethrow-item</div>
+                        <div className="character-total-savethrow-item">savethrow-item</div>
+                    </div>
+                </div>
+
+                <div className="character-total-attack-wrap">
+                    <div className="character-total-attack-title">Attacks</div>
+                    <div className="character-total-attack-row">
+                        <div className="character-total-physical-attack-wrap">
+                            <div className="physical-attack-param-row">
+                                <div className="physical-attack-param-item">
+                                    <span className="magical-attack-param-title">5 + 5 (melee normal) : </span>
+                                </div>
+                                <div className="physical-attack-param-item">
+                                    <span className="physical-attack-param-value">0</span>
+                                </div>
+                            </div>
+                            <div className="physical-attack-param-row">
+                                <div className="physical-attack-param-item">
+                                    <span className="magical-attack-param-title">2 + 3 (melee unarmored) : </span>
+                                </div>
+                                <div className="physical-attack-param-item">
+                                    <span className="physical-attack-param-value">0</span>
+                                </div>
+                            </div>
+                            <div className="physical-attack-param-row">
+                                <div className="physical-attack-param-item">
+                                    <span className="physical-attack-param-title">2 + 2 (melee light) : </span>
+                                </div>
+                                <div className="physical-attack-param-item">
+                                    <span className="physical-attack-param-value">0</span>
+                                </div>
+                            </div>
+                            <div className="physical-attack-param-row">
+                                <div className="physical-attack-param-item">
+                                    <span className="physical-attack-param-title">5 + 5 (range light) : </span>
+                                </div>
+                                <div className="physical-attack-param-item">
+                                    <span className="physical-attack-param-value">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="character-total-magical-attack-wrap">
+                           <div className="magical-attack-param-row">
+                                <div className="magical-attack-param-item">
+                                    <span className="magical-attack-param-title">Main stat spell (CHA) : </span>
+                                </div>
+                                <div className="magical-attack-param-item">
+                                   <span className="magical-attack-param-value">0</span>
+                                </div>
+                           </div>
+                           <div className="magical-attack-param-row">
+                                <div className="magical-attack-param-item">
+                                    <span className="magical-attack-param-title">str savethrow :</span>
+                                </div>
+                                <div className="magical-attack-param-item">
+                                    <span className="magical-attack-param-value">0 + 9 + 9</span>
+                                </div>
+                           </div>
+
+                           <div className="magical-attack-param-row">
+                                <div className="magical-attack-param-item">
+                                    <span className="magical-attack-param-title">bonuce attack</span>
+                                </div>
+                                <div className="magical-attack-param-item">
+                                    <span className="magical-attack-param-value">mastery + modif</span>
+                                </div>
+                           </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="character-total-mastery-wrap">
+                    <div className="character-total-mastery-title">Mastery</div>
+                    <div className="character-total-mastery-row">
+                        <div className="character-total-mastery-weapons">
+                            <div className="character-total-mastery-weapons-title">weapons</div>
+                            <ul className="character-total-weapon-mastery-list">
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                                <li><a href="#">weapon mastery skill</a></li>
+                            </ul>
+                        </div>
+                        <div className="character-total-mastery-armor">
+                            <div className="character-total-mastery-armor-title">armor</div>
+                            <ul className="character-total-armor-mastery-list">
+                                <li><a href="#">armor mastery skill</a></li>
+                                <li><a href="#">armor mastery skill</a></li>
+                                <li><a href="#">armor mastery skill</a></li>
+                            </ul>
+                        </div>
+                        <div className="character-total-mastery-instruments">
+                            <div className="character-total-mastery-instrument-title">instruments</div>
+                            <ul className="character-total-instruments-mastery-list">
+                                <li><a href="#">armor mastery skill</a></li>
+                                <li><a href="#">armor mastery skill</a></li>
+                                <li><a href="#">armor mastery skill</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="character-total-inventory-wrap">
+                    <div className="character-total-inventory-row">
+                        <div className="character-inventory-item-wrap">
+                            <div className="character-inventory-gold-title">Char gold: </div>
+                            <div className="character-inventory-gold-row">
+                                <div className="character-inventory-gold-item">
+                                    <div className="mm">
+                                        <span className="coin-icon"></span>
+                                        <span className="coin-value">0</span>
+                                    </div>
+                                </div>
+                                <div className="character-inventory-gold-item">
+                                    <div className="sm">
+                                        <span className="coin-icon"></span>
+                                        <span className="coin-value">0</span>
+                                    </div>
+                                </div>
+                                <div className="character-inventory-gold-item">
+                                    <div className="zm">
+                                        <span className="coin-icon"></span>
+                                        <span className="coin-value">0</span>
+                                    </div>
+                                </div>
+                                <div className="character-inventory-gold-item">
+                                    <div className="em">
+                                        <span className="coin-icon"></span>
+                                        <span className="coin-value">0</span>
+                                    </div>
+                                </div>
+                                <div className="character-inventory-gold-item">
+                                    <div className="pm">
+                                        <span className="coin-icon"></span>
+                                        <span className="coin-value">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
+                        <div className="character-inventory-item-wrap">inventory item</div>
                     </div>
                 </div>
             </div>

@@ -4,27 +4,36 @@
     flex-wrap: wrap;
     width: 45%;
     border: 1px solid;
+    justify-content: center;
+    align-items: center;
 }
 .character-steps-total-info-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
 }
 .character-steps-total-info-item {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 33%;
+    max-width: 33%;
+    width: 30%;
     border: 1px solid;
+    margin-right: 10px;
 }
-.character-total-race-wrap {
+.character-total-race-wrap,
+.character-total-background-wrap {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
 }
-.character-total-race-title {
+.character-total-race-title,
+.character-total-class-title,
+.character-total-background-title {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -65,4 +74,223 @@
     font-weight: bold;
     font-size: 14px;
     padding-bottom: 5px;
+}
+.character-total-mastery-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-total-mastery-title {
+    margin-bottom: 10px;
+}
+.character-total-mastery-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+.character-total-mastery-weapons,
+.character-total-mastery-armor,
+.character-total-mastery-instruments,
+.character-total-mastery-languages {
+    display: flex;
+    flex-direction: column;
+    max-width: 33%;
+    width: 30%;
+    border: 1px solid;
+    margin-right: 10px;
+}
+.character-total-mastery-weapons-title,
+.character-total-mastery-armor-title,
+.character-total-mastery-instrument-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-decoration: underline;
+    text-decoration-line: underline;
+    text-decoration-thickness: initial;
+    text-decoration-style: initial;
+    text-decoration-color: initial;
+    margin: 5px 0;
+}
+.character-total-weapon-mastery-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+.character-total-armor-mastery-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+.character-total-instruments-mastery-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+.character-total-weapon-mastery-list li {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+.character-total-armor-mastery-list li {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+.character-total-instruments-mastery-list li {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+.character-total-inventory-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-total-inventory-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 50%;
+    margin-bottom: 20px;
+}
+.weaknesses-and-strengths-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 50%;
+    min-width: 45%;
+}
+.character-inventory-item-wrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid;
+    margin-bottom: 5px;
+}
+.character-inventory-gold-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+.character-inventory-gold-item {
+    display: flex;
+    flex-direction: column;
+    max-width: 20%;
+    margin-right: 5px;
+}
+.character-inventory-gold-title {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100px;
+    font-size: 14px;
+    font-weight: bold;
+    justify-content: flex-start;
+}
+.coin-icon::before {
+    content: '\1FA99';
+}
+.character-total-savethrows-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+    justify-content: center;
+}
+.character-total-savethrows-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+.character-total-savethrow-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 14%;
+    margin-right: 10px;
+    border: 1px solid;
+}
+.character-total-savethrows-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-total-savethrow-title {
+    margin-bottom: 10px;
+}
+.character-total-attack-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-total-attack-title {
+    margin-bottom: 10px;
+}
+.character-total-attack-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+.character-total-physical-attack-wrap,
+.character-total-magical-attack-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 50%;
+    width: 43%;
+    border: 1px solid;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.magical-attack-param-row,
+.physical-attack-param-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+}
+.magical-attack-param-item,
+.physical-attack-param-item  {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 5px;
+    align-items: center;
+}
+.magical-attack-param-value,
+.physical-attack-param-value {
+    border-bottom: 1px solid;
 }
