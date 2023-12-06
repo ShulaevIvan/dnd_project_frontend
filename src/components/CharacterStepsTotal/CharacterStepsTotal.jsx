@@ -5,6 +5,22 @@ const CharacterStepsTotal = () => {
     return (
         <React.Fragment>
             <div className="character-steps-total-wrap">
+                <div className="character-steps-total-avatar-wrap">
+                <div className="character-total-avatar-title">Avatar and Description</div>
+                    <div className="character-steps-total-avatar-row">
+                        <div className="character-steps-total-char-description-form">
+                            <div className="character-steps-total-description-btn">
+                                <button>add description</button>
+                            </div>
+                        </div>
+                        <div className="character-steps-total-avatar-add-image-form">
+                            <div className="character-steps-total-avatar-btn">
+                                <button>add image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="character-total-race-title">Race and Background</div>
                 <div className="character-steps-total-info-row">
                     <div className="character-steps-total-info-item">
                         <div className="character-total-race-wrap">
@@ -64,6 +80,115 @@ const CharacterStepsTotal = () => {
                             </ul>
                         </div>
                     </div>
+                </div>
+
+                <div className="character-total-abilities-wrap">
+                    <div className="character-total-abilities-title">Abilities</div>
+                    <div className="character-total-abilities-row">
+                        <div className="character-total-abilites-stat-wrap">
+                            <div className="character-total-base-stat-ability">STR</div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Athletics :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                        </div>
+                        <div className="character-total-abilites-stat-wrap">
+                            <div className="character-total-base-stat-ability">DEX</div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Acrobatics :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Sleight of Hand :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Stealth :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                        </div>
+                        <div className="character-total-abilites-stat-wrap">
+                            <div className="character-total-base-stat-ability">CON</div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Suffocation :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Hold Breath :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                        </div>
+                        <div className="character-total-abilites-stat-wrap">
+                            <div className="character-total-base-stat-ability">INT</div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Arcana :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">History :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">investigration :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Nature :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Religion :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                        </div>
+                        <div className="character-total-abilites-stat-wrap">
+                            <div className="character-total-base-stat-ability">WIS</div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Arcana :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Animal Handling :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Insight :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Medicine :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Preception :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Survivale :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                        </div>
+                        <div className="character-total-abilites-stat-wrap">
+                            <div className="character-total-base-stat-ability">CHA</div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Deseption :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Infimidation :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Perfomance :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                            <div className="character-total-stat-ability">
+                                <div className="character-total-stat-ability-name">Presuasion :</div>
+                                <div className="character-total-stat-ability-value">9</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div className="character-total-savethrows-wrap">
@@ -135,7 +260,7 @@ const CharacterStepsTotal = () => {
 
                            <div className="magical-attack-param-row">
                                 <div className="magical-attack-param-item">
-                                    <span className="magical-attack-param-title">bonuce attack</span>
+                                    <span className="magical-attack-param-title">bonuce attack :</span>
                                 </div>
                                 <div className="magical-attack-param-item">
                                     <span className="magical-attack-param-value">mastery + modif</span>
@@ -180,7 +305,7 @@ const CharacterStepsTotal = () => {
                         </div>
                     </div>
                 </div>
-                
+                <div className="character-total-inventory-title">Race and Background</div>
                 <div className="character-total-inventory-wrap">
                     <div className="character-total-inventory-row">
                         <div className="character-inventory-item-wrap">
@@ -226,6 +351,23 @@ const CharacterStepsTotal = () => {
                         <div className="character-inventory-item-wrap">inventory item</div>
                         <div className="character-inventory-item-wrap">inventory item</div>
                         <div className="character-inventory-item-wrap">inventory item</div>
+                    </div>
+
+                    <div className="character-stranges-weakness-row">
+                        <div className="character-stranges-wrap">
+                            <div className="character-stranges-item">stranges item</div>
+                            <div className="character-stranges-item">stranges item</div>
+                            <div className="character-stranges-item">stranges item</div>
+                            <div className="character-stranges-item">stranges item</div>
+                            <div className="character-stranges-item">stranges item</div>
+                        </div>
+                        <div className="character-weakness-wrap">
+                            <div className="character-weakness-item">weakness item</div>
+                            <div className="character-weakness-item">weakness item</div>
+                            <div className="character-weakness-item">weakness item</div>
+                            <div className="character-weakness-item">weakness item</div>
+                            <div className="character-weakness-item">weakness item</div>
+                        </div>
                     </div>
                 </div>
             </div>

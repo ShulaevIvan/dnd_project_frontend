@@ -155,15 +155,16 @@
 }
 .character-total-inventory-wrap {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
+    width: 96%;
 }
 .character-total-inventory-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 50%;
+    width: 48%;
+    margin-right: 10px;
     margin-bottom: 20px;
 }
 .weaknesses-and-strengths-wrap {
@@ -293,4 +294,117 @@
 .magical-attack-param-value,
 .physical-attack-param-value {
     border-bottom: 1px solid;
+}
+.character-stranges-weakness-row {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 48%;
+    border: 1px solid;
+    margin-bottom: 20px;
+}
+.character-stranges-wrap,
+.character-weakness-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    min-height: 100%;
+}
+.character-stranges-wrap {
+    border-right: 1px solid;
+}
+.character-stranges-item,
+.character-weakness-item {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid;
+    margin: 5px;
+    justify-content: center;
+}
+.character-total-abilities-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-total-abilities-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+.character-total-abilities-title {
+    margin-bottom: 10px;
+}
+.character-total-abilites-stat-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border: 1px solid;
+    width: 30%;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.character-total-abilites-stat-wrap:nth-child(even){
+    margin-right: 0 10px;
+}
+.character-total-base-stat-ability {
+    margin-bottom: 10px;
+    align-items: center;
+}
+.character-total-stat-ability {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+.character-total-stat-ability-name {
+    margin-right: 10px;
+    width: 80%;
+    justify-content: flex-start;
+    display: flex;
+}
+.character-total-stat-ability-value {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 20%;
+}
+.character-steps-total-avatar-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-steps-total-avatar-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.character-steps-total-avatar-add-image-form,
+.character-steps-total-char-description-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    max-width: 50%;
+    width: 46%;
+    border: 1px solid;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.character-total-race-title,
+.character-total-inventory-title {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.character-total-avatar-title {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }

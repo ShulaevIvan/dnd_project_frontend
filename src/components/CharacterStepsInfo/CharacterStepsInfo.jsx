@@ -146,6 +146,12 @@ const CharacterStepsInfo = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="character-steps-basic-combat-stats-row">
+                        <div className="character-basic-combat-item">
+                            <div className="character-basic-combat-item-header char-stat-prof">Passive Precep</div>
+                            <div className="character-basic-combat-item-body">1</div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
