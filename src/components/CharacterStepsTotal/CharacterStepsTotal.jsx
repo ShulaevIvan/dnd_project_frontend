@@ -1,25 +1,11 @@
 import React from "react";
-
+import CharacterStepsAvatar from "./CharacterStepsAvatar";
 
 const CharacterStepsTotal = () => {
     return (
         <React.Fragment>
             <div className="character-steps-total-wrap">
-                <div className="character-steps-total-avatar-wrap">
-                <div className="character-total-avatar-title">Avatar and Description</div>
-                    <div className="character-steps-total-avatar-row">
-                        <div className="character-steps-total-char-description-form">
-                            <div className="character-steps-total-description-btn">
-                                <button>add description</button>
-                            </div>
-                        </div>
-                        <div className="character-steps-total-avatar-add-image-form">
-                            <div className="character-steps-total-avatar-btn">
-                                <button>add image</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <CharacterStepsAvatar />
                 <div className="character-total-race-title">Race and Background</div>
                 <div className="character-steps-total-info-row">
                     <div className="character-steps-total-info-item">

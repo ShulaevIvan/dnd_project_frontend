@@ -408,3 +408,65 @@
     margin-top: 20px;
     margin-bottom: 10px;
 }
+.character-steps-total-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    z-index: 5;
+    background-color: gray;
+    padding: 10px;
+}
+.character-steps-total-popup-title {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.character-steps-total-popup-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    margin-bottom: 10px;
+}
+.character-steps-total-popup-body textarea {
+    min-width: 300px;
+    min-height: 300px;
+}
+.character-steps-total-popup-footer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.character-steps-total-popup-controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-total-btn {
+    display: flex;
+    margin-right: 10px;
+}
+.character-steps-total-popup-close::before {
+    content: '\2716';
+    font-size: 16px;
+    color: black;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+}
+.character-steps-total-description-btn button,
+.character-steps-total-popup-btn-wrap button {
+    cursor: pointer;
+}

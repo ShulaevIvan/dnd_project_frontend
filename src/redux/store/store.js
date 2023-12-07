@@ -8,6 +8,7 @@ import calculateStatsSlice from '../slices/calculateStatsSlice';
 import instrumentsSlice from '../slices/instrumentsSlice';
 import calculateAbilitiesSlice from '../slices/calculateAbilitiesSlice';
 import characterSkillsSlice from '../slices/characterSkillsSlice';
+import characterTotalSlice from '../slices/characterTotalSlice';
 
 
 export const store = configureStore({
@@ -21,6 +22,7 @@ export const store = configureStore({
         calculateAbilites: calculateAbilitiesSlice,
         instruments: instrumentsSlice,
         characterSkills: characterSkillsSlice,
+        characterTotal: characterTotalSlice,
     },
     middleware: (getDefaultMiddleware)  => getDefaultMiddleware(),
 });
