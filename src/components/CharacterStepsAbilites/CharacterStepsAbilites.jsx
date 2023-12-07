@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
 import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
+import { calculatePassivePreseption } from "../../redux/slices/calculateStatsSlice";
 
 import { addAbilityPoints, chooseAbility,saveResultAbilities, 
         resetAbilityPoints, addAnyLanguagePoints, activeAddMasteryPanel, 
@@ -208,6 +209,7 @@ const CharacterStepsAbilites = () => {
             raceBonuceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
             backgroundBonuceAbilities: characterSum.backgroundActive[0].bounceAbilities,
         }));
+        dispatch(calculatePassivePreseption());
 
     }, []);
 

@@ -45,6 +45,7 @@ const initialState = {
     allRaceBonuceStats:  [],
     minMaxBtnsBlock: false,
     setupStatsComplete: false,
+    passivePreseption: 0,
     charStatsTotal: [
         {name: 'str', value: 8, spend: 0},
         {name: 'dex', value: 8, spend: 0},
@@ -442,6 +443,11 @@ const calculateStatsSlice = createSlice({
                     order: order.find((orderObj) => orderObj.param.toLowerCase() === item.statParam.toLowerCase()).priority,
                 }
             }).sort((a, b) => a.order - b.order)];
+        },
+        calculatePassivePreseption(state) {
+            const wis = state.resultCharStats.find((item) => item.statParam === 'wis');
+            const wisModifer = (Number(wis.value) - 10) / 2;
+            state.passivePreseption = 10 + Number(wisModifer);
         }
     }
 });
@@ -465,7 +471,8 @@ export const {
     addRaceBonuceStat,
     blockIncreaseBtns,
     calculateOtherStats,
-    sortResultCharStats
+    sortResultCharStats,
+    calculatePassivePreseption
 
 } = calculateStatsSlice.actions;
 

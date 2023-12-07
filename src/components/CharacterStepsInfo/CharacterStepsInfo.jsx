@@ -13,6 +13,7 @@ const CharacterStepsInfo = () => {
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
     const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
+    const passivePreseption = useSelector((state) => state.calculateCharStats.passivePreseption);
 
     useEffect(() => {
         
@@ -149,7 +150,7 @@ const CharacterStepsInfo = () => {
                     <div className="character-steps-basic-combat-stats-row">
                         <div className="character-basic-combat-item">
                             <div className="character-basic-combat-item-header char-stat-prof">Passive Precep</div>
-                            <div className="character-basic-combat-item-body">1</div>
+                            <div className="character-basic-combat-item-body">{passivePreseption ? passivePreseption : 0}</div>
                         </div>
                     </div>
                 </div>
