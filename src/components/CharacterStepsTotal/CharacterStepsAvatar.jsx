@@ -49,19 +49,18 @@ const CharacterStepsAvatar = () => {
         if (!action) dispatch(uploadStatus(false));
     };
 
-    const uploadImageHandler = (e) => {
-        dispatch(uploadStatus(true));
-    };
-
     const saveCharacterImageHandler = (e) => {
-
+        if (uploadImagePopupRef.current && uploadImagePopupRef.current.files) {
+            dispatch(uploadStatus(true));
+        }
     };
 
     useEffect(() => {
         if (uploadFileStatus && uploadImagePopupRef.current && uploadImagePopupRef.current.files) {
             const fileTypes = ['image/png','image/gif','image/jpeg'];
             const file = uploadImagePopupRef.current.files[0];
-            if (!fileTypes.includes(file.type)){
+
+            if (!file || !fileTypes.includes(file.type)){
                 dispatch(uploadStatus(false));
                 return;
             }
@@ -115,8 +114,18 @@ const CharacterStepsAvatar = () => {
                             }
                         </div>
                         <div className="character-steps-total-avatar-add-image-form">
+                            <span 
+                                className="character-steps-total-edit-image-btn" 
+                                onClick={(e) => imagePopupControlHandler(e, true)}
+                            ></span>
+                            <div className="character-steps-total-avatar-result-wrap">
+                                <img src={characterTotalImageFile.uploadPopupFileUrl} alt="#" />
+                            </div>
                             <div className="character-steps-total-avatar-btn">
-                                <button onClick={(e) => imagePopupControlHandler(e, true)}>add image</button>
+                                {!characterTotalImageFile.uploadPopupFileUrl ? 
+                                    <button onClick={(e) => imagePopupControlHandler(e, true)}>add image</button> : null
+                                }
+                                
                             </div>
                         </div>
                     </div>
@@ -160,7 +169,7 @@ const CharacterStepsAvatar = () => {
                             <input 
                                 type="file" 
                                 ref={uploadImagePopupRef}
-                                onChange={(e) => uploadImageHandler(e)} />
+                            />
                         </div>
                         <div className="character-steps-total-image-popup-preview">
                             <img src={characterTotalImageFile.uploadPopupFileUrl} alt="#" />
@@ -170,7 +179,7 @@ const CharacterStepsAvatar = () => {
                                 <button onClick={saveCharacterImageHandler}>save</button>
                             </div>
                         <div className="character-steps-total-image-btn">
-                            <button>cancel</button>
+                            <button onClick={(e) => imagePopupControlHandler(e, false)}>cancel</button>
                         </div>
                     </div>
                 </div> 

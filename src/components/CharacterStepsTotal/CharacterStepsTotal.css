@@ -397,6 +397,7 @@
     margin-right: 10px;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .character-total-race-title,
 .character-total-inventory-title {
@@ -477,7 +478,8 @@
     width: 100%;
     height: 100%;
 }
-.character-steps-total-edit-description-btn::before {
+.character-steps-total-edit-description-btn::before,
+.character-steps-total-edit-image-btn::before {
     content: '\1F589';
     position: absolute;
     right: 5px;
@@ -533,6 +535,19 @@
 }
 .character-steps-total-image-popup-preview img {
     max-width: 300px;
+}
+.character-steps-total-avatar-result-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+    max-height: 300px;
+}
+.character-steps-total-avatar-result-wrap img {
+    max-width: 230px;
+    padding: 10px;
 }
 .character-steps-total-image-popup-controls {
     display: flex;
