@@ -18,7 +18,7 @@ const CharacterStepsBackgroundSkills = (props) => {
                 <div className="character-steps-instrument-mastery-row">
                     {instrumentMastery.map((skill) => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={Math.random()}>
                                 <div 
                                     className="character-steps-skills-item"
                                     onMouseEnter={(e) => props.skillHoverHandler(e, skill)}

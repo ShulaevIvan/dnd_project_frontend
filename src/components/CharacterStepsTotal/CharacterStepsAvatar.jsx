@@ -114,12 +114,16 @@ const CharacterStepsAvatar = () => {
                             }
                         </div>
                         <div className="character-steps-total-avatar-add-image-form">
-                            <span 
-                                className="character-steps-total-edit-image-btn" 
-                                onClick={(e) => imagePopupControlHandler(e, true)}
-                            ></span>
+                            {characterTotalImageFile.uploadPopupFileUrl ?
+                                <span 
+                                    className="character-steps-total-edit-image-btn" 
+                                    onClick={(e) => imagePopupControlHandler(e, true)}
+                                ></span>
+                            : null}
                             <div className="character-steps-total-avatar-result-wrap">
-                                <img src={characterTotalImageFile.uploadPopupFileUrl} alt="#" />
+                                {characterTotalImageFile.uploadPopupFileUrl ?  
+                                    <img src={characterTotalImageFile.uploadPopupFileUrl} alt="#" /> 
+                                : null}
                             </div>
                             <div className="character-steps-total-avatar-btn">
                                 {!characterTotalImageFile.uploadPopupFileUrl ? 

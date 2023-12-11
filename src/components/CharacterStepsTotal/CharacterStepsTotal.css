@@ -27,6 +27,7 @@
 .character-total-race-wrap,
 .character-total-background-wrap {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
@@ -38,7 +39,25 @@
     flex-wrap: wrap;
     justify-content: center;
     text-decoration: underline;
-    margin: 5px 0;
+    margin: 10px 0;
+}
+.character-total-background-name {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.character-total-background-description {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+.character-total-background-description-content {
+    margin-bottom: 20px;
 }
 .character-total-race-skills-wrap {
     display: flex;
@@ -61,6 +80,7 @@
     justify-content: center;
     align-items: center;
     padding: 0;
+    list-style:  none;
 }
 .character-total-skills-list li {
     margin-bottom: 5px;
