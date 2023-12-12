@@ -447,7 +447,8 @@ const calculateStatsSlice = createSlice({
         calculatePassivePreseption(state) {
             const wis = state.resultCharStats.find((item) => item.statParam === 'wis');
             const wisModifer = (Number(wis.value) - 10) / 2;
-            state.passivePreseption = 10 + Number(wisModifer);
+            const preseptionValue = 10 + Number(wisModifer);
+            state.passivePreseption = preseptionValue.toFixed();
         }
     }
 });

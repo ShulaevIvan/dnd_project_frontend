@@ -1,15 +1,21 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { showDescriptionBackground } from "../../redux/slices/characterTotalSlice";
 
 
 const CharacterStepsTotalRace = () => {
+    const dispatch = useDispatch();
     const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
     const raceBonuces = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills);
     const languages = useSelector((state) => state.calculateAbilites.choosenLanguages);
     const classSkills = useSelector((state) => state.characterSteps.characterSum.classData.classSkills);
     const activeBackground = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0]);
-    console.log(activeBackground)
+    const showMoreDescBackground = useSelector((state) => state.characterTotal.showDescriptionBackground);
+
+    const showMoreDescriptionHandler = (param) => {
+        dispatch(showDescriptionBackground(param));
+    };
 
     return (
         <React.Fragment>
@@ -78,13 +84,18 @@ const CharacterStepsTotalRace = () => {
                         <div className="character-total-background-name">{activeBackground.name}</div>
                         <div className="character-total-background-description">
                             <div className="character-total-background-description-content">
-                                {activeBackground.description.length <= 100 ? 
+                                {activeBackground.description.length <= 100 || showMoreDescBackground ? 
                                     activeBackground.description 
                                 :
                                    `${ activeBackground.description.slice(0, 100)} ...`}
                             </div>
                             <div className="character-total-background-show-more">
-                                <button>show more</button>
+                                {
+                                    showMoreDescBackground ? 
+                                        <button onClick={() => showMoreDescriptionHandler(false)}>hide</button> 
+                                    : 
+                                        <button onClick={() => showMoreDescriptionHandler(true)}>show more</button>
+                                }
                             </div>
                         </div>
                         <ul className="character-total-skills-list">

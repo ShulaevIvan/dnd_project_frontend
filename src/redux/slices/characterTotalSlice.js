@@ -6,6 +6,7 @@ const initialState = {
     descriptionPopupActive: false,
     imagePopupActive: false,
     uploadImageStart: false,
+    showDescriptionBackground: false,
     descriptionPopupValue: '',
     uploadCharacterFile: {
         uploadPopupFile: undefined,
@@ -52,6 +53,9 @@ const characterTotalSlice = createSlice({
             state.uploadCharacterFile.uploadPopupFile = file;
             state.uploadCharacterFile.uploadPopupFileData = fileData;
             state.uploadCharacterFile.uploadPopupFileUrl = url;
+        },
+        showDescriptionBackground(state, action) {
+            state.showDescriptionBackground = action.payload;
         }
     }
 });
@@ -62,7 +66,8 @@ export const {
     saveDescription,
     imagePopupControl,
     uploadStatus,
-    uploadPopupFile
+    uploadPopupFile,
+    showDescriptionBackground
     
 } = characterTotalSlice.actions;
 
