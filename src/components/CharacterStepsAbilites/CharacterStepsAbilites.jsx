@@ -7,7 +7,8 @@ import { calculatePassivePreseption } from "../../redux/slices/calculateStatsSli
 
 import { addAbilityPoints, chooseAbility,saveResultAbilities, 
         resetAbilityPoints, addAnyLanguagePoints, activeAddMasteryPanel, 
-        chooseLanguage, addBonuceAbilities, chooseInstrument 
+        chooseLanguage, addBonuceAbilities, chooseInstrument,
+        addBonuceSkill
     } from "../../redux/slices/calculateAbilitiesSlice";
 
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
@@ -76,7 +77,6 @@ const CharacterStepsAbilites = () => {
 
     const checkCharMastery = (mastery, masteryType) => {
         let masteryState;
-
         if (masteryType === 'instrument') {
             masteryState = characterSum.allCharInstrumentMastery;
         }
@@ -89,7 +89,11 @@ const CharacterStepsAbilites = () => {
         else if (masteryType === 'lang') {
             masteryState = characterSum.raceData.languages;
         }
-        return masteryState.find((item) => item.name === mastery.name && item.id === mastery.id);
+        const result = masteryState.find((item) => item.name === mastery.name && item.id === mastery.id);
+        if (masteryType && result) {
+            dispatch(addBonuceSkill({type: masteryType, skill: result}))
+        }
+        return result;
         
     };
 

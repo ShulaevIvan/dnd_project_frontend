@@ -8,6 +8,7 @@ const initialState = {
     choosenAbilities: [],
     choosenLanguages: [],
     bonuceAbilities: [],
+    choosenSkills : [],
     freeBonuceAbilities: [],
     anyAbilityCount: 0,
     maxAnyAbilityCount: 0,
@@ -206,6 +207,11 @@ const calculateAbilitiesSlice = createSlice({
                 state.instrumentPanelActive = value;
             }
         },
+        addBonuceSkill(state, action) {
+            const { type, skill } = action.payload;
+            const checkSkill = state.choosenSkills.find((item) => item.id === skill.id && item.name === skill.name);
+            if (!checkSkill) state.choosenSkills = [...state.choosenSkills, {...skill, type: type}];
+        }
         
     }
 });
@@ -222,6 +228,7 @@ export const {
     chooseLanguage,
     chooseInstrument,
     activeAddMasteryPanel,
+    addBonuceSkill,
 
 } = calculateAbilitiesSlice.actions;
 
