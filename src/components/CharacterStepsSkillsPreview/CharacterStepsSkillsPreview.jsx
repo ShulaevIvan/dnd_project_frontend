@@ -9,10 +9,6 @@ const CharacterStepsSkillsPreview = () => {
     const characterSum = useSelector((state) => state.characterSteps.characterSum);
     
 
-    // useEffect(() => {
-    //     console.log(classAbilities)
-    // })
-
     return (
         <React.Fragment>
                 <div className="character-steps-preview-abilities-wrap">

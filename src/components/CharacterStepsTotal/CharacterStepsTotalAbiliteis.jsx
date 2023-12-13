@@ -17,12 +17,12 @@ const CharacterStepsTotalAbilities = () => {
                     <div className="character-total-abilities-row">
                             {allStats.map((stat) => {
                                 return (
-                                    <React.Fragment>
+                                    <React.Fragment key={Math.random()}>
                                         <div className="character-total-abilites-stat-wrap">
                                             <div className="character-total-base-stat-ability">{stat}</div>
                                             {getAbilitiesByType(stat).map((item) => {
                                                 return (
-                                                    <React.Fragment>
+                                                    <React.Fragment key={Math.random()}>
                                                         <div className="character-total-stat-ability">
                                                             <div className="character-total-stat-ability-name">{item.name} :</div>
                                                         <   div className="character-total-stat-ability-value">{item.value}</div>

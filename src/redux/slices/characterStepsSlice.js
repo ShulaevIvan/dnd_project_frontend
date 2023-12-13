@@ -224,6 +224,12 @@ const characterStepsSlice = createSlice({
                 state.allArmor = [...JSON.parse(data)];
             }
         },
+        addAllMastery(state, action) {
+            const { armor, weapons, instruments } = action.payload;
+            state.allArmor = [...JSON.parse(armor)];
+            state.allWeapons = [...JSON.parse(weapons)];
+            state.allInstruments = [...JSON.parse(instruments)];
+        },
         addLanguages(state, action) {
             state.allLanguages = [...JSON.parse(action.payload)];
         },
@@ -258,6 +264,7 @@ export const {
     addBonuceAbility,
     removeBonuceAbility,
     addMastery,
+    addAllMastery,
     addLanguages,
     chooseCharAbility,
     

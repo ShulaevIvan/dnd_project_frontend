@@ -149,7 +149,7 @@ const CharacterStepsSkillsSpellbook = (props) => {
                                         <div className="character-steps-spellbook-item"></div>
                                     </div>
                                     <div className="remove-spell-btn">
-                                        <button on onClick={() => unselectSpellHandler(item)}>remove</button>
+                                        <button onClick={() => unselectSpellHandler(item)}>remove</button>
                                     </div>
                                 </div>
                             </React.Fragment>

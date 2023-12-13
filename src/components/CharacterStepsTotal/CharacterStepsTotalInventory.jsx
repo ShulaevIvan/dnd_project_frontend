@@ -1,6 +1,17 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const CharacterStepsInventory = () => {
+    const classStartItems = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
+    const backgroundItems = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0].items);
+    
+    const getCharStartItems = () => {
+        const items = backgroundItems.split(',');
+        // const itemsView = [...backgroundItems, ]
+        console.log(backgroundItems);
+    };
+    getCharStartItems()
+
     return (
         <React.Fragment>
             <div className="character-total-inventory-title">Start Inventory</div>
@@ -41,14 +52,34 @@ const CharacterStepsInventory = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
-                    <div className="character-inventory-item-wrap">inventory item</div>
+                    {classStartItems.weapons.map((weaponItem) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className="character-inventory-item-wrap">{weaponItem.name}</div>
+                            </React.Fragment>
+                        )
+                    })}
+                    {classStartItems.armor.map((armorItem) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className="character-inventory-item-wrap">{armorItem.name}</div>
+                            </React.Fragment>
+                        )
+                    })}
+                    {classStartItems.instruments.map((instrumentItem) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className="character-inventory-item-wrap">{instrumentItem.name}</div>
+                            </React.Fragment>
+                        )
+                    })}
+                    {Array.from(backgroundItems.split(',')).map((item) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                                <div className="character-inventory-item-wrap">{item}</div>
+                            </React.Fragment>
+                        )
+                    })}
                 </div>
 
                 <div className="character-stranges-weakness-row">

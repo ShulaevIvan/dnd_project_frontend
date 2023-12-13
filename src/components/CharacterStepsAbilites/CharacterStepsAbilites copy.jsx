@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
-import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addAllMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
+import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
 import { calculatePassivePreseption } from "../../redux/slices/calculateStatsSlice";
 
 import { addAbilityPoints, chooseAbility,saveResultAbilities, 
@@ -180,11 +180,9 @@ const CharacterStepsAbilites = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                dispatch(addAllMastery({
-                    armor: JSON.stringify(data.armor), 
-                    weapons: JSON.stringify(data.weapons), 
-                    instruments: JSON.stringify(data.instruments)
-                }));
+                dispatch(addMastery({'data': JSON.stringify(data.instruments), param: 'instruments'}));
+                dispatch(addMastery({'data': JSON.stringify(data.armor), param: 'armor'}));
+                dispatch(addMastery({'data': JSON.stringify(data.weapons), param: 'weapons'}));
             });
         }
         fetchFunc();
