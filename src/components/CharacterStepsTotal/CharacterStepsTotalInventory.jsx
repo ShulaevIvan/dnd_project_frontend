@@ -81,9 +81,10 @@ const CharacterStepsInventory = () => {
                         )
                     })}
                 </div>
-
+                
                 <div className="character-stranges-weakness-row">
                     <div className="character-stranges-wrap">
+                        <div className="character-total-stranges-title">Stranges</div>
                         <div className="character-stranges-item">stranges item</div>
                         <div className="character-stranges-item">stranges item</div>
                         <div className="character-stranges-item">stranges item</div>
@@ -91,6 +92,7 @@ const CharacterStepsInventory = () => {
                         <div className="character-stranges-item">stranges item</div>
                     </div>
                     <div className="character-weakness-wrap">
+                        <div className="character-total-weakness-title">Weakness</div>
                         <div className="character-weakness-item">weakness item</div>
                         <div className="character-weakness-item">weakness item</div>
                         <div className="character-weakness-item">weakness item</div>

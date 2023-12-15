@@ -358,8 +358,11 @@
     width: 100%;
     justify-content: center;
 }
-.character-total-abilities-title {
+.character-total-abilities-title,
+.character-total-weakness-title,
+.character-total-stranges-title {
     margin-bottom: 10px;
+    padding: 5px;
 }
 .character-total-abilites-stat-wrap {
     display: flex;

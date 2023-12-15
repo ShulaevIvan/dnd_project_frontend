@@ -7,7 +7,7 @@ import CharacterStepsPreiewBackground from "../CharacterStepsPreviewBackground/C
 import CharacterStepsPreiewStats from "../CharacterStepsPreviewStats/CharacterStepsPreviewStats";
 import CharacterStepsSkillsPreview from "../CharacterStepsSkillsPreview/CharacterStepsSkillsPreview";
 import CharacterStepsSpellsPreview from "../CharacterStepsSpellsPreview/CharacterStepsSpellsPreview";
-import CharacterStepsPreviewAvatar from "../CharacterStepsPreviewAvatar/CharacterStepsPreviewAvatar";
+import CharacterStepsPreviewTests from "../CharacterStepsPreviewTests/CharacterStepsPreviewTests";
 
 
 const CharacterStepsPreiew = () => {
@@ -40,7 +40,7 @@ const CharacterStepsPreiew = () => {
                 :stepNum === 6 ? 
                     <CharacterStepsSpellsPreview />
                 :stepNum === 7 ? 
-                    <CharacterStepsPreviewAvatar />
+                    <CharacterStepsPreviewTests />
                 : null}
                 
             </div>

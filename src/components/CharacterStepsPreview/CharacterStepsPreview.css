@@ -359,3 +359,142 @@
     padding-right: 10px;
     padding-left: 10px;
 }
+.character-steps-total-stats-test-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-steps-total-stat-item-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.character-steps-total-stat-value,
+.character-steps-total-stat-target,
+.character-steps-total-stat-result {
+    border: 1px solid;
+    max-width: 30%;
+    width: 300px;
+    margin-right: 5px;
+    text-align: center;
+}
+.character-steps-total-stat-value input,
+.character-steps-total-stat-target input,
+.character-steps-total-stat-result input {
+    text-align: center;
+    max-width: 50px;
+}
+.character-steps-total-stat-value-base,
+.character-steps-total-stat-value-target,
+.character-steps-total-stat-value-result {
+    font-size: 14px;
+}
+.character-steps-total-stats-test-title {
+    margin-bottom: 10px;
+}
+.character-steps-total-stats-test-try-count-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-total-stats-select-wrap {
+    margin-bottom: 10px;
+}
+.character-steps-total-stats-select-title {
+    padding: 5px;
+}
+.character-steps-total-stats-test-try-count-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-steps-total-stats-test-try-pass-wrap,
+.character-steps-total-stats-test-try-fail-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+.character-steps-total-stats-test-try-pass-title,
+.character-steps-total-stats-test-try-fail-title {
+    width: 10%;
+    max-width: 100px;
+    margin-right: 10px;
+}
+.character-steps-total-stats-test-try-pass-row,
+.character-steps-total-stats-test-try-fail-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.character-steps-total-stats-test-try-pass-item,
+.character-steps-total-stats-test-try-fail-item  {
+    display: flex;
+    flex-direction: column;
+    width: 10px;
+    height: 10px;
+    max-width: 15%;
+    border: 1px solid;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
+    position: relative;
+}
+.character-steps-total-stats-test-try-pass-icon::before {
+    position: absolute;
+    top: -25%;
+    left: 20%;
+    content: '\1F5F8';
+    font-size: 20px;
+    color: green;
+}
+.character-steps-total-stats-test-try-fail-icon::before {
+    position: absolute;
+    top: -25%;
+    left: 20%;
+    content: '\1F5F8';
+    color: red;
+    font-size: 20px;
+    content: '\10102';
+}
+.character-steps-total-stats-test-btns-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.character-steps-total-stats-test-btns-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-total-stats-test-btn-item {
+    display: flex;
+    flex-direction: column;
+    max-width: 33%;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
+}
