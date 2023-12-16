@@ -16,6 +16,24 @@ const initialState = {
     characterTotalInfo: {
 
     },
+    characterStatTest: {
+        showStatResultPanel: false,
+        statTestsResultAll: [],
+        statModeTest: undefined,
+        currentStatName: undefined,
+        currentStatValue: 0,
+        targetStatValue: 0,
+        resultStatValue: 0,
+        testMods: [
+            {name: 'd4', selected: false }, 
+            {name: 'd6', selected: false}, 
+            {name: 'd8', selected: false}, 
+            {name: 'd10', selected: false}, 
+            {name: 'd12', selected: false}, 
+            {name: 'd20', selected: true},
+            {name: 'd100', selected: false},
+        ],
+    }
     
 }
 
@@ -56,7 +74,44 @@ const characterTotalSlice = createSlice({
         },
         showDescriptionBackground(state, action) {
             state.showDescriptionBackground = action.payload;
-        }
+        },
+        statTestPanelShow(state, action) {
+            state.characterStatTest.statTestPanelShow = action.payload;
+        },
+        statTestSelect(state, action) {
+            const { statName } = action.payload;
+            state.characterStatTest.currentStatName = statName;
+        },
+        setTargetStatValue(state, action) {
+            const { targetValue } = action.payload;
+            state.characterStatTest.targetStatValue = Number(targetValue);
+        },
+        selectTestMode(state, action) {
+            const { testMode } = action.payload;
+            state.characterStatTest.testMods =  [
+                ...state.characterStatTest.testMods.filter((item) => item.name !== testMode), 
+                { name: testMode, selected: true}
+            ].sort();
+            state.characterStatTest.statModeTest = testMode;
+        },
+        resetTest(state) {
+            state.characterStatTest.testMods = [
+                {name: 'd4', selected: false }, 
+                {name: 'd6', selected: false}, 
+                {name: 'd8', selected: false}, 
+                {name: 'd10', selected: false}, 
+                {name: 'd12', selected: false}, 
+                {name: 'd20', selected: true},
+                {name: 'd100', selected: false},
+            ];
+            state.characterStatTest.showStatResultPanel = false;
+            state.characterStatTest.statTestsResultAll = [];
+            state.characterStatTest.statModeTest = undefined;
+            state.characterStatTest.currentStatName = undefined;
+            state.characterStatTest.currentStatValue = 0;
+            state.characterStatTest.targetStatValue = 0;
+            state.characterStatTest.resultStatValue = 0;
+        },
     }
 });
 
@@ -67,7 +122,12 @@ export const {
     imagePopupControl,
     uploadStatus,
     uploadPopupFile,
-    showDescriptionBackground
+    showDescriptionBackground,
+    showStatResultPanel,
+    statTestSelect,
+    setTargetStatValue,
+    selectTestMode,
+    resetTest
     
 } = characterTotalSlice.actions;
 
