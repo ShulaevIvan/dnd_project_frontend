@@ -58,7 +58,7 @@ const CharacterStepsStatTest = () => {
     }, [statTest.currentStatName]);
 
     useEffect(() => {
-        resetTestHandler()
+        resetTestHandler();
     }, []);
 
     return (
