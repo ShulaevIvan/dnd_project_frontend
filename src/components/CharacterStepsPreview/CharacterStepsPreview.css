@@ -428,9 +428,12 @@
 }
 .character-steps-total-stats-test-try-pass-title,
 .character-steps-total-stats-test-try-fail-title {
-    width: 10%;
-    max-width: 100px;
+    width: 30%;
+    max-width: 150px;
     margin-right: 10px;
+}
+.character-steps-total-stats-test-try-pass-row-wrap {
+    width: 60%;
 }
 .character-steps-total-stats-test-try-pass-row,
 .character-steps-total-stats-test-try-fail-row {
@@ -455,6 +458,7 @@
     align-items: center;
     margin-right: 5px;
     position: relative;
+    margin-bottom: 10px;
 }
 .character-steps-total-stats-test-try-pass-icon::before {
     position: absolute;

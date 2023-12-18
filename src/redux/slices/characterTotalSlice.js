@@ -89,8 +89,16 @@ const characterTotalSlice = createSlice({
         selectTestMode(state, action) {
             const { testMode } = action.payload;
             state.characterStatTest.testMods =  [
-                ...state.characterStatTest.testMods.filter((item) => item.name !== testMode), 
-                { name: testMode, selected: true}
+                ...state.characterStatTest.testMods.map((mode) => {
+                    return (
+                        {
+                            ...mode,
+                            selected: false,
+                        }
+                    )
+                })
+                .filter((item) => item.name !== testMode), 
+                    { name: testMode, selected: true}
             ].sort();
             state.characterStatTest.statModeTest = testMode;
         },
@@ -112,6 +120,29 @@ const characterTotalSlice = createSlice({
             state.characterStatTest.targetStatValue = 0;
             state.characterStatTest.resultStatValue = 0;
         },
+        addStatTest(state, action) {
+            const {statTest, type} = action.payload;
+            if (type === 'pass') {
+                state.characterStatTest.statTestsResultAll = [
+                        ...state.characterStatTest.statTestsResultAll, {
+                            stat: statTest.name,
+                            value: statTest.value, 
+                            checkType: 'pass'
+                        }
+                ]
+                return;
+            }
+            state.characterStatTest.statTestsResultAll = [
+                ...state.characterStatTest.statTestsResultAll, {
+                    stat: statTest.name,
+                    value: statTest.value, 
+                    checkType: 'fail'
+                }
+            ]
+        },
+        showStatResultPanel(state, action) {
+            state.characterStatTest.showStatResultPanel = action.payload;
+        }
     }
 });
 
@@ -127,7 +158,8 @@ export const {
     statTestSelect,
     setTargetStatValue,
     selectTestMode,
-    resetTest
+    resetTest,
+    addStatTest
     
 } = characterTotalSlice.actions;
 

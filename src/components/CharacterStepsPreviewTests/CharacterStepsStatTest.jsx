@@ -2,18 +2,31 @@ import React from "react";
 import { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { statTestSelect,  setTargetStatValue, selectTestMode, resetTest, showStatResultPanel } from "../../redux/slices/characterTotalSlice";
+import { statTestSelect,  setTargetStatValue, selectTestMode, resetTest, addStatTest, showStatResultPanel } from "../../redux/slices/characterTotalSlice";
+import { rollDiceFunc } from "../../redux/slices/rollDiceSlice";
 
 const CharacterStepsStatTest = () => {
     const dispatch = useDispatch();
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const showResultPanel = useSelector((state) => state.characterTotal.characterStatTest.showStatResultPanel);
     const statTest = useSelector((state) => state.characterTotal.characterStatTest);
+    const statTestsResultAll = useSelector((state) => state.characterTotal.characterStatTest.statTestsResultAll);
+    const rollState = useSelector((state) => state.rolller);
     const currentValueRef = useRef();
     const currentTargetRef = useRef();
     const currentResultRef = useRef();
     const currentStatRef = useRef();
     const testModeRef = useRef();
+
+
+    const rollStartHandler = () => {
+        const targetMode = statTest.testMods.find((item) => item.selected);
+        if (!targetMode.name || !currentValueRef.current) return;
+        dispatch(rollDiceFunc({
+            mode: targetMode.name.replace(/d/, ''),
+            modifer: currentValueRef.current.value,
+        }));
+    };
 
     const chooseStatHandler = () => {
         dispatch(statTestSelect({statName: currentStatRef.current.value}))
@@ -48,6 +61,33 @@ const CharacterStepsStatTest = () => {
         const targetStat = resultCharStats.find((item) => item.statParam === 'str');
         currentValueRef.current.value = targetStat.modifer;
     };
+
+    useEffect(() => {
+        currentResultRef.current.value = rollState.rollResult;
+        const targetValue = Number(currentTargetRef.current.value);
+        const resultValue = Number(currentResultRef.current.value);
+        if (resultValue >= targetValue) {
+            dispatch(addStatTest({
+                statTest: {name: statTest.currentStatName, value: resultValue},
+                type: 'pass',
+            }));
+
+            return;
+        }
+        dispatch(addStatTest({
+            statTest: {name: statTest.currentStatName, value: resultValue},
+            type: 'fail',
+        }));
+    }, [rollState.rollResult]);
+
+    useEffect(() => {
+        console.log(statTestsResultAll.length)
+        if (statTestsResultAll && statTestsResultAll.length > 0) {
+            dispatch(showStatResultPanel(true));
+            return;
+        }
+        dispatch(showStatResultPanel(false));
+    }, [statTestsResultAll]);
     
     useEffect(() => {
         if (!statTest.currentStatName) return;
@@ -101,13 +141,18 @@ const CharacterStepsStatTest = () => {
                     </div>  
                    <div className="character-steps-total-stat-result">
                         <label htmlFor="character-steps-total-stat-value-result">Result</label>
-                        <input id="character-steps-total-stat-value-result" type="text" ref={currentResultRef} />
+                        <input
+                            disabled
+                            id="character-steps-total-stat-value-result" 
+                            type="text" 
+                            ref={currentResultRef} 
+                        />
                     </div>
                 </div>
                 <div className="character-steps-total-stats-test-btns-wrap">
                     <div className="character-steps-total-stats-test-btns-row">
                         <div className="character-steps-total-stats-test-btn-item">
-                            <button>Start Test</button>
+                            <button onClick={rollStartHandler}>Start Test</button>
                         </div>
                         <div className="character-steps-total-stats-test-btn-item">
                             <select 
@@ -130,53 +175,42 @@ const CharacterStepsStatTest = () => {
                         </div>
                     </div>
                 </div>
+                {console.log(showResultPanel)}
                 {showResultPanel ? 
                     <div className="character-steps-total-stats-test-try-count-wrap">
                         <div className="character-steps-total-stats-test-try-pass-wrap">
                             <div className="character-steps-total-stats-test-try-pass-title">
-                                Pass
+                                {`Pass : (${statTestsResultAll.filter((item) => item.checkType === 'pass').length})`}
                             </div>
                             <div className="character-steps-total-stats-test-try-pass-row-wrap">
                                 <div  className="character-steps-total-stats-test-try-pass-row">
-                                    <div className="character-steps-total-stats-test-try-pass-item">
-                                        <span className="character-steps-total-stats-test-try-pass-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-pass-item">
-                                        <span className="character-steps-total-stats-test-try-pass-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-pass-item">
-                                        <span className="character-steps-total-stats-test-try-pass-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-pass-item">
-                                        <span className="character-steps-total-stats-test-try-pass-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-pass-item">
-                                        <span className="character-steps-total-stats-test-try-pass-icon"></span>
-                                    </div>
+                                    {statTestsResultAll.filter((item) => item.checkType === 'pass').map((testItem) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className="character-steps-total-stats-test-try-pass-item">
+                                                    <span className="character-steps-total-stats-test-try-pass-icon"></span>
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>
                         <div className="character-steps-total-stats-test-try-fail-wrap">
                             <div className="character-steps-total-stats-test-try-fail-title">
-                                Fail
+                                {`Fail : (${statTestsResultAll.filter((item) => item.checkType === 'fail').length})`}
                             </div>
                             <div className="character-steps-total-stats-test-try-pass-row-wrap">
                                 <div className="character-steps-total-stats-test-try-fail-row">
-                                    <div className="character-steps-total-stats-test-try-fail-item">
-                                        <span className="character-steps-total-stats-test-try-fail-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-fail-item">
-                                        <span className="character-steps-total-stats-test-try-fail-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-fail-item">
-                                        <span className="character-steps-total-stats-test-try-fail-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-fail-item">
-                                        <span className="character-steps-total-stats-test-try-fail-icon"></span>
-                                    </div>
-                                    <div className="character-steps-total-stats-test-try-fail-item">
-                                        <span className="character-steps-total-stats-test-try-fail-icon"></span>
-                                    </div>
+                                    {statTestsResultAll.filter((item) => item.checkType === 'fail').map((testItem) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className="character-steps-total-stats-test-try-fail-item">
+                                                    <span className="character-steps-total-stats-test-try-fail-icon"></span>
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         

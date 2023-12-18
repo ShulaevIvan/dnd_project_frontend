@@ -22,8 +22,6 @@ const CharacterStepsProgressBar = () => {
     const changeStatState = useSelector((state) => state.calculateCharStats.disableStatSelectors);
     const setupStatsComplete =  useSelector((state) => state.calculateCharStats.setupStatsComplete);
 
-    
-
     const nextPageHandler = () => {
         dispatch(setCharacterStep(1));
     };

@@ -9,6 +9,7 @@ import instrumentsSlice from '../slices/instrumentsSlice';
 import calculateAbilitiesSlice from '../slices/calculateAbilitiesSlice';
 import characterSkillsSlice from '../slices/characterSkillsSlice';
 import characterTotalSlice from '../slices/characterTotalSlice';
+import rollDiceSlice from '../slices/rollDiceSlice';
 
 
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
         instruments: instrumentsSlice,
         characterSkills: characterSkillsSlice,
         characterTotal: characterTotalSlice,
+        rolller: rollDiceSlice,
     },
     middleware: (getDefaultMiddleware)  => getDefaultMiddleware(),
 });
