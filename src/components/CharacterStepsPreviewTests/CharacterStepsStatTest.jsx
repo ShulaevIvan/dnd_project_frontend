@@ -57,6 +57,10 @@ const CharacterStepsStatTest = () => {
     };
 
     const targetInputHandler = () => {
+        if (!currentTargetRef.current || isNaN(Number(currentTargetRef.current.value))) {
+            currentTargetRef.current.value = '';
+            return;
+        }
         dispatch(setTargetStatValue({targetValue: currentTargetRef.current.value}));
     };
 
@@ -77,7 +81,6 @@ const CharacterStepsStatTest = () => {
 
     const showStatTestPopupHandler = (e, statTest) => {
         const client = e.target.getBoundingClientRect();
-        console.log(e.target)
         dispatch(showStatTestPopupWindow({statTest: statTest, show: true, client: {x: client.left / 2 - 300, y: 50}}));
     };
 

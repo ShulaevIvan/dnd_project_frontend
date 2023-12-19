@@ -366,7 +366,8 @@
     width: 100%;
     position: relative;
 }
-.character-steps-total-stat-item-row {
+.character-steps-total-stat-item-row,
+.character-steps-total-ability-item-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -377,7 +378,10 @@
 }
 .character-steps-total-stat-value,
 .character-steps-total-stat-target,
-.character-steps-total-stat-result {
+.character-steps-total-stat-result,
+.character-steps-total-abilitiy-value,
+.character-steps-total-abilitiy-target,
+.character-steps-total-abilitiy-result {
     border: 1px solid;
     max-width: 30%;
     width: 300px;
@@ -386,7 +390,10 @@
 }
 .character-steps-total-stat-value input,
 .character-steps-total-stat-target input,
-.character-steps-total-stat-result input {
+.character-steps-total-stat-result input,
+.character-steps-total-abilitiy-value input,
+.character-steps-total-abilitiy-target input,
+.character-steps-total-abilitiy-result input {
     text-align: center;
     max-width: 50px;
 }
@@ -395,7 +402,8 @@
 .character-steps-total-stat-value-result {
     font-size: 14px;
 }
-.character-steps-total-stats-test-title {
+.character-steps-total-stats-test-title,
+.character-steps-total-abilities-test-title {
     margin-bottom: 10px;
 }
 .character-steps-total-stats-test-try-count-wrap {
@@ -408,10 +416,12 @@
     position: relative;
     margin-bottom: 20px;
 }
-.character-steps-total-stats-select-wrap {
+.character-steps-total-stats-select-wrap,
+.character-steps-total-abilities-select-wrap {
     margin-bottom: 10px;
 }
-.character-steps-total-stats-select-title {
+.character-steps-total-stats-select-title,
+.character-steps-total-abilities-select-title {
     padding: 5px;
 }
 .character-steps-total-stats-test-try-pass-wrap,
@@ -509,5 +519,28 @@
     margin-bottom: 20px;
     position: absolute;
     z-index: 5;
-    top: 75%;
+    top: 100%;
+    margin-bottom: 20px;
+}
+.character-steps-total-abilities-test-wrap {
+    margin-top: 40px;
+}
+.character-steps-total-abilities-item-row {
+    margin-bottom: 10px;
+}
+.character-steps-total-abilities-btns-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-total-abilities-btn-item {
+    display: flex;
+    flex-direction: column;
+    max-width: 33%;
+    margin-right: 10px;
+    justify-content: center;
+    align-items: center;
 }
