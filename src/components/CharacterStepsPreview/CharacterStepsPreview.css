@@ -364,6 +364,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
+    position: relative;
 }
 .character-steps-total-stat-item-row {
     display: flex;
@@ -404,19 +405,14 @@
     width: 100%;
     justify-content: center;
     align-items: center;
+    position: relative;
+    margin-bottom: 20px;
 }
 .character-steps-total-stats-select-wrap {
     margin-bottom: 10px;
 }
 .character-steps-total-stats-select-title {
     padding: 5px;
-}
-.character-steps-total-stats-test-try-count-wrap {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 100%;
-    margin-bottom: 20px;
 }
 .character-steps-total-stats-test-try-pass-wrap,
 .character-steps-total-stats-test-try-fail-wrap {
@@ -434,6 +430,7 @@
 }
 .character-steps-total-stats-test-try-pass-row-wrap {
     width: 60%;
+    position: relative;
 }
 .character-steps-total-stats-test-try-pass-row,
 .character-steps-total-stats-test-try-fail-row {
@@ -457,8 +454,8 @@
     justify-content: center;
     align-items: center;
     margin-right: 5px;
-    position: relative;
     margin-bottom: 10px;
+    position: relative;
 }
 .character-steps-total-stats-test-try-pass-icon::before {
     position: absolute;
@@ -467,6 +464,7 @@
     content: '\1F5F8';
     font-size: 20px;
     color: green;
+    cursor: pointer;
 }
 .character-steps-total-stats-test-try-fail-icon::before {
     position: absolute;
@@ -476,6 +474,7 @@
     color: red;
     font-size: 20px;
     content: '\10102';
+    cursor: pointer;
 }
 .character-steps-total-stats-test-btns-wrap {
     display: flex;
@@ -501,4 +500,14 @@
     margin-right: 10px;
     justify-content: center;
     align-items: center;
+}
+.character-steps-total-stats-test-btn-item button {
+    cursor: pointer;
+}
+.character-steps-total-stats-test-preview-total {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    z-index: 5;
+    top: 75%;
 }

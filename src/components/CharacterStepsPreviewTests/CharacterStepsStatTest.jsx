@@ -2,16 +2,28 @@ import React from "react";
 import { useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { statTestSelect,  setTargetStatValue, selectTestMode, resetTest, addStatTest, showStatResultPanel } from "../../redux/slices/characterTotalSlice";
+import { 
+    statTestSelect,
+    setTargetStatValue,
+    selectTestMode,
+    resetTest,
+    addStatTest,
+    showStatResultPanel,
+    showStatTestPopupWindow 
+} from "../../redux/slices/characterTotalSlice";
 import { rollDiceFunc } from "../../redux/slices/rollDiceSlice";
 
 const CharacterStepsStatTest = () => {
     const dispatch = useDispatch();
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const showResultPanel = useSelector((state) => state.characterTotal.characterStatTest.showStatResultPanel);
+    const showStatTestPopup = useSelector((state) => state.characterTotal.showStatTestPopup);
+    const statTestPopupData = useSelector((state) => state.characterTotal.statTestPopupData);
     const statTest = useSelector((state) => state.characterTotal.characterStatTest);
     const statTestsResultAll = useSelector((state) => state.characterTotal.characterStatTest.statTestsResultAll);
     const rollState = useSelector((state) => state.rolller);
+    const popupX = useSelector((state) => state.characterTotal.popupX);
+    const popupY = useSelector((state) => state.characterTotal.popupY);
     const currentValueRef = useRef();
     const currentTargetRef = useRef();
     const currentResultRef = useRef();
@@ -60,28 +72,71 @@ const CharacterStepsStatTest = () => {
         currentResultRef.current.value = 0;
         const targetStat = resultCharStats.find((item) => item.statParam === 'str');
         currentValueRef.current.value = targetStat.modifer;
+        dispatch(statTestSelect({statName: currentStatRef.current.value}));
+    };
+
+    const showStatTestPopupHandler = (e, statTest) => {
+        const client = e.target.getBoundingClientRect();
+        console.log(e.target)
+        dispatch(showStatTestPopupWindow({statTest: statTest, show: true, client: {x: client.left / 2 - 300, y: 50}}));
+    };
+
+    const hideStatTestPopupHandler = (e) => {
+        const client = e.target.getBoundingClientRect();
+        dispatch(showStatTestPopupWindow({statTest: '', show: false, client: {x: client.left / 2 - 300, y: 50}}));
     };
 
     useEffect(() => {
         currentResultRef.current.value = rollState.rollResult;
         const targetValue = Number(currentTargetRef.current.value);
         const resultValue = Number(currentResultRef.current.value);
-        if (resultValue >= targetValue) {
+        if (rollState.criticalMin) {
             dispatch(addStatTest({
-                statTest: {name: statTest.currentStatName, value: resultValue},
+                statTest: {
+                    name: statTest.currentStatName,
+                    rollValue: rollState.baseRoll,
+                    value: 1
+                },
+                type: 'fail',
+            }));
+            return;
+        }
+        if (rollState.criticalMax) {
+            dispatch(addStatTest({
+                statTest: {
+                    name: statTest.currentStatName,
+                    rollValue: rollState.baseRoll,
+                    value: 20
+                },
+                type: 'pass',
+            }));
+            return;
+        }
+        if ((resultValue >= targetValue)) {
+            dispatch(addStatTest({
+                statTest: {
+                    name: statTest.currentStatName,
+                    rollValue: rollState.baseRoll,
+                    value: resultValue
+                },
                 type: 'pass',
             }));
 
             return;
         }
+
         dispatch(addStatTest({
-            statTest: {name: statTest.currentStatName, value: resultValue},
+            statTest: {
+                name: statTest.currentStatName,
+                rollValue: rollState.baseRoll,
+                value: resultValue
+            },
             type: 'fail',
         }));
+
     }, [rollState.rollResult]);
 
     useEffect(() => {
-        console.log(statTestsResultAll.length)
         if (statTestsResultAll && statTestsResultAll.length > 0) {
             dispatch(showStatResultPanel(true));
             return;
@@ -99,6 +154,7 @@ const CharacterStepsStatTest = () => {
 
     useEffect(() => {
         resetTestHandler();
+        dispatch(statTestSelect({statName: currentStatRef.current.value}));
     }, []);
 
     return (
@@ -175,9 +231,18 @@ const CharacterStepsStatTest = () => {
                         </div>
                     </div>
                 </div>
-                {console.log(showResultPanel)}
+
                 {showResultPanel ? 
                     <div className="character-steps-total-stats-test-try-count-wrap">
+                        {
+                            showStatTestPopup ? 
+                                <div className="character-steps-total-stats-test-preview-total" style={{visibility: 'visible'}}> 
+                                    {`roll: ${statTestPopupData.baseRoll} result: ${statTestPopupData.value}`}
+                                </div> 
+                            :   <div className="character-steps-total-stats-test-preview-total" style={{visibility: 'hidden'}}> 
+                                    
+                                </div> 
+                        }
                         <div className="character-steps-total-stats-test-try-pass-wrap">
                             <div className="character-steps-total-stats-test-try-pass-title">
                                 {`Pass : (${statTestsResultAll.filter((item) => item.checkType === 'pass').length})`}
@@ -187,7 +252,11 @@ const CharacterStepsStatTest = () => {
                                     {statTestsResultAll.filter((item) => item.checkType === 'pass').map((testItem) => {
                                         return (
                                             <React.Fragment key={Math.random()}>
-                                                <div className="character-steps-total-stats-test-try-pass-item">
+                                                <div
+                                                    onMouseOver={(e) => showStatTestPopupHandler(e, testItem)}
+                                                    onMouseLeave={(e) => hideStatTestPopupHandler(e)} 
+                                                    className="character-steps-total-stats-test-try-pass-item"
+                                                >
                                                     <span className="character-steps-total-stats-test-try-pass-icon"></span>
                                                 </div>
                                             </React.Fragment>
@@ -205,7 +274,11 @@ const CharacterStepsStatTest = () => {
                                     {statTestsResultAll.filter((item) => item.checkType === 'fail').map((testItem) => {
                                         return (
                                             <React.Fragment key={Math.random()}>
-                                                <div className="character-steps-total-stats-test-try-fail-item">
+                                                <div
+                                                    onMouseOver={(e) => showStatTestPopupHandler(e, testItem)}
+                                                    onMouseLeave={(e) => hideStatTestPopupHandler(e)}
+                                                    className="character-steps-total-stats-test-try-fail-item"
+                                                >
                                                     <span className="character-steps-total-stats-test-try-fail-icon"></span>
                                                 </div>
                                             </React.Fragment>

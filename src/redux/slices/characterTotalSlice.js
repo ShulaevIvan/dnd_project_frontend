@@ -8,6 +8,8 @@ const initialState = {
     uploadImageStart: false,
     showDescriptionBackground: false,
     descriptionPopupValue: '',
+    showStatTestPopup: false,
+    statTestPopupData: undefined,
     uploadCharacterFile: {
         uploadPopupFile: undefined,
         uploadPopupFileData: undefined,
@@ -126,7 +128,8 @@ const characterTotalSlice = createSlice({
                 state.characterStatTest.statTestsResultAll = [
                         ...state.characterStatTest.statTestsResultAll, {
                             stat: statTest.name,
-                            value: statTest.value, 
+                            baseRoll: statTest.rollValue,
+                            value: statTest.value,
                             checkType: 'pass'
                         }
                 ]
@@ -135,6 +138,7 @@ const characterTotalSlice = createSlice({
             state.characterStatTest.statTestsResultAll = [
                 ...state.characterStatTest.statTestsResultAll, {
                     stat: statTest.name,
+                    baseRoll: statTest.rollValue,
                     value: statTest.value, 
                     checkType: 'fail'
                 }
@@ -142,6 +146,13 @@ const characterTotalSlice = createSlice({
         },
         showStatResultPanel(state, action) {
             state.characterStatTest.showStatResultPanel = action.payload;
+        },
+        showStatTestPopupWindow(state, action) {
+            const { statTest, show, client } = action.payload;
+            state.popupX = client.x;
+            state.popupY = client.y;
+            state.showStatTestPopup = show;
+            state.statTestPopupData = statTest;
         }
     }
 });
@@ -159,7 +170,8 @@ export const {
     setTargetStatValue,
     selectTestMode,
     resetTest,
-    addStatTest
+    addStatTest,
+    showStatTestPopupWindow
     
 } = characterTotalSlice.actions;
 
