@@ -167,7 +167,7 @@ const CharacterStepsStatTest = () => {
                 <div className="character-steps-total-stats-select-wrap">
                     <label 
                         className="character-steps-total-stats-select-title" 
-                        for="character-steps-total-stats-select">
+                        htmlFor="character-steps-total-stats-select">
                             Choose a stat test:
                     </label>
                     <select 

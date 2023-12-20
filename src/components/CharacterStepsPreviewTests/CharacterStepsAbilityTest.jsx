@@ -14,6 +14,32 @@ const CharacterStepsAbilityTest = () => {
 
     const selectAbilityHandler = () => {
         if (!abilitySelectedRef.current) return;
+        dispatch(selectTestAbility({abilityName: abilitySelectedRef.current.value, selected: true}));
+    };
+
+    const checkSelectedAbility = (abilityName) => {
+        const selectedAbility = allAbilitiesSelected.find((item) => item.name === abilityName && item.selected);
+        if (!selectedAbility) return false;
+
+        abilityTestModifer.current.value = selectedAbility.value;
+        return selectedAbility;
+    };
+
+    const clearTargetInput = () => {
+        abilityTestTarget.current.value = '';
+    };
+
+    const targetAbilityHandler = () => {
+        if (!abilityTestTarget.current || isNaN(Number(abilityTestTarget.current.value))) {
+            abilityTestTarget.current.value = '';
+            return;
+        }
+    };
+
+    const resetAbilityTestHandler = () => {
+        abilityTestModifer.current.value = 0;
+        abilityTestTarget.current.value = 0;
+        abilityTestValue.current.value = 0;
     };
 
     useEffect(() => {
@@ -26,7 +52,7 @@ const CharacterStepsAbilityTest = () => {
                 <div className="character-steps-total-abilities-test-title">Abilities Tests</div>
                 <div className="character-steps-total-abilities-select-wrap">
                     <div className="character-steps-total-abilities-item-row">
-                        <label className="character-steps-total-abilities-select-title" for="character-steps-total-abilities-select">Choose a ability test:</label>
+                        <label className="character-steps-total-abilities-select-title" htmlFor="character-steps-total-abilities-select">Choose a ability test:</label>
                         <select
                             id="character-steps-total-abilities-select"
                             onChange={selectAbilityHandler}
@@ -35,7 +61,7 @@ const CharacterStepsAbilityTest = () => {
                             {allAbilitiesSelected ? allAbilitiesSelected.map((ability) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <option>{ability.name}</option>
+                                        <option selected={checkSelectedAbility(ability.name)}>{ability.name}</option>
                                     </React.Fragment>
                                 )
                             }) : null}
@@ -44,15 +70,20 @@ const CharacterStepsAbilityTest = () => {
                     <div className="character-steps-total-ability-item-row">
                         <div className="character-steps-total-abilitiy-value">
                             <label htmlFor="character-steps-total-ability-value-base">Modifer</label>
-                            <input ref={abilityTestModifer} id="character-steps-total-ability-value-base" type="text" />
+                            <input ref={abilityTestModifer} id="character-steps-total-ability-value-base" type="text" disabled />
                         </div>
                         <div className="character-steps-total-abilitiy-target">
                             <label htmlFor="character-steps-total-ability-value-base">Target</label>
-                            <input id="character-steps-total-ability-value-base" type="text" />
+                            <input
+                                onClick={clearTargetInput}
+                                onChange={targetAbilityHandler} 
+                                ref={abilityTestTarget} 
+                                id="character-steps-total-ability-value-base" type="text" 
+                            />
                         </div>
                         <div className="character-steps-total-abilitiy-value">
                             <label htmlFor="character-steps-total-ability-value-base">Value</label>
-                            <input id="character-steps-total-ability-value-base" type="text" />
+                            <input ref={abilityTestValue} id="character-steps-total-ability-value-base" type="text" disabled />
                         </div>
                     </div>
 
@@ -65,7 +96,7 @@ const CharacterStepsAbilityTest = () => {
 
                             </div>
                             <div className="character-steps-total-abilities-btn-item">
-                                <button>Reset Test</button>
+                                <button onClick={resetAbilityTestHandler}>Reset Test</button>
                             </div>
                             </div>
                         </div>

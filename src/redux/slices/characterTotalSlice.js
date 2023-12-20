@@ -167,7 +167,20 @@ const characterTotalSlice = createSlice({
             })]
         },
         selectTestAbility(state, action) {
-
+            const { abilityName, selected } = action.payload;
+            let targetAbility = state.allAbilitiesTest.find((item) => item.name === abilityName);
+            targetAbility = {
+                ...targetAbility,
+                selected: selected,
+            }
+            state.allAbilitiesTest = [...state.allAbilitiesTest.filter((item) => item.name !== targetAbility.name).map((abil) => {
+                return (
+                    {
+                        ...abil,
+                        selected: false
+                    }
+                )
+            }), targetAbility]
         }
     }
 });
