@@ -35,6 +35,7 @@ const initialState = {
             {name: 'd20', selected: true},
             {name: 'd100', selected: false},
         ],
+        allAbilitiesTest: [],
     }
     
 }
@@ -153,6 +154,20 @@ const characterTotalSlice = createSlice({
             state.popupY = client.y;
             state.showStatTestPopup = show;
             state.statTestPopupData = statTest;
+        },
+        addAllAbilitiesTest(state, action) {
+            const { abilities } = action.payload
+            state.allAbilitiesTest = [...abilities.map((item) => {
+                return (
+                    {
+                        ...item,
+                        selected: false,
+                    }
+                )
+            })]
+        },
+        selectTestAbility(state, action) {
+
         }
     }
 });
@@ -171,7 +186,9 @@ export const {
     selectTestMode,
     resetTest,
     addStatTest,
-    showStatTestPopupWindow
+    showStatTestPopupWindow,
+    addAllAbilitiesTest,
+    selectTestAbility
     
 } = characterTotalSlice.actions;
 
