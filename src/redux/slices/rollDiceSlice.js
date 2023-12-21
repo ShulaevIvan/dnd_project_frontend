@@ -7,6 +7,12 @@ const initialState = {
     criticalMax: false,
     currentMode: 0,
     mods: [4,6,8,10,12,20,100],
+    abilityTestRoll: {
+        rollResult: 0,
+        baseRoll: 0,
+        criticalMin: false,
+        criticalMax: false,
+    }
 
 }
 const rollDice = createSlice({
@@ -32,12 +38,28 @@ const rollDice = createSlice({
                 state.rollResult = resultValue;
             }
 
+        },
+        rollDiceAbility(state, action) {
+            const { modifer } = action.payload;
+            let resultValue = 0;
+            state.abilityTestRoll.baseRoll = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+            state.abilityTestRoll.baseRoll === 1 ? state.abilityTestRoll.criticalMin = true : state.abilityTestRoll.criticalMin = false;
+
+            if (Math.sign(modifer)) {
+                resultValue = state.abilityTestRoll.baseRoll + Number(modifer);
+            }
+            else {
+                resultValue = state.abilityTestRoll.baseRoll - Number(modifer);
+            }
+            state.abilityTestRoll.rollResult = resultValue;
+
         }
     }
 });
 
 export const {
     rollDiceFunc,
+    rollDiceAbility
 } = rollDice.actions;
 
 export default rollDice.reducer;

@@ -170,7 +170,7 @@ const CharacterStepsStatTest = () => {
                         htmlFor="character-steps-total-stats-select">
                             Choose a stat test:
                     </label>
-                    <select 
+                    <select
                         ref={currentStatRef} 
                         onChange={chooseStatHandler} 
                         id="character-steps-total-stats-select"

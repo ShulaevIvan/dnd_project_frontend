@@ -36,6 +36,12 @@ const initialState = {
             {name: 'd100', selected: false},
         ],
         allAbilitiesTest: [],
+    },
+    characterAbilityTest: {
+        currentAbilityName: undefined,
+        currentAbilityValue: 0,
+        targetAbilityValue: 0,
+        resultAbilityValue: 0,
     }
     
 }
@@ -169,6 +175,8 @@ const characterTotalSlice = createSlice({
         selectTestAbility(state, action) {
             const { abilityName, selected } = action.payload;
             let targetAbility = state.allAbilitiesTest.find((item) => item.name === abilityName);
+            state.characterAbilityTest.currentAbilityName = targetAbility.name;
+            state.characterAbilityTest.currentAbilityValue = targetAbility.value;
             targetAbility = {
                 ...targetAbility,
                 selected: selected,
@@ -180,7 +188,7 @@ const characterTotalSlice = createSlice({
                         selected: false
                     }
                 )
-            }), targetAbility]
+            }), targetAbility].sort();
         }
     }
 });
