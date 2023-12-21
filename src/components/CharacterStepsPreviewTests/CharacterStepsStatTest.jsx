@@ -8,7 +8,7 @@ import {
     selectTestMode,
     resetTest,
     addStatTest,
-    showStatResultPanel,
+    showTestResultPanel,
     showStatTestPopupWindow 
 } from "../../redux/slices/characterTotalSlice";
 import { rollDiceFunc } from "../../redux/slices/rollDiceSlice";
@@ -22,8 +22,7 @@ const CharacterStepsStatTest = () => {
     const statTest = useSelector((state) => state.characterTotal.characterStatTest);
     const statTestsResultAll = useSelector((state) => state.characterTotal.characterStatTest.statTestsResultAll);
     const rollState = useSelector((state) => state.rolller);
-    const popupX = useSelector((state) => state.characterTotal.popupX);
-    const popupY = useSelector((state) => state.characterTotal.popupY);
+    
     const currentValueRef = useRef();
     const currentTargetRef = useRef();
     const currentResultRef = useRef();
@@ -141,10 +140,10 @@ const CharacterStepsStatTest = () => {
 
     useEffect(() => {
         if (statTestsResultAll && statTestsResultAll.length > 0) {
-            dispatch(showStatResultPanel(true));
+            dispatch(showTestResultPanel({panelName: 'stat', value: true}));
             return;
         }
-        dispatch(showStatResultPanel(false));
+        dispatch(showTestResultPanel({panelName: 'stat', value: false}));
     }, [statTestsResultAll]);
     
     useEffect(() => {
@@ -234,13 +233,16 @@ const CharacterStepsStatTest = () => {
                         </div>
                     </div>
                 </div>
-
                 {showResultPanel ? 
                     <div className="character-steps-total-stats-test-try-count-wrap">
                         {
                             showStatTestPopup ? 
                                 <div className="character-steps-total-stats-test-preview-total" style={{visibility: 'visible'}}> 
-                                    {`roll: ${statTestPopupData.baseRoll} result: ${statTestPopupData.value}`}
+                                    {`
+                                        stat: ${statTestPopupData.stat}
+                                        roll: ${statTestPopupData.baseRoll} 
+                                        result: ${statTestPopupData.value}
+                                    `}
                                 </div> 
                             :   <div className="character-steps-total-stats-test-preview-total" style={{visibility: 'hidden'}}> 
                                     

@@ -38,10 +38,15 @@ const initialState = {
         allAbilitiesTest: [],
     },
     characterAbilityTest: {
+        testCounter: 0,
         currentAbilityName: undefined,
         currentAbilityValue: 0,
         targetAbilityValue: 0,
         resultAbilityValue: 0,
+        showAbilityResultPanel: false,
+        allAbilityTests: [],
+        showTestResutPopup: false,
+        testAbilityPopup: undefined,
     }
     
 }
@@ -137,22 +142,31 @@ const characterTotalSlice = createSlice({
                             stat: statTest.name,
                             baseRoll: statTest.rollValue,
                             value: statTest.value,
-                            checkType: 'pass'
+                            checkType: 'pass',
                         }
                 ]
                 return;
             }
+
             state.characterStatTest.statTestsResultAll = [
                 ...state.characterStatTest.statTestsResultAll, {
                     stat: statTest.name,
                     baseRoll: statTest.rollValue,
                     value: statTest.value, 
-                    checkType: 'fail'
+                    checkType: 'fail',
                 }
             ]
         },
-        showStatResultPanel(state, action) {
-            state.characterStatTest.showStatResultPanel = action.payload;
+        showTestResultPanel(state, action) {
+            const { panelName, value } = action.payload;
+            if (panelName === 'stat') {
+                state.characterStatTest.showStatResultPanel = value;
+                return;
+            }
+            if (panelName === 'ability') {
+                state.characterAbilityTest.showAbilityResultPanel = value;
+                return;
+            }
         },
         showStatTestPopupWindow(state, action) {
             const { statTest, show, client } = action.payload;
@@ -188,7 +202,26 @@ const characterTotalSlice = createSlice({
                         selected: false
                     }
                 )
-            }), targetAbility].sort();
+            }), targetAbility].sort((a, b) => a.name.localeCompare(b.name));
+        },
+        addAbilityTest(state, action) {
+            const { abilityTest, type } = action.payload;
+            state.characterAbilityTest.testCounter = state.characterAbilityTest.testCounter + 1;
+            state.characterAbilityTest.allAbilityTests = [...state.characterAbilityTest.allAbilityTests, {
+                ...abilityTest,
+                checkType: type,
+                testId:  state.characterAbilityTest.testCounter,
+            }];
+        },
+        resetAbilityTest(state) {
+            state.characterAbilityTest.allAbilityTests = [];
+            state.characterAbilityTest.showAbilityResultPanel = false;
+            state.characterAbilityTest.testCounter = 0;
+        },
+        showAbilityTestPopup(state, action) {
+            const { abilityTest, show } = action.payload;
+            state.characterAbilityTest.showTestResutPopup = show;
+            state.characterAbilityTest.testAbilityPopup = abilityTest;
         }
     }
 });
@@ -201,7 +234,7 @@ export const {
     uploadStatus,
     uploadPopupFile,
     showDescriptionBackground,
-    showStatResultPanel,
+    showTestResultPanel,
     statTestSelect,
     setTargetStatValue,
     selectTestMode,
@@ -209,7 +242,10 @@ export const {
     addStatTest,
     showStatTestPopupWindow,
     addAllAbilitiesTest,
-    selectTestAbility
+    selectTestAbility,
+    addAbilityTest,
+    resetAbilityTest,
+    showAbilityTestPopup
     
 } = characterTotalSlice.actions;
 

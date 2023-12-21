@@ -1,7 +1,14 @@
 import React from "react";
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addAllAbilitiesTest, selectTestAbility } from "../../redux/slices/characterTotalSlice";
+import { 
+    addAllAbilitiesTest, 
+    selectTestAbility, 
+    showTestResultPanel, 
+    addAbilityTest, 
+    resetAbilityTest,
+    showAbilityTestPopup
+} from "../../redux/slices/characterTotalSlice";
 import { rollDiceAbility } from "../../redux/slices/rollDiceSlice";
 
 const CharacterStepsAbilityTest = () => {
@@ -9,7 +16,11 @@ const CharacterStepsAbilityTest = () => {
     const charAbilities = useSelector((state) => state.calculateAbilites.resultCharAbilities);
     const allAbilitiesSelected = useSelector((state) => state.characterTotal.allAbilitiesTest);
     const abilityTestState = useSelector((state) => state.characterTotal.characterAbilityTest);
+    const abilityResultPanel = useSelector((state) => state.characterTotal.characterAbilityTest.showAbilityResultPanel);
     const rollState = useSelector((state) => state.rolller.abilityTestRoll);
+    const abilityTestPopup = useSelector((state) => state.characterTotal.characterAbilityTest.showTestResutPopup);
+    const abilityTestPopupData = useSelector((state) => state.characterTotal.characterAbilityTest.testAbilityPopup);
+    
     const abilitySelectedRef = useRef(null);
     const abilityTestModifer = useRef(null);
     const abilityTestTarget = useRef(null);
@@ -42,24 +53,64 @@ const CharacterStepsAbilityTest = () => {
     const resetAbilityTestHandler = () => {
         abilityTestTarget.current.value = 0;
         abilityTestValue.current.value = 0;
-        dispatch(selectTestAbility({abilityName: 'Атлетика', selected: true}))
+        dispatch(selectTestAbility({abilityName: 'Атлетика', selected: true}));
+        dispatch(resetAbilityTest());
     };
 
     const startAbilityTestHandler = () => {
-        dispatch(rollDiceAbility({
-            modifer: abilityTestModifer.current.value,
-        }));
+        dispatch(rollDiceAbility({modifer: abilityTestModifer.current.value}));
+        dispatch(showTestResultPanel({panelName: 'ability', value: true}));
+
+        const targetValue = abilityTestTarget.current.value;
+        let testAbility = {
+            name: abilitySelectedRef.current.value,
+            rollValue: rollState.baseRoll,
+            value: rollState.rollResult
+        };
+
+        if (rollState.criticalMax) {
+            testAbility = {
+                name: abilitySelectedRef.current.value,
+                rollValue: rollState.baseRoll,
+                value: 20
+            }
+            dispatch(addAbilityTest({abilityTest: testAbility, type: 'pass'}));
+            return;
+        }
+        if (rollState.rollResult >= targetValue) {
+            dispatch(addAbilityTest({abilityTest: testAbility, type: 'pass'}));
+            return;
+        }
+        if (rollState.criticalMin) {
+            testAbility = {
+                name: abilitySelectedRef.current.value,
+                rollValue: rollState.baseRoll,
+                value: 1
+            }
+            dispatch(addAbilityTest({abilityTest: testAbility, type: 'fail'}));
+            return;
+        }
+        dispatch(addAbilityTest({abilityTest: testAbility, type: 'fail'}));
     };
 
     useEffect(() => {
         dispatch(addAllAbilitiesTest({abilities: charAbilities}));
+        dispatch(showTestResultPanel({panelName: 'ability', value: false}));
         resetAbilityTestHandler();
 
     }, []);
 
     useEffect(() => {
         abilityTestValue.current.value = rollState.rollResult;
-    }, [rollState.rollResult])
+    }, [rollState.rollResult]);
+
+    const abilityTestResultHandler = (ability) => {
+        dispatch(showAbilityTestPopup({abilityTest: ability, show: true}));
+    };
+
+    const abilityTestResultLeaveHandler = (ability) => {
+        dispatch(showAbilityTestPopup({abilityTest: ability, show: false}));
+    };
 
     return (
         <React.Fragment>
@@ -79,7 +130,7 @@ const CharacterStepsAbilityTest = () => {
                                         <option selected={checkSelectedAbility(ability.name)}>{ability.name}</option>
                                     </React.Fragment>
                                 )
-                            }) : null}
+                            }): null}
                         </select>
                     </div>
                     <div className="character-steps-total-ability-item-row">
@@ -116,6 +167,69 @@ const CharacterStepsAbilityTest = () => {
                             </div>
                         </div>
                 </div>
+                
+                {abilityResultPanel ? 
+                    <div className="character-steps-total-stats-test-try-count-wrap">
+                        {
+                            abilityTestPopup ? 
+                                <div className="character-steps-total-stats-test-preview-total" style={{visibility: 'visible'}}> 
+                                    {`
+                                        ability: ${abilityTestPopupData.name}
+                                        roll: ${abilityTestPopupData.rollValue} 
+                                        result: ${abilityTestPopupData.value} 
+                                    `}
+                                </div> 
+                            :   <div className="character-steps-total-stats-test-preview-total" style={{visibility: 'hidden'}}> 
+                                    
+                                </div> 
+                        }
+                        <div className="character-steps-total-stats-test-try-pass-wrap">
+                            <div className="character-steps-total-stats-test-try-pass-title">
+                                {`Pass : (${abilityTestState.allAbilityTests.filter((item) => item.checkType === 'pass').length})`}
+                            </div>
+                            <div className="character-steps-total-stats-test-try-pass-row-wrap">
+                                <div  className="character-steps-total-stats-test-try-pass-row">
+                                    {abilityTestState.allAbilityTests.filter((item) => item.checkType === 'pass').map((testItem) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div
+                                                    onMouseOver={(e) => abilityTestResultHandler(testItem)}
+                                                    onMouseLeave={(e) => abilityTestResultLeaveHandler(testItem)} 
+                                                    className="character-steps-total-stats-test-try-pass-item"
+                                                >
+                                                    <span className="character-steps-total-stats-test-try-pass-icon"></span>
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="character-steps-total-stats-test-try-fail-wrap">
+                            <div className="character-steps-total-stats-test-try-fail-title">
+                                {`Fail : (${abilityTestState.allAbilityTests.filter((item) => item.checkType === 'fail').length})`}
+                            </div>
+                            <div className="character-steps-total-stats-test-try-pass-row-wrap">
+                                <div className="character-steps-total-stats-test-try-fail-row">
+                                    {abilityTestState.allAbilityTests.filter((item) => item.checkType === 'fail').map((testItem) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div
+                                                   onMouseOver={(e) => abilityTestResultHandler(testItem)}
+                                                   onMouseLeave={(e) => abilityTestResultLeaveHandler(testItem)}
+                                                    className="character-steps-total-stats-test-try-fail-item"
+                                                >
+                                                    <span className="character-steps-total-stats-test-try-fail-icon"></span>
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        
+                        </div>        
+                    </div>
+                : null}
             </div>
         </React.Fragment>
     )

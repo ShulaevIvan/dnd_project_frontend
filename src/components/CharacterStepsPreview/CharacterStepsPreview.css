@@ -406,7 +406,8 @@
 .character-steps-total-abilities-test-title {
     margin-bottom: 10px;
 }
-.character-steps-total-stats-test-try-count-wrap {
+.character-steps-total-stats-test-try-count-wrap,
+.character-steps-total-abilities-test-try-count-wrap {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -425,7 +426,9 @@
     padding: 5px;
 }
 .character-steps-total-stats-test-try-pass-wrap,
-.character-steps-total-stats-test-try-fail-wrap {
+.character-steps-total-stats-test-try-fail-wrap,
+.character-steps-total-abilities-test-try-pass-wrap,
+.character-steps-total-abilities-test-try-fail-wrap  {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -433,7 +436,9 @@
     justify-content: center;
 }
 .character-steps-total-stats-test-try-pass-title,
-.character-steps-total-stats-test-try-fail-title {
+.character-steps-total-stats-test-try-fail-title,
+.character-steps-total-abilities-test-try-pass-title,
+.character-steps-total-abilities-test-try-fail-title {
     width: 30%;
     max-width: 150px;
     margin-right: 10px;
