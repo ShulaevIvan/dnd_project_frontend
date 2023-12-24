@@ -367,7 +367,8 @@
     position: relative;
 }
 .character-steps-total-stat-item-row,
-.character-steps-total-ability-item-row {
+.character-steps-total-ability-item-row,
+.character-steps-total-select-item-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -399,11 +400,13 @@
 }
 .character-steps-total-stat-value-base,
 .character-steps-total-stat-value-target,
-.character-steps-total-stat-value-result {
+.character-steps-total-stat-value-result,
+.character-steps-total-attack-target {
     font-size: 14px;
 }
 .character-steps-total-stats-test-title,
-.character-steps-total-abilities-test-title {
+.character-steps-total-abilities-test-title,
+.character-steps-total-attack-test-title {
     margin-bottom: 10px;
 }
 .character-steps-total-stats-test-try-count-wrap,
@@ -422,7 +425,8 @@
     margin-bottom: 10px;
 }
 .character-steps-total-stats-select-title,
-.character-steps-total-abilities-select-title {
+.character-steps-total-abilities-select-title,
+.character-steps-total-attack-select-title {
     padding: 5px;
 }
 .character-steps-total-stats-test-try-pass-wrap,
@@ -527,7 +531,8 @@
     top: 100%;
     margin-bottom: 20px;
 }
-.character-steps-total-abilities-test-wrap {
+.character-steps-total-abilities-test-wrap,
+.character-steps-total-attack-test-wrap {
     margin-top: 40px;
 }
 .character-steps-total-abilities-item-row {
@@ -548,4 +553,103 @@
     margin-right: 10px;
     justify-content: center;
     align-items: center;
+}
+.character-steps-total-attack-select-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.character-steps-total-attack-melee-row,
+.character-steps-total-attack-range-row,
+.character-steps-total-attack-spell-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.character-steps-total-attack-item{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    max-width: 300px;
+    border: 1px solid;
+    margin-right: 5px;
+}
+.character-steps-total-attack-item select{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-total-attack-target-armor,
+.character-steps-total-attack-target-result {
+    display: flex;
+    flex-direction: row;
+}
+.character-steps-total-attack-item label,
+.character-steps-total-attack-item label {
+    max-width: 40%;
+}
+.character-steps-total-attack-item input,
+.character-steps-total-attack-item input {
+    max-width: 55%;
+}
+.character-steps-total-attack-mastery {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+.character-steps-total-attack-statmodifers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.character-steps-total-attack-statmodifer-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 33%;
+    margin-right: 10px;
+}
+.character-steps-total-attack-penalty-wrap {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+.attack-penalty-title {
+    padding-right: 10px;
+}
+.attack-penalty-chexkbox {
+    width: 18px;
+    height: 18px;
+    border: 1px solid;
+}
+.attack-penalty-chexkbox-checked {
+    width: 18px;
+    height: 18px;
+    border: 1px solid;
+    position: relative;
+}
+.attack-penalty-chexkbox-checked::before {
+    content: '\1F5F8';
+    color: red;
+    font-size: 20px;
+    position: absolute;
+    top: -6px;
+    left: 2px;
 }
