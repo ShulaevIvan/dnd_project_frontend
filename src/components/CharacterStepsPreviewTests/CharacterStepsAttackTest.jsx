@@ -26,10 +26,7 @@ const CharacterStepsAttackTest = () => {
                             <div className="character-steps-total-attack-statmodifer-item">INT + 9</div>
                         </div>
                     </div>
-                    <div className="character-steps-total-attack-penalty-wrap">
-                        <span className="attack-penalty-title">Penalty</span>
-                        <span className="attack-penalty-chexkbox-checked"></span>
-                    </div>
+
                     <div className="character-steps-total-attack-melee-row">
                         <div className="character-steps-total-attack-item">
                             <select>
@@ -50,7 +47,7 @@ const CharacterStepsAttackTest = () => {
                     </div>
                     <div className="character-steps-total-attack-range-row">
                         <div className="character-steps-total-attack-item">
-                            <label htmlFor="character-steps-total-distance-attack-result">Distance</label>
+                            <label htmlFor="character-steps-total-distance-attack-result">Dist</label>
                             <input id="haracter-steps-total-distance-attack-result" type="text" />
                         </div>
                         <div className="character-steps-total-attack-item">
@@ -63,25 +60,51 @@ const CharacterStepsAttackTest = () => {
                         </div> 
                     </div>
 
-                    <div className="character-steps-total-attack-spell-row">
-                        <div className="character-steps-total-attack-item">
-                            <label htmlFor="character-steps-total-spell-distance-attack-result">Distance</label>
-                            <input id="haracter-steps-total-spell-distance-attack-result" type="text" />
+                    <div className="character-steps-total-attack-spell-wrap">
+
+                        <div className="character-steps-total-attack-spell-target-title">Attacker</div>
+                            <div className="character-steps-total-attack-spell-target-row">
+                                <div className="character-steps-total-attack-spell-target-item">
+                                    <label htmlFor="character-steps-total-range-attack-result">distance</label>
+                                    <input id="character-steps-total-range-attack-result" type="text" />
+                                </div>
+                            <div className="character-steps-total-attack-spell-target-item">
+                                <select defaultValue={'test'}>
+                                    <option>stat attack</option>
+                                    <option>distance attack</option>
+                                </select>
+                            </div>
+                            <div className="character-steps-total-attack-spell-target-item">
+                                <label htmlFor="character-steps-total-range-attack-result">dif value</label>
+                                <input id="character-steps-total-range-attack-result" type="text" />
+                            </div>
                         </div>
-                        <div className="character-steps-total-attack-item">
-                            <select>
-                                <option>stat defence</option>
-                                <option>stat defence</option>
-                                <option>stat defence</option>
-                                <option>stat defence</option>
-                                <option>stat defence</option>
-                            </select>
+
+                        <div className="character-steps-total-attack-spell-target-title">Defender</div>
+                        <div className="character-steps-total-attack-spell-target-row">
+                            <div className="character-steps-total-attack-spell-target-item">
+                                <label htmlFor="character-steps-total-range-attack-result">distance</label>
+                                <input id="character-steps-total-range-attack-result" type="text" />
+                            </div>
+                            <div className="character-steps-total-attack-spell-target-item">
+                                <select defaultValue={'test'}>
+                                    <option>stat defence</option>
+                                    <option>armor defence</option>
+                                </select>
+                            </div>
+                            <div className="character-steps-total-attack-spell-target-item">
+                                <label htmlFor="character-steps-total-range-attack-result">def value</label>
+                                <input id="character-steps-total-range-attack-result" type="text" />
+                            </div>
                         </div>
-                        <div className="character-steps-total-attack-item">
-                            <label htmlFor="character-steps-total-spell-attack-result">Result</label>
-                            <input id="character-steps-total-spell-attack-result" type="text" />
-                        </div> 
+
+                        <div className="character-steps-total-attack-penalty-wrap">
+                            <span className="attack-penalty-title">Penalty</span>
+                            <span className="attack-penalty-chexkbox-checked"></span>
+                        </div>
+
                     </div>
+
                     <div className="character-steps-total-abilities-btns-row">
                         <div className="character-steps-total-abilities-btn-item">
                             <button>Start Test</button>
