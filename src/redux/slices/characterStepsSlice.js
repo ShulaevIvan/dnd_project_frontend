@@ -28,7 +28,7 @@ const initialState = {
     },
     showPreviewPage: false,
     characterStepPage: 1,
-    characterStepMaxPage: 6,
+    characterStepMaxPage: 7,
     stepsNames: ['race', 'class', 'background', 'stats', 'abilites', 'skills', 'total'],
     characterSum: {
         charLevel: 1,
@@ -65,7 +65,7 @@ const characterStepsSlice = createSlice({
             }
             const checkNum = Math.sign(Number(action.payload));
 
-            if (state.characterStepPage > 5) state.characterStepPage = state.characterStepMaxPage;
+            if (state.characterStepPage > 6) state.characterStepPage = state.characterStepMaxPage;
             if (checkNum === -1 && state.characterStepPage > 1 && !isNaN(action.payload)) {
                 state.characterStepPage += Number(checkNum);
                 return;

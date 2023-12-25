@@ -86,7 +86,13 @@ const CharacterStepsProgressBar = () => {
                             <button className="prev-btn" disabled={prevBtnActiveState} onClick={prevPageHandler}>Prev</button>
                         </div>
                         <div className="next-btn-wrap">
-                            <button className="next-btn" disabled={nextBtnActiveState} onClick={nextPageHandler}>next</button>
+                            {
+                                currentPage && currentPage === maxPage ? 
+                                    <button className="save-btn">save</button> 
+                                : 
+                                    <button className="next-btn" disabled={nextBtnActiveState} onClick={nextPageHandler}>next</button> 
+                            }
+                           
                         </div>
                     </div>
                 </div>

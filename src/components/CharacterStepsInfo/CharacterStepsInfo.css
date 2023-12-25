@@ -402,3 +402,8 @@
 .demo-char-img {
     background-image: url('./img/demo.jpg');
 }
+.save-btn {
+    min-width: 120px;
+    min-height: 30px;
+    cursor: pointer;
+}
