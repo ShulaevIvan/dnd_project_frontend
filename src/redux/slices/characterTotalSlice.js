@@ -26,6 +26,8 @@ const initialState = {
         currentStatValue: 0,
         targetStatValue: 0,
         resultStatValue: 0,
+        penaltyActive: false,
+        advantageActive: false,
         testMods: [
             {name: 'd4', selected: false }, 
             {name: 'd6', selected: false}, 
@@ -43,6 +45,8 @@ const initialState = {
         currentAbilityValue: 0,
         targetAbilityValue: 0,
         resultAbilityValue: 0,
+        penaltyActive: false,
+        advantageActive: false,
         showAbilityResultPanel: false,
         allAbilityTests: [],
         showTestResutPopup: false,
@@ -133,6 +137,8 @@ const characterTotalSlice = createSlice({
             state.characterStatTest.currentStatValue = 0;
             state.characterStatTest.targetStatValue = 0;
             state.characterStatTest.resultStatValue = 0;
+            state.characterStatTest.penaltyActive = false;
+            state.characterStatTest.advantageActive = false;
         },
         addStatTest(state, action) {
             const {statTest, type} = action.payload;
@@ -217,11 +223,33 @@ const characterTotalSlice = createSlice({
             state.characterAbilityTest.allAbilityTests = [];
             state.characterAbilityTest.showAbilityResultPanel = false;
             state.characterAbilityTest.testCounter = 0;
+            state.characterAbilityTest.penaltyActive = false;
+            state.characterAbilityTest.advantageActive = false;
         },
         showAbilityTestPopup(state, action) {
             const { abilityTest, show } = action.payload;
             state.characterAbilityTest.showTestResutPopup = show;
             state.characterAbilityTest.testAbilityPopup = abilityTest;
+        },
+        penaltyActive(state, action) {
+            const { penaltyType, penaltyValue } = action.payload;
+            
+            if (penaltyType === 'stat') {
+                state.characterStatTest.penaltyActive = penaltyValue;
+            }
+            else if (penaltyType === 'ability') {
+                state.characterAbilityTest.penaltyActive = penaltyValue;
+            }
+        },
+        advantageActive(state, action) {
+            const { advantageType, advantageValue } = action.payload;
+
+            if (advantageType === 'stat') {
+                state.characterStatTest.advantageActive = advantageValue;
+            }
+            else if (advantageType === 'ability') {
+                state.characterAbilityTest.advantageActive = advantageValue;
+            }
         }
     }
 });
@@ -245,7 +273,9 @@ export const {
     selectTestAbility,
     addAbilityTest,
     resetAbilityTest,
-    showAbilityTestPopup
+    showAbilityTestPopup,
+    penaltyActive,
+    advantageActive
     
 } = characterTotalSlice.actions;
 

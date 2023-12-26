@@ -7,7 +7,9 @@ import {
     showTestResultPanel, 
     addAbilityTest, 
     resetAbilityTest,
-    showAbilityTestPopup
+    showAbilityTestPopup,
+    penaltyActive,
+    advantageActive
 } from "../../redux/slices/characterTotalSlice";
 import { rollDiceAbility } from "../../redux/slices/rollDiceSlice";
 
@@ -20,6 +22,8 @@ const CharacterStepsAbilityTest = () => {
     const rollState = useSelector((state) => state.rolller.abilityTestRoll);
     const abilityTestPopup = useSelector((state) => state.characterTotal.characterAbilityTest.showTestResutPopup);
     const abilityTestPopupData = useSelector((state) => state.characterTotal.characterAbilityTest.testAbilityPopup);
+    const penaltyStatus = useSelector((state) => state.characterTotal.characterAbilityTest.penaltyActive);
+    const advantageStatus = useSelector((state) => state.characterTotal.characterAbilityTest.advantageActive);
     
     const abilitySelectedRef = useRef(null);
     const abilityTestModifer = useRef(null);
@@ -58,7 +62,13 @@ const CharacterStepsAbilityTest = () => {
     };
 
     const startAbilityTestHandler = () => {
-        dispatch(rollDiceAbility({modifer: abilityTestModifer.current.value}));
+        console.log(penaltyStatus)
+        console.log(advantageStatus)
+        dispatch(rollDiceAbility({
+            modifer: abilityTestModifer.current.value,
+            penalty: penaltyStatus,
+            advantage: advantageStatus
+        }));
         dispatch(showTestResultPanel({panelName: 'ability', value: true}));
 
         const targetValue = abilityTestTarget.current.value;
@@ -93,6 +103,32 @@ const CharacterStepsAbilityTest = () => {
         dispatch(addAbilityTest({abilityTest: testAbility, type: 'fail'}));
     };
 
+    const abilityTestResultHandler = (ability) => {
+        dispatch(showAbilityTestPopup({abilityTest: ability, show: true}));
+    };
+
+    const abilityTestResultLeaveHandler = (ability) => {
+        dispatch(showAbilityTestPopup({abilityTest: ability, show: false}));
+    };
+
+    const activePenaltyHandler = () => {
+        if (penaltyStatus) {
+            dispatch(penaltyActive({penaltyType: 'ability', penaltyValue: false}));
+            return;
+        }
+        dispatch(advantageActive({advantageType : 'ability', advantageValue : false}));
+        dispatch(penaltyActive({penaltyType: 'ability', penaltyValue: true})); 
+    };
+
+    const activeAdvantageHandler = () => {
+        if (advantageStatus) {
+            dispatch(advantageActive({advantageType : 'ability', advantageValue : false}));
+            return;
+        }
+        dispatch(penaltyActive({penaltyType: 'ability', penaltyValue: false}));
+        dispatch(advantageActive({advantageType : 'ability', advantageValue : true}));
+    }
+
     useEffect(() => {
         dispatch(addAllAbilitiesTest({abilities: charAbilities}));
         dispatch(showTestResultPanel({panelName: 'ability', value: false}));
@@ -103,14 +139,6 @@ const CharacterStepsAbilityTest = () => {
     useEffect(() => {
         abilityTestValue.current.value = rollState.rollResult;
     }, [rollState.rollResult]);
-
-    const abilityTestResultHandler = (ability) => {
-        dispatch(showAbilityTestPopup({abilityTest: ability, show: true}));
-    };
-
-    const abilityTestResultLeaveHandler = (ability) => {
-        dispatch(showAbilityTestPopup({abilityTest: ability, show: false}));
-    };
 
     return (
         <React.Fragment>
@@ -152,6 +180,30 @@ const CharacterStepsAbilityTest = () => {
                             <input ref={abilityTestValue} id="character-steps-total-ability-value-base" type="text" disabled />
                         </div>
                     </div>
+
+                    <div className="character-steps-total-attack-penalty-wrap">
+                        <div className="character-steps-total-attack-penalty-item">
+                            <span className="attack-penalty-title">Penalty</span>
+                            <span 
+                                className={
+                                    penaltyStatus ? 'attack-penalty-chexkbox-checked' : 'attack-penalty-chexkbox'
+                                } 
+                                onClick={activePenaltyHandler}
+                        >
+                        </span>
+                    </div>
+
+                    <div className="character-steps-total-attack-advantage-item">
+                        <span className="attack-penalty-title">Advantage</span>
+                        <span
+                            className={
+                                advantageStatus ? 'attack-advantage-chexkbox-checked' : 'attack-advantage-chexkbox'
+                            }
+                            onClick={activeAdvantageHandler}
+                        >
+                        </span>
+                    </div>
+                </div>
 
                     <div className="character-steps-total-stats-test-btns-wrap">
                         <div className="character-steps-total-abilities-btns-row">

@@ -367,7 +367,7 @@
     flex-wrap: wrap;
     width: 100%;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 .character-steps-total-stat-item-row,
 .character-steps-total-ability-item-row,
@@ -630,24 +630,38 @@
 }
 .character-steps-total-attack-penalty-wrap {
     display: flex;
+    flex-direction: row;
     width: 100%;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+.character-steps-total-attack-penalty-item,
+.character-steps-total-attack-advantage-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 35%;
+    max-width: 50%;
     justify-content: center;
 }
 .attack-penalty-title {
+    max-width: 100px;
     padding-right: 10px;
 }
-.attack-penalty-chexkbox {
+.attack-penalty-chexkbox,
+.attack-advantage-chexkbox {
     width: 18px;
     height: 18px;
     border: 1px solid;
+    cursor: pointer;
 }
-.attack-penalty-chexkbox-checked {
+.attack-penalty-chexkbox-checked,
+.attack-advantage-chexkbox-checked {
     width: 18px;
     height: 18px;
     border: 1px solid;
     position: relative;
+    cursor: pointer;
 }
 .attack-penalty-chexkbox-checked::before {
     content: '\1F5F8';
@@ -656,6 +670,16 @@
     position: absolute;
     top: -6px;
     left: 2px;
+    cursor: pointer;
+}
+.attack-advantage-chexkbox-checked::before {
+    content: '\1F5F8';
+    color: green;
+    font-size: 20px;
+    position: absolute;
+    top: -6px;
+    left: 2px;
+    cursor: pointer;
 }
 .character-steps-total-attack-spell-wrap {
     display: flex;

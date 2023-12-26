@@ -9,7 +9,9 @@ import {
     resetTest,
     addStatTest,
     showTestResultPanel,
-    showStatTestPopupWindow 
+    showStatTestPopupWindow,
+    penaltyActive,
+    advantageActive
 } from "../../redux/slices/characterTotalSlice";
 import { rollDiceFunc } from "../../redux/slices/rollDiceSlice";
 
@@ -22,6 +24,8 @@ const CharacterStepsStatTest = () => {
     const statTest = useSelector((state) => state.characterTotal.characterStatTest);
     const statTestsResultAll = useSelector((state) => state.characterTotal.characterStatTest.statTestsResultAll);
     const rollState = useSelector((state) => state.rolller);
+    const penaltyStatus = useSelector((state) => state.characterTotal.characterStatTest.penaltyActive);
+    const advantageStatus = useSelector((state) => state.characterTotal.characterStatTest.advantageActive);
     
     const currentValueRef = useRef();
     const currentTargetRef = useRef();
@@ -36,6 +40,8 @@ const CharacterStepsStatTest = () => {
         dispatch(rollDiceFunc({
             mode: targetMode.name.replace(/d/, ''),
             modifer: currentValueRef.current.value,
+            penalty: penaltyStatus,
+            advantage: advantageStatus,
         }));
     };
 
@@ -86,6 +92,24 @@ const CharacterStepsStatTest = () => {
     const hideStatTestPopupHandler = (e) => {
         const client = e.target.getBoundingClientRect();
         dispatch(showStatTestPopupWindow({statTest: '', show: false, client: {x: client.left / 2 - 300, y: 50}}));
+    };
+
+    const activePenaltyHandler = () => {
+        if (!penaltyStatus) {
+            dispatch(advantageActive({advantageType: 'stat', advantageValue: false}));
+            dispatch(penaltyActive({penaltyType: 'stat', penaltyValue: true}));
+            return;
+        }
+        dispatch(penaltyActive({penaltyType: 'stat', penaltyValue: false}));
+    };
+
+    const activeAdvantageHandler = () => {
+        if (!advantageStatus) {
+            dispatch(penaltyActive({penaltyType: 'stat', penaltyValue: false}));
+            dispatch(advantageActive({advantageType: 'stat', advantageValue: true}));
+            return;
+        }
+        dispatch(advantageActive({advantageType: 'stat', advantageValue: false}));
     };
 
     useEffect(() => {
@@ -205,6 +229,29 @@ const CharacterStepsStatTest = () => {
                             type="text" 
                             ref={currentResultRef} 
                         />
+                    </div>
+                </div>
+                <div className="character-steps-total-attack-penalty-wrap">
+                    <div className="character-steps-total-attack-penalty-item">
+                        <span className="attack-penalty-title">Penalty</span>
+                        <span 
+                            className={
+                                penaltyStatus ? 'attack-penalty-chexkbox-checked' : 'attack-penalty-chexkbox'
+                            } 
+                            onClick={activePenaltyHandler}
+                        >
+                        </span>
+                    </div>
+
+                    <div className="character-steps-total-attack-advantage-item">
+                        <span className="attack-penalty-title">Advantage</span>
+                        <span
+                            className={
+                                advantageStatus ? 'attack-advantage-chexkbox-checked' : 'attack-advantage-chexkbox'
+                            }
+                            onClick={activeAdvantageHandler} 
+                        >
+                        </span>
                     </div>
                 </div>
                 <div className="character-steps-total-stats-test-btns-wrap">
