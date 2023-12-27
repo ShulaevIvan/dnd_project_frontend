@@ -38,8 +38,7 @@ const rollDice = createSlice({
                     if (additionalCriticalMin) state.criticalMin = true;
                     if (state.criticalMax && !additionalCriticalMax && penalty) state.criticalMax = false;
                 }
-
-                if (advantage) {
+                else if (advantage) {
                     const additionalRoll = Math.floor(Math.random() * (Number(mode) - 1 + 1)) + 1;
                     const additionalCriticalMin = additionalRoll === 1 ? true : false;
                     const additionalCriticalMax = additionalRoll === Number(mode) ? true : false;
@@ -49,10 +48,10 @@ const rollDice = createSlice({
                     if (additionalCriticalMax && !state.criticalMax && advantage) state.criticalMax = true;
                 }
                 
-                if (Math.sign(modifer)) {
+                if (Math.sign(Number(modifer)) === 1 || Math.sign(Number(modifer)) === 0) {
                     resultValue = state.baseRoll + Number(modifer);
                 }
-                else {
+                else if (Math.sign(Number(modifer)) === -1) {
                     resultValue = state.baseRoll - Number(modifer);
                 }
                 state.rollResult = resultValue;
@@ -70,6 +69,8 @@ const rollDice = createSlice({
             if (penalty) {
                 const additionalRoll = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
                 const additionalCriticalMin = additionalRoll === 1 ? true : false;
+                console.log(additionalRoll)
+                console.log(state.abilityTestRoll.baseRoll)
 
                 if (Number(additionalRoll) < Number(state.abilityTestRoll.baseRoll)) state.abilityTestRoll.baseRoll = additionalRoll;
                 if (additionalCriticalMin) {
@@ -78,7 +79,7 @@ const rollDice = createSlice({
                 }
                 
             }
-            if (advantage) {
+            else if (advantage) {
                 const additionalRoll = Math.floor(Math.random() * (20 - 1 + 1)) + 1;
                 const additionalCriticalMax = additionalRoll === 20 ? true : false;
                 if (Number(additionalRoll > Number(state.abilityTestRoll.baseRoll))) state.abilityTestRoll.baseRoll = additionalRoll;
@@ -89,10 +90,10 @@ const rollDice = createSlice({
 
             }
 
-            if (Math.sign(modifer)) {
+            if (Math.sign(Number(modifer)) === 1 || Math.sign(Number(modifer)) === 0) {
                 resultValue = state.abilityTestRoll.baseRoll + Number(modifer);
             }
-            else {
+            else if (Math.sign(Number(modifer)) === -1) {
                 resultValue = state.abilityTestRoll.baseRoll - Number(modifer);
             }
             state.abilityTestRoll.rollResult = resultValue;

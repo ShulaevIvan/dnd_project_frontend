@@ -62,8 +62,6 @@ const CharacterStepsAbilityTest = () => {
     };
 
     const startAbilityTestHandler = () => {
-        console.log(penaltyStatus)
-        console.log(advantageStatus)
         dispatch(rollDiceAbility({
             modifer: abilityTestModifer.current.value,
             penalty: penaltyStatus,
@@ -75,7 +73,7 @@ const CharacterStepsAbilityTest = () => {
         let testAbility = {
             name: abilitySelectedRef.current.value,
             rollValue: rollState.baseRoll,
-            value: rollState.rollResult
+            value: rollState.rollResult,
         };
 
         if (rollState.criticalMax) {
@@ -137,8 +135,8 @@ const CharacterStepsAbilityTest = () => {
     }, []);
 
     useEffect(() => {
-        abilityTestValue.current.value = rollState.rollResult;
-    }, [rollState.rollResult]);
+        abilityTestValue.current.value = abilityTestPopupData.value;
+    }, [abilityTestState]);
 
     return (
         <React.Fragment>
