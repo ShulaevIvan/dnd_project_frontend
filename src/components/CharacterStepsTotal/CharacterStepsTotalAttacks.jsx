@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 const CharacterStepsAttacks = () => {
     const savethrows = useSelector((state) => state.characterSteps.characterSum.classData.classSaveThrows);
-    
+
     return (
         <React.Fragment>
             <div className="character-total-savethrows-wrap">

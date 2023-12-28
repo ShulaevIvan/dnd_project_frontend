@@ -131,12 +131,11 @@ const CharacterStepsAbilityTest = () => {
         dispatch(addAllAbilitiesTest({abilities: charAbilities}));
         dispatch(showTestResultPanel({panelName: 'ability', value: false}));
         resetAbilityTestHandler();
-
     }, []);
 
     useEffect(() => {
-        abilityTestValue.current.value = abilityTestPopupData.value;
-    }, [abilityTestState]);
+        abilityTestValue.current.value = abilityTestState.resultAbilityValue;
+    }, [abilityTestState.resultAbilityValue]);
 
     return (
         <React.Fragment>

@@ -314,6 +314,10 @@
     align-items: center;
     margin-bottom: 5px;
 }
+.physical-attack-param-item-formula {
+    display: flex;
+    width: 100%;
+}
 .magical-attack-param-value,
 .physical-attack-param-value {
     border-bottom: 1px solid;

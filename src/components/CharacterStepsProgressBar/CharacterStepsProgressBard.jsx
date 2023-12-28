@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
+
+import CharacterStepsSaveCharacter from "./CharacterStepsSaveCharacter";
 import { setCharacterStep, activeNextBtn, activePrevBtn, unsetClass} from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsProgressBar = () => {
@@ -88,7 +90,7 @@ const CharacterStepsProgressBar = () => {
                         <div className="next-btn-wrap">
                             {
                                 currentPage && currentPage === maxPage ? 
-                                    <button className="save-btn">save</button> 
+                                    <CharacterStepsSaveCharacter />
                                 : 
                                     <button className="next-btn" disabled={nextBtnActiveState} onClick={nextPageHandler}>next</button> 
                             }

@@ -212,6 +212,7 @@ const characterTotalSlice = createSlice({
         },
         addAbilityTest(state, action) {
             const { abilityTest, type } = action.payload;
+            state.characterAbilityTest.resultAbilityValue = abilityTest.value; 
             state.characterAbilityTest.testCounter = state.characterAbilityTest.testCounter + 1;
             state.characterAbilityTest.allAbilityTests = [...state.characterAbilityTest.allAbilityTests, {
                 ...abilityTest,

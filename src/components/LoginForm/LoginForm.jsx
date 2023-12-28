@@ -43,6 +43,7 @@ const LoginFrom = () => {
             email: loginFromState.loginInputRef.current.value,
             password: loginFromState.passwordInputRef.current.value
         };
+        console.log(sendData)
 
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/login/`, {
@@ -180,7 +181,8 @@ const LoginFrom = () => {
                             <button onClick={registerHandler}>Register</button>
                         </div>
                         <div className="login-from-login-btn-wrap">
-                            <button onClick={loginHandler} disabled={loginFromState.loginBtnDisable}>Login</button>
+                            <button onClick={loginHandler}>Login</button>
+                            {/* <button onClick={loginHandler} disabled={loginFromState.loginBtnDisable}>Login</button> */}
                         </div>
                     </div>
                     <div className="login-error-message">{loginFromState.errorMessage }</div>
