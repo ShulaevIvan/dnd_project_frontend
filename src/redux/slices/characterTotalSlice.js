@@ -10,13 +10,14 @@ const initialState = {
     descriptionPopupValue: '',
     showStatTestPopup: false,
     statTestPopupData: undefined,
+    allSendDataValid: false,
     uploadCharacterFile: {
         uploadPopupFile: undefined,
         uploadPopupFileData: undefined,
         uploadPopupFileUrl:  undefined,
     },
     characterTotalInfo: {
-
+        charDescription: undefined,
     },
     characterStatTest: {
         showStatResultPanel: false,
@@ -51,6 +52,16 @@ const initialState = {
         allAbilityTests: [],
         showTestResutPopup: false,
         testAbilityPopup: undefined,
+    },
+    characterSendData: {
+        characterName: undefined,
+        characterDescription: undefined,
+        characterAvatar: undefined,
+        characterLevel: undefined,
+        characterRace: undefined,
+        characterClass: undefined,
+        characterSubclass: undefined,
+        characterBackground: undefined,
     }
     
 }
@@ -251,6 +262,24 @@ const characterTotalSlice = createSlice({
             else if (advantageType === 'ability') {
                 state.characterAbilityTest.advantageActive = advantageValue;
             }
+        },
+        sendCharacterData(state, action) {
+            state.allSendDataValid = false;
+            const { characterData } = action.payload;
+            const checkData = Object.values(characterData).every(item => item);
+            if (!checkData) return;
+
+            state.characterSendData.characterName = characterData.characterName;
+            state.characterSendData.characterDescription = characterData.characterDescription;
+            state.characterSendData.characterAvatar = characterData.characterAvatar;
+            state.characterSendData.characterLevel = characterData.characterLevel;
+            state.characterSendData.characterRace = characterData.characterRace;
+            state.characterSendData.characterClass = characterData.characterClass;
+            state.characterSendData.characterSubclass = characterData.characterSubclass;
+            state.characterSendData.characterBackground = characterData.characterBackground;
+
+            state.allSendDataValid = true;
+
         }
     }
 });
