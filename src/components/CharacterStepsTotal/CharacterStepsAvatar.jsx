@@ -8,6 +8,7 @@ import {
     imagePopupControl,
     uploadPopupFile,
     uploadStatus,
+    saveCaracterName,
 } from "../../redux/slices/characterTotalSlice";
 
 const CharacterStepsAvatar = () => {
@@ -21,6 +22,8 @@ const CharacterStepsAvatar = () => {
     const descriptionPopupActive = useSelector((state) => state.characterTotal.descriptionPopupActive);
     const imagePopupActive = useSelector((state) => state.characterTotal.imagePopupActive);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
+    const characterName = useSelector((state) =>  state.characterTotal.characterTotalInfo.charName);
+    const characterNameRef = useRef(null);
 
     const popupDescriptionHandler = (e, action) => {
         const client = e.target.getBoundingClientRect();
@@ -53,6 +56,20 @@ const CharacterStepsAvatar = () => {
         if (uploadImagePopupRef.current && uploadImagePopupRef.current.files) {
             dispatch(uploadStatus(true));
         }
+    };
+
+    const characterNameHandler = (param) => {
+        if (characterNameRef.current && param === 'save' && characterNameRef.current.value) {
+            dispatch(saveCaracterName({charName: characterNameRef.current.value}));
+        }
+        else if (characterNameRef.current && param === 'clear') {
+            characterNameRef.current.value = '';
+            dispatch(saveCaracterName({charName: ''}));
+        }
+    };
+
+    const characterRandomNameHandler = () => {
+        
     };
 
     useEffect(() => {
@@ -90,9 +107,34 @@ const CharacterStepsAvatar = () => {
         return;
     }, [descPopupTextArea.current]);
 
+    useEffect(() => {
+        if (characterNameRef.current) characterNameRef.current.value = '';
+    }, []);
+
 
     return (
         <React.Fragment>
+            <div className="character-steps-total-name-wrap">
+                <div className="character-steps-total-name-input-wrap">
+                    <label htmlFor="character-steps-total-name-input">Character Name</label>
+                    <input 
+                        id="character-steps-total-name-input" 
+                        type="text"
+                        ref={characterNameRef}
+                    />
+                </div>
+                <div className="character-steps-total-name-controls-row">
+                    <div className="character-steps-total-name-btn">
+                        <button onClick={() => characterNameHandler('save')}>Save</button>
+                    </div>
+                    <div className="character-steps-total-name-btn">
+                        <button onClick={characterRandomNameHandler}>Random</button>
+                    </div>
+                    <div className="character-steps-total-name-btn">
+                        <button onClick={() => characterNameHandler('clear')}>Clear</button>
+                    </div>
+                </div>
+            </div>
             <div className="character-steps-total-avatar-wrap">
                 <div className="character-total-avatar-title">Avatar and Description</div>
                     <div className="character-steps-total-avatar-row">

@@ -17,6 +17,7 @@ const initialState = {
         uploadPopupFileUrl:  undefined,
     },
     characterTotalInfo: {
+        charName: undefined,
         charDescription: undefined,
     },
     characterStatTest: {
@@ -279,7 +280,10 @@ const characterTotalSlice = createSlice({
             state.characterSendData.characterBackground = characterData.characterBackground;
 
             state.allSendDataValid = true;
-
+        },
+        saveCaracterName(state, action) {
+            const { charName } = action.payload;
+            state.characterTotalInfo.charName = charName;
         }
     }
 });
@@ -305,7 +309,8 @@ export const {
     resetAbilityTest,
     showAbilityTestPopup,
     penaltyActive,
-    advantageActive
+    advantageActive,
+    saveCaracterName
     
 } = characterTotalSlice.actions;
 

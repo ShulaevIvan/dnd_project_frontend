@@ -7,15 +7,25 @@ const CharacterStepsSaveCharacter = () => {
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
     const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
-    const saveCharacterData = useSelector((state) => state.characterTotal.characterSendData);
+    const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
+    const characterName = useSelector((state) => state.characterTotal.characterTotalInfo.charName);
+    const characterAvatar = useSelector((state) => state.characterTotal.uploadCharacterFile);
+    const charStats = useSelector((state) => state.calculateCharStats.resultCharStats);
+    const charAbilities  = useSelector((state) => state.calculateAbilites.resultCharAbilities);
     
     const saveCharacterDataHandler = () => {
         const data = {
-            name: 'test',
-            value: 'test2',
-            descr: 'test3'
+            charName: characterName,
+            charRace: characterData.raceData.raceData.char_race_name,
+            charClass: characterData.classData.className,
+            charSubClass: !characterData.subclassData ? false : characterData.subclassData,
+            charBackground: characterData.backgroundActive.name,
+            charLvl: characterData.charLevel,
+            charStats: charStats,
+            charAbilities: charAbilities,
+            charDescription: characterDescription ? characterDescription.description : '',
+            charAvatar: characterAvatar.uploadPopupFileData ? characterAvatar.uploadPopupFileData.file : '',
         }
-        console.log(data)
 
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userAccountData.userData.userId}/characters/`, {
@@ -28,9 +38,7 @@ const CharacterStepsSaveCharacter = () => {
         };
 
         fetchFunc();
-     
     };
-
     
     return (
         <React.Fragment>

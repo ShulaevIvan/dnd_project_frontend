@@ -593,3 +593,42 @@
 .character-steps-total-image-btn button {
     cursor: pointer;
 }
+.character-steps-total-name-wrap,
+.character-steps-total-name-input-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+.character-steps-total-name-input-wrap label {
+    margin-bottom: 10px;
+}
+.character-steps-total-name-input-wrap input {
+    display: flex;
+    padding-block: 1px;
+    border: 1px solid;
+    padding-inline: 2px;
+    max-width: 300px;
+    min-width: 300px;
+    margin-bottom: 10px;
+}
+.character-steps-total-name-controls-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+    align-items: center;
+}
+.character-steps-total-name-btn {
+    display: flex;
+    margin-right: 10px;
+}
+.character-steps-total-name-btn button {
+    min-width: 75px;
+    cursor: pointer;
+}
