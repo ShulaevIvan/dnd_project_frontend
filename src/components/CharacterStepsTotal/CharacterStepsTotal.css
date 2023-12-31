@@ -632,3 +632,10 @@
     min-width: 75px;
     cursor: pointer;
 }
+.character-steps-total-gender-block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 300px;
+    margin-bottom: 20px;
+}

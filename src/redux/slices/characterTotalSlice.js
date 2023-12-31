@@ -18,6 +18,7 @@ const initialState = {
     },
     characterTotalInfo: {
         charName: undefined,
+        gender: undefined,
         charDescription: undefined,
     },
     characterStatTest: {
@@ -283,7 +284,12 @@ const characterTotalSlice = createSlice({
         },
         saveCaracterName(state, action) {
             const { charName } = action.payload;
+            if (!charName)  state.characterTotalInfo.gender = undefined;
             state.characterTotalInfo.charName = charName;
+        },
+        selectCharacterGender(state, action) {
+            const { gender} = action.payload;
+            state.characterTotalInfo.gender = gender;
         }
     }
 });
@@ -310,7 +316,8 @@ export const {
     showAbilityTestPopup,
     penaltyActive,
     advantageActive,
-    saveCaracterName
+    saveCaracterName,
+    selectCharacterGender
     
 } = characterTotalSlice.actions;
 

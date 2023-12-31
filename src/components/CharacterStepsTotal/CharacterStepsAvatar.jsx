@@ -9,6 +9,7 @@ import {
     uploadPopupFile,
     uploadStatus,
     saveCaracterName,
+    selectCharacterGender
 } from "../../redux/slices/characterTotalSlice";
 
 const CharacterStepsAvatar = () => {
@@ -22,7 +23,7 @@ const CharacterStepsAvatar = () => {
     const descriptionPopupActive = useSelector((state) => state.characterTotal.descriptionPopupActive);
     const imagePopupActive = useSelector((state) => state.characterTotal.imagePopupActive);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
-    const characterName = useSelector((state) =>  state.characterTotal.characterTotalInfo.charName);
+    const characterTotalInfo = useSelector((state) =>  state.characterTotal.characterTotalInfo);
     const characterNameRef = useRef(null);
 
     const popupDescriptionHandler = (e, action) => {
@@ -69,8 +70,27 @@ const CharacterStepsAvatar = () => {
     };
 
     const characterRandomNameHandler = () => {
-        
+        const fetchFunc = async () => {
+            const gender = characterTotalInfo.gender ? characterTotalInfo.gender : 'all'
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/services/namegen/${gender}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((responce) => responce.json())
+            .then((data) => {
+                if (data && data.length > 0) {
+                    characterNameRef.current.value = data[0].name;
+                }
+            });
+        }
+        fetchFunc()
     };
+
+    const selectCharacterGenderHandler = (charGender) => {
+        dispatch(selectCharacterGender({gender: charGender}));
+    }
 
     useEffect(() => {
         if (uploadFileStatus && uploadImagePopupRef.current && uploadImagePopupRef.current.files) {
@@ -122,6 +142,22 @@ const CharacterStepsAvatar = () => {
                         type="text"
                         ref={characterNameRef}
                     />
+                    <div className="character-steps-total-gender-block">
+                        <div 
+                            className={
+                                characterTotalInfo && characterTotalInfo.gender === 'female' ? 
+                                    "gender-block-female gender-selected" : "gender-block-female"
+                            } 
+                            onClick={() => selectCharacterGenderHandler('female')}
+                        ></div>
+                        <div
+                            className={
+                                characterTotalInfo && characterTotalInfo.gender === 'male' ? 
+                                    "gender-block-male gender-selected" : "gender-block-male"
+                            } 
+                            onClick={() => selectCharacterGenderHandler('male')}
+                        ></div>
+                    </div>
                 </div>
                 <div className="character-steps-total-name-controls-row">
                     <div className="character-steps-total-name-btn">
