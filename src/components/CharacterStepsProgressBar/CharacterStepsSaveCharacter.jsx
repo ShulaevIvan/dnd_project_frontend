@@ -39,12 +39,19 @@ const CharacterStepsSaveCharacter = () => {
 
         fetchFunc();
     };
+
+    const checkCharacterData = () => {
+        if (userAccountData.isAuthenticated && characterName) {
+            return false;
+        }
+        return true;
+    };
     
     return (
         <React.Fragment>
             <button
                 className="save-btn" 
-                disabled={userAccountData.isAuthenticated ? false : true}
+                disabled={checkCharacterData()}
                 onClick={saveCharacterDataHandler}
             >save</button> 
         </React.Fragment>

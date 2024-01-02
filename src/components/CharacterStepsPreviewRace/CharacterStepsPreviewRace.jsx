@@ -1,11 +1,16 @@
 import React from "react";
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCharacterGender } from '../../redux/slices/characterTotalSlice'
 const CharacterStepsPreiewRace = () => {
-
+    const dispatch = useDispatch();
     const characterCreateState = useSelector((state) => state.characterSteps);
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
+    const characterGender = useSelector((state) =>  state.characterTotal.characterTotalInfo.gender);
+    
+    const chooseGenderHandler = (gender) => {
+        dispatch(selectCharacterGender({gender:gender}));
+    };
 
     return (
         <React.Fragment>
@@ -89,8 +94,18 @@ const CharacterStepsPreiewRace = () => {
 
             <div className="character-race-gender-wrap">
                 <div className="gender-block-wrap">
-                    <div className="gender-block-female gender-selected"><span className="gender-title-f">Female</span></div>
-                    <div className="gender-block-male"><span className="gender-title-m">Male</span></div>
+                    <div 
+                        className={characterGender === 'female' ? "gender-block-female gender-selected" : "gender-block-female"}
+                        onClick={() => chooseGenderHandler('female')}
+                    >
+                        <span className="gender-title-f">Female</span>
+                    </div>
+                    <div 
+                        className={characterGender === 'male' ? "gender-block-male gender-selected" : "gender-block-male"}
+                        onClick={() => chooseGenderHandler('male')}
+                    >
+                        <span className="gender-title-m">Male</span>
+                    </div>
                 </div>
             </div>
 
