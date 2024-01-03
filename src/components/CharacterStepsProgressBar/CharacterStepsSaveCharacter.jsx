@@ -1,9 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const CharacterStepsSaveCharacter = () => {
-    const dispatch = useDispatch();
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
     const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
@@ -12,18 +11,21 @@ const CharacterStepsSaveCharacter = () => {
     const characterAvatar = useSelector((state) => state.characterTotal.uploadCharacterFile);
     const charStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const charAbilities  = useSelector((state) => state.calculateAbilites.resultCharAbilities);
+    const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
     
     const saveCharacterDataHandler = () => {
+        console.log(characterData.backgroundActive)
         const data = {
             charName: characterName,
             charRace: characterData.raceData.raceData.char_race_name,
             charClass: characterData.classData.className,
             charSubClass: !characterData.subclassData ? false : characterData.subclassData,
-            charBackground: characterData.backgroundActive.name,
+            charBackground: characterData.backgroundActive[0].name,
             charLvl: characterData.charLevel,
             charStats: charStats,
             charAbilities: charAbilities,
             charDescription: characterDescription ? characterDescription.description : '',
+            charWorldView: characterWorldView.name,
             charAvatar: characterAvatar.uploadPopupFileData ? characterAvatar.uploadPopupFileData.file : '',
         }
 

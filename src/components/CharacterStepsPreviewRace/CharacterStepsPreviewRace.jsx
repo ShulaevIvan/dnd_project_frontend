@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCharacterGender } from '../../redux/slices/characterTotalSlice'
+import { selectCharacterGender } from '../../redux/slices/characterTotalSlice';
+import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
+
 const CharacterStepsPreiewRace = () => {
     const dispatch = useDispatch();
     const characterCreateState = useSelector((state) => state.characterSteps);
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const characterGender = useSelector((state) =>  state.characterTotal.characterTotalInfo.gender);
-    
     const chooseGenderHandler = (gender) => {
         dispatch(selectCharacterGender({gender:gender}));
     };
+
+    useEffect(() => {
+        dispatch(activeNextBtn(true));
+    }, []);
 
     return (
         <React.Fragment>

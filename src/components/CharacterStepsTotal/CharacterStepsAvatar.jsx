@@ -161,7 +161,9 @@ const CharacterStepsAvatar = () => {
                 </div>
                 <div className="character-steps-total-name-controls-row">
                     <div className="character-steps-total-name-btn">
-                        <button onClick={() => characterNameHandler('save')}>Save</button>
+                        <button 
+                            onClick={() => characterNameHandler('save')}
+                        >Save</button>
                     </div>
                     <div className="character-steps-total-name-btn">
                         <button onClick={characterRandomNameHandler}>Random</button>

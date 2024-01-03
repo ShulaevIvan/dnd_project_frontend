@@ -82,14 +82,12 @@ const characterStepsSlice = createSlice({
             const data = JSON.parse(action.payload);
             state.characterSum.raceData = data.raceData;
             state.characterSum.subraceActive = false;
-            state.navNextBtnDisable = false;
         },
         selectSubrace(state, action) {
             if (action.payload) {
                 const data = JSON.parse(action.payload);
                 state.characterSum.subraceActive = true;
                 state.characterSum.subraceData = data;
-                state.navNextBtnDisable = false;
                 return;
             }
             state.characterSum.subraceActive = false;

@@ -6,7 +6,8 @@ import { useEffect } from "react";
 const CharacterStepsBackground = () => {
     const dispatch = useDispatch();
     const backgroundData = useSelector((state) => state.characterSteps.characterSum.backgroundData);
-    const selectedBackground = useSelector((state) => state.characterSteps.characterSum.backgroundActive)
+    const selectedBackground = useSelector((state) => state.characterSteps.characterSum.backgroundActive);
+    const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
     
     const loadMoreBackgroundHandler = () => {
         dispatch(showMoreBackground(5))
@@ -49,13 +50,12 @@ const CharacterStepsBackground = () => {
     }, []);
 
     useEffect(() => {
-        
-        if (selectedBackground) {
+        if (selectedBackground && characterWorldView) {
             dispatch(activeNextBtn(false));
             return;
         }
         dispatch(activeNextBtn(true));
-    }, [selectedBackground]);
+    }, [selectedBackground, characterWorldView]);
 
 
     return (

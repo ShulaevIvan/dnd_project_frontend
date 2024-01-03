@@ -20,6 +20,7 @@ const initialState = {
         charName: undefined,
         gender: undefined,
         charDescription: undefined,
+        characterWorldview: undefined,
     },
     characterStatTest: {
         showStatResultPanel: false,
@@ -317,7 +318,7 @@ export const {
     penaltyActive,
     advantageActive,
     saveCaracterName,
-    selectCharacterGender
+    selectCharacterGender,
     
 } = characterTotalSlice.actions;
 
