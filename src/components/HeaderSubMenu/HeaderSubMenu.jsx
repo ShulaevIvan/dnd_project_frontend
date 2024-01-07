@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,7 +11,7 @@ const HeaderSubMenu = () => {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.userData);
 
-    const loginHandler = (e) => {
+    const loginHandler = () => {
         dispatch(subMenuActive(false));
         dispatch(loginFormActive(true));
     };
@@ -36,8 +37,8 @@ const HeaderSubMenu = () => {
     return (
         <React.Fragment>
             <ul className="account-options account-options">
-                {userData.isAuthenticated ?  <li><Link>Profile</Link></li> : null }
-                {userData.isAuthenticated ?  <li><Link>My Characters</Link></li> : null }
+                {userData.isAuthenticated ?  <li><Link to={'/profile/'}>Profile</Link></li> : null }
+                {userData.isAuthenticated ?  <li><Link to={'/profile/characters/'}>My Characters</Link></li> : null }
                 {userData.isAuthenticated ? <li><Link onClick={logoutHandler}>Logout</Link></li> : <li><Link onClick={(e) => loginHandler(e)}>Login</Link></li>}
             </ul>
             <div>

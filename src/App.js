@@ -29,6 +29,9 @@ import CharacterBuilder from './components/CharacterBuilder/CharacterBuilder';
 import CharacterSteps from './components/CharacterSteps/CharacterSteps';
 import DatabasePage from './components/DatabasePage/DatabasePage';
 import ContactPage from './components/ContactPage/ContactPage';
+import UsersAccount from './components/UsersAccount/UsersAccount';
+import UsersProfile from './components/UsersAccount/UsersProfile';
+import UsersCharacters from './components/UsersAccount/UsersCharacters';
 
 
 function App() {
@@ -43,6 +46,8 @@ function App() {
               <Route path='/database/' element = {<DatabasePage />} />
               <Route path='/contact/' element = {<ContactPage />} />
               <Route path='/character-builder/character-steps/:step' element={<CharacterSteps />} />
+              <Route path='/profile/' element={<UsersProfile />}/>
+              <Route path='/profile/characters/' element={<UsersCharacters />}/>
             </Route>
           </Routes>
       </BrowserRouter>
