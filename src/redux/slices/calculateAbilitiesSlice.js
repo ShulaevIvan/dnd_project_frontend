@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 
 const initialState = {
     currentAbilityPoints: 0,
@@ -211,9 +212,13 @@ const calculateAbilitiesSlice = createSlice({
             const { type, skill } = action.payload;
             const checkSkill = state.choosenSkills.find((item) => item.id === skill.id && item.name === skill.name);
             if (!checkSkill) state.choosenSkills = [...state.choosenSkills, {...skill, type: type}];
+        },
+        resetCalculateAbilState(state) {
+            state = initialState;
         }
         
-    }
+    },
+    extraReducers: (builder) => builder.addCase(resetAbilitiesState, () => initialState),
 });
 
 export const {
@@ -229,7 +234,9 @@ export const {
     chooseInstrument,
     activeAddMasteryPanel,
     addBonuceSkill,
+    resetCalculateAbilState
 
 } = calculateAbilitiesSlice.actions;
 
+export const resetAbilitiesState = createAction('RESET_ABILITIES_STATE');
 export default calculateAbilitiesSlice.reducer;

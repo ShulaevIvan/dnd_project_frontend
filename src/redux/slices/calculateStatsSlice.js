@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 
 
 const initialState = {
@@ -450,7 +451,8 @@ const calculateStatsSlice = createSlice({
             const preseptionValue = 10 + Number(wisModifer);
             state.passivePreseption = preseptionValue.toFixed();
         }
-    }
+    },
+    extraReducers: (builder) => builder.addCase(resetStatsState, () => initialState),
 });
 
 export const {
@@ -473,8 +475,10 @@ export const {
     blockIncreaseBtns,
     calculateOtherStats,
     sortResultCharStats,
-    calculatePassivePreseption
+    calculatePassivePreseption,
+    resetCalculateStatsState
 
 } = calculateStatsSlice.actions;
 
+export const resetStatsState = createAction('RESET_STATS_STATE');
 export default calculateStatsSlice.reducer;

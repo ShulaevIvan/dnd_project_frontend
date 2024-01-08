@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 
 const initialState = {
     mousePositionX: 0,
@@ -143,8 +144,12 @@ const characterSkillsSlice = createSlice({
         },
         showHideSpellbook(state, action) {
             state.showSpellbook = action.payload;
+        },
+        resetCharacterSkillsState(state) {
+            state = initialState;
         }
-    }
+    },
+    extraReducers: (builder) => builder.addCase(resetSkillsState, () => initialState),
 });
 
 export const {
@@ -161,8 +166,10 @@ export const {
     closeSpellHover,
     addClassSpellCells,
     unsetClassSpellCells,
-    showHideSpellbook
+    showHideSpellbook,
+    resetCharacterSkillsState
 
 } = characterSkillsSlice.actions;
 
+export const resetSkillsState = createAction('RESET_SKILLS_STATE');
 export default characterSkillsSlice.reducer;

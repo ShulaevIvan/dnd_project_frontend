@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 
 const initialState = {
     rollResult: 0,
@@ -98,13 +99,18 @@ const rollDice = createSlice({
             }
             state.abilityTestRoll.rollResult = resultValue;
 
+        },
+        resetRollState(state) {
+            state = initialState;
         }
-    }
+    },
+    extraReducers: (builder) => builder.addCase(resetRollDice, () => initialState),
 });
 
 export const {
     rollDiceFunc,
-    rollDiceAbility
+    rollDiceAbility,
+    resetRollState
 } = rollDice.actions;
-
+export const resetRollDice = createAction('RESET_ROLL_DICE');
 export default rollDice.reducer;

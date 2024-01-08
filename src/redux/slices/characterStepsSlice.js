@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 
 const initialState = {
     allRaces: [],
@@ -47,7 +48,6 @@ const initialState = {
         allCharWeaponMastery: [],
         allCharInstrumentMastery: [],
         choosenCharAbilites: [],
-
     },
     statModeSwitcher: false,
     navNextBtnDisable: true,
@@ -60,9 +60,28 @@ const characterStepsSlice = createSlice({
     reducers: {
         setCharacterStep(state, action) {
             if (isNaN(action.payload)) {
-               state.characterStepPage = 1;
+                state.characterStepPage = 1;
+                state.characterSum = {
+                    charLevel: 1,
+                    raceData: undefined,
+                    subraceActive: undefined,
+                    subraceData: undefined,
+                    classData: undefined,
+                    subclassData: undefined,
+                    classActive: undefined,
+                    subclassActive: undefined,
+                    backgroundAllData: undefined,
+                    backgroundData: undefined,
+                    backgroundActive: undefined,
+                    backgroundWorldViewActive: undefined,
+                    allCharArmorMastery: [],
+                    allCharWeaponMastery: [],
+                    allCharInstrumentMastery: [],
+                    choosenCharAbilites: [],
+                };
                return;
             }
+
             const checkNum = Math.sign(Number(action.payload));
 
             if (state.characterStepPage > 6) state.characterStepPage = state.characterStepMaxPage;
@@ -235,7 +254,8 @@ const characterStepsSlice = createSlice({
             const ability = action.payload
             state.characterSum.choosenCharAbilites = [...state.characterSum.choosenCharAbilites.filter((item) => item.id !== ability.id), ability]
         }
-    }
+    },
+    extraReducers: (builder) => builder.addCase(resetCharSteps, () => initialState),
 });
 
 
@@ -268,4 +288,5 @@ export const {
     
 } = characterStepsSlice.actions;
 
+export const resetCharSteps = createAction('RESET_CHAR_STEPS');
 export default characterStepsSlice.reducer;

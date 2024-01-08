@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createAction } from "@reduxjs/toolkit";
 
 const initialState = {
     popupX: 0,
@@ -11,6 +12,7 @@ const initialState = {
     showStatTestPopup: false,
     statTestPopupData: undefined,
     allSendDataValid: false,
+    creationComplite: false,
     uploadCharacterFile: {
         uploadPopupFile: undefined,
         uploadPopupFileData: undefined,
@@ -291,8 +293,17 @@ const characterTotalSlice = createSlice({
         selectCharacterGender(state, action) {
             const { gender} = action.payload;
             state.characterTotalInfo.gender = gender;
+        },
+        creationCompliteAction(state, action) {
+            const { compliteStatus } = action.payload;
+            state.creationComplite = compliteStatus;
+            if (compliteStatus) state = initialState;
+        },
+        resetGender(state) {
+            state.characterTotalInfo.gender = undefined;
         }
-    }
+    },
+    extraReducers: (builder) => builder.addCase(resetCharTotal, () => initialState),
 });
 
 export const {
@@ -319,7 +330,11 @@ export const {
     advantageActive,
     saveCaracterName,
     selectCharacterGender,
+    creationCompliteAction,
+    resetTotalState,
+    resetGender
     
 } = characterTotalSlice.actions;
 
+export const resetCharTotal = createAction('RESET_CHAR_TOTAL');
 export default characterTotalSlice.reducer;

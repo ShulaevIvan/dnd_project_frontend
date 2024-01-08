@@ -1,8 +1,19 @@
 import React from "react";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { creationCompliteAction } from "../../redux/slices/characterTotalSlice";
+import { resetCharSteps } from "../../redux/slices/characterStepsSlice";
+import { resetStatsState } from "../../redux/slices/calculateStatsSlice";
+import { resetAbilitiesState } from "../../redux/slices/calculateAbilitiesSlice";
+import { resetSkillsState } from "../../redux/slices/characterSkillsSlice";
+import { resetCharTotal } from "../../redux/slices/characterTotalSlice";
+import { resetRollDice } from "../../redux/slices/rollDiceSlice";
 
 const CharacterStepsSaveCharacter = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
     const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
@@ -12,9 +23,9 @@ const CharacterStepsSaveCharacter = () => {
     const charStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const charAbilities  = useSelector((state) => state.calculateAbilites.resultCharAbilities);
     const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
+    const creationComplite = useSelector((state) => state.characterTotal.creationComplite);
     
     const saveCharacterDataHandler = () => {
-        console.log(characterData.backgroundActive)
         const data = {
             charName: characterName,
             charRace: characterData.raceData.raceData.char_race_name,
@@ -40,14 +51,30 @@ const CharacterStepsSaveCharacter = () => {
         };
 
         fetchFunc();
+        dispatch(creationCompliteAction({compliteStatus: true}));
     };
 
     const checkCharacterData = () => {
         if (userAccountData.isAuthenticated && characterName) {
             return false;
         }
+        dispatch(creationCompliteAction({compliteStatus: false}));
         return true;
     };
+
+    useEffect(() => {
+        if (creationComplite) {
+            dispatch(resetCharSteps());
+            dispatch(resetStatsState());
+            dispatch(resetAbilitiesState());
+            dispatch(resetSkillsState());
+            dispatch(resetRollDice());
+            dispatch(resetCharTotal());
+            setTimeout(() => {
+                navigate('/profile/characters/');
+            }, 200)
+        }
+    }, [creationComplite])
     
     return (
         <React.Fragment>
