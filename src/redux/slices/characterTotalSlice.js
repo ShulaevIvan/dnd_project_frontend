@@ -19,6 +19,7 @@ const initialState = {
         uploadPopupFileUrl:  undefined,
     },
     characterTotalInfo: {
+        charNameValid: false,
         charName: undefined,
         gender: undefined,
         charDescription: undefined,
@@ -290,6 +291,10 @@ const characterTotalSlice = createSlice({
             if (!charName)  state.characterTotalInfo.gender = undefined;
             state.characterTotalInfo.charName = charName;
         },
+        charNameValid(state, action) {
+            const { validStatus } = action.payload;
+            state.characterTotalInfo.charNameValid = validStatus;
+        },
         selectCharacterGender(state, action) {
             const { gender} = action.payload;
             state.characterTotalInfo.gender = gender;
@@ -332,7 +337,8 @@ export const {
     selectCharacterGender,
     creationCompliteAction,
     resetTotalState,
-    resetGender
+    resetGender,
+    charNameValid
     
 } = characterTotalSlice.actions;
 

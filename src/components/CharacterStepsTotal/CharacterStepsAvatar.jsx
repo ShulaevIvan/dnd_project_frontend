@@ -9,7 +9,8 @@ import {
     uploadPopupFile,
     uploadStatus,
     saveCaracterName,
-    selectCharacterGender
+    selectCharacterGender,
+    charNameValid
 } from "../../redux/slices/characterTotalSlice";
 
 const CharacterStepsAvatar = () => {
@@ -25,6 +26,7 @@ const CharacterStepsAvatar = () => {
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterTotalInfo = useSelector((state) =>  state.characterTotal.characterTotalInfo);
     const characterNameRef = useRef(null);
+    const charNameValidStatus = useSelector((state) => state.characterTotal.characterTotalInfo.charNameValid);
 
     const popupDescriptionHandler = (e, action) => {
         const client = e.target.getBoundingClientRect();
@@ -66,6 +68,7 @@ const CharacterStepsAvatar = () => {
         else if (characterNameRef.current && param === 'clear') {
             characterNameRef.current.value = '';
             dispatch(saveCaracterName({charName: ''}));
+            dispatch(charNameValid({validStatus: false}));
         }
     };
 
@@ -82,15 +85,24 @@ const CharacterStepsAvatar = () => {
             .then((data) => {
                 if (data && data.length > 0) {
                     characterNameRef.current.value = data[0].name;
+                    dispatch(charNameValid({validStatus: true}));
                 }
             });
         }
-        fetchFunc()
+        fetchFunc();
     };
 
     const selectCharacterGenderHandler = (charGender) => {
         dispatch(selectCharacterGender({gender: charGender}));
-    }
+    };
+
+    const charNameInputHandler = () => {
+        if (characterNameRef.current.value.length >= 3) {
+            dispatch(charNameValid({validStatus: true}));
+            return;
+        }
+        dispatch(charNameValid({validStatus: false}));
+    };
 
     useEffect(() => {
         if (uploadFileStatus && uploadImagePopupRef.current && uploadImagePopupRef.current.files) {
@@ -141,6 +153,7 @@ const CharacterStepsAvatar = () => {
                         id="character-steps-total-name-input" 
                         type="text"
                         ref={characterNameRef}
+                        onKeyUp={charNameInputHandler}
                     />
                     <div className="character-steps-total-gender-block">
                         <div 
@@ -161,7 +174,8 @@ const CharacterStepsAvatar = () => {
                 </div>
                 <div className="character-steps-total-name-controls-row">
                     <div className="character-steps-total-name-btn">
-                        <button 
+                        <button
+                            disabled={charNameValidStatus && characterTotalInfo.gender ? false : true}
                             onClick={() => characterNameHandler('save')}
                         >Save</button>
                     </div>
