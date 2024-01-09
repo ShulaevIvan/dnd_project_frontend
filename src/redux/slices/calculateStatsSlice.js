@@ -27,6 +27,7 @@ const initialState = {
         wis: 0,
         cha: 0,
     },
+    optionStatNames: ['str', 'dex', 'con', 'int', 'wis', 'cha'],
     minHitDice: 0,
     maxHitDice: 0,
     subraceActive: undefined,
@@ -198,6 +199,7 @@ const calculateStatsSlice = createSlice({
             state.resultCharStatsBackup = [];
             state.charStatsTotal = [];
             state.allRaceBonuceStats = [];
+            state.disableStatSelectors = [];
             state.currentStatBuyPoints =  0;
             state.statBuyFreePoints = 6;
             state.setupStatsComplete = false;
@@ -264,7 +266,8 @@ const calculateStatsSlice = createSlice({
             };
         },
         disableSelectStat(state, action) {
-            state.disableStatSelectors = [...state.disableStatSelectors, action.payload]
+            state.disableStatSelectors = [...state.disableStatSelectors, action.payload];
+            state.optionStatNames.filter((item) => item !== action.payload.stat);
         },
         buyStats(state, action) {
             const calcType = action.payload.plus;
@@ -450,6 +453,46 @@ const calculateStatsSlice = createSlice({
             const wisModifer = (Number(wis.value) - 10) / 2;
             const preseptionValue = 10 + Number(wisModifer);
             state.passivePreseption = preseptionValue.toFixed();
+        },
+        resetRaceStats(state) {
+            state.subraceStats = {
+                str: 0,
+                dex: 0,
+                con: 0,
+                int: 0,
+                wis: 0,
+                cha: 0,
+            };
+            state.raceStats = {
+                str: 0,
+                dex: 0,
+                con: 0,
+                int: 0,
+                wis: 0,
+                cha: 0,
+            };
+            state.totalStats = {
+                str: 0,
+                dex: 0,
+                con: 0,
+                int: 0,
+                wis: 0,
+                cha: 0,
+            };
+        },
+        stepFourReset(state) {
+            resetCharStats();
+            state.totalStats = {
+                str: 0,
+                dex: 0,
+                con: 0,
+                int: 0,
+                wis: 0,
+                cha: 0,
+            };
+            state.resultCharStats = [];
+            state.statSelectedRoll = [];
+            resetCharStats();
         }
     },
     extraReducers: (builder) => builder.addCase(resetStatsState, () => initialState),
@@ -476,7 +519,9 @@ export const {
     calculateOtherStats,
     sortResultCharStats,
     calculatePassivePreseption,
-    resetCalculateStatsState
+    resetCalculateStatsState,
+    resetRaceStats,
+    stepFourReset,
 
 } = calculateStatsSlice.actions;
 

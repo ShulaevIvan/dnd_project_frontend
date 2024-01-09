@@ -5,7 +5,16 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
 
 import CharacterStepsSaveCharacter from "./CharacterStepsSaveCharacter";
-import { setCharacterStep, activeNextBtn, activePrevBtn, unsetClass} from "../../redux/slices/characterStepsSlice";
+import { 
+    setCharacterStep, 
+    activeNextBtn, 
+    activePrevBtn, 
+    stepOneReset, 
+    stepTwoReset,
+    stepThreeReset,
+} from "../../redux/slices/characterStepsSlice";
+import { resetGender } from "../../redux/slices/characterTotalSlice";
+import { resetRaceStats, stepFourReset } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsProgressBar = () => {
     const dispatch = useDispatch();
@@ -33,19 +42,40 @@ const CharacterStepsProgressBar = () => {
     };
 
     useEffect(() => {
-        if (characterStepNum <= maxPage) {
-            navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`);
-        }
-        if (characterStepNum === 1) {
+        if (characterStepNum <= maxPage) navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`);
+
+        if (characterStepNum <= 1) {
+            dispatch(stepOneReset());
+            dispatch(resetGender());
+            dispatch(resetRaceStats());
             dispatch(activePrevBtn(true));
-            dispatch(unsetClass());
+            dispatch(activeNextBtn(true));
+            return;
         }
-        dispatch(activePrevBtn(false));
+        else if (characterStepNum === 2) {
+            dispatch(stepTwoReset());
+            dispatch(activePrevBtn(false));
+            return;
+        }
+        else if (characterStepNum === 3) {
+            dispatch(stepThreeReset());
+            dispatch(activePrevBtn(false));
+            dispatch(activeNextBtn(true));
+        }
+        else if (characterStepNum === 4) {
+            dispatch(stepFourReset());
+            dispatch(activePrevBtn(false));
+            dispatch(activeNextBtn(true));
+        }
+
+        dispatch(activeNextBtn(false));
+
     }, [characterStepNum]);
 
     useEffect(() => {
-        if (!createCharSum && currentPage === 1) {
+        if ((!createCharSum || !characterGender) && currentPage === 1) {
             dispatch(activePrevBtn(true));
+            dispatch(activeNextBtn(true));
             return;
         }
         if (!classCharSum && currentPage === 2) {

@@ -253,6 +253,27 @@ const characterStepsSlice = createSlice({
         chooseCharAbility(state, action) {
             const ability = action.payload
             state.characterSum.choosenCharAbilites = [...state.characterSum.choosenCharAbilites.filter((item) => item.id !== ability.id), ability]
+        },
+        stepOneReset(state) {
+            state.characterSum.subraceActive = undefined;
+            state.characterSum.raceData = undefined;
+            state.characterSum.subraceData = undefined;
+            state.characterSum.subraceActive = undefined;
+            state.navNextBtnDisable = true;
+            state.navPrevBtnDisable = true;
+            state.showPreviewPage = false;
+            state.characterStepPage = 1;
+        },
+        stepTwoReset(state) {
+            state.characterSum.classData = undefined;
+            state.characterSum.subclassData = undefined;
+            state.characterSum.classActive = undefined;
+            state.characterSum.subclassActive = undefined;
+        },
+        stepThreeReset(state) {
+            state.characterSum.backgroundData = undefined;
+            state.characterSum.backgroundActive = undefined;
+            state.characterSum.backgroundWorldViewActive = undefined;
         }
     },
     extraReducers: (builder) => builder.addCase(resetCharSteps, () => initialState),
@@ -285,6 +306,9 @@ export const {
     addAllMastery,
     addLanguages,
     chooseCharAbility,
+    stepOneReset,
+    stepTwoReset,
+    stepThreeReset
     
 } = characterStepsSlice.actions;
 

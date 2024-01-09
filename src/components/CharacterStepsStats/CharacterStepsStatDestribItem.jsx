@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { spendStatFormRoll, recalcModifers, addCharStats, disableSelectStat } from "../../redux/slices/calculateStatsSlice";
 
 const CharacterStepsStatsDestribItem = (props) => {
+    const optionStatsNames = useSelector((state) => state.calculateCharStats.optionStatNames);
     const charResultStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const statRaceBonuce = useSelector((state) => state.characterSteps.characterSum.raceData.race_bonuces);
     const subraceBonuce = useSelector((state) => state.characterSteps.characterSum.subraceData);
@@ -61,12 +62,14 @@ const CharacterStepsStatsDestribItem = (props) => {
                     onChange={(e) => chooseStatHandler(e, props)
                 }>
                     <option>{selectStatRef.current ? selectStatRef.current.value : null}</option>
-                    <option disabled={checkDisableSelect('str')}>STR</option>
-                    <option disabled={checkDisableSelect('dex')}>DEX</option>
-                    <option disabled={checkDisableSelect('con')}>CON</option>
-                    <option disabled={checkDisableSelect('int')}>INT</option>
-                    <option disabled={checkDisableSelect('wis')}>WIS</option>
-                    <option disabled={checkDisableSelect('cha')}>CHA</option>
+                    {optionStatsNames.map((statName) => {
+                        return (
+                            <React.Fragment key={Math.random()}>
+                               {!checkDisableSelect(`${statName}`) ? 
+                                    <option disabled={false}>{statName.toUpperCase()}</option> : <option disabled={true}>{statName.toUpperCase()}</option>} 
+                            </React.Fragment>
+                        )
+                    })}
                 </select>
             </div>
         </React.Fragment>

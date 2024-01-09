@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addRaces, selectRace, selectSubrace, unsetRace, showPreviewPage, activeNextBtn } from "../../redux/slices/characterStepsSlice";
+import { addRaces, selectRace, selectSubrace, unsetRace, showPreviewPage } from "../../redux/slices/characterStepsSlice";
 import { addBaseStats } from "../../redux/slices/calculateStatsSlice";
 
 
@@ -103,6 +103,7 @@ const  CharacterStepsRace = () => {
 
     useEffect(() => {
         dispatch(showPreviewPage(false));
+
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/race/`, {
                 method: 'GET',
