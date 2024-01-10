@@ -15,6 +15,9 @@ import {
 } from "../../redux/slices/characterStepsSlice";
 import { resetGender } from "../../redux/slices/characterTotalSlice";
 import { resetRaceStats, stepFourReset } from "../../redux/slices/calculateStatsSlice";
+import { resetAbilityPoints, resetAbilitiesState } from "../../redux/slices/calculateAbilitiesSlice";
+import { removeBonuceAbility } from "../../redux/slices/characterStepsSlice";
+
 
 const CharacterStepsProgressBar = () => {
     const dispatch = useDispatch();
@@ -33,12 +36,23 @@ const CharacterStepsProgressBar = () => {
     const changeStatState = useSelector((state) => state.calculateCharStats.disableStatSelectors);
     const setupStatsComplete =  useSelector((state) => state.calculateCharStats.setupStatsComplete);
     const characterGender = useSelector((state) =>  state.characterTotal.characterTotalInfo.gender);
+    const abilityPoints = useSelector((state) => state.calculateAbilites);
 
     const nextPageHandler = () => {
         dispatch(setCharacterStep(1));
     };
     const prevPageHandler = () => {
         dispatch(setCharacterStep(-1));
+    };
+
+    const resetAbilitiesStep = () => {
+        dispatch(resetAbilityPoints());
+            abilityPoints.addedAbilities.map((ability) => {
+                if (!abilityPoints.initialClassAbilities.find((item) => item.id === ability.id)) {
+                    dispatch(removeBonuceAbility(ability));
+                }
+            });
+        dispatch(resetAbilitiesState());
     };
 
     useEffect(() => {
@@ -64,6 +78,11 @@ const CharacterStepsProgressBar = () => {
         }
         else if (characterStepNum === 4) {
             dispatch(stepFourReset());
+            dispatch(activePrevBtn(false));
+            dispatch(activeNextBtn(true));
+        }
+        else if (characterStepNum === 5) {
+            resetAbilitiesStep();
             dispatch(activePrevBtn(false));
             dispatch(activeNextBtn(true));
         }

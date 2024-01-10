@@ -29,6 +29,10 @@ const initialState = {
     instrumentPanelActive: false,
     maxAnyInstrumentPoints: 0,
     currentAnyInstrumentPoints: 0,
+    backupClassAbilities: [],
+    backupRaceAbilities: [],
+    backupBackgroundAbilities: [],
+
 
 };
 
@@ -214,7 +218,14 @@ const calculateAbilitiesSlice = createSlice({
             if (!checkSkill) state.choosenSkills = [...state.choosenSkills, {...skill, type: type}];
         },
         resetCalculateAbilState(state) {
-            state = initialState;
+            state.resultCharAbilities = [];
+            state.addedAbilities = [];
+        },
+        backupBonuceAbilities(state, action) {
+            const { classAbilities, raceAbilities, backgroundAbilities } = action.payload;
+            state.backupClassAbilities = [...classAbilities];
+            state.backupRaceAbilities = [...raceAbilities];
+            state.backupBackgroundAbilities = [...backgroundAbilities];
         }
         
     },
@@ -234,7 +245,8 @@ export const {
     chooseInstrument,
     activeAddMasteryPanel,
     addBonuceSkill,
-    resetCalculateAbilState
+    resetCalculateAbilState,
+    backupBonuceAbilities
 
 } = calculateAbilitiesSlice.actions;
 

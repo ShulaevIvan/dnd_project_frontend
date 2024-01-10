@@ -65,7 +65,9 @@ const CharacterStepsStatsDestribItem = (props) => {
                     {optionStatsNames.map((statName) => {
                         return (
                             <React.Fragment key={Math.random()}>
-                                <option disabled={checkDisableSelect(`${statName}`)}>{statName.toUpperCase()}</option>
+                                <option 
+                                    className={checkDisableSelect(`${statName}`) ? 'stat-select-hidden': 'stat-select'} 
+                                    disabled={checkDisableSelect(`${statName}`)}>{statName.toUpperCase()}</option>
                             </React.Fragment>
                         )
                     })}

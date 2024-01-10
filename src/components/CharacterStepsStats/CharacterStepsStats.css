@@ -283,3 +283,6 @@
 .character-steps-dice-max-points-value {
     font-size: 20px;
 }
+.stat-select-hidden{
+    display: none;
+}

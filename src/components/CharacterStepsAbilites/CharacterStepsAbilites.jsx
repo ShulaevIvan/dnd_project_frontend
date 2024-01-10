@@ -2,14 +2,22 @@ import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
-import { addAbilites, addBonuceAbility,removeBonuceAbility, addMastery, addAllMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
+import { addAbilites, addBonuceAbility,removeBonuceAbility, addAllMastery, addLanguages } from "../../redux/slices/characterStepsSlice";
 import { calculatePassivePreseption } from "../../redux/slices/calculateStatsSlice";
+import { backupBonuceAbilities } from "../../redux/slices/calculateAbilitiesSlice";
 
-import { addAbilityPoints, chooseAbility,saveResultAbilities, 
-        resetAbilityPoints, addAnyLanguagePoints, activeAddMasteryPanel, 
-        chooseLanguage, addBonuceAbilities, chooseInstrument,
-        addBonuceSkill
-    } from "../../redux/slices/calculateAbilitiesSlice";
+import { 
+    addAbilityPoints, 
+    chooseAbility,
+    saveResultAbilities, 
+    resetAbilityPoints, 
+    addAnyLanguagePoints, 
+    activeAddMasteryPanel, 
+    chooseLanguage, 
+    addBonuceAbilities, 
+    chooseInstrument,
+    addBonuceSkill,
+} from "../../redux/slices/calculateAbilitiesSlice";
 
 import CharacterStepsSavingThrows from "./CharacterStepsSavingThrows";
 
@@ -70,7 +78,7 @@ const CharacterStepsAbilites = () => {
 
         if (checkAbil && checkAbilBackground && !checkAbilClass) return true;
         if (!checkAbilClass &&  checkAbilRace && abilityPoints.raceAbilityCount > 0) return true;
-        if (!checkAbil && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilityCount > 0) return true;
+        if (!checkAbil && !checkAbilRace && !checkAbilClass && !checkAbilBackground && abilityPoints.anyAbilityCount > 0) return true;
 
         return false;
     };
@@ -215,8 +223,14 @@ const CharacterStepsAbilites = () => {
             raceBonuceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
             backgroundBonuceAbilities: characterSum.backgroundActive[0].bounceAbilities,
         }));
-        dispatch(calculatePassivePreseption());
+        dispatch(backupBonuceAbilities({
+            classAbilities: characterSum.classData.classAbilities,
+            raceAbilities: characterSum.raceData.skills.filter((skill) => skill.skill_type === 'ability'),
+            backgroundAbilities: characterSum.backgroundActive[0].bounceAbilities,
 
+        }));
+        dispatch(calculatePassivePreseption());
+        
     }, []);
 
     useEffect(() => {
@@ -235,6 +249,7 @@ const CharacterStepsAbilites = () => {
             });
         }
         fetchFunc();
+
     }, []);
 
     useEffect(() => { 
@@ -244,7 +259,7 @@ const CharacterStepsAbilites = () => {
             ...characterSum.classData.classInstrumentMastery,
         ];
 
-        dispatch(chooseInstrument({instrument: allInstrumentMastery, typeAdd: 'arr'}))
+        dispatch(chooseInstrument({instrument: allInstrumentMastery, typeAdd: 'arr'}));
     }, []);
 
     useEffect(() => {
