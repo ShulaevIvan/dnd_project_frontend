@@ -35,14 +35,6 @@ const CharacterStepsAbilityTest = () => {
         dispatch(selectTestAbility({abilityName: abilitySelectedRef.current.value, selected: true}));
     };
 
-    const checkSelectedAbility = (abilityName) => {
-        const selectedAbility = allAbilitiesSelected.find((item) => item.name === abilityName && item.selected);
-        if (!selectedAbility) return false;
-
-        abilityTestModifer.current.value = selectedAbility.value;
-        return selectedAbility;
-    };
-
     const clearTargetInput = () => {
         abilityTestTarget.current.value = '';
     };
@@ -63,7 +55,7 @@ const CharacterStepsAbilityTest = () => {
 
     const startAbilityTestHandler = () => {
         dispatch(rollDiceAbility({
-            modifer: abilityTestModifer.current.value,
+            modifer: Number(abilityTestModifer.current.value),
             penalty: penaltyStatus,
             advantage: advantageStatus
         }));
@@ -137,6 +129,16 @@ const CharacterStepsAbilityTest = () => {
         abilityTestValue.current.value = abilityTestState.resultAbilityValue;
     }, [abilityTestState.resultAbilityValue]);
 
+    useEffect(() => {
+        if (allAbilitiesSelected) {
+            const selectedAbility = allAbilitiesSelected.find((item) => item.selected);
+
+            abilitySelectedRef.current.value = selectedAbility.name;
+            abilityTestModifer.current.value = selectedAbility.value;
+        }
+        
+    }, [allAbilitiesSelected])
+
     return (
         <React.Fragment>
             <div className="character-steps-total-abilities-test-wrap">
@@ -146,13 +148,13 @@ const CharacterStepsAbilityTest = () => {
                         <label className="character-steps-total-abilities-select-title" htmlFor="character-steps-total-abilities-select">Choose a ability test:</label>
                         <select
                             id="character-steps-total-abilities-select"
-                            onChange={selectAbilityHandler}
+                            onChange={() => selectAbilityHandler()}
                             ref={abilitySelectedRef}
                         >
                             {allAbilitiesSelected ? allAbilitiesSelected.map((ability) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <option selected={checkSelectedAbility(ability.name)}>{ability.name}</option>
+                                        <option>{ability.name}</option>
                                     </React.Fragment>
                                 )
                             }): null}

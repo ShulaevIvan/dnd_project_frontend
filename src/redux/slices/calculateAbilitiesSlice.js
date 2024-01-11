@@ -94,7 +94,6 @@ const calculateAbilitiesSlice = createSlice({
                 return;
             }
             else if (abilExists && addType === 'regular') {
-                console.log('test2')
                 state.choosenAbilities = [...state.choosenAbilities.filter((item) => item.id !== ability.id)];
                 state.currentAbilityPoints = Number(state.currentAbilityPoints) + 1;
                 return;

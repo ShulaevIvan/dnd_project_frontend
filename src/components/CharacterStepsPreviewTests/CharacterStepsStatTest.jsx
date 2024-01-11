@@ -26,6 +26,7 @@ const CharacterStepsStatTest = () => {
     const rollState = useSelector((state) => state.rolller);
     const penaltyStatus = useSelector((state) => state.characterTotal.characterStatTest.penaltyActive);
     const advantageStatus = useSelector((state) => state.characterTotal.characterStatTest.advantageActive);
+    const selectedStat = useSelector((state) => state.characterTotal.characterStatTest.currentStatName);
     
     const currentValueRef = useRef();
     const currentTargetRef = useRef();
@@ -46,15 +47,7 @@ const CharacterStepsStatTest = () => {
     };
 
     const chooseStatHandler = () => {
-        dispatch(statTestSelect({statName: currentStatRef.current.value}))
-    };
-
-    const checkSelectedStat = (checkStat, statModifer) => {
-        if (statTest.currentStatName && statTest.currentStatName === checkStat.toUpperCase()) {
-            currentValueRef.current.value = statModifer;
-            return true;
-        }
-        return false;
+        dispatch(statTestSelect({statName: currentStatRef.current.value}));
     };
 
     const clearTargetInput = () => {
@@ -116,6 +109,7 @@ const CharacterStepsStatTest = () => {
         currentResultRef.current.value = rollState.rollResult;
         const targetValue = Number(currentTargetRef.current.value);
         const resultValue = Number(currentResultRef.current.value);
+        
         if (rollState.criticalMin) {
             dispatch(addStatTest({
                 statTest: {
@@ -182,6 +176,12 @@ const CharacterStepsStatTest = () => {
         resetTestHandler();
         dispatch(statTestSelect({statName: currentStatRef.current.value}));
     }, []);
+    
+    useEffect(() => {
+        if (currentStatRef.current) {
+            currentStatRef.current.value = selectedStat;
+        }
+    }, [selectedStat]);
 
     return (
         <React.Fragment>
@@ -201,7 +201,7 @@ const CharacterStepsStatTest = () => {
                         {resultCharStats.map((stat) => {
                             return (
                                 <React.Fragment key={Math.random()}>
-                                    <option selected={checkSelectedStat(stat.statParam, stat.modifer)}>{stat.statParam.toUpperCase()}</option>
+                                    <option>{stat.statParam.toUpperCase()}</option>
                                 </React.Fragment>
                             )
                         })}
@@ -267,9 +267,7 @@ const CharacterStepsStatTest = () => {
                                 {statTest.testMods.map((item) => {
                                     return (
                                         <React.Fragment key={Math.random()}>
-                                            <option
-                                                selected={item.selected}
-                                            >{item.name}</option>
+                                            <option>{item.name}</option>
                                         </React.Fragment>
                                     )
                                 })}

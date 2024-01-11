@@ -302,10 +302,12 @@ const characterTotalSlice = createSlice({
         creationCompliteAction(state, action) {
             const { compliteStatus } = action.payload;
             state.creationComplite = compliteStatus;
-            if (compliteStatus) state = initialState;
         },
         resetGender(state) {
             state.characterTotalInfo.gender = undefined;
+        },
+        resetLastStep(state) {
+            state.creationComplite = false;
         }
     },
     extraReducers: (builder) => builder.addCase(resetCharTotal, () => initialState),

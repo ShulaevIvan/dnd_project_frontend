@@ -1,18 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import { creationCompliteAction } from "../../redux/slices/characterTotalSlice";
-import { resetCharSteps } from "../../redux/slices/characterStepsSlice";
-import { resetStatsState } from "../../redux/slices/calculateStatsSlice";
-import { resetAbilitiesState } from "../../redux/slices/calculateAbilitiesSlice";
-import { resetSkillsState } from "../../redux/slices/characterSkillsSlice";
-import { resetCharTotal } from "../../redux/slices/characterTotalSlice";
-import { resetRollDice } from "../../redux/slices/rollDiceSlice";
 
 const CharacterStepsSaveCharacter = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
@@ -24,6 +16,7 @@ const CharacterStepsSaveCharacter = () => {
     const charAbilities  = useSelector((state) => state.calculateAbilites.resultCharAbilities);
     const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
     const creationComplite = useSelector((state) => state.characterTotal.creationComplite);
+    console.log(charStats)
     
     const saveCharacterDataHandler = () => {
         const data = {
@@ -54,33 +47,23 @@ const CharacterStepsSaveCharacter = () => {
         dispatch(creationCompliteAction({compliteStatus: true}));
     };
 
-    const checkCharacterData = () => {
-        if (userAccountData.isAuthenticated && characterName) {
-            return false;
-        }
+    useEffect(() => {
         dispatch(creationCompliteAction({compliteStatus: false}));
-        return true;
-    };
+    }, []);
 
     useEffect(() => {
-        if (creationComplite) {
-            dispatch(resetCharSteps());
-            dispatch(resetStatsState());
-            dispatch(resetAbilitiesState());
-            dispatch(resetSkillsState());
-            dispatch(resetRollDice());
-            dispatch(resetCharTotal());
-            setTimeout(() => {
-                navigate('/profile/characters/');
-            }, 200)
+        if (userAccountData.isAuthenticated && characterName) {
+            dispatch(creationCompliteAction({compliteStatus: true}));
+            return;
         }
-    }, [creationComplite])
+        dispatch(creationCompliteAction({compliteStatus: false}));
+    }, [creationComplite, characterName, userAccountData.isAuthenticated]);
     
     return (
         <React.Fragment>
             <button
                 className="save-btn" 
-                disabled={checkCharacterData()}
+                disabled={creationComplite ? false : true}
                 onClick={saveCharacterDataHandler}
             >save</button> 
         </React.Fragment>

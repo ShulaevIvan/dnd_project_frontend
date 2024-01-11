@@ -17,6 +17,8 @@ import { resetGender } from "../../redux/slices/characterTotalSlice";
 import { resetRaceStats, stepFourReset } from "../../redux/slices/calculateStatsSlice";
 import { resetAbilityPoints, resetAbilitiesState } from "../../redux/slices/calculateAbilitiesSlice";
 import { removeBonuceAbility } from "../../redux/slices/characterStepsSlice";
+import { resetCharacterSkillsState } from "../../redux/slices/characterSkillsSlice";
+import { resetCharTotal } from "../../redux/slices/characterTotalSlice";
 
 
 const CharacterStepsProgressBar = () => {
@@ -58,36 +60,54 @@ const CharacterStepsProgressBar = () => {
     useEffect(() => {
         if (characterStepNum <= maxPage) navigate(`${location.pathname.substring(0, location.pathname.length - 1)}${characterStepNum}`);
 
-        if (characterStepNum <= 1) {
-            dispatch(stepOneReset());
-            dispatch(resetGender());
-            dispatch(resetRaceStats());
-            dispatch(activePrevBtn(true));
-            dispatch(activeNextBtn(true));
-            return;
-        }
-        else if (characterStepNum === 2) {
-            dispatch(stepTwoReset());
-            dispatch(activePrevBtn(false));
-            return;
-        }
-        else if (characterStepNum === 3) {
-            dispatch(stepThreeReset());
-            dispatch(activePrevBtn(false));
-            dispatch(activeNextBtn(true));
-        }
-        else if (characterStepNum === 4) {
-            dispatch(stepFourReset());
-            dispatch(activePrevBtn(false));
-            dispatch(activeNextBtn(true));
-        }
-        else if (characterStepNum === 5) {
-            resetAbilitiesStep();
-            dispatch(activePrevBtn(false));
-            dispatch(activeNextBtn(true));
-        }
+        switch(characterStepNum) {
+            case 1:
+                dispatch(stepOneReset());
+                dispatch(resetGender());
+                dispatch(resetRaceStats());
+                dispatch(activePrevBtn(true));
+                dispatch(activeNextBtn(true));
 
-        dispatch(activeNextBtn(false));
+                break
+            case 2:
+                dispatch(stepTwoReset());
+                dispatch(activePrevBtn(false));
+
+                break;
+            
+            case 3:
+                dispatch(stepThreeReset());
+                dispatch(activePrevBtn(false));
+                dispatch(activeNextBtn(true));
+
+                break
+            case 4:
+                dispatch(stepFourReset());
+                dispatch(activePrevBtn(false));
+                dispatch(activeNextBtn(true));
+
+                break;
+            case 5:
+                resetAbilitiesStep();
+                dispatch(activePrevBtn(false));
+                dispatch(activeNextBtn(true));
+                break;
+            case 6:
+                dispatch(resetCharacterSkillsState());
+                dispatch(activePrevBtn(false));
+                dispatch(activeNextBtn(true));
+                break;
+            
+            case 7:
+                dispatch(resetCharTotal());
+                dispatch(activePrevBtn(false));
+                break;
+
+
+            default:
+                dispatch(activeNextBtn(false));
+                break;
+        }
 
     }, [characterStepNum]);
 
@@ -137,7 +157,7 @@ const CharacterStepsProgressBar = () => {
                         </div>
                         <div className="next-btn-wrap">
                             {
-                                currentPage && currentPage === maxPage ? 
+                                Number(currentPage) === Number(maxPage) ? 
                                     <CharacterStepsSaveCharacter />
                                 : 
                                     <button className="next-btn" disabled={nextBtnActiveState} onClick={nextPageHandler}>next</button> 
