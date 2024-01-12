@@ -30,8 +30,13 @@ const CharacterStepsSaveCharacter = () => {
             charAbilities: charAbilities,
             charDescription: characterDescription ? characterDescription.description : '',
             charWorldView: characterWorldView.name,
-            charAvatar: characterAvatar.uploadPopupFileData ? characterAvatar.uploadPopupFileData.file : '',
+            charAvatar: characterAvatar.uploadPopupFileData ? {
+                name: characterAvatar.uploadPopupFileData.name, 
+                data: characterAvatar.uploadPopupFileData.file,
+                ext: characterAvatar.uploadPopupFileData.name.replace(/^[\w|\d|\s]*/, ''),
+            } : '',
         }
+        console.log(characterAvatar.uploadPopupFileData)
 
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userAccountData.userData.userId}/characters/`, {

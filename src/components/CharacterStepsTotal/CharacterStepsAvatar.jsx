@@ -117,11 +117,15 @@ const CharacterStepsAvatar = () => {
             const url = URL.createObjectURL(file);
             reader.readAsDataURL(file);
             reader.onloadend = (e) => {
+                let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+                if ((encoded.length % 4) > 0) {
+                    encoded += '='.repeat(4 - (encoded.length % 4));
+                }
                 const fileData = {
                     type: file.type,
                     name: file.name,
                     url: url,
-                    file: reader.result,
+                    file: encoded,
                     date: new Date().getTime(),
                 };
                 
