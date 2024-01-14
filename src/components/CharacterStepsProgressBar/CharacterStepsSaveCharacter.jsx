@@ -1,11 +1,13 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { creationCompliteAction } from "../../redux/slices/characterTotalSlice";
 
 const CharacterStepsSaveCharacter = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
     const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
@@ -16,7 +18,6 @@ const CharacterStepsSaveCharacter = () => {
     const charAbilities  = useSelector((state) => state.calculateAbilites.resultCharAbilities);
     const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
     const creationComplite = useSelector((state) => state.characterTotal.creationComplite);
-    console.log(charStats)
     
     const saveCharacterDataHandler = () => {
         const data = {
@@ -36,7 +37,6 @@ const CharacterStepsSaveCharacter = () => {
                 ext: characterAvatar.uploadPopupFileData.name.replace(/^[\w|\d|\s]*/, ''),
             } : '',
         }
-        console.log(characterAvatar.uploadPopupFileData)
 
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userAccountData.userData.userId}/characters/`, {
@@ -45,6 +45,12 @@ const CharacterStepsSaveCharacter = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data), 
+            })
+            .then((response) => {
+                if (response.status === 201) {
+                    // navigate(`/profile/characters/`)
+                }
+                return response.json()
             })
         };
 

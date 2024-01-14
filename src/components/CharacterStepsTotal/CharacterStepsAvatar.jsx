@@ -10,23 +10,26 @@ import {
     uploadStatus,
     saveCaracterName,
     selectCharacterGender,
-    charNameValid
+    charNameValid,
+    removeUploadFile
 } from "../../redux/slices/characterTotalSlice";
 
 const CharacterStepsAvatar = () => {
     const dispatch = useDispatch();
     const popupX = useSelector((state) => state.characterTotal.popupX);
     const popupY = useSelector((state) => state.characterTotal.popupY);
-    const descPopupTextArea = useRef(null);
-    const uploadImagePopupRef = useRef(null);
     const uploadFileStatus = useSelector((state) => state.characterTotal.uploadStatus);
     const characterTotalImageFile = useSelector((state) => state.characterTotal.uploadCharacterFile)
     const descriptionPopupActive = useSelector((state) => state.characterTotal.descriptionPopupActive);
     const imagePopupActive = useSelector((state) => state.characterTotal.imagePopupActive);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterTotalInfo = useSelector((state) =>  state.characterTotal.characterTotalInfo);
-    const characterNameRef = useRef(null);
     const charNameValidStatus = useSelector((state) => state.characterTotal.characterTotalInfo.charNameValid);
+
+    const characterNameRef = useRef(null);
+    const descPopupTextArea = useRef(null);
+    const uploadImagePopupRef = useRef(null);
+
 
     const popupDescriptionHandler = (e, action) => {
         const client = e.target.getBoundingClientRect();
@@ -59,6 +62,12 @@ const CharacterStepsAvatar = () => {
         if (uploadImagePopupRef.current && uploadImagePopupRef.current.files) {
             dispatch(uploadStatus(true));
         }
+    };
+
+    const imageRemoveHandler = (e) => {
+        uploadImagePopupRef.current = '';
+        dispatch(removeUploadFile());
+        dispatch(uploadStatus(true));
     };
 
     const characterNameHandler = (param) => {
@@ -269,11 +278,18 @@ const CharacterStepsAvatar = () => {
                     <div className="character-steps-total-image-popup-title">Character Image</div>
                         <div className="character-steps-total-image-popup-upload-btn-wrap">
                             <input 
+                                key={characterTotalImageFile.uploadPopupFileUrl}
                                 type="file" 
                                 ref={uploadImagePopupRef}
                             />
                         </div>
                         <div className="character-steps-total-image-popup-preview">
+                            {uploadImagePopupRef.current && uploadImagePopupRef.current.files ?
+                                <span 
+                                    className="character-steps-total-image-remove-btn"
+                                    onClick={imageRemoveHandler}
+                                ></span>
+                            : null}
                             <img src={characterTotalImageFile.uploadPopupFileUrl} alt="#" />
                         </div>
                         <div className="character-steps-total-image-popup-controls">

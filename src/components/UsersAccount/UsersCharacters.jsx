@@ -62,6 +62,7 @@ const UsersCharacters = () => {
                 </div>
                 <div className="user-profile-all-characters-wrap">
                     {userCharacters ? userCharacters.map((characterItem) => {
+                        console.log(characterItem)
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="user-profile-character-item">

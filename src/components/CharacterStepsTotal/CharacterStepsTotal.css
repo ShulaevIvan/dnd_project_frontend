@@ -558,6 +558,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    position: relative;
     min-height: 300px;
     min-width: 300px;
     border: 1px solid;
@@ -565,6 +566,19 @@
 }
 .character-steps-total-image-popup-preview img {
     max-width: 300px;
+}
+.character-steps-total-image-remove-btn::before {
+    content: '\2716';
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 2px;
+    color: red;
+    z-index: 5;
 }
 .character-steps-total-avatar-result-wrap {
     display: flex;

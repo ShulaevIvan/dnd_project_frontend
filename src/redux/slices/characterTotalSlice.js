@@ -107,6 +107,13 @@ const characterTotalSlice = createSlice({
             state.uploadCharacterFile.uploadPopupFileData = fileData;
             state.uploadCharacterFile.uploadPopupFileUrl = url;
         },
+        removeUploadFile(state) {
+            state.uploadCharacterFile = {
+                uploadPopupFile: undefined,
+                uploadPopupFileData: undefined,
+                uploadPopupFileUrl:  undefined,
+            };
+        },
         showDescriptionBackground(state, action) {
             state.showDescriptionBackground = action.payload;
         },
@@ -340,7 +347,8 @@ export const {
     creationCompliteAction,
     resetTotalState,
     resetGender,
-    charNameValid
+    charNameValid,
+    removeUploadFile
     
 } = characterTotalSlice.actions;
 
