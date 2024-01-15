@@ -34,7 +34,7 @@ const CharacterStepsSaveCharacter = () => {
             charAvatar: characterAvatar.uploadPopupFileData ? {
                 name: characterAvatar.uploadPopupFileData.name, 
                 data: characterAvatar.uploadPopupFileData.file,
-                ext: characterAvatar.uploadPopupFileData.name.replace(/^[\w|\d|\s]*/, ''),
+                ext: characterAvatar.uploadPopupFileData.name.match(/.\w+$/)[0],
             } : '',
         }
 
