@@ -33,6 +33,40 @@ const UsersCharacters = () => {
         fetchFunc()
     };
 
+    const base64DecodeToBlob = (fileData, contentType='', sliceSize=512) => {
+        const byteChar = atob(fileData);
+        const byteArrays = [];
+      
+        for (let offset = 0; offset < byteChar.length; offset += sliceSize) {
+            const byteSlice = byteChar.slice(offset, offset + sliceSize);
+      
+            const byteNum = new Array(byteSlice.length);
+            for (let i = 0; i < byteSlice.length; i += 1) {
+                byteNum[i] = byteSlice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNum);
+            byteArrays.push(byteArray);
+        }
+          
+        const blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    };
+
+    const getCharacterAvatar = async (characterId, avatarKey) => {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${characterId}/?avatar=${avatarKey}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            const blobFile = base64DecodeToBlob(data.file_data, 'image/jpeg');
+            const blobUrl = URL.createObjectURL(blobFile);
+            console.log(blobUrl)
+        });
+    };
+
     useEffect(() => {
         if (userData && userData.userId && userData.token) {
             const fetchFunc = async () => {
@@ -62,7 +96,9 @@ const UsersCharacters = () => {
                 </div>
                 <div className="user-profile-all-characters-wrap">
                     {userCharacters ? userCharacters.map((characterItem) => {
-                        console.log(characterItem)
+                        if (characterItem.avatar) {
+                            getCharacterAvatar(characterItem.id, characterItem.avatar);
+                        }
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="user-profile-character-item">
