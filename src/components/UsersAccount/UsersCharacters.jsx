@@ -9,8 +9,6 @@ const UsersCharacters = (props) => {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.userData.userData);
     const userCharacters = useSelector((state) => state.userData.userCharacters);
-    const previewDivOpen = `<div className="user-characters-row">`;
-    const previewDivClose = `</div>`;
 
     const deleteCharacterHandler = (character) => {
         dispatch(deleteUserCharacter({characterId: character.id}));
@@ -108,7 +106,6 @@ const UsersCharacters = (props) => {
                 </div>
                 <div className="user-profile-all-characters-wrap">
                     {userCharacters ? userCharacters.map((characterItem) => {
-                        {console.log(characterItem.avatarBlob)}
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="user-profile-character-item">
