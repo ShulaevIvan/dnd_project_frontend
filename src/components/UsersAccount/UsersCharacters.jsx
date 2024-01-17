@@ -1,13 +1,16 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import UserCharacterPreview from "./UserCharacterPreview";
 
-import { addUserCharacters, deleteUserCharacter } from "../../redux/slices/userSlice";
+import { addUserCharacters, deleteUserCharacter, addUserCharacterAvatarBlob } from "../../redux/slices/userSlice";
 
-const UsersCharacters = () => {
+const UsersCharacters = (props) => {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.userData.userData);
     const userCharacters = useSelector((state) => state.userData.userCharacters);
+    const previewDivOpen = `<div className="user-characters-row">`;
+    const previewDivClose = `</div>`;
 
     const deleteCharacterHandler = (character) => {
         dispatch(deleteUserCharacter({characterId: character.id}));
@@ -63,7 +66,9 @@ const UsersCharacters = () => {
         .then((data) => {
             const blobFile = base64DecodeToBlob(data.file_data, 'image/jpeg');
             const blobUrl = URL.createObjectURL(blobFile);
-            console.log(blobUrl)
+
+            dispatch(addUserCharacterAvatarBlob({userCharacterId: characterId, avatarBlob: blobUrl}));
+            
         });
     };
 
@@ -79,15 +84,22 @@ const UsersCharacters = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch(addUserCharacters({characters: data}));
+                    userCharacters.map((characterItem) => {
+                        if (characterItem.avatar) {
+                            getCharacterAvatar(characterItem.id, characterItem.avatar);
+                        }
+                    });
                 });
             }
             fetchFunc();
         }
     }, []);
 
+
     return (
         <React.Fragment>
-            <div className="user-profile-characters-wrap">
+            <div className={props.previewCharacters === 'enabled' ? "user-profile-characters-row" : "user-profile-characters-column"}>
+            <div className={props.previewCharacters === 'enabled' ? 'user-profile-characters-wrap-full' : 'user-profile-characters-wrap'}>
                 <h2>User Characters</h2>
                 <div className="user-profile-characters-controls-wrap">
                     <div className="user-profile-characters-add">
@@ -96,13 +108,16 @@ const UsersCharacters = () => {
                 </div>
                 <div className="user-profile-all-characters-wrap">
                     {userCharacters ? userCharacters.map((characterItem) => {
-                        if (characterItem.avatar) {
-                            getCharacterAvatar(characterItem.id, characterItem.avatar);
-                        }
+                        {console.log(characterItem.avatarBlob)}
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="user-profile-character-item">
-                                    <div className="user-profile-character-item-elem user-profile-character-elem-avatar"><img src="" /></div>
+                                    {characterItem.avatar ?
+                                        <div className="user-profile-character-item-elem user-profile-character-elem-avatar">
+                                            <img src={characterItem.avatarBlob} alt={`${characterItem.name}-avatar`} />
+                                        </div>
+                                    : null}
+                                    
                                     <div className="user-profile-character-item-elem user-profile-character-elem-lvl">{characterItem.lvl}</div>
                                     <div className="user-profile-character-item-elem user-profile-character-elem-race">{characterItem.race}</div>
                                     <div className="user-profile-character-item-elem user-profile-character-elem-class">{characterItem.class}</div>
@@ -117,6 +132,8 @@ const UsersCharacters = () => {
                         )
                     }) : null}
                  </div>
+            </div>
+                {props.previewCharacters === 'enabled' ? <UserCharacterPreview /> : null}
             </div>
         </React.Fragment>
     )

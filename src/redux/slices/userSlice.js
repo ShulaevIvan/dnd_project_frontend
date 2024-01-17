@@ -31,6 +31,13 @@ const userSlice = createSlice({
         deleteUserCharacter(state, action) {
             const { characterId } = action.payload;
             state.userCharacters = [...state.userCharacters.filter((item) => item.id !== characterId)];
+        },
+        addUserCharacterAvatarBlob(state, action) {
+            const { userCharacterId, avatarBlob } = action.payload;
+            const targetCharaceter = state.userCharacters.find((item) => item.id === userCharacterId);
+            targetCharaceter.avatarBlob = avatarBlob;
+
+            state.userCharacters = [...state.userCharacters.filter((item) => item.id !== userCharacterId), targetCharaceter];
         }
     }
 });
@@ -42,5 +49,6 @@ export const {
     logoutUser,
     addUserCharacters,
     deleteUserCharacter,
+    addUserCharacterAvatarBlob,
 } = userSlice.actions;
 export default userSlice.reducer;
