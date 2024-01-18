@@ -43,7 +43,6 @@ const LoginFrom = () => {
             email: loginFromState.loginInputRef.current.value,
             password: loginFromState.passwordInputRef.current.value
         };
-        console.log(sendData)
 
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/user/login/`, {

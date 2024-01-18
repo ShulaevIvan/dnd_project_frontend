@@ -47,7 +47,7 @@ function App() {
               <Route path='/contact/' element = {<ContactPage />} />
               <Route path='/character-builder/character-steps/:step' element={<CharacterSteps />} />
               <Route path='/profile/' element={<UsersProfile />}/>
-              <Route path='/profile/characters/' element={<UsersCharacters previewCharacters='enabled' />}/>
+              <Route path='/profile/characters/' element={<UsersCharacters />}/>
             </Route>
           </Routes>
       </BrowserRouter>

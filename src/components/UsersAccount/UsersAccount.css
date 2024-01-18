@@ -40,6 +40,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 20px;
     width: 100%;
 }
 .user-profile-characters-add-btn::before {
@@ -60,6 +61,7 @@
     margin: 10px;
     min-height: 50px;
     align-items: center;
+    justify-content: space-around;
 }
 .user-profile-character-item-elem {
     display: flex;
@@ -112,20 +114,20 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    min-width: 15%;
-    width: 15%;
+    min-width: 18%;
     border-right: none;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .user-profile-character-elem-controls .edit-btn,
-.user-profile-character-elem-controls .remove-btn {
+.user-profile-character-elem-controls .remove-btn,
+.user-profile-character-elem-controls .preview-btn {
     display: flex;
     max-width: 20px;
     max-height: 20px;
     min-width: 20px;
     min-height: 20px;
-    margin-right: 10px;
+    margin: 0 5px;
     position: relative;
 }
 
@@ -150,6 +152,22 @@
     max-height: 18px;
     cursor: pointer;
     content: '\2716';
+}
+
+
+.user-profile-character-elem-controls .preview-btn::before {
+    display: flex;
+    font-size: 17px;
+    cursor: pointer;
+    content: '\1F589';
+    padding-right: 10px;
+    align-items: center;
+    max-width: 18px;
+    max-height: 18px;
+    width: 18px;
+    position: absolute;
+    top: 2px;
+    content: '\1F441';
 }
 
 .user-profile-main-wrap {
@@ -353,6 +371,11 @@
     margin-right: 10px;
     margin-bottom: 20px;
 }
+.user-character-preview-image-wrap img {
+    height: 300px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 .user-character-preview-stats-wrap {
     display: flex;
     flex-direction: column;
@@ -365,7 +388,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .user-character-preview-stat-name,
 .user-character-preview-stat-value {
@@ -384,11 +407,13 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     justify-content: flex-start;
     align-items: flex-start;
 }
 .user-character-preview-name,
+.user-character-preview-race,
+.user-character-preview-background,
 .user-character-preview-class,
 .user-character-preview-class-lvl,
 .user-character-preview-exp {
@@ -418,8 +443,54 @@
     flex-direction: column;
     flex-wrap: wrap;
     max-width: 20%;
-    width: 15%;
+    width: 16%;
     margin-right: 10px;
     margin-bottom: 10px;
+    padding: 5px 10px;
     border: 1px solid;
+}
+.user-character-preview-abilitiy-item-name {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+}
+.user-profile-all-characters-filters-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.user-profile-all-characters-filter-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 400px;
+    padding: 5px 10px;
+}
+.user-profile-all-characters-filter-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 25px;
+    min-width: 25px;
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid;
+}
+.user-profile-all-characters-filter-btn {
+    cursor: pointer;
+}
+.filter-active {
+    border-color: red;
+}
+.filter-icon-up::before {
+    content: '\2191';
+}
+.filter-icon-down::before {
+    content: '\2193';
 }

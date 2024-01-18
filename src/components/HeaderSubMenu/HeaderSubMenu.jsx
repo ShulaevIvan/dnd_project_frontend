@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -9,7 +10,9 @@ import { logoutUser } from "../../redux/slices/userSlice";
 
 const HeaderSubMenu = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const userData = useSelector((state) => state.userData);
+    const subMenuStatus = useSelector((state) => state.subMenu.submenuActive);
 
     const loginHandler = () => {
         dispatch(subMenuActive(false));
@@ -34,11 +37,15 @@ const HeaderSubMenu = () => {
         fetchFunc();
     };
 
+    const autoCloseSubmenuHandler = () => {
+        dispatch(subMenuActive(false));
+    };
+
     return (
         <React.Fragment>
             <ul className="account-options account-options">
-                {userData.isAuthenticated ?  <li><Link to={'/profile/'}>Profile</Link></li> : null }
-                {userData.isAuthenticated ?  <li><Link to={'/profile/characters/'}>My Characters</Link></li> : null }
+                {userData.isAuthenticated ?  <li><Link onClick={autoCloseSubmenuHandler} to={'/profile/'}>Profile</Link></li> : null }
+                {userData.isAuthenticated ?  <li><Link onClick={autoCloseSubmenuHandler} to={'/profile/characters/'}>My Characters</Link></li> : null }
                 {userData.isAuthenticated ? <li><Link onClick={logoutHandler}>Logout</Link></li> : <li><Link onClick={(e) => loginHandler(e)}>Login</Link></li>}
             </ul>
             <div>

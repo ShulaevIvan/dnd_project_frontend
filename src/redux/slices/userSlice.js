@@ -4,6 +4,18 @@ const initialState = {
     userData: undefined,
     isAuthenticated : false,
     userCharacters: [],
+    userCharactersFilters: [
+        {name: 'Name', active: false}, 
+        {name: 'Level',  active: false}, 
+        {name: 'Class', active: false}
+    ],
+    userCharactersFilterStatus: {
+        nameFilter: 'up',
+    },
+    previewCharacter: {
+        previewCharacterActive: false,
+        previewCharacterSelected: undefined,
+    }
 };
 
 const userSlice = createSlice({
@@ -38,6 +50,40 @@ const userSlice = createSlice({
             targetCharaceter.avatarBlob = avatarBlob;
 
             state.userCharacters = [...state.userCharacters.filter((item) => item.id !== userCharacterId), targetCharaceter];
+        },
+        previewCharacterAction(state, action) {
+            const { characterPreview, previewStatus } = action.payload;
+
+            state.previewCharacter.previewCharacterActive = previewStatus;
+            state.previewCharacter.previewCharacterSelected = characterPreview;
+        },
+        charactersFilters(state, action) {
+            const { filterParam, sortType } = action.payload;
+            const nameFilterStatus = state.userCharactersFilterStatus.nameFilter;
+            const keyParam = filterParam.toLowerCase();
+
+            if (keyParam === 'name') {
+                state.userCharactersFilters = [...state.userCharactersFilters.map((item) => {
+                    if (item.name.toLowerCase() === keyParam) {
+                        return (
+                            {
+                                ...item,
+                                active: true,
+                            }
+                        )
+                    }
+                    return item;
+                })];
+                nameFilterStatus === 'down' ? 
+                    state.userCharacters = [...state.userCharacters.sort((a, b) => a[keyParam].localeCompare(b[keyParam]))].reverse() :
+                    state.userCharacters = [...state.userCharacters.sort((a, b) => a[keyParam].localeCompare(b[keyParam]))];
+            }
+            if (keyParam === 'name' && nameFilterStatus === 'up') {
+                state.userCharactersFilterStatus.nameFilter = 'down';
+                return;
+            }
+            state.userCharactersFilterStatus.nameFilter = 'up';
+            
         }
     }
 });
@@ -50,5 +96,7 @@ export const {
     addUserCharacters,
     deleteUserCharacter,
     addUserCharacterAvatarBlob,
+    previewCharacterAction,
+    charactersFilters,
 } = userSlice.actions;
 export default userSlice.reducer;

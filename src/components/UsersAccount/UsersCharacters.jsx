@@ -1,14 +1,24 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from 'react-router-dom';
 import UserCharacterPreview from "./UserCharacterPreview";
 
-import { addUserCharacters, deleteUserCharacter, addUserCharacterAvatarBlob } from "../../redux/slices/userSlice";
+import { 
+    addUserCharacters, 
+    deleteUserCharacter, 
+    addUserCharacterAvatarBlob, 
+    previewCharacterAction,
+    charactersFilters
+} from "../../redux/slices/userSlice";
 
-const UsersCharacters = (props) => {
+const UsersCharacters = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const userData = useSelector((state) => state.userData.userData);
     const userCharacters = useSelector((state) => state.userData.userCharacters);
+    const previewCharacter = useSelector((state) => state.userData.previewCharacter);
+    const userCharactersFilters = useSelector((state) => state.userData.userCharactersFilters);
 
     const deleteCharacterHandler = (character) => {
         dispatch(deleteUserCharacter({characterId: character.id}));
@@ -32,6 +42,23 @@ const UsersCharacters = (props) => {
             });
         };
         fetchFunc()
+    };
+
+    const previewCharacterHandler = (character) => {
+        const selectedCharacter = previewCharacter.previewCharacterSelected;
+        const previewCharacterActive = previewCharacter.previewCharacterActive;
+
+        if (selectedCharacter && previewCharacterActive && selectedCharacter.id === character.id) {
+            dispatch(previewCharacterAction({characterPreview: character, previewStatus: false}));
+            return;
+        }
+        dispatch(previewCharacterAction({characterPreview: character, previewStatus: true}));
+    };
+
+    const characterFilterHandler = (filterObj) => {
+        dispatch(charactersFilters({
+            filterParam: filterObj.name,
+        }));
     };
 
     const base64DecodeToBlob = (fileData, contentType='', sliceSize=512) => {
@@ -66,9 +93,14 @@ const UsersCharacters = (props) => {
             const blobUrl = URL.createObjectURL(blobFile);
 
             dispatch(addUserCharacterAvatarBlob({userCharacterId: characterId, avatarBlob: blobUrl}));
-            
         });
     };
+
+    useEffect(() => {
+        if (location.pathname  !== '/profile/characters/') {
+            dispatch(previewCharacterAction({characterPreview: undefined, previewStatus: false}));
+        }
+    }, [location.pathname]);
 
     useEffect(() => {
         if (userData && userData.userId && userData.token) {
@@ -96,12 +128,28 @@ const UsersCharacters = (props) => {
 
     return (
         <React.Fragment>
-            <div className={props.previewCharacters === 'enabled' ? "user-profile-characters-row" : "user-profile-characters-column"}>
-            <div className={props.previewCharacters === 'enabled' ? 'user-profile-characters-wrap-full' : 'user-profile-characters-wrap'}>
+            <div className={previewCharacter.previewCharacterActive ? "user-profile-characters-row" : "user-profile-characters-column"}>
+            <div className={previewCharacter.previewCharacterActive ? 'user-profile-characters-wrap-full' : 'user-profile-characters-wrap'}>
                 <h2>User Characters</h2>
                 <div className="user-profile-characters-controls-wrap">
                     <div className="user-profile-characters-add">
                         <span className="user-profile-characters-add-btn"></span>
+                    </div>
+                </div>
+                <div className="user-profile-all-characters-filters-wrap">
+                    <div className="user-profile-all-characters-filter-row">
+                        {userCharactersFilters.map((filter) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    <div className="user-profile-all-characters-filter-item">
+                                        <span
+                                            onClick={() => characterFilterHandler(filter)}
+                                            className="user-profile-all-characters-filter-btn"
+                                        >{filter.name}</span>
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })}
                     </div>
                 </div>
                 <div className="user-profile-all-characters-wrap">
@@ -121,6 +169,9 @@ const UsersCharacters = (props) => {
                                     <div className="user-profile-character-item-elem user-profile-character-elem-name">{characterItem.name}</div>
                                     <div className="user-profile-character-item-elem user-profile-character-elem-exp">0 / 100</div>
                                     <div className="user-profile-character-item-elem user-profile-character-elem-controls">
+                                        {location.pathname  === '/profile/characters/' ? 
+                                            <span className="preview-btn" onClick={() => previewCharacterHandler(characterItem)}></span>
+                                        : null}
                                         <span className="edit-btn"></span>
                                         <span className="remove-btn" onClick={() => deleteCharacterHandler(characterItem)}></span>
                                     </div>
@@ -130,7 +181,7 @@ const UsersCharacters = (props) => {
                     }) : null}
                  </div>
             </div>
-                {props.previewCharacters === 'enabled' ? <UserCharacterPreview /> : null}
+                {previewCharacter.previewCharacterActive ? <UserCharacterPreview /> : null}
             </div>
         </React.Fragment>
     )
