@@ -9,7 +9,8 @@ import {
     deleteUserCharacter, 
     addUserCharacterAvatarBlob, 
     previewCharacterAction,
-    charactersFilters
+    charactersFilters,
+    avatarsLoadEnd
 } from "../../redux/slices/userSlice";
 
 const UsersCharacters = () => {
@@ -19,6 +20,7 @@ const UsersCharacters = () => {
     const userCharacters = useSelector((state) => state.userData.userCharacters);
     const previewCharacter = useSelector((state) => state.userData.previewCharacter);
     const userCharactersFilters = useSelector((state) => state.userData.userCharactersFilters);
+    const avatarsLoadStatus = useSelector((state) => state.userData.userCharactersAvatarsLoadEnd)
 
     const deleteCharacterHandler = (character) => {
         dispatch(deleteUserCharacter({characterId: character.id}));
@@ -114,16 +116,23 @@ const UsersCharacters = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     dispatch(addUserCharacters({characters: data}));
-                    userCharacters.map((characterItem) => {
-                        if (characterItem.avatar) {
-                            getCharacterAvatar(characterItem.id, characterItem.avatar);
-                        }
-                    });
+                    dispatch(avatarsLoadEnd({status: false}));
                 });
             }
             fetchFunc();
         }
     }, []);
+
+    useEffect(() => {
+        if (!avatarsLoadStatus && userCharacters) {
+            userCharacters.map((characterItem) => {
+                if (characterItem.avatar) {
+                    getCharacterAvatar(characterItem.id, characterItem.avatar);
+                }
+            });
+            dispatch(avatarsLoadEnd({status: true}));
+        }
+    }, [avatarsLoadStatus])
 
 
     return (

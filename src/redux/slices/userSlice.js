@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = { 
     userData: undefined,
     isAuthenticated : false,
+    userCharactersAvatarsLoadEnd: true,
     userCharacters: [],
     userCharactersFilters: [
         {name: 'Name', active: false}, 
@@ -48,7 +49,7 @@ const userSlice = createSlice({
             const { userCharacterId, avatarBlob } = action.payload;
             const targetCharaceter = state.userCharacters.find((item) => item.id === userCharacterId);
             targetCharaceter.avatarBlob = avatarBlob;
-
+            
             state.userCharacters = [...state.userCharacters.filter((item) => item.id !== userCharacterId), targetCharaceter];
         },
         previewCharacterAction(state, action) {
@@ -84,6 +85,10 @@ const userSlice = createSlice({
             }
             state.userCharactersFilterStatus.nameFilter = 'up';
             
+        },
+        avatarsLoadEnd(state, action) {
+            const { status } = action.payload;
+            state.userCharactersAvatarsLoadEnd = status;
         }
     }
 });
@@ -98,5 +103,6 @@ export const {
     addUserCharacterAvatarBlob,
     previewCharacterAction,
     charactersFilters,
+    avatarsLoadEnd
 } = userSlice.actions;
 export default userSlice.reducer;
