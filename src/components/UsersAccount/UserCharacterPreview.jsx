@@ -1,9 +1,23 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { abilityPopup } from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
+    const dispatch = useDispatch();
     const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
-    console.log(selectedCharacter)
+    const previewAbilityPopup = useSelector((state) => state.userData.previewCharacter.previewAbilityPopup);
+
+    const abilityDescriptionHandler = (e, abilityObj, action) => {
+        const rect = e.target.getBoundingClientRect();
+        console.log(rect.top)
+        if (action === 'show') {
+            console.log(abilityObj)
+            dispatch(abilityPopup({popupStatus: true, ability: abilityObj,  x: rect.left, y: rect.top}));
+            return;
+        }
+        dispatch(abilityPopup({popupStatus: false, ability: abilityObj,  x: rect.left, y: rect.top}));
+    };
+
     return (
         <React.Fragment>
             <div className="user-character-preview-wrap">
@@ -45,27 +59,85 @@ const UserCharacterPreview = () => {
                                 )
                             })}
                         </div>
-
-                        <div className="user-character-preview-abilities-wrap">
-                            <div className="user-character-preview-abilities-row">
-                                {selectedCharacter.abilities.map((item) => {
-                                    return (
-                                        <React.Fragment key={Math.random()}>
-                                            <div className="user-character-preview-abilitiy-item">
-                                                <div className="user-character-preview-abilitiy-item-name">
-                                                    {item.name.length > 8 ? `${item.name.split('').slice(item.length, 9).join('')}...` : item.name}</div>
-                                                <div className="user-character-preview-abilitiy-item-value">{item.value}</div>
-                                            </div>
-                                        </React.Fragment>
-                                    )
-                                })}
-                            </div>
-                        </div>
-
                     </div>
-                    
+
+                    <div className="user-character-preview-abilities-wrap">
+                        <div className="user-character-preview-abilities-row">
+                            {selectedCharacter.abilities.map((item) => {
+                                return (
+                                    <React.Fragment key={Math.random()}>
+                                        <div className="user-character-preview-abilitiy-item">
+                                            <div
+                                                onMouseOver={(e) => abilityDescriptionHandler(e, item, 'show')}
+                                                onMouseLeave={(e) => abilityDescriptionHandler(e, item, 'hide')}
+                                                className="user-character-preview-abilitiy-item-name">
+                                                {item.name.length > 8 ? `${item.name.split('').slice(item.length, 9).join('')}...` : item.name}</div>
+                                            <div className="user-character-preview-abilitiy-item-value">{item.value}</div>
+                                        </div>
+                                    </React.Fragment>
+                                )
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="user-character-preview-skills-row">
+                        <div className="user-character-skills-avalible-wrap">
+                           <div className="user-character-skills-row">
+                                <div className="user-character-skill-item">
+                                    <div className="user-character-skill-item-title">Skill Name</div>
+                                    <div className="user-character-skill-item-controls-row">
+                                        <div className="user-character-skill-item-control">
+                                            <span className="user-character-skill-item-control-preview"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="user-character-skill-item">
+                                    <div className="user-character-skill-item-title">Skill Name</div>
+                                    <div className="user-character-skill-item-controls-row">
+                                        <div className="user-character-skill-item-control">
+                                            <span className="user-character-skill-item-control-preview"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="user-character-skill-item">
+                                    <div className="user-character-skill-item-title">Skill Name</div>
+                                    <div className="user-character-skill-item-controls-row">
+                                        <div className="user-character-skill-item-control">
+                                            <span className="user-character-skill-item-control-preview"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                           </div>
+                        </div>
+                        <div className="user-character-spells-avalible-wrap">
+                           2
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div
+                style={{left: previewAbilityPopup.x, top: previewAbilityPopup.y}}
+                className={previewAbilityPopup.previewAbilityPopupActive ? "ability-popup-wrap" : "ability-popup-wrap ability-popup-hidden"}
+            >
+                <div className="ability-popup-title">
+                    {previewAbilityPopup.previewAbilitySelected.name}
+                </div>
+                    <div className="ability-popup-body">
+                        <div className="ability-popup-description">
+                        <p> Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
+                            Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. 
+                            В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов,
+                            используя Lorem Ipsum для распечатки образцов. 
+                            Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. 
+                            Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, 
+                            в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, 
+                            в шаблонах которых используется Lorem Ipsum.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
         </React.Fragment>
     )
 };

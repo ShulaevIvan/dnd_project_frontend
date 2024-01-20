@@ -14,6 +14,12 @@ const initialState = {
         nameFilter: 'up',
     },
     previewCharacter: {
+        previewAbilityPopup: {
+            previewAbilityPopupActive: false,
+            previewAbilitySelected: undefined,
+            x: 0,
+            y: 0,
+        },
         previewCharacterActive: false,
         previewCharacterSelected: undefined,
     }
@@ -89,6 +95,13 @@ const userSlice = createSlice({
         avatarsLoadEnd(state, action) {
             const { status } = action.payload;
             state.userCharactersAvatarsLoadEnd = status;
+        },
+        abilityPopup(state, action) {
+            const { popupStatus, ability, x, y } = action.payload;
+            state.previewCharacter.previewAbilityPopup.previewAbilityPopupActive = popupStatus;
+            state.previewCharacter.previewAbilityPopup.previewAbilitySelected = ability;
+            state.previewCharacter.previewAbilityPopup.x = (Number(x) / 2) + 200;
+            state.previewCharacter.previewAbilityPopup.y = (Number(y) / 2) + 100;
         }
     }
 });
@@ -103,6 +116,7 @@ export const {
     addUserCharacterAvatarBlob,
     previewCharacterAction,
     charactersFilters,
-    avatarsLoadEnd
+    avatarsLoadEnd,
+    abilityPopup
 } = userSlice.actions;
 export default userSlice.reducer;
