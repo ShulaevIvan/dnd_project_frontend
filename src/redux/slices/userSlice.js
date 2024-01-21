@@ -98,10 +98,22 @@ const userSlice = createSlice({
         },
         abilityPopup(state, action) {
             const { popupStatus, ability, x, y } = action.payload;
+            if (!ability) {
+                state.previewCharacter.previewAbilityPopup.previewAbilityPopupActive = false;
+                state.previewCharacter.previewAbilityPopup.previewAbilitySelected = {};
+                return;
+            }
             state.previewCharacter.previewAbilityPopup.previewAbilityPopupActive = popupStatus;
             state.previewCharacter.previewAbilityPopup.previewAbilitySelected = ability;
             state.previewCharacter.previewAbilityPopup.x = (Number(x) / 2) + 200;
             state.previewCharacter.previewAbilityPopup.y = (Number(y) / 2) + 100;
+        },
+        abilityPopupAddDescription(state, action) {
+            const { description } = action.payload;
+            state.previewCharacter.previewAbilityPopup.previewAbilitySelected = {
+                ...state.previewCharacter.previewAbilityPopup.previewAbilitySelected,
+                description: description
+            }
         }
     }
 });
@@ -117,6 +129,7 @@ export const {
     previewCharacterAction,
     charactersFilters,
     avatarsLoadEnd,
-    abilityPopup
+    abilityPopup,
+    abilityPopupAddDescription
 } = userSlice.actions;
 export default userSlice.reducer;

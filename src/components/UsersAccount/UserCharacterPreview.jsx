@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { abilityPopup } from "../../redux/slices/userSlice";
+import { abilityPopup, abilityPopupAddDescription } from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
     const dispatch = useDispatch();
     const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
-    const previewAbilityPopup = useSelector((state) => state.userData.previewCharacter.previewAbilityPopup);
+    const popupAbil = useSelector((state) => state.userData.previewCharacter.previewAbilityPopup);
 
     const abilityDescriptionHandler = (e, abilityObj, action) => {
+        e.stopPropagation();
+        if (abilityObj && popupAbil.previewAbilitySelected && abilityObj.name === popupAbil.previewAbilitySelected.name) return;
+
         const rect = e.target.getBoundingClientRect();
-        console.log(rect.top)
-        if (action === 'show') {
-            console.log(abilityObj)
-            dispatch(abilityPopup({popupStatus: true, ability: abilityObj,  x: rect.left, y: rect.top}));
-            return;
-        }
-        dispatch(abilityPopup({popupStatus: false, ability: abilityObj,  x: rect.left, y: rect.top}));
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/abilites/?ability=${abilityObj.name}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                let popupStatus = false;
+                if (action === 'show') popupStatus = true;
+                dispatch(abilityPopup({popupStatus: popupStatus, ability: abilityObj,  x: rect.left, y: rect.top}));
+                dispatch(abilityPopupAddDescription({description: data[0].description}))
+            })
+        };
+        fetchFunc();
+    };
+
+    const closePopupAbilHandler = () => {
+        dispatch(abilityPopup({popupStatus: false}));
     };
 
     return (
@@ -66,11 +82,15 @@ const UserCharacterPreview = () => {
                             {selectedCharacter.abilities.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
-                                        <div className="user-character-preview-abilitiy-item">
-                                            <div
-                                                onMouseOver={(e) => abilityDescriptionHandler(e, item, 'show')}
+                                        <div
+                                           
+                                            className="user-character-preview-abilitiy-item">
+                                            <span 
+                                                className="ability-info-icon"
+                                                onMouseEnter={(e) => abilityDescriptionHandler(e, item, 'show')}
                                                 onMouseLeave={(e) => abilityDescriptionHandler(e, item, 'hide')}
-                                                className="user-character-preview-abilitiy-item-name">
+                                            ></span>
+                                            <div className="user-character-preview-abilitiy-item-name">
                                                 {item.name.length > 8 ? `${item.name.split('').slice(item.length, 9).join('')}...` : item.name}</div>
                                             <div className="user-character-preview-abilitiy-item-value">{item.value}</div>
                                         </div>
@@ -117,23 +137,17 @@ const UserCharacterPreview = () => {
             </div>
 
             <div
-                style={{left: previewAbilityPopup.x, top: previewAbilityPopup.y}}
-                className={previewAbilityPopup.previewAbilityPopupActive ? "ability-popup-wrap" : "ability-popup-wrap ability-popup-hidden"}
+                style={{left: popupAbil.x, top: popupAbil.y}}
+                className={popupAbil.previewAbilityPopupActive ? "ability-popup-wrap" : "ability-popup-wrap ability-popup-hidden"}
             >
                 <div className="ability-popup-title">
-                    {previewAbilityPopup.previewAbilitySelected.name}
+                    {popupAbil.previewAbilitySelected ? 
+                        popupAbil.previewAbilitySelected.name : null
+                    }
                 </div>
-                    <div className="ability-popup-body">
+                    <div className="ability-popup-body" onMouseMove={closePopupAbilHandler}>
                         <div className="ability-popup-description">
-                        <p> Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
-                            Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. 
-                            В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов,
-                            используя Lorem Ipsum для распечатки образцов. 
-                            Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. 
-                            Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, 
-                            в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, 
-                            в шаблонах которых используется Lorem Ipsum.
-                        </p>
+                        <p>{popupAbil.previewAbilitySelected ? popupAbil.previewAbilitySelected.description : null}</p>
                     </div>
                 </div>
             </div>

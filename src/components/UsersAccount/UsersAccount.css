@@ -443,8 +443,9 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 20%;
-    width: 20%;
+    position: relative;
+    max-width: 33%;
+    width: 28%;
     margin-right: 10px;
     margin-bottom: 10px;
     padding: 2px 4px;
@@ -459,6 +460,11 @@
     width: 80%;
     align-items: center;
     justify-content: center;
+}
+.ability-info-icon::before {
+    position: absolute;
+    content: '\1F6C8';
+    max-width: 20px;
     cursor: pointer;
 }
 .ability-popup-wrap {
@@ -466,14 +472,19 @@
     flex-direction: column;
     flex-wrap: wrap;
     max-width: 400px;
-    min-height: 400px;
+    min-width: 200px;
+    min-height: 200px;
     background-color: gray;
     justify-content: center;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid;
     position: absolute;
     z-index: 5;
     pointer-events: none;
+}
+.ability-popup-body {
+    width: 100%;
+    z-index: 5;
 }
 .ability-popup-hidden {
     display: none;
@@ -485,6 +496,7 @@
     margin-bottom: 2px;
     max-width: 20%;
     width: 15%;
+    min-width: 20px;
     border: 1px solid;
     align-items: center;
     justify-content: center;
