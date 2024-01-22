@@ -18,8 +18,25 @@ const CharacterStepsSaveCharacter = () => {
     const charAbilities  = useSelector((state) => state.calculateAbilites.resultCharAbilities);
     const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
     const creationComplite = useSelector((state) => state.characterTotal.creationComplite);
+    const charSavethrows = useSelector((state) => state.characterSteps.characterSum.classData.classSaveThrows);
+
+    const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     
+    // const prepCharacterSkills = () => {
+    //     const classSkills = characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel));
+    //     const raceSkills = characterData.raceData.skills;
+    //     const subraceSkills = characterData.subraceData ? characterData.subraceData.subraceSkills : [];
+    //     const bckgArmorMastery = characterData.backgroundActive[0].armorMastery;
+    //     const bckgInstrumentMastery = characterData.backgroundActive[0].instrumentMastery;
+    //     const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
+    //     const charLang = characterData.raceData.languages;
+    //     const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills]
+    //     console.log(resultSkills)
+    // };
+    // prepCharacterSkills()
+
     const saveCharacterDataHandler = () => {
+        
         const data = {
             charName: characterName,
             charRace: characterData.raceData.raceData.char_race_name,
@@ -29,6 +46,16 @@ const CharacterStepsSaveCharacter = () => {
             charLvl: characterData.charLevel,
             charStats: charStats,
             charAbilities: charAbilities,
+            charSkills: [
+                ...characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel)),
+                ...raceSkills,
+                ...characterData.subraceData ? characterData.subraceData.subraceSkills : [],
+            ],
+            charSavethrows: charSavethrows,
+            charArmorMastery: characterData.backgroundActive[0].armorMastery,
+            charWeaponMastery: characterData.backgroundActive[0].weaponMastery,
+            charInstrumentMastery: characterData.backgroundActive[0].instrumentMastery,
+            charLanguages: characterData.raceData.languages,
             charDescription: characterDescription ? characterDescription.description : '',
             charWorldView: characterWorldView.name,
             charAvatar: characterAvatar.uploadPopupFileData ? {
