@@ -25,6 +25,7 @@ const CharacterStepsAvatar = () => {
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterTotalInfo = useSelector((state) =>  state.characterTotal.characterTotalInfo);
     const charNameValidStatus = useSelector((state) => state.characterTotal.characterTotalInfo.charNameValid);
+    const characterGender = useSelector((state) =>  state.characterTotal.characterTotalInfo.gender);
 
     const characterNameRef = useRef(null);
     const descPopupTextArea = useRef(null);
@@ -154,6 +155,15 @@ const CharacterStepsAvatar = () => {
 
     useEffect(() => {
         if (characterNameRef.current) characterNameRef.current.value = '';
+    }, []);
+
+    useEffect(() => {
+        if (characterGender === 'male') {
+            dispatch(selectCharacterGender({gender: 'male'}));
+        }
+        else if (characterGender === 'female') {
+            dispatch(selectCharacterGender({gender: 'female'}));
+        }
     }, []);
 
 
