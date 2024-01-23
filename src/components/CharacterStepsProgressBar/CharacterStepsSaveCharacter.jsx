@@ -10,7 +10,7 @@ const CharacterStepsSaveCharacter = () => {
     const navigate = useNavigate();
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
-    const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
+    // const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterName = useSelector((state) => state.characterTotal.characterTotalInfo.charName);
     const characterAvatar = useSelector((state) => state.characterTotal.uploadCharacterFile);
@@ -19,21 +19,22 @@ const CharacterStepsSaveCharacter = () => {
     const characterWorldView = useSelector((state) => state.characterSteps.characterSum.backgroundWorldViewActive);
     const creationComplite = useSelector((state) => state.characterTotal.creationComplite);
     const charSavethrows = useSelector((state) => state.characterSteps.characterSum.classData.classSaveThrows);
+    const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
 
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     
-    // const prepCharacterSkills = () => {
-    //     const classSkills = characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel));
-    //     const raceSkills = characterData.raceData.skills;
-    //     const subraceSkills = characterData.subraceData ? characterData.subraceData.subraceSkills : [];
-    //     const bckgArmorMastery = characterData.backgroundActive[0].armorMastery;
-    //     const bckgInstrumentMastery = characterData.backgroundActive[0].instrumentMastery;
-    //     const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
-    //     const charLang = characterData.raceData.languages;
-    //     const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills]
-    //     console.log(resultSkills)
-    // };
-    // prepCharacterSkills()
+    const prepCharacterSkills = () => {
+        const classSkills = characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel));
+        const raceSkills = characterData.raceData.skills;
+        const subraceSkills = characterData.subraceData ? characterData.subraceData.subraceSkills : [];
+        const bckgArmorMastery = characterData.backgroundActive[0].armorMastery;
+        const bckgInstrumentMastery = characterData.backgroundActive[0].instrumentMastery;
+        const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
+        const charLang = characterData.raceData.languages;
+        const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills]
+        console.log(otherCharStats)
+    };
+    prepCharacterSkills()
 
     const saveCharacterDataHandler = () => {
         
