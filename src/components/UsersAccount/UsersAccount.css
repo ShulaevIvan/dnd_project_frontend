@@ -389,12 +389,12 @@
     flex-direction: row;
     width: 100%;
     margin-bottom: 10px;
+    max-width: 200px;
 }
 .user-character-preview-stat-name,
 .user-character-preview-stat-value {
     display: flex;
     flex-wrap: wrap;
-    width: 50%;
     max-width: 50%;
 }
 .user-character-preview-stat-name {

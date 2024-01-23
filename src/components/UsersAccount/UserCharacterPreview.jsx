@@ -29,7 +29,7 @@ const UserCharacterPreview = () => {
         };
         fetchFunc();
     };
-
+    console.log(selectedCharacter)
     const closePopupAbilHandler = () => {
         dispatch(abilityPopup({popupStatus: false}));
     };
@@ -50,7 +50,7 @@ const UserCharacterPreview = () => {
                                 <div className="user-character-preview-background">Background: {selectedCharacter.background}</div>
                                 <div className="user-character-preview-class">
                                     Class: {selectedCharacter.class}
-                                    <span className="user-character-preview-class-lvl">1</span>
+                                    <span className="user-character-preview-class-lvl">{`lvl ${selectedCharacter.lvl}`}</span>
                                 </div>
                                 {selectedCharacter.subclass ?
                                     <div className="user-character-preview-class">
@@ -68,8 +68,8 @@ const UserCharacterPreview = () => {
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <div className="user-character-preview-stat-item-row">
-                                            <div className="user-character-preview-stat-name">{item.name.toUpperCase()}</div>
-                                            <div className="user-character-preview-stat-value">{item.modifer}</div>
+                                            <div className="user-character-preview-stat-name">{`${item.name.toUpperCase()}:`}</div>
+                                            <div className="user-character-preview-stat-value">{`${item.value} (${item.modifer})`}</div>
                                         </div>
                                     </React.Fragment>
                                 )
