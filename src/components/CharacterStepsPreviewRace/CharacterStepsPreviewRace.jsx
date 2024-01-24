@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCharacterGender } from '../../redux/slices/characterTotalSlice';
-import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
+import { activeNextBtn, setCharAge, charAgePopup } from "../../redux/slices/characterStepsSlice";
 
 const CharacterStepsPreiewRace = () => {
     const dispatch = useDispatch();
@@ -9,8 +9,23 @@ const CharacterStepsPreiewRace = () => {
     const raceState = useSelector((state) => state.characterSteps.characterSum.raceData);
     const subraceState = useSelector((state) => state.characterSteps.characterSum.subraceData);
     const characterGender = useSelector((state) =>  state.characterTotal.characterTotalInfo.gender);
+    const agePopupState = useSelector((state) => state.characterSteps.ageEditPopupStatus);
+
+    const ageRef = useRef(null);
+
     const chooseGenderHandler = (gender) => {
         dispatch(selectCharacterGender({gender:gender}));
+    };
+
+    const editAgeHandler = (status) => {
+        dispatch(charAgePopup({popupStatus: status}));
+    };
+
+    const setAgeHandler = () => {
+        if (ageRef.current && ageRef.current.value) {
+            dispatch(setCharAge({age: ageRef.current.value}));
+            dispatch(charAgePopup({popupStatus: false}));
+        }
     };
 
     useEffect(() => {
@@ -90,7 +105,21 @@ const CharacterStepsPreiewRace = () => {
             </div>
 
             <div className="character-race-preview-age">
-                <span className="character-race-preview-span-title">Age:</span> {raceState.raceData.age}
+                <span className="character-race-preview-span-title">Age:</span> 
+                <span className="character-race-edit-age-btn" onClick={() => editAgeHandler(true)}></span>
+                <span className="character-race-age-value">{raceState.raceData.age}</span>
+                {
+                    agePopupState ?
+                        <div className="character-race-age-add-value-input-wrap">
+                            <label>Age edit</label>
+                            <input ref={ageRef} type="text" />
+                            <div className="age-edit-controls">
+                                <button onClick={setAgeHandler}>Ok</button>
+                                <button onClick={() => editAgeHandler(false)}>Cancel</button>
+                            </div>
+                        </div> 
+                    : null
+                }
             </div>
 
             <div className="character-race-preview-worldview">

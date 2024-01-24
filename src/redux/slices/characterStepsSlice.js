@@ -52,6 +52,7 @@ const initialState = {
     statModeSwitcher: false,
     navNextBtnDisable: true,
     navPrevBtnDisable: true,
+    ageEditPopupStatus: false,
 };
 
 const characterStepsSlice = createSlice({
@@ -274,6 +275,18 @@ const characterStepsSlice = createSlice({
             state.characterSum.backgroundData = undefined;
             state.characterSum.backgroundActive = undefined;
             state.characterSum.backgroundWorldViewActive = undefined;
+        },
+        charAgePopup(state, action) {
+            const { popupStatus } = action.payload;
+            state.ageEditPopupStatus = popupStatus;
+        },
+        setCharAge(state, action) {
+            const { age } = action.payload;
+            if (!Number(age) || !state.characterSum.raceData) return;
+            state.characterSum.raceData.raceData = {
+                ...state.characterSum.raceData.raceData,
+                age: Number(age),
+            }
         }
     },
     extraReducers: (builder) => builder.addCase(resetCharSteps, () => initialState),
@@ -308,7 +321,9 @@ export const {
     chooseCharAbility,
     stepOneReset,
     stepTwoReset,
-    stepThreeReset
+    stepThreeReset,
+    charAgePopup,
+    setCharAge,
     
 } = characterStepsSlice.actions;
 

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFormActive, registerFormActive, forgotPasswordActive } from "../../redux/slices/headerLoginFormSlice";
+import { registerEnterKey } from "../../redux/slices/headerLoginFormSlice";
 import { authUser } from "../../redux/slices/userSlice";
 import RegisterForm from "../RegisterForm/RegisterForm";
 import { emailValidate } from "../FormsRegExp/FormsRegExp";
@@ -10,7 +11,8 @@ import { Link } from "react-router-dom";
 const LoginFrom = () => {
     const dispatch = useDispatch();
     const registerFormState = useSelector((state) => state.headerLoginForm.registerFormActive);
-    const forgotPswdFormState = useSelector((state) => state.headerLoginForm.forgotPasswordFormActive)
+    const forgotPswdFormState = useSelector((state) => state.headerLoginForm.forgotPasswordFormActive);
+    const enterState = useSelector((state) => state.headerLoginForm.enterPushed);
 
     const initialState = {
         loginInputRef: useRef(null),
@@ -41,7 +43,7 @@ const LoginFrom = () => {
     const loginHandler = async () => {
         const sendData = {
             email: loginFromState.loginInputRef.current.value,
-            password: loginFromState.passwordInputRef.current.value
+            password: loginFromState.passwordInputRef.current.value,
         };
 
         const fetchFunc = async () => {
@@ -77,11 +79,15 @@ const LoginFrom = () => {
         
     };
 
+    const loginKeyHandler = (e) => {
+        dispatch(registerEnterKey({key: e.key}));
+    };
+
     const registerHandler = () => {
         dispatch(registerFormActive(true));
     };
 
-    const loginInputHandler = () => {
+    const loginInputHandler = (e) => {
         const pattern = emailValidate;
         if (loginFromState.loginInputRef.current.value.match(pattern)) {
             setLoginFormState(prevState => ({
@@ -146,10 +152,17 @@ const LoginFrom = () => {
         }));
     };
 
+    useEffect(() => {
+        if (enterState && loginFromState.loginInputRef.current && loginFromState.passwordInputRef.current) {
+            loginHandler();
+            return;
+        };
+    }, [enterState])
+
     return (
         <React.Fragment>
             {!registerFormState ?
-            <div className="login-form-header-wrap">
+            <div className="login-form-header-wrap" onKeyDown={(e) => loginKeyHandler(e)}>
                 <span className="login-form-close-btn" onClick={closeFormHandler}></span>
                 {!forgotPswdFormState ? 
                 <form className="login-form-header">
@@ -180,7 +193,7 @@ const LoginFrom = () => {
                             <button onClick={registerHandler}>Register</button>
                         </div>
                         <div className="login-from-login-btn-wrap">
-                            <button onClick={loginHandler}>Login</button>
+                            <button onClick={(e) => loginHandler(e)}>Login</button>
                             {/* <button onClick={loginHandler} disabled={loginFromState.loginBtnDisable}>Login</button> */}
                         </div>
                     </div>

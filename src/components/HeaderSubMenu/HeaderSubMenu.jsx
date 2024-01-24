@@ -10,14 +10,13 @@ import { logoutUser } from "../../redux/slices/userSlice";
 
 const HeaderSubMenu = () => {
     const dispatch = useDispatch();
-    const location = useLocation();
     const userData = useSelector((state) => state.userData);
-    const subMenuStatus = useSelector((state) => state.subMenu.submenuActive);
 
-    const loginHandler = () => {
+    const loginHandler = (e) => {
         dispatch(subMenuActive(false));
         dispatch(loginFormActive(true));
     };
+
 
     const logoutHandler = async () => {
         const fetchFunc = async () => {
@@ -46,7 +45,9 @@ const HeaderSubMenu = () => {
             <ul className="account-options account-options">
                 {userData.isAuthenticated ?  <li><Link onClick={autoCloseSubmenuHandler} to={'/profile/'}>Profile</Link></li> : null }
                 {userData.isAuthenticated ?  <li><Link onClick={autoCloseSubmenuHandler} to={'/profile/characters/'}>My Characters</Link></li> : null }
-                {userData.isAuthenticated ? <li><Link onClick={logoutHandler}>Logout</Link></li> : <li><Link onClick={(e) => loginHandler(e)}>Login</Link></li>}
+                {userData.isAuthenticated ? 
+                    <li><Link onClick={logoutHandler}>Logout</Link></li> : 
+                    <li><Link onClick={(e) => loginHandler(e)}>Login</Link></li>}
             </ul>
             <div>
                 

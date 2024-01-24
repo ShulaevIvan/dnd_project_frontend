@@ -10,6 +10,7 @@ const CharacterStepsSaveCharacter = () => {
     const navigate = useNavigate();
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
+    const classStartEqip = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
     // const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterName = useSelector((state) => state.characterTotal.characterTotalInfo.charName);
@@ -32,10 +33,9 @@ const CharacterStepsSaveCharacter = () => {
         const bckgInstrumentMastery = characterData.backgroundActive[0].instrumentMastery;
         const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
         const charLang = characterData.raceData.languages;
-        const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills]
-        console.log(characterData.raceData.raceData)
+        const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills];
     };
-    prepCharacterSkills()
+    prepCharacterSkills();
 
     const saveCharacterDataHandler = () => {
         
@@ -76,6 +76,7 @@ const CharacterStepsSaveCharacter = () => {
             charAge: characterData.raceData.raceData.age,
             charSize: characterData.raceData.raceData.size,
             charWeight: characterData.raceData.raceData.weight,
+            charStartEqip: classStartEqip,
         }
 
         const fetchFunc = async () => {
