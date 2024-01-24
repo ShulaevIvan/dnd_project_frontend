@@ -20,6 +20,7 @@ const CharacterStepsSaveCharacter = () => {
     const creationComplite = useSelector((state) => state.characterTotal.creationComplite);
     const charSavethrows = useSelector((state) => state.characterSteps.characterSum.classData.classSaveThrows);
     const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
+    const passivePreseption = useSelector((state) => state.calculateCharStats.passivePreseption);
 
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     
@@ -32,7 +33,7 @@ const CharacterStepsSaveCharacter = () => {
         const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
         const charLang = characterData.raceData.languages;
         const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills]
-        console.log(otherCharStats)
+        console.log(characterData.raceData.raceData)
     };
     prepCharacterSkills()
 
@@ -45,8 +46,16 @@ const CharacterStepsSaveCharacter = () => {
             charSubClass: !characterData.subclassData ? false : characterData.subclassData,
             charBackground: characterData.backgroundActive[0].name,
             charLvl: characterData.charLevel,
+            charArmorClass: otherCharStats.ac,
+            charMaxHits: otherCharStats.hp,
+            charHitDice: otherCharStats.hitDice,
+            charInitiative: otherCharStats.init,
+            charSpeed: otherCharStats.speed,
+            charMasteryBonuce: otherCharStats.prof,
+            charPassivePresep: passivePreseption,
             charStats: charStats,
             charAbilities: charAbilities,
+            charWorldView: characterData.backgroundWorldViewActive.name,
             charSkills: [
                 ...characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel)),
                 ...raceSkills,
@@ -64,6 +73,9 @@ const CharacterStepsSaveCharacter = () => {
                 data: characterAvatar.uploadPopupFileData.file,
                 ext: characterAvatar.uploadPopupFileData.name.match(/.\w+$/)[0],
             } : '',
+            charAge: characterData.raceData.raceData.age,
+            charSize: characterData.raceData.raceData.size,
+            charWeight: characterData.raceData.raceData.weight,
         }
 
         const fetchFunc = async () => {
