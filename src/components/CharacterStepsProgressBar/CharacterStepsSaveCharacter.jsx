@@ -38,7 +38,7 @@ const CharacterStepsSaveCharacter = () => {
     prepCharacterSkills();
 
     const saveCharacterDataHandler = () => {
-        
+        console.log(characterData.raceData.languages)
         const data = {
             charName: characterName,
             charRace: characterData.raceData.raceData.char_race_name,
@@ -50,7 +50,7 @@ const CharacterStepsSaveCharacter = () => {
             charMaxHits: otherCharStats.hp,
             charHitDice: otherCharStats.hitDice,
             charInitiative: otherCharStats.init,
-            charSpeed: otherCharStats.speed,
+            charSpeed: otherCharStats.move,
             charMasteryBonuce: otherCharStats.prof,
             charPassivePresep: passivePreseption,
             charStats: charStats,
