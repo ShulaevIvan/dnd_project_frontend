@@ -20,7 +20,7 @@ const UsersCharacters = () => {
     const userCharacters = useSelector((state) => state.userData.userCharacters);
     const previewCharacter = useSelector((state) => state.userData.previewCharacter);
     const userCharactersFilters = useSelector((state) => state.userData.userCharactersFilters);
-    const avatarsLoadStatus = useSelector((state) => state.userData.userCharactersAvatarsLoadEnd)
+    const avatarsLoadStatus = useSelector((state) => state.userData.userCharactersAvatarsLoadEnd);
 
     const deleteCharacterHandler = (character) => {
         dispatch(deleteUserCharacter({characterId: character.id}));

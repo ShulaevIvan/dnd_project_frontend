@@ -24,6 +24,9 @@ const initialState = {
         gender: undefined,
         charDescription: undefined,
         characterWorldview: undefined,
+        armorMastery: [],
+        weaponMastery: [],
+        instrumentMastery: [],
     },
     characterStatTest: {
         showStatResultPanel: false,
@@ -315,7 +318,31 @@ const characterTotalSlice = createSlice({
         },
         resetLastStep(state) {
             state.creationComplite = false;
-        }
+        },
+        characterMasterySum(state, action) {
+            const { armorMastery, weaponMastery, instrumentMastery } = action.payload;
+            state.characterTotalInfo.armorMastery = [...armorMastery.map((item) => {{
+                if (!state.characterTotalInfo.armorMastery.some((mastery) => mastery.name === item.name)) {
+                    return {
+                        ...item
+                    };
+                }
+            }})];
+            state.characterTotalInfo.weaponMastery = [...weaponMastery.map((item) => {{
+                if (!state.characterTotalInfo.weaponMastery.some((mastery) => mastery.name === item.name)) {
+                    return {
+                        ...item
+                    };
+                }
+            }})];
+            state.characterTotalInfo.instrumentMastery = [...instrumentMastery.map((item) => {{
+                if (!state.characterTotalInfo.instrumentMastery.some((mastery) => mastery.name === item.name)) {
+                    return {
+                        ...item
+                    };
+                }
+            }})];
+        },
     },
     extraReducers: (builder) => builder.addCase(resetCharTotal, () => initialState),
 });
@@ -348,7 +375,8 @@ export const {
     resetTotalState,
     resetGender,
     charNameValid,
-    removeUploadFile
+    removeUploadFile,
+    characterMasterySum
     
 } = characterTotalSlice.actions;
 

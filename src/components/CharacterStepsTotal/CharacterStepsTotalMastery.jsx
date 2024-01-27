@@ -1,8 +1,36 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { characterMasterySum } from "../../redux/slices/characterTotalSlice";
 
 const CharacterStepsTotalMastery = () => {
-    const choosenAbilitiesSkills = useSelector((state) => state.calculateAbilites.choosenSkills);
+    const dispatch = useDispatch();
+    const characterClassData = useSelector((state) => state.characterSteps.characterSum.classData);
+    const characterBackground = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0]);
+    const characterTotalInfo = useSelector((state) => state.characterTotal.characterTotalInfo);
+
+
+    useEffect(() => {
+        const resultArmorMastery = [
+            ...characterClassData.classArmorMastery,
+            ...characterBackground.armorMastery,
+        ];
+        const resultWeaponMastery = [
+            ...characterClassData.classWeaponMastery,
+            ...characterBackground.weaponMastery,
+        ];
+        const instrumentMastery = [
+            ...characterClassData.classInstrumentMastery,
+            ...characterBackground.instrumentMastery,
+        ];
+
+        dispatch(characterMasterySum({
+            armorMastery: resultArmorMastery,
+            weaponMastery: resultWeaponMastery,
+            instrumentMastery: instrumentMastery,
+        }));
+    }, []);
+    
 
     return (
         <React.Fragment>
@@ -12,7 +40,7 @@ const CharacterStepsTotalMastery = () => {
                     <div className="character-total-mastery-weapons">
                         <div className="character-total-mastery-weapons-title">weapons</div>
                         <ul className="character-total-weapon-mastery-list">
-                            {choosenAbilitiesSkills.filter((item) => item.type === 'weapon').map((item) => {
+                            {characterTotalInfo.weaponMastery.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <li><a href="#">{item.name}</a></li>
@@ -24,7 +52,7 @@ const CharacterStepsTotalMastery = () => {
                     <div className="character-total-mastery-armor">
                         <div className="character-total-mastery-armor-title">armor</div>
                         <ul className="character-total-armor-mastery-list">
-                            {choosenAbilitiesSkills.filter((item) => item.type === 'armor').map((item) => {
+                            {characterTotalInfo.armorMastery.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <li><a href="#">{item.name}</a></li>
@@ -36,7 +64,7 @@ const CharacterStepsTotalMastery = () => {
                     <div className="character-total-mastery-instruments">
                         <div className="character-total-mastery-instrument-title">instruments</div>
                         <ul className="character-total-instruments-mastery-list">
-                            {choosenAbilitiesSkills.filter((item) => item.type === 'instrument').map((item) => {
+                            {characterTotalInfo.instrumentMastery.map((item) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <li><a href="#">{item.name}</a></li>

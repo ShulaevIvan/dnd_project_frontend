@@ -7,8 +7,10 @@ const UserCharacterPreview = () => {
     const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const popupAbil = useSelector((state) => state.userData.previewCharacter.previewAbilityPopup);
 
+    console.log(selectedCharacter);
+
     const abilityDescriptionHandler = (e, abilityObj, action) => {
-        e.stopPropagation();
+
         if (abilityObj && popupAbil.previewAbilitySelected && abilityObj.name === popupAbil.previewAbilitySelected.name) return;
 
         const rect = e.target.getBoundingClientRect();
@@ -46,6 +48,7 @@ const UserCharacterPreview = () => {
                         <div className="user-character-preview-stats-wrap">
                             <div className="user-character-preview-name-wrap">
                                 <div className="user-character-preview-name">Name: {selectedCharacter.name}</div>
+                                <div className="user-character-preview-worldview">Worldview: {selectedCharacter.worldview}</div>
                                 <div className="user-character-preview-race">Race: {selectedCharacter.race}</div>
                                 <div className="user-character-preview-background">Background: {selectedCharacter.background}</div>
                                 <div className="user-character-preview-class">
@@ -64,16 +67,44 @@ const UserCharacterPreview = () => {
                                     <span className="user-character-exp-total">100</span>
                                 </div>
                             </div>
-                            {selectedCharacter.stats.map((item) => {
-                                return (
-                                    <React.Fragment key={Math.random()}>
-                                        <div className="user-character-preview-stat-item-row">
-                                            <div className="user-character-preview-stat-name">{`${item.name.toUpperCase()}:`}</div>
-                                            <div className="user-character-preview-stat-value">{`${item.value} (${item.modifer})`}</div>
+                            <div className="user-character-preview-stats-row">
+                                <div className="user-character-preview-stats-wrap">
+                                    {selectedCharacter.stats.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className="user-character-preview-stat-item-row">
+                                                    <div className="user-character-preview-stat-name">{`${item.name.toUpperCase()}:`}</div>
+                                                    <div className="user-character-preview-stat-value">{`${item.value} (${item.modifer})`}</div>
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                </div>
+
+                                <div className="user-character-preview-health-wrap">
+                                    <div className="user-character-hp-title">Max HP</div>
+                                    <div className="user-character-health-row">
+                                        <div className="user-character-health-wrap">
+                                            <div className="user-character-max-hits-value">
+                                                <span className="user-character-max-hits-value-block">222</span>
+                                            </div>
+                                            <div className="user-character-health-icon-wrap">
+                                                <div className="user-character-health-icon"></div>
+                                            </div>
                                         </div>
-                                    </React.Fragment>
-                                )
-                            })}
+                                        
+                                        <div className="user-character-armorclass-title">ArmorClass</div>
+                                        <div className="user-character-armor-icon-wrap">
+                                            <div className="user-character-armor-icon">
+                                                <div className="user-character-armor-class-value">
+                                                <span className="user-character-armor-class-value-block">222</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
 

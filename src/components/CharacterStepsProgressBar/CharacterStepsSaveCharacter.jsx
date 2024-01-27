@@ -22,6 +22,7 @@ const CharacterStepsSaveCharacter = () => {
     const charSavethrows = useSelector((state) => state.characterSteps.characterSum.classData.classSaveThrows);
     const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
     const passivePreseption = useSelector((state) => state.calculateCharStats.passivePreseption);
+    const characterTotalInfo = useSelector((state) => state.characterTotal.characterTotalInfo);
 
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     
@@ -62,9 +63,9 @@ const CharacterStepsSaveCharacter = () => {
                 ...characterData.subraceData ? characterData.subraceData.subraceSkills : [],
             ],
             charSavethrows: charSavethrows,
-            charArmorMastery: characterData.backgroundActive[0].armorMastery,
-            charWeaponMastery: characterData.backgroundActive[0].weaponMastery,
-            charInstrumentMastery: characterData.backgroundActive[0].instrumentMastery,
+            charArmorMastery: characterTotalInfo.armorMastery,
+            charWeaponMastery: characterTotalInfo.weaponMastery,
+            charInstrumentMastery: characterTotalInfo.instrumentMastery,
             charLanguages: characterData.raceData.languages,
             charDescription: characterDescription ? characterDescription.description : '',
             charWorldView: characterWorldView.name,

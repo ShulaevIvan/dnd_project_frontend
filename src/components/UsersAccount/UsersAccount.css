@@ -349,7 +349,6 @@
     flex-wrap: wrap;
     width: 100%;
     margin-top: 10px;
-    align-items: center;
     justify-content: center;
 }
 .user-character-preview {
@@ -363,12 +362,11 @@
 .user-character-preview-image-wrap {
     display: flex;
     flex-direction: column;
-    min-width: 300px;
+    min-width: 240px;
     min-height: 300px;
-    max-width: 40%;
+    max-width: 300px;
     max-height: 40%;
-    border: 1px solid;
-    margin-right: 10px;
+    margin-right: 4%;
     margin-bottom: 20px;
 }
 .user-character-preview-image-wrap img {
@@ -376,13 +374,35 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+.user-character-preview-stats-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
 .user-character-preview-stats-wrap {
     display: flex;
     flex-direction: column;
     max-width: 60%;
-    width: 40%;
+    width: 45%;
     justify-content: center;
     margin-bottom: 20px;
+}
+.user-character-preview-health-wrap {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    width: 45%;
+    margin-bottom: 20px;
+}
+.user-character-health-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    margin-top: 10%;
 }
 .user-character-preview-stat-item-row {
     display: flex;
@@ -390,6 +410,88 @@
     width: 100%;
     margin-bottom: 10px;
     max-width: 200px;
+}
+.user-character-health-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.user-character-health-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #C14B3C;
+    transform: rotate(45deg);
+    position: relative;
+}
+.user-character-health-icon::before,
+.user-character-health-icon::after {
+    content : '';
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-color: #C14B3C;
+    border-radius: 50%;
+    position: absolute;
+}
+.user-character-health-icon::before {
+    top: -20px;
+    left: 0;
+}
+.user-character-health-icon::after {
+    top: 0;
+    left: -20px;
+}
+.user-character-max-hits-value {
+    width: 40px;
+    position: absolute;
+    z-index: 3;
+    top: 2%;
+    left: 35%;
+    font-size: 18px;
+}
+.user-character-armor-icon-wrap,
+.user-character-health-icon-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.user-character-armor-icon {
+    height: 50px;
+    width: 60px;
+    background-color: gray;
+    position: relative;
+  }
+  
+.user-character-armor-icon:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 82%;
+    margin-left: -50px;
+    width: 0;
+    height: 0;
+    border-top: solid 18px gray;
+    border-left: solid 30px transparent;
+    border-right: solid 30px transparent;
+}
+.user-character-armor-class-value {
+    position: absolute;
+    display: flex;
+    top: 40%;
+    left: 25%;
+    font-size: 18px;
+}
+.user-character-armorclass-title,
+.user-character-hp-title {
+    margin: 10px 0;
+}
+.user-character-armor-class-value-block,
+.user-character-max-hits-value-block {
+    cursor: pointer;
 }
 .user-character-preview-stat-name,
 .user-character-preview-stat-value {
@@ -412,6 +514,7 @@
     align-items: flex-start;
 }
 .user-character-preview-name,
+.user-character-preview-worldview,
 .user-character-preview-race,
 .user-character-preview-background,
 .user-character-preview-class,
