@@ -42,7 +42,20 @@ const UserCharacterPreview = () => {
                 <div className="user-character-preview">
                     <div className="user-character-preview-avatar-row">
                         <div className="user-character-preview-image-wrap">
-                            <img src={selectedCharacter.avatarBlob ? selectedCharacter.avatarBlob : ''} alt="" />
+                            <div className="user-character-preview-image">
+                                <img src={selectedCharacter.avatarBlob ? selectedCharacter.avatarBlob : ''} alt="" />
+                            </div>
+                            <div className="user-character-description-wrap">
+                                <div className="user-character-description-content">
+                                    {/* <p>Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. 
+                                        В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. 
+                                        Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. 
+                                        Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, 
+                                        в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.
+                                    </p> */}
+                                    <span className="user-character-description-show-more"><a href="#">show more ...</a></span>
+                                </div>
+                            </div>
                         </div>
             
                         <div className="user-character-preview-stats-wrap">
@@ -93,7 +106,7 @@ const UserCharacterPreview = () => {
                                             </div>
                                         </div>
                                         
-                                        <div className="user-character-armorclass-title">ArmorClass</div>
+                                        <div className="user-character-armorclass-title">Armor Class</div>
                                         <div className="user-character-armor-icon-wrap">
                                             <div className="user-character-armor-icon">
                                                 <div className="user-character-armor-class-value">
@@ -109,6 +122,9 @@ const UserCharacterPreview = () => {
                     </div>
 
                     <div className="user-character-preview-abilities-wrap">
+                        <div className="user-character-preview-abilities-title">
+                            <h3>Навыки</h3>
+                        </div>
                         <div className="user-character-preview-abilities-row">
                             {selectedCharacter.abilities.map((item) => {
                                 return (
@@ -131,8 +147,13 @@ const UserCharacterPreview = () => {
                         </div>
                     </div>
 
+                    
+
                     <div className="user-character-preview-skills-row">
                         <div className="user-character-skills-avalible-wrap">
+                            <div className="user-character-preview-skills-title">
+                                <h3>Умения</h3>
+                            </div>
                            <div className="user-character-skills-row">
                                 <div className="user-character-skill-item">
                                     <div className="user-character-skill-item-title">Skill Name</div>
@@ -161,7 +182,78 @@ const UserCharacterPreview = () => {
                            </div>
                         </div>
                         <div className="user-character-spells-avalible-wrap">
-                           2
+                            <div className="user-character-preview-skills-title">
+                                <h3>Заклинания</h3>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <div className="user-character-preview-abilities-title">
+                        <h3>Мастерство</h3>
+                    </div>
+                    <div className="user-character-mastery-wrap">
+                        
+                        <div className="user-character-armor-mastery-wrap">
+                            <div className="user-character-armor-mastery-item">
+                                <div className="mastery-info-icon-wrap">
+                                    <span className="mastery-info-icon"></span>
+                                </div>
+                                <div className="user-character-mastery-name">
+                                    Легкие доспехи
+                                </div>
+                                <div className="mastery-type-icon-wrap">
+                                    <span className="mastery-type-icon-armor"></span>
+                                </div>
+                            </div>
+                            <div className="user-character-armor-mastery-item">
+                                <div className="mastery-info-icon-wrap">
+                                    <span className="mastery-info-icon"></span>
+                                </div>
+                                <div className="user-character-mastery-name">
+                                    Легкие доспехи
+                                </div>
+                                <div className="mastery-type-icon-wrap">
+                                    <span className="mastery-type-icon-armor"></span>
+                                </div>
+                            </div>
+                            <div className="user-character-armor-mastery-item">
+                                <div className="mastery-info-icon-wrap">
+                                    <span className="mastery-info-icon"></span>
+                                </div>
+                                <div className="user-character-mastery-name">
+                                    Легкие доспехи
+                                </div>
+                                <div className="mastery-type-icon-wrap">
+                                    <span className="mastery-type-icon-armor"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="user-character-weapon-mastery-wrap">
+                            <div className="user-character-weapon-mastery-item">
+                                <div className="mastery-info-icon-wrap">
+                                    <span className="mastery-info-icon"></span>
+                                </div>
+                                <div className="user-character-mastery-name">
+                                    Оружие test test
+                                </div>
+                                <div className="mastery-type-icon-wrap">
+                                    <span className="mastery-type-icon-weapon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="user-character-instrument-mastery-wrap">
+                            <div className="user-character-instrument-mastery-item">
+                                <div className="mastery-info-icon-wrap">
+                                    <span className="mastery-info-icon"></span>
+                                </div>
+                                <div className="user-character-mastery-name">
+                                    instrument test
+                                </div>
+                                <div className="mastery-type-icon-wrap">
+                                    <span className="mastery-type-icon-instrument"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
