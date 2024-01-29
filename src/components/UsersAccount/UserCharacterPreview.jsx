@@ -51,6 +51,8 @@ const UserCharacterPreview = () => {
         dispatch(showFullDescription({status: descrStatus}));
     };
 
+    console.log(selectedCharacter)
+
     return (
         <React.Fragment>
             <div className="user-character-preview-wrap">
@@ -201,38 +203,120 @@ const UserCharacterPreview = () => {
                             <div className="user-character-preview-skills-title">
                                 <h3>Умения</h3>
                             </div>
-                           <div className="user-character-skills-row">
-                                <div className="user-character-skill-item">
-                                    <div className="user-character-skill-item-title">Skill Name</div>
-                                    <div className="user-character-skill-item-controls-row">
-                                        <div className="user-character-skill-item-control">
-                                            <span className="user-character-skill-item-control-preview"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="user-character-skill-item">
-                                    <div className="user-character-skill-item-title">Skill Name</div>
-                                    <div className="user-character-skill-item-controls-row">
-                                        <div className="user-character-skill-item-control">
-                                            <span className="user-character-skill-item-control-preview"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="user-character-skill-item">
-                                    <div className="user-character-skill-item-title">Skill Name</div>
-                                    <div className="user-character-skill-item-controls-row">
-                                        <div className="user-character-skill-item-control">
-                                            <span className="user-character-skill-item-control-preview"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                           </div>
+                            <div className="user-character-skills-row">
+                                {selectedCharacter.skills.map((skill) => {
+                                    return (
+                                        <React.Fragment key={Math.random()}>
+                                            <div className="user-character-skill-item">
+                                                <div className="user-character-skill-item-title">{skill.name}</div>
+                                                <div className="user-character-skill-item-controls-row">
+                                                    <div className="user-character-skill-item-control">
+                                                        <span className="user-character-skill-item-control-preview"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    )
+                                })}
+                            </div>
                         </div>
                         <div className="user-character-spells-avalible-wrap">
                             <div className="user-character-preview-skills-title">
                                 <h3>Заклинания</h3>
                             </div>
-                           
+                            <div className="user-character-preview-spellbook-wrap">
+                                <span className="user-character-preview-spellbook-icon"></span>
+                            </div>
+                        </div>
+                        <div className="user-character-spellbook-popup-wrap">
+                            <div className="user-character-spellbook-popup-close">
+                                <span className="user-character-spellbook-popup-close-icon"></span>
+                            </div>
+                            <div className="user-character-spellbook-popup-header">
+                                <div className="user-character-spellbook-title">
+                                    <h3>Character Spellbook</h3>
+                                </div>
+                                <div className="user-character-spellbook-spelllevels-title">
+                                    <h3>Spell Levels</h3>
+                                </div>
+                                <div className="user-character-spellbook-spelllevels-row">
+                                    <div className="user-character-spellbook-spelllevels-item">1</div>
+                                    <div className="user-character-spellbook-spelllevels-item">2</div>
+                                    <div className="user-character-spellbook-spelllevels-item">3</div>
+                                    <div className="user-character-spellbook-spelllevels-item">4</div>
+                                    <div className="user-character-spellbook-spelllevels-item">5</div>
+                                    <div className="user-character-spellbook-spelllevels-item">6</div>
+                                    <div className="user-character-spellbook-spelllevels-item">7</div>
+                                    <div className="user-character-spellbook-spelllevels-item">8</div>
+                                    <div className="user-character-spellbook-spelllevels-item">9</div>
+                                </div>
+                            </div>
+                            
+                            <div className="user-character-spellbook-popup-body">
+                                <div className="user-character-spellbook-spells-wrap">
+                                    <div className="user-character-spellbook-spells-row">
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                            <img className="user-character-spell-item-image" src="#" />
+                                            <div className="user-character-spell-description-popup">
+                                                <div className="user-character-spellbook-popup-close">
+                                                    <span className="user-character-spellbook-popup-close-icon"></span>
+                                                </div>
+                                                <div className="user-character-spell-description-popup-body">
+                                                    <div className="user-character-spell-description-popup-body-title">Spell Title</div>
+                                                    <div className="user-character-spell-description-popup-body-content">
+                                                        <p>Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
+                                                            Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. 
+                                                            В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, 
+                                                            используя Lorem Ipsum для распечатки образцов. 
+                                                            Lorem Ipsum не только успешно пережил без заметных изменений пять веков, 
+                                                            но и перешагнул в электронный дизайн. 
+                                                            Его популяризации в новое время послужили публикация листов 
+                                                            Letraset с образцами Lorem Ipsum в 60-х годах и, 
+                                                            в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, 
+                                                            в шаблонах которых используется Lorem Ipsum
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                        <div className="user-character-spellbook-spell-item">
+                                            <div className="user-character-spell-item-title">Spell-Title</div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
 
