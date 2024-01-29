@@ -22,6 +22,7 @@ const initialState = {
         },
         previewCharacterActive: false,
         previewCharacterSelected: undefined,
+        fullDescrShow: false,
     }
 };
 
@@ -105,8 +106,8 @@ const userSlice = createSlice({
             }
             state.previewCharacter.previewAbilityPopup.previewAbilityPopupActive = popupStatus;
             state.previewCharacter.previewAbilityPopup.previewAbilitySelected = ability;
-            state.previewCharacter.previewAbilityPopup.x = (Number(x) / 2) + 200;
-            state.previewCharacter.previewAbilityPopup.y = (Number(y) / 2) + 100;
+            state.previewCharacter.previewAbilityPopup.x = (Number(x / 2) + 100);
+            state.previewCharacter.previewAbilityPopup.y = (Number(y / 2) + 50);
         },
         abilityPopupAddDescription(state, action) {
             const { description } = action.payload;
@@ -114,6 +115,10 @@ const userSlice = createSlice({
                 ...state.previewCharacter.previewAbilityPopup.previewAbilitySelected,
                 description: description
             }
+        },
+        showFullDescription(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.fullDescrShow = status;
         }
     }
 });
@@ -130,6 +135,7 @@ export const {
     charactersFilters,
     avatarsLoadEnd,
     abilityPopup,
-    abilityPopupAddDescription
+    abilityPopupAddDescription,
+    showFullDescription,
 } = userSlice.actions;
 export default userSlice.reducer;

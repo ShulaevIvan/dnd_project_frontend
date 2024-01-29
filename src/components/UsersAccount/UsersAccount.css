@@ -323,7 +323,6 @@
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
-    align-items: center;
 }
 .user-profile-characters-column {
     display: flex;
@@ -381,6 +380,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    margin-bottom: 20px;
 }
 .user-character-preview-stats-wrap {
     display: flex;
@@ -394,6 +394,7 @@
     flex-direction: column;
     max-width: 50%;
     width: 45%;
+    margin-left: 5%;
     margin-bottom: 20px;
 }
 .user-character-health-row {
@@ -417,7 +418,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .user-character-health-icon {
     width: 40px;
@@ -484,7 +485,7 @@
     position: absolute;
     display: flex;
     top: 40%;
-    left: 25%;
+    left: 33%;
     font-size: 18px;
 }
 .user-character-armorclass-title,
@@ -734,6 +735,7 @@
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
+    margin-bottom: 20px;
 }
 .user-character-armor-mastery-wrap,
 .user-character-weapon-mastery-wrap,
@@ -765,7 +767,7 @@
     padding: 2px 4px;
 }
 .user-character-weapon-mastery-item {
-    margin: 0 2% 0 2%;
+    margin: 0 2% 10px 2%;
 }
 .mastery-info-icon-wrap,
 .mastery-type-icon-wrap {
@@ -826,7 +828,8 @@
 .user-character-mastery-name {
     display: flex;
     flex-wrap: wrap;
-    max-width: 75%;
+    max-width: 79%;
+    width: 70%;
 }
 .user-character-description-wrap {
     display: flex;
@@ -841,4 +844,48 @@
     flex-wrap: wrap;
     text-align: left;
     padding: 10px;
+}
+.user-character-preview-other-stats-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.user-character-preview-other-stats-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.user-character-size-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 33%;
+    justify-content: center;
+    align-items: center;
+}
+.user-character-size-title,
+.user-character-preseption-title,
+.user-character-speed-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.user-character-size-value,
+.user-character-height-value {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.user-character-preseption-wrap,
+.user-character-speed-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 33%;
 }
