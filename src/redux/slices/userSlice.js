@@ -23,7 +23,12 @@ const initialState = {
         previewCharacterActive: false,
         previewCharacterSelected: undefined,
         fullDescrShow: false,
-    }
+        spellbook: {
+            spellbookPopupShow: false,
+            spellbookItemPopupShow: false,
+
+        }
+    },
 };
 
 const userSlice = createSlice({
@@ -119,6 +124,14 @@ const userSlice = createSlice({
         showFullDescription(state, action) {
             const { status } = action.payload;
             state.previewCharacter.fullDescrShow = status;
+        },
+        showSpellbookPopup(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.spellbook.spellbookPopupShow = status;
+        },
+        showSpellbookItemPopup(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.spellbook.spellbookItemPopupShow = status;
         }
     }
 });
@@ -137,5 +150,7 @@ export const {
     abilityPopup,
     abilityPopupAddDescription,
     showFullDescription,
+    showSpellbookPopup,
+    showSpellbookItemPopup
 } = userSlice.actions;
 export default userSlice.reducer;
