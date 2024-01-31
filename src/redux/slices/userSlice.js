@@ -26,6 +26,7 @@ const initialState = {
         spellbook: {
             spellbookPopupShow: false,
             spellbookItemPopupShow: false,
+            selectedPopupSpell: undefined,
             spellLevels: [
                 {level: 1, active: false},
                 {level: 2, active: false},
@@ -37,6 +38,7 @@ const initialState = {
                 {level: 8, active: false},
                 {level: 9, active: false}
             ],
+            characterSpells: [],
 
         }
     },
@@ -141,8 +143,9 @@ const userSlice = createSlice({
             state.previewCharacter.spellbook.spellbookPopupShow = status;
         },
         showSpellbookItemPopup(state, action) {
-            const { status } = action.payload;
+            const { status, spell } = action.payload;
             state.previewCharacter.spellbook.spellbookItemPopupShow = status;
+            if (spell) state.previewCharacter.spellbook.selectedPopupSpell = spell;
         },
         selectSpellbookSpellLevel(state, action) {
             const { spellLevel, status } = action.payload;
@@ -156,6 +159,10 @@ const userSlice = createSlice({
                 }),
                 {level: spellLevel, active: status}
             ].sort((a, b) => a.level - b.level);
+        },
+        addUserCharacterSpells(state, action) {
+            const { charSpells } = action.payload;
+            state.previewCharacter.spellbook.characterSpells = charSpells;
         }
     }
 });
@@ -176,6 +183,7 @@ export const {
     showFullDescription,
     showSpellbookPopup,
     showSpellbookItemPopup,
-    selectSpellbookSpellLevel
+    selectSpellbookSpellLevel,
+    addUserCharacterSpells
 } = userSlice.actions;
 export default userSlice.reducer;

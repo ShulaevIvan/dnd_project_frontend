@@ -809,7 +809,10 @@
     position: absolute;
     z-index: 6;
     min-height: 400px;
+    width: 100%;
     background-color: wheat;
+    top: 0;
+    left: 0;
 }
 .user-character-spell-description-popup-body-title {
     display: flex;

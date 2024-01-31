@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import UserCharacterSpellbook from "./UserCharacterSpellbook";
-import { abilityPopup, abilityPopupAddDescription, showSpellbookPopup } from "../../redux/slices/userSlice";
-import { showFullDescription } from "../../redux/slices/userSlice";
+import { 
+    abilityPopup, 
+    abilityPopupAddDescription, 
+    showSpellbookPopup, 
+    showFullDescription,
+    addUserCharacterSpells
+} from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
     const dispatch = useDispatch();
+    const userData = useSelector((state) => state.userData.userData);
     const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const popupAbil = useSelector((state) => state.userData.previewCharacter.previewAbilityPopup);
     const charFullDescr = useSelector((state) => state.userData.previewCharacter.fullDescrShow);
@@ -56,6 +62,29 @@ const UserCharacterPreview = () => {
     const spellBookPopupHandler = (status) => {
         dispatch(showSpellbookPopup({status: status}));
     };
+
+    useEffect(() => {
+        if (spellbookPopupStatus) {
+            const fetchFunc = async() => {
+                await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/spells/?spell=all`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    if (data && data.spells.length > 0) {
+                        console.log(data)
+                        dispatch(addUserCharacterSpells({charSpells: data.spells}))
+                    }
+                })
+            }
+            fetchFunc();
+        }
+        return;
+    }, [spellbookPopupStatus])
 
     return (
         <React.Fragment>
