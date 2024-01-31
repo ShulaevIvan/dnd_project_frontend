@@ -15,13 +15,13 @@ import { activeNextBtn } from "../../redux/slices/characterStepsSlice";
 const CharacterStepsSkillsSpellbook = (props) => {
 
     const dispatch = useDispatch();
-    const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
+    // const characterLevel = useSelector((state) => state.characterSteps.characterSum.charLevel);
     const resultCharStats = useSelector((state) => state.calculateCharStats.resultCharStats);
     const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
     const avalibleCells = useSelector((state) => state.characterSkills.avalibleCellsLevel);
     const charMainSpellStat = useSelector((state) => state.characterSteps.characterSum.classData.spellcasterMainStat);
     const maxAvalibleSpellLevel = useSelector((state) => state.characterSkills.maxAvalibleSpellLevel);
-    const maxSpellLevel = useSelector((state) => state.characterSkills.maxSpellLevel);
+    // const maxSpellLevel = useSelector((state) => state.characterSkills.maxSpellLevel);
     const minSpellLevel = useSelector((state) => state.characterSkills.minSpellLevel);
     const spellPoints = useSelector((state) => state.characterSkills.spellPoints);
     const spellNavigate = useSelector((state) => state.characterSkills.spellLevelNavigate);

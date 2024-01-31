@@ -11,6 +11,7 @@ const CharacterStepsSaveCharacter = () => {
     const userAccountData = useSelector((state) => state.userData);
     const characterData = useSelector((state) => state.characterSteps.characterSum);
     const classStartEqip = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
+    const selectedSpells = useSelector((state) => state.characterSkills.selectedSpells);
     // const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterName = useSelector((state) => state.characterTotal.characterTotalInfo.charName);
@@ -23,6 +24,7 @@ const CharacterStepsSaveCharacter = () => {
     const otherCharStats = useSelector((state) => state.calculateCharStats.charOtherStats);
     const passivePreseption = useSelector((state) => state.calculateCharStats.passivePreseption);
     const characterTotalInfo = useSelector((state) => state.characterTotal.characterTotalInfo);
+    const characterSpells = useSelector((state) => state.characterTotal);
 
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     
@@ -35,11 +37,11 @@ const CharacterStepsSaveCharacter = () => {
         const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
         const charLang = characterData.raceData.languages;
         const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills];
+        console.log(selectedSpells)
     };
     prepCharacterSkills();
 
     const saveCharacterDataHandler = () => {
-        console.log(characterData.raceData.languages)
         const data = {
             charName: characterName,
             charRace: characterData.raceData.raceData.char_race_name,

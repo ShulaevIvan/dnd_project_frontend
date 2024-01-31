@@ -1,11 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { showSpellbookPopup, showSpellbookItemPopup } from "../../redux/slices/userSlice";
+import { showSpellbookPopup, showSpellbookItemPopup, selectSpellbookSpellLevel } from "../../redux/slices/userSlice";
 
 
 const UserCharacterSpellbook = () => {
     const dispatch = useDispatch();
+    const characterSpells = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const spellbookPopupStatus = useSelector((state) => state.userData.previewCharacter.spellbook.spellbookItemPopupShow);
+    const spellLevels = useSelector((state) => state.userData.previewCharacter.spellbook.spellLevels);
     
     const spellBookPopupCloseHandler = () => {
         dispatch(showSpellbookPopup({status: false}));
@@ -14,6 +16,16 @@ const UserCharacterSpellbook = () => {
         dispatch(showSpellbookItemPopup({status: status}))
     };
 
+    const selectSpellLevelHandler = (lvl, status) => {
+        const spellLevelChecked = spellLevels.find((item) => item.level === lvl && item.active);
+        if (spellLevelChecked) {
+            dispatch(selectSpellbookSpellLevel({spellLevel: lvl, status: false}));
+            return;
+        }
+        dispatch(selectSpellbookSpellLevel({spellLevel: lvl, status: status}));
+    };
+
+    console.log(characterSpells)
     return (
         <React.Fragment>
             <div className="user-character-spellbook-popup-wrap">
@@ -33,15 +45,21 @@ const UserCharacterSpellbook = () => {
                     </div>
 
                     <div className="user-character-spellbook-spelllevels-row">
-                        <div className="user-character-spellbook-spelllevels-item">1</div>
-                        <div className="user-character-spellbook-spelllevels-item">2</div>
-                        <div className="user-character-spellbook-spelllevels-item">3</div>
-                        <div className="user-character-spellbook-spelllevels-item">4</div>
-                        <div className="user-character-spellbook-spelllevels-item">5</div>
-                        <div className="user-character-spellbook-spelllevels-item">6</div>
-                        <div className="user-character-spellbook-spelllevels-item">7</div>
-                        <div className="user-character-spellbook-spelllevels-item">8</div>
-                        <div className="user-character-spellbook-spelllevels-item">9</div>
+                        {spellLevels.map((item) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    <div
+                                        onClick={() => selectSpellLevelHandler(item.level, true)}
+                                        className={item.active ? 
+                                            "user-character-spellbook-spelllevels-item-selected" : 
+                                                "user-character-spellbook-spelllevels-item"
+                                        }
+                                    >
+                                        {item.level}
+                                    </div>
+                                </React.Fragment>
+                            )
+                        })}
                     </div>
                 </div>
                             

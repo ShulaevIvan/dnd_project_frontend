@@ -757,6 +757,17 @@
     padding: 2px 6px;
     cursor: pointer;
 }
+.user-character-spellbook-spelllevels-item-selected {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 20%;
+    margin-right: 10px;
+    border: 1px solid;
+    padding: 2px 6px;
+    cursor: pointer;
+    border: 1px solid red;
+}
 .user-character-spellbook-spells-wrap {
     display: flex;
     flex-direction: column;
