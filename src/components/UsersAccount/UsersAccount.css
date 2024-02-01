@@ -819,7 +819,8 @@
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
-    margin-top: 20%;
+    margin-top: 10%;
+    margin-bottom: 20px;
 }
 .user-character-spell-description-popup-body {
     display: flex;
@@ -828,19 +829,59 @@
     min-height: 400px;
     width: 100%;
 }
+.user-character-decription-popup-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+}
+.spell-info-table-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    line-height: 1.4em;
+}
+.spell-info-table-title,
+.spell-info-table-value {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 50%;
+    margin-bottom: 5px;
+}
 .user-character-spell-description-popup-body-content {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     min-height: 200px;
-    width: 100%;
+    width: 55%;
+    max-width: 70%;
+}
+.user-character-spell-description-popup-body-spell-info {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-height: 200px;
+    border: 1px solid;
+    align-items: self-end;
+    width: 35%;
+    margin-right: 2%;
+    max-width: 35%;
+    padding: 5px 10px;
 }
 .user-character-spell-item-title,
 .user-character-spell-item-level {
     margin-bottom: 10px;
 }
 .user-character-spell-description-popup-body-content p {
-    padding: 10px 20px;
+    padding: 5px 10px;
+    text-align: left;
+    line-height: 1.4em;
 }
 .user-character-skills-row {
     display: flex;

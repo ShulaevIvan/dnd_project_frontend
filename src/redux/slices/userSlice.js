@@ -27,7 +27,9 @@ const initialState = {
             spellbookPopupShow: false,
             spellbookItemPopupShow: false,
             selectedPopupSpell: undefined,
+            maxSpellLevel: 0,
             spellLevels: [
+                {level: 0, active: false},
                 {level: 1, active: false},
                 {level: 2, active: false},
                 {level: 3, active: false},
@@ -39,6 +41,7 @@ const initialState = {
                 {level: 9, active: false}
             ],
             characterSpells: [],
+            allCharacterSpells: [],
 
         }
     },
@@ -149,7 +152,7 @@ const userSlice = createSlice({
         },
         selectSpellbookSpellLevel(state, action) {
             const { spellLevel, status } = action.payload;
-
+            state.previewCharacter.spellbook.characterSpells = [...state.previewCharacter.spellbook.allCharacterSpells];
             state.previewCharacter.spellbook.spellLevels = [
                 ...state.previewCharacter.spellbook.spellLevels.filter((item) => item.level !== spellLevel).map((spellLevelObj)=> {
                     return {
@@ -159,10 +162,29 @@ const userSlice = createSlice({
                 }),
                 {level: spellLevel, active: status}
             ].sort((a, b) => a.level - b.level);
+
+            const sortObj = state.previewCharacter.spellbook.spellLevels.find((item) => item.active);
+
+            if (sortObj) {
+                state.previewCharacter.spellbook.characterSpells = 
+                    state.previewCharacter.spellbook.characterSpells.filter((item) => item.spellLevel === sortObj.level);
+                return;
+            }
+            
+
+            
         },
         addUserCharacterSpells(state, action) {
             const { charSpells } = action.payload;
-            state.previewCharacter.spellbook.characterSpells = charSpells;
+            if (charSpells && charSpells.length > 0) {
+                const sortedSpells = charSpells.sort((a, b) => a.spellLevel - b.spellLevel);
+                const maxSpellLevel = Array.from(sortedSpells).slice(-1).pop().spellLevel;
+                state.previewCharacter.spellbook.spellLevels = state.previewCharacter.spellbook.spellLevels.filter((item) => item.level <= maxSpellLevel);
+                state.previewCharacter.spellbook.characterSpells = sortedSpells;
+                state.previewCharacter.spellbook.allCharacterSpells = sortedSpells;
+
+                return;
+            }
         }
     }
 });

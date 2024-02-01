@@ -27,6 +27,15 @@ const UserCharacterSpellbook = () => {
         dispatch(selectSpellbookSpellLevel({spellLevel: lvl, status: status}));
     };
 
+    const decorateSpellDescrText = (text) => {
+        const pattern = /[(]\d+[к|k]\d+[)]|\d+[к|k|d]\d+/gm
+        const testStr = text.split(' ');
+        const resultString = [];
+        const decorElements = text.match(pattern);
+       
+        return {text}
+    };
+
     return (
         <React.Fragment>
             <div className="user-character-spellbook-popup-wrap">
@@ -87,9 +96,43 @@ const UserCharacterSpellbook = () => {
                                                     ></span>
                                                 </div>
                                                 <div className="user-character-spell-description-popup-body">
-                                                    <div className="user-character-spell-description-popup-body-title">{selectedUserCharacterSpell.name}</div>
-                                                    <div className="user-character-spell-description-popup-body-content">
-                                                        <p>{selectedUserCharacterSpell.description}</p>
+                                                    <div className="user-character-spell-description-popup-body-title">
+                                                        {selectedUserCharacterSpell.name}
+                                                    </div>
+                                                    <div className="user-character-decription-popup-row">
+                                                        <div className="user-character-spell-description-popup-body-content">
+                                                            <p>{decorateSpellDescrText(selectedUserCharacterSpell.description)}</p>
+                                                        </div>
+                                                        <div className="user-character-spell-description-popup-body-spell-info">
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">Bonuce Action</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">Concentration</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">Distance</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">Duratation</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">School</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">SpellLevel</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                            <div className="spell-info-table-row">
+                                                                <div className="spell-info-table-title">SpellTarget</div>
+                                                                <div className="spell-info-table-value">Yes</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
