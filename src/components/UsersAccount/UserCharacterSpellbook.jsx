@@ -15,7 +15,7 @@ const UserCharacterSpellbook = () => {
         dispatch(showSpellbookPopup({status: false}));
     };
     const spellbookItemPopupHandler = (status, spellView) => {
-        dispatch(showSpellbookItemPopup({status: status, spell: spellView}));
+        dispatch(showSpellbookItemPopup({status: status, spell: spellView}));   
     };
 
     const selectSpellLevelHandler = (lvl, status) => {
@@ -29,11 +29,16 @@ const UserCharacterSpellbook = () => {
 
     const decorateSpellDescrText = (text) => {
         const pattern = /[(]\d+[к|k]\d+[)]|\d+[к|k|d]\d+/gm
-        const testStr = text.split(' ');
-        const resultString = [];
-        const decorElements = text.match(pattern);
-       
-        return {text}
+        let testStr = text.split(' ');
+        testStr = testStr.map((chunk) => {
+            const tmpKey = Math.random();
+            if (pattern.test(chunk)) {
+                return <React.Fragment key={tmpKey}><b>{`${chunk} `}</b></React.Fragment>
+            }
+            return <React.Fragment key={tmpKey}>{`${chunk} `}</React.Fragment>
+        });
+
+        return <React.Fragment>{testStr}</React.Fragment>
     };
 
     return (
