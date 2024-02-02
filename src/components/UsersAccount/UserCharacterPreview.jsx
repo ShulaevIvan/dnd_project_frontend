@@ -239,10 +239,10 @@ const UserCharacterPreview = () => {
                                     return (
                                         <React.Fragment key={Math.random()}>
                                             <div className="user-character-skill-item">
-                                                <div className="user-character-skill-item-title">{skill.name}</div>
+                                                <div className="user-character-skill-item-title">{sliceContentString(skill.name, 12)}</div>
                                                 <div className="user-character-skill-item-controls-row">
                                                     <div className="user-character-skill-item-control">
-                                                        <span className="user-character-skill-item-control-preview"></span>
+                                                        <span className="user-character-skill-item-control-info"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -329,6 +329,8 @@ const UserCharacterPreview = () => {
                             })}
                         </div>
                     </div>
+
+                    <div className="preview-character-inventory-wrap">waeaw</div>
                 </div>
             </div>
 

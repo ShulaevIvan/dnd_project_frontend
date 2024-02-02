@@ -927,7 +927,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 33%;
+    width: 100%;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -943,7 +943,33 @@
     max-height: 18px;
     width: 18px;
     position: absolute;
-    top: 2px;
+    left: 5%;
+}
+.user-character-skill-item-control-info::before {
+    content: '';
+    font-size: 17px;
+    cursor: pointer;
+    content: '\1F6C8';
+    padding-right: 10px;
+    align-items: center;
+    max-width: 18px;
+    max-height: 18px;
+    width: 18px;
+    position: absolute;
+    left: 5%;
+}
+.user-character-skill-item-control-type::before {
+    content: '';
+    font-size: 17px;
+    cursor: pointer;
+    content: '\1F6C8';
+    padding-right: 10px;
+    align-items: center;
+    max-width: 18px;
+    max-height: 18px;
+    width: 18px;
+    position: absolute;
+    right: 5%;
 }
 .user-character-mastery-wrap {
     display: flex;
