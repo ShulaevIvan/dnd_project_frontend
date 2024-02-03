@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import UserCharacterSpellbook from "./UserCharacterSpellbook";
+import UserCharacterPreviewInventory from "./UserCharacterInventory";
 import { 
     abilityPopup, 
     abilityPopupAddDescription, 
     showSpellbookPopup, 
     showFullDescription,
-    addUserCharacterSpells
+    addUserCharacterSpells,
+    showPopupSkill
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
@@ -16,6 +18,8 @@ const UserCharacterPreview = () => {
     const popupAbil = useSelector((state) => state.userData.previewCharacter.previewAbilityPopup);
     const charFullDescr = useSelector((state) => state.userData.previewCharacter.fullDescrShow);
     const spellbookPopupStatus = useSelector((state) => state.userData.previewCharacter.spellbook.spellbookPopupShow);
+    const skillPopupStatus = useSelector((state) => state.userData.previewCharacter.skills.skillPopupShow);
+    const skillPopupActive = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActive);
 
     const abilityDescriptionHandler = (e, abilityObj, action) => {
 
@@ -62,6 +66,18 @@ const UserCharacterPreview = () => {
     const spellBookPopupHandler = (status) => {
         dispatch(showSpellbookPopup({status: status}));
     };
+
+    const skillDescriptionPopupHandler = (skillObj, popupStatus) => {
+        dispatch(showPopupSkill({skill: skillObj, status: popupStatus}));
+    };
+
+    const skillDescriptionPopupCloseHandler = () => {
+        dispatch(showPopupSkill({skill: {}, status: false}));
+    };
+
+    // useEffect(() => {
+
+    // }, [skillPopupActive])
 
     useEffect(() => {
         if (spellbookPopupStatus) {
@@ -239,17 +255,40 @@ const UserCharacterPreview = () => {
                                     return (
                                         <React.Fragment key={Math.random()}>
                                             <div className="user-character-skill-item">
+                                                <div className="user-character-skill-img-wrap">
+                                                    <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="" />
+                                                </div>
                                                 <div className="user-character-skill-item-title">{sliceContentString(skill.name, 12)}</div>
-                                                <div className="user-character-skill-item-controls-row">
-                                                    <div className="user-character-skill-item-control">
-                                                        <span className="user-character-skill-item-control-info"></span>
-                                                    </div>
+                                                <div className="user-character-skill-item-info-btn-wrap">
+                                                    <span 
+                                                        className="user-character-skill-item-info-btn"
+                                                        onMouseEnter={() => skillDescriptionPopupHandler(skill, true)}
+                                                    ></span>
                                                 </div>
                                             </div>
                                         </React.Fragment>
                                     )
                                 })}
                             </div>
+
+                            {skillPopupStatus ?
+                                <div 
+                                    className="user-character-skill-popup-wrap" 
+                                    onMouseLeave={skillDescriptionPopupCloseHandler}
+                                >
+                                    <span 
+                                        className="user-character-skill-popup-close-btn"
+                                        onClick={skillDescriptionPopupCloseHandler}
+                                    ></span>
+                                    <div className="user-character-skill-popup-body">
+                                        <div className="user-character-skill-popup-title">Title</div>
+                                        <div className="user-character-skill-popup-description">
+                                            <p>tseetestest descr</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            : null}
+                            
                         </div>
                         <div className="user-character-spells-avalible-wrap">
                             <div className="user-character-preview-skills-title">
@@ -330,7 +369,7 @@ const UserCharacterPreview = () => {
                         </div>
                     </div>
 
-                    <div className="preview-character-inventory-wrap">waeaw</div>
+                    <UserCharacterPreviewInventory />
                 </div>
             </div>
 

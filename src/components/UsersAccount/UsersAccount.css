@@ -887,8 +887,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 20px;
     width: 100%;
-    justify-content: center;
     align-items: center;
 }
 .user-character-skill-item {
@@ -897,12 +897,26 @@
     flex-wrap: wrap;
     max-width: 33%;
     min-width: 30%;
-    min-height: 50px;
+    min-height: 120px;
+    min-width: 120px;
     border: 1px solid;
     justify-content: center;
     align-items: center;
     position: relative;
 }
+.user-character-skill-img-wrap {
+    width: 100%;
+}
+.user-character-skill-img-wrap img {
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    min-width: 100px;
+    object-fit: fill;
+    max-width: 120px;
+    max-height: 120px;
+}
+
 .user-character-skill-item:nth-child(2) {
     margin-right: 10px;
     margin-left: 10px;
@@ -917,20 +931,28 @@
     position: absolute;
     top: 0;
 }
-.user-character-skill-item-controls-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-}
-.user-character-skill-item-control {
+.user-character-skill-item-info-btn-wrap {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
     justify-content: center;
     align-items: center;
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    min-height: 25px;
+}
+.user-character-skill-item-info-btn::before {
+    position: absolute;
+    content: '\1F6C8';
+    max-width: 20px;
+    max-height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    cursor: pointer;
+    bottom: 30%;
+    left: 5%;
+    font-size: 20px;
 }
 .user-character-skill-item-control-preview::before {
     display: flex;
@@ -1130,4 +1152,139 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 33%;
+}
+.preview-character-inventory-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.preview-character-inventory-main-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
+.preview-character-inventory-item {
+    display: flex;
+    width: 20%;
+    border: 1px solid;
+    max-width: 120px;
+    max-height: 120px;
+    position: relative;
+    margin-right: 10px;
+}
+.preview-character-inventory-item-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
+.preview-character-inventory-item-controls-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    background-color: #3A2E32;
+}
+.inventory-info-item-btn-wrap,
+.inventory-send-item-btn-wrap,
+.inventory-remove-item-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 30%;
+    max-width: 30%;
+    min-height: 25px;
+    color: white;
+    position: relative;
+}
+.inventory-info-icon-btn::before {
+    position: absolute;
+    content: '\1F6C8';
+    position: absolute;
+    top: 3%;
+    left: 15%;
+    font-size: 18px;
+    cursor: pointer;
+}
+.inventory-send-icon-btn::before {
+    content: '\27A5';
+    font-size: 23px;
+    position: absolute;
+    left: 30%;
+    top: 0;
+    cursor: pointer;
+}
+.inventory-remove-icon-btn::before {
+    content: '\2716';
+    font-size: 20px;
+    bottom: -3%;
+    position: absolute;
+    right: 20%;
+    cursor: pointer;
+}
+.preview-character-inventory-image-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.preview-character-inventory-image-wrap img {
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    min-width: 100px;
+    object-fit: fill;
+}
+.user-character-skill-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    background-color: gray;
+    min-width: 400px;
+    min-height: 400px;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.user-character-skill-popup-close-btn::before {
+    content: '\274C';
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 40px;
+    cursor: pointer;
+}
+.user-character-skill-popup-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.user-character-skill-popup-title {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+.user-character-skill-popup-description {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 10px
 }

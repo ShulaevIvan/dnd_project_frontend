@@ -42,6 +42,10 @@ const initialState = {
             ],
             characterSpells: [],
             allCharacterSpells: [],
+        },
+        skills: {
+            skillPopupShow: false,
+            skillPopupActive: undefined,
         }
     },
 };
@@ -184,7 +188,12 @@ const userSlice = createSlice({
 
                 return;
             }
-        }
+        },
+        showPopupSkill(state, action) {
+            const { skill, status } = action.payload;
+            state.previewCharacter.skills.skillPopupActive = skill;
+            state.previewCharacter.skills.skillPopupShow = status;
+        },
     }
 });
 
@@ -205,6 +214,7 @@ export const {
     showSpellbookPopup,
     showSpellbookItemPopup,
     selectSpellbookSpellLevel,
-    addUserCharacterSpells
+    addUserCharacterSpells,
+    showPopupSkill
 } = userSlice.actions;
 export default userSlice.reducer;
