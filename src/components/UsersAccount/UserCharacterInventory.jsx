@@ -4,6 +4,27 @@ const UserCharacterPreviewInventory = () => {
     return (
         <React.Fragment>
             <div className="preview-character-inventory-wrap">
+                <div className="preview-character-inventory-title"><h3>Инвентарь</h3></div>
+                <div className="preview-character-inventory-gold-wrap">
+                    <div className="preview-character-money-title"><h4>Валюта:</h4></div>
+                    <div className="preview-character-inventory-money-row">
+                        <div className="preview-character-inventory-money-gold">
+                            <span className="character-inventory-coin-title">Зол</span>
+                            <span className="character-inventory-coin-icon"></span>
+                            <span className="character-inventory-coin-title">100</span>
+                        </div>
+                        <div className="preview-character-inventory-money-silver">
+                        <span className="character-inventory-coin-title">Сер</span>
+                            <span className="character-inventory-coin-icon"></span>
+                            <span className="character-inventory-coin-title">100</span>
+                        </div>
+                        <div className="preview-character-inventory-money-bronze">
+                            <span className="character-inventory-coin-title">Брон</span>
+                            <span className="character-inventory-coin-icon"></span>
+                            <span className="character-inventory-coin-title">100</span>
+                        </div>
+                    </div>
+                </div>
                 <div className="preview-character-inventory-main-row">
                     <div className="preview-character-inventory-item">
                         <div className="preview-character-inventory-item-title">Title</div>

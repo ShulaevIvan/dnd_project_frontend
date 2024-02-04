@@ -124,7 +124,7 @@ const UsersCharacters = () => {
     }, []);
 
     useEffect(() => {
-        if (!avatarsLoadStatus && userCharacters) {
+        if (!avatarsLoadStatus) {
             userCharacters.map((characterItem) => {
                 if (characterItem.avatar) {
                     getCharacterAvatar(characterItem.id, characterItem.avatar);

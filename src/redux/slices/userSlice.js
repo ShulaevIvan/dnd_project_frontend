@@ -46,6 +46,7 @@ const initialState = {
         skills: {
             skillPopupShow: false,
             skillPopupActive: undefined,
+            skillPopupActiveInfo: {},
         }
     },
 };
@@ -78,10 +79,20 @@ const userSlice = createSlice({
         },
         addUserCharacterAvatarBlob(state, action) {
             const { userCharacterId, avatarBlob } = action.payload;
+            if (!avatarBlob) return;
+
             const targetCharaceter = state.userCharacters.find((item) => item.id === userCharacterId);
-            targetCharaceter.avatarBlob = avatarBlob;
-            
-            state.userCharacters = [...state.userCharacters.filter((item) => item.id !== userCharacterId), targetCharaceter];
+
+            state.userCharacters = [...state.userCharacters.map((character) => {
+                if (character.id === targetCharaceter.id) {
+                    return {
+                        ...character,
+                        avatarBlob: avatarBlob,
+
+                    }
+                }
+                return character;
+            })];
         },
         previewCharacterAction(state, action) {
             const { characterPreview, previewStatus } = action.payload;
@@ -194,6 +205,10 @@ const userSlice = createSlice({
             state.previewCharacter.skills.skillPopupActive = skill;
             state.previewCharacter.skills.skillPopupShow = status;
         },
+        addPopupSkillActive(state, action) {
+            const { skill } = action.payload
+            state.previewCharacter.skills.skillPopupActiveInfo = skill;
+        }
     }
 });
 
@@ -215,6 +230,7 @@ export const {
     showSpellbookItemPopup,
     selectSpellbookSpellLevel,
     addUserCharacterSpells,
-    showPopupSkill
+    showPopupSkill,
+    addPopupSkillActive
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -8,7 +8,8 @@ import {
     showSpellbookPopup, 
     showFullDescription,
     addUserCharacterSpells,
-    showPopupSkill
+    showPopupSkill,
+    addPopupSkillActive
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
@@ -20,6 +21,7 @@ const UserCharacterPreview = () => {
     const spellbookPopupStatus = useSelector((state) => state.userData.previewCharacter.spellbook.spellbookPopupShow);
     const skillPopupStatus = useSelector((state) => state.userData.previewCharacter.skills.skillPopupShow);
     const skillPopupActive = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActive);
+    const skillPopupInfo = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActiveInfo);
 
     const abilityDescriptionHandler = (e, abilityObj, action) => {
 
@@ -48,6 +50,7 @@ const UserCharacterPreview = () => {
 
     const closePopupAbilHandler = () => {
         dispatch(abilityPopup({popupStatus: false}));
+        dispatch(addPopupSkillActive({skill: {}}));
     };
 
     const sliceContentString = (contentString, maxLength) => {
@@ -58,6 +61,11 @@ const UserCharacterPreview = () => {
         }
         return contentString
     };
+    const isCharSpellcaster = () => {
+        const characterSpells = Object.keys(selectedCharacter.spells).length;
+        if (characterSpells > 0) return true
+        return false;
+    }
 
     const charDescriptionHandler = (descrStatus) => {
         dispatch(showFullDescription({status: descrStatus}));
@@ -75,9 +83,25 @@ const UserCharacterPreview = () => {
         dispatch(showPopupSkill({skill: {}, status: false}));
     };
 
-    // useEffect(() => {
-
-    // }, [skillPopupActive])
+    useEffect(() => {
+        if (skillPopupStatus) {
+            const fetchFunc = async () => {
+                await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/skills/?skill=${skillPopupActive.name}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.length > 0) {
+                        dispatch(addPopupSkillActive({skill: data[0]}));
+                    }
+                })
+            }
+            fetchFunc();
+        }
+    }, [skillPopupStatus])
 
     useEffect(() => {
         if (spellbookPopupStatus) {
@@ -90,17 +114,15 @@ const UserCharacterPreview = () => {
                 })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
                     if (data && data.spells.length > 0) {
-                        console.log(data)
-                        dispatch(addUserCharacterSpells({charSpells: data.spells}))
+                        dispatch(addUserCharacterSpells({charSpells: data.spells}));
                     }
                 })
             }
             fetchFunc();
         }
         return;
-    }, [spellbookPopupStatus])
+    }, [spellbookPopupStatus]);
 
     return (
         <React.Fragment>
@@ -281,27 +303,32 @@ const UserCharacterPreview = () => {
                                         onClick={skillDescriptionPopupCloseHandler}
                                     ></span>
                                     <div className="user-character-skill-popup-body">
-                                        <div className="user-character-skill-popup-title">Title</div>
+                                        <div className="user-character-skill-popup-title">{skillPopupInfo.name}</div>
                                         <div className="user-character-skill-popup-description">
-                                            <p>tseetestest descr</p>
+                                            <p>{skillPopupInfo.skill_description}</p>
                                         </div>
                                     </div>
                                 </div>
                             : null}
                             
                         </div>
-                        <div className="user-character-spells-avalible-wrap">
-                            <div className="user-character-preview-skills-title">
-                                <h3>Заклинания</h3>
-                            </div>
-                            <div className="user-character-preview-spellbook-wrap">
-                                <span 
-                                    className="user-character-preview-spellbook-icon"
-                                    onClick={() => spellBookPopupHandler(spellbookPopupStatus ? false : true)}
-                                ></span>
-                            </div>
-                        </div>
-                        {spellbookPopupStatus ? <UserCharacterSpellbook /> : null}
+                        {isCharSpellcaster() ?
+                            <React.Fragment>
+                                <div className="user-character-spells-avalible-wrap">
+                                    <div className="user-character-preview-skills-title">
+                                        <h3>Заклинания</h3>
+                                    </div>
+                                    <div className="user-character-preview-spellbook-wrap">
+                                        <span 
+                                            className="user-character-preview-spellbook-icon"
+                                            onClick={() => spellBookPopupHandler(spellbookPopupStatus ? false : true)}
+                                        ></span>
+                                    </div>
+                                </div>
+                                {spellbookPopupStatus ? <UserCharacterSpellbook /> : null}
+                            </React.Fragment>
+                        : null}
+                        
                     </div>
 
                     <div className="user-character-preview-abilities-title">

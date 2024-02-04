@@ -917,9 +917,9 @@
     max-height: 120px;
 }
 
-.user-character-skill-item:nth-child(2) {
+.user-character-skill-item {
     margin-right: 10px;
-    margin-left: 10px;
+    margin-bottom: 10px;
 }
 .user-character-skill-item-title {
     display: flex;
@@ -1280,11 +1280,66 @@
     flex-wrap: wrap;
     margin-bottom: 10px;
     justify-content: center;
+    align-items: center;
+    margin-top: 20%;
 }
 .user-character-skill-popup-description {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
-    padding: 10px
+    padding: 20px;
+    max-width: 400px;
+    line-height: 1.2em;
+    text-align: left;
+}
+.preview-character-inventory-gold-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.preview-character-money-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 400px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 20px;
+    margin-bottom: 0;
+
+}
+.preview-character-inventory-gold-wrap h2,
+.preview-character-inventory-gold-wrap h3,
+.preview-character-inventory-gold-wrap h4 {
+    margin: 0 0 5px 0;
+}
+.preview-character-inventory-money-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 400px;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 20px;
+}
+.preview-character-inventory-money-gold,
+.preview-character-inventory-money-silver,
+.preview-character-inventory-money-bronze {
+    max-width: 33%;
+    min-width: 10%;
+    margin-right: 10px;
+    position: relative;
+}
+.character-inventory-coin-icon::before {
+    content: '\1FA99';
+}
+.preview-character-inventory-money-gold span,
+.preview-character-inventory-money-silver span,
+.preview-character-inventory-money-bronze span {
+    padding-right: 2px;
 }
