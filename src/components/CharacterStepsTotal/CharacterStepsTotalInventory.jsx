@@ -1,16 +1,25 @@
 import React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const CharacterStepsInventory = () => {
     const classStartItems = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
     const backgroundItems = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0].items);
     
-    const getCharStartItems = () => {
-        const items = backgroundItems.split(',');
-        // const itemsView = [...backgroundItems, ]
-        console.log(backgroundItems);
-    };
-    getCharStartItems()
+    useEffect(() => {
+        const checkBackgorundItems = backgroundItems.split(',');
+        const charMoney = {
+            gold: 0,
+            silver: 0,
+            bronze: 0
+        };
+        const pattern = /\d{1,10}\s{1,2}|\d{0,10}(\зм|\см\бр|\зол|\сер|\брон|[з]{1})/gm;
+        if (checkBackgorundItems && checkBackgorundItems.length > 0) {
+            checkBackgorundItems.map((item) => {
+                console.log(item.match(pattern))
+            })
+        }
+    }, [])
 
     return (
         <React.Fragment>

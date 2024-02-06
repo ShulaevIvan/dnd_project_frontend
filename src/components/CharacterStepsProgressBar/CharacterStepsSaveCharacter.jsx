@@ -12,7 +12,6 @@ const CharacterStepsSaveCharacter = () => {
     const characterData = useSelector((state) => state.characterSteps.characterSum);
     const classStartEqip = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
     const characterSpells = useSelector((state) => state.characterSkills.selectedSpells);
-    // const sendDataValid = useSelector((state) => state.characterTotal.allSendDataValid);
     const characterDescription = useSelector((state) => state.characterTotal.characterTotalInfo.charDescription);
     const characterName = useSelector((state) => state.characterTotal.characterTotalInfo.charName);
     const characterAvatar = useSelector((state) => state.characterTotal.uploadCharacterFile);
@@ -25,6 +24,8 @@ const CharacterStepsSaveCharacter = () => {
     const passivePreseption = useSelector((state) => state.calculateCharStats.passivePreseption);
     const characterTotalInfo = useSelector((state) => state.characterTotal.characterTotalInfo);
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
+    const classStartItems = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
+    const backgroundItems = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0].items);
     
     const prepCharacterSkills = () => {
         const classSkills = characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel));
@@ -35,6 +36,7 @@ const CharacterStepsSaveCharacter = () => {
         const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
         const charLang = characterData.raceData.languages;
         const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills];
+        console.log(backgroundItems)
     };
     prepCharacterSkills();
 
@@ -62,6 +64,12 @@ const CharacterStepsSaveCharacter = () => {
                 ...characterData.subraceData ? characterData.subraceData.subraceSkills : [],
             ],
             charSpells: characterSpells,
+            charItems: {
+                weapons: classStartItems.weapons,
+                armor: classStartItems.armor,
+                instruments: classStartItems.instruments,
+                otherItems: backgroundItems.split(','),
+            },
             charSavethrows: charSavethrows,
             charArmorMastery: characterTotalInfo.armorMastery,
             charWeaponMastery: characterTotalInfo.weaponMastery,
