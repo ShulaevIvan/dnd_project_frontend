@@ -26,6 +26,7 @@ const CharacterStepsSaveCharacter = () => {
     const raceSkills = useSelector((state) => state.characterSteps.characterSum.raceData.skills).filter((item) => item.skill_type === 'skill');
     const classStartItems = useSelector((state) => state.characterSteps.characterSum.classData.startEqip);
     const backgroundItems = useSelector((state) => state.characterSteps.characterSum.backgroundActive[0].items);
+    const characterStartMoney = useSelector((state) => state.characterTotal.characterTotalInfo.inventory);
     
     const prepCharacterSkills = () => {
         const classSkills = characterData.classData.classSkills.filter((skill) => skill.levelRequired === Number(characterData.charLevel));
@@ -36,7 +37,7 @@ const CharacterStepsSaveCharacter = () => {
         const bckgWeaponMastery = characterData.backgroundActive[0].weaponMastery;
         const charLang = characterData.raceData.languages;
         const resultSkills = [...classSkills, ...raceSkills, ...subraceSkills];
-        console.log(backgroundItems)
+        console.log(characterStartMoney)
     };
     prepCharacterSkills();
 

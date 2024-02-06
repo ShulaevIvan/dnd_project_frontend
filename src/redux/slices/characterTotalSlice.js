@@ -27,6 +27,14 @@ const initialState = {
         armorMastery: [],
         weaponMastery: [],
         instrumentMastery: [],
+        inventory: {
+            money: {
+                goldValue: 0,
+                gold: 0,
+                silver: 0,
+                bronze: 0,
+            }
+        }
     },
     characterStatTest: {
         showStatResultPanel: false,
@@ -321,6 +329,7 @@ const characterTotalSlice = createSlice({
         },
         characterMasterySum(state, action) {
             const { armorMastery, weaponMastery, instrumentMastery } = action.payload;
+
             state.characterTotalInfo.armorMastery = [...armorMastery.map((item) => {{
                 if (!state.characterTotalInfo.armorMastery.some((mastery) => mastery.name === item.name)) {
                     return {
@@ -328,6 +337,7 @@ const characterTotalSlice = createSlice({
                     };
                 }
             }})];
+
             state.characterTotalInfo.weaponMastery = [...weaponMastery.map((item) => {{
                 if (!state.characterTotalInfo.weaponMastery.some((mastery) => mastery.name === item.name)) {
                     return {
@@ -335,6 +345,7 @@ const characterTotalSlice = createSlice({
                     };
                 }
             }})];
+
             state.characterTotalInfo.instrumentMastery = [...instrumentMastery.map((item) => {{
                 if (!state.characterTotalInfo.instrumentMastery.some((mastery) => mastery.name === item.name)) {
                     return {
@@ -343,6 +354,18 @@ const characterTotalSlice = createSlice({
                 }
             }})];
         },
+        addGoldToCharacterInventory(state, action) {
+            const { goldValue, gold, silver, bronze, method } = action.payload;
+            if (method === 'replace') {
+                state.characterTotalInfo.inventory.money = {
+                    ...state.characterTotalInfo.inventory.money,
+                    gold: gold,
+                    silver: silver,
+                    bronze: bronze,
+                };
+                return;
+            }
+        }
     },
     extraReducers: (builder) => builder.addCase(resetCharTotal, () => initialState),
 });
@@ -376,7 +399,8 @@ export const {
     resetGender,
     charNameValid,
     removeUploadFile,
-    characterMasterySum
+    characterMasterySum,
+    addGoldToCharacterInventory
     
 } = characterTotalSlice.actions;
 
