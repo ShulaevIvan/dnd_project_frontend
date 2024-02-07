@@ -65,11 +65,12 @@ const CharacterStepsSaveCharacter = () => {
                 ...characterData.subraceData ? characterData.subraceData.subraceSkills : [],
             ],
             charSpells: characterSpells,
-            charItems: {
+            charInventory: {
                 weapons: classStartItems.weapons,
                 armor: classStartItems.armor,
                 instruments: classStartItems.instruments,
-                otherItems: backgroundItems.split(','),
+                items: backgroundItems.split(','),
+                currency: characterStartMoney,
             },
             charSavethrows: charSavethrows,
             charArmorMastery: characterTotalInfo.armorMastery,
