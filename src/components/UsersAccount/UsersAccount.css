@@ -368,6 +368,7 @@
     max-height: 40%;
     margin-right: 4%;
     margin-bottom: 20px;
+    border: 1px solid;
 }
 .user-character-preview-image-wrap img,
 .user-character-preview-image img {
@@ -1177,12 +1178,27 @@
     max-height: 120px;
     position: relative;
     margin-right: 10px;
+    position: relative;
+}
+.preview-character-inventory-item-quantity {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 20px;
+    font-size: 14px;
+    z-index: 5;
+    font-weight: bold;
+    background-color: #C14B3C;
 }
 .preview-character-inventory-item-title {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 100%;
+    text-align: left;
+    width: 60%;
     position: absolute;
     top: 0;
 }
