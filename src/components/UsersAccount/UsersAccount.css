@@ -1257,6 +1257,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .preview-character-inventory-image-wrap img {
     width: 100%;
@@ -1358,4 +1359,103 @@
 .preview-character-inventory-money-silver span,
 .preview-character-inventory-money-bronze span {
     padding-right: 2px;
+}
+.preview-character-inventory-item-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 400px;
+    min-width: 400px;
+    min-height: 400px;
+    background-color: gray;
+    position: absolute;
+    z-index: 5;
+}
+.inventory-item-popup-close-btn::before {
+    content: '\274C';
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    font-size: 24px;
+    cursor: pointer;
+}
+.preview-character-inventory-item-body-wrap,
+.preview-character-inventory-item-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.preview-character-inventory-item-popup-title {
+    margin-top: 10%;
+    margin-bottom: 20px;
+}
+.preview-character-inventory-img-wrap {
+    margin-bottom: 20px;
+}
+.preview-character-inventory-item-description {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    text-align: left;
+}
+.inventory-item-popup-controls-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10%;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.inventory-item-popup-controls-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 150px;
+}
+.inventory-item-popup-control-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 30%;
+    max-width: 33%;
+    position: relative;
+    max-height: 20px;
+}
+.inventory-item-popup-qnt {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+.inventory-item-popup-add-btn,
+.inventory-item-popup-remove-btn,
+.inventory-item-popup-send-item-btn {
+    max-height: 20px;
+}
+.inventory-item-popup-add-btn::before {
+    font-size: 28px;
+    position: absolute;
+    left: 15px;
+    top: -2px;
+    content: '\002B';
+    cursor: pointer;
+}
+.inventory-item-popup-remove-btn::before {
+    font-size: 20px;
+    content: '\1F5D1';
+    cursor: pointer;
+}
+.inventory-item-popup-send-item-btn::before {
+    font-size: 24px;
+    content: '\27A5';
+    cursor: pointer;
 }
