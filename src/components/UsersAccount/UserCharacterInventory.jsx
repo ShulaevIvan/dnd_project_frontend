@@ -1,28 +1,41 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { showItemPopup } from "../../redux/slices/userSlice";
+import { addUserCharacterItems, showItemPopup } from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewInventory = () => {
     const dispatch = useDispatch();
     const userData = useSelector((state) => state.userData.userData);
+    const allCharacterInventory = useSelector((state) => state.userData.previewCharacter.inventory);
     const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const itemPreviewPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupShow);
-    const itemPreviewPopupSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
+    const itemViewSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
+        console.log(itemObj)
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
     };
 
     useEffect(() => {
-        if (itemPreviewPopupStatus) {
-            const characterId = selectedCharacter.id;
-            const userId = userData.userId;
-            console.log(itemPreviewPopupSelected.name)
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addUserCharacterItems({items: data.items}));
+            })
+        }
+        fetchFunc();
+    }, []);
 
-            // const fetchFunc = async () => {
-            //     await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${characterId}/inventory/`)
-            // }
+    useEffect(() => {
+        if (itemPreviewPopupStatus) {
+            console.log(itemViewSelected)
         }
     }, [itemPreviewPopupStatus])
     
@@ -51,20 +64,23 @@ const UserCharacterPreviewInventory = () => {
                     </div>
                 </div>
                 <div className="preview-character-inventory-main-row">
-                    {selectedCharacter.inventory ? selectedCharacter.inventory.inventoryItems.map((inventoryItem) => {
+                    {allCharacterInventory.allCharacterItems ? allCharacterInventory.allCharacterItems.map((inventoryItem) => {
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="preview-character-inventory-item">
-                                    <div className="preview-character-inventory-item-quantity">{`${inventoryItem.quantity} шт`}</div>
+                                    <div className="preview-character-inventory-item-quantity">{1}</div>
                                         <div className="preview-character-inventory-item-title">
-                                            {inventoryItem.item.length > 0 ? inventoryItem.item[0]['name'] : null}
+                                            {inventoryItem.name}
                                         </div>
-                                        <div className="preview-character-inventory-image-wrap" onClick={() => inventoryItemPopupHandler(inventoryItem, true)}>
+                                        <div className="preview-character-inventory-image-wrap">
                                             <img src="/static/media/demo.630922c5cb9e25da873b.jpg" alt=""/>
                                         </div>
                                         <div className="preview-character-inventory-item-controls-row">
                                             <div className="inventory-info-item-btn-wrap">
-                                                <span className="inventory-info-icon-btn"></span>
+                                                <span 
+                                                    className="inventory-info-icon-btn"
+                                                    onClick={() => inventoryItemPopupHandler(inventoryItem, true)}
+                                                ></span>
                                             </div>
                                         <div className="inventory-send-item-btn-wrap">
                                             <span className="inventory-send-icon-btn"></span>

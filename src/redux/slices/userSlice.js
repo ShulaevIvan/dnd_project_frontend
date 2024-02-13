@@ -49,6 +49,7 @@ const initialState = {
             skillPopupActiveInfo: {},
         },
         inventory: {
+            allCharacterItems: [],
             itemPopupShow: false,
             itemPopupSelected: undefined,
         }
@@ -213,6 +214,10 @@ const userSlice = createSlice({
             const { skill } = action.payload
             state.previewCharacter.skills.skillPopupActiveInfo = skill;
         },
+        addUserCharacterItems(state, action) {
+            const { items } = action.payload;
+            state.previewCharacter.inventory.allCharacterItems = items;
+        },
         showItemPopup(state, action) {
             const { itemData, status } = action.payload;
             state.previewCharacter.inventory.itemPopupShow = status;
@@ -248,6 +253,7 @@ export const {
     addUserCharacterSpells,
     showPopupSkill,
     addPopupSkillActive,
+    addUserCharacterItems,
     showItemPopup
 } = userSlice.actions;
 export default userSlice.reducer;
