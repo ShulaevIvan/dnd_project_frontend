@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addUserCharacterItems, showItemPopup } from "../../redux/slices/userSlice";
+import { addUserCharacterItems, showItemPopup, addBlobImage } from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewInventory = () => {
     const dispatch = useDispatch();
@@ -12,7 +12,6 @@ const UserCharacterPreviewInventory = () => {
     const itemViewSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
-        console.log(itemObj)
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
     };
 
@@ -35,7 +34,8 @@ const UserCharacterPreviewInventory = () => {
 
     useEffect(() => {
         if (itemPreviewPopupStatus) {
-            console.log(itemViewSelected)
+            // const image = loadItemImage(itemViewSelected.image.data);
+            // dispatch(addBlobImage({blobData: image, type: 'image/jpeg'}))
         }
     }, [itemPreviewPopupStatus])
     
@@ -64,6 +64,7 @@ const UserCharacterPreviewInventory = () => {
                     </div>
                 </div>
                 <div className="preview-character-inventory-main-row">
+                    {console.log(allCharacterInventory.allCharacterItems)}
                     {allCharacterInventory.allCharacterItems ? allCharacterInventory.allCharacterItems.map((inventoryItem) => {
                         return (
                             <React.Fragment key={Math.random()}>
@@ -73,7 +74,7 @@ const UserCharacterPreviewInventory = () => {
                                             {inventoryItem.name}
                                         </div>
                                         <div className="preview-character-inventory-image-wrap">
-                                            <img src="/static/media/demo.630922c5cb9e25da873b.jpg" alt=""/>
+                                            <img src={inventoryItem && inventoryItem.blobData ? inventoryItem.blobData : '#'} alt=""/>
                                         </div>
                                         <div className="preview-character-inventory-item-controls-row">
                                             <div className="inventory-info-item-btn-wrap">
@@ -101,7 +102,7 @@ const UserCharacterPreviewInventory = () => {
                                 onClick={() => inventoryItemPopupHandler({}, false)}
                             ></span>
                             <div className="inventory-item-popup-controls-wrap">
-                                <div className="inventory-item-popup-qnt">Количество 1 шт</div>
+                                <div className="inventory-item-popup-qnt">{itemViewSelected ? `Количество: ${itemViewSelected.quantity} шт` : null} </div>
                                 <div className="inventory-item-popup-controls-row">
                                     <div className="inventory-item-popup-control-item">
                                         <span className="inventory-item-popup-add-btn"></span>
@@ -115,20 +116,13 @@ const UserCharacterPreviewInventory = () => {
                                 </div>
                             </div>
                             <div className="preview-character-inventory-item-body-wrap">
-                                <div className="preview-character-inventory-item-popup-title">title</div>
+                                <div className="preview-character-inventory-item-popup-title">{itemViewSelected ? itemViewSelected.name : null}</div>
                                 <div className="preview-character-inventory-item-body">
                                     <div className="preview-character-inventory-img-wrap">
-                                        <img src="#" />
+                                        <img src={itemViewSelected && itemViewSelected.blobData ? itemViewSelected.blobData : '#'} />
                                     </div>
                                     <div className="preview-character-inventory-item-description">
-                                        <p>Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. 
-                                            Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. 
-                                            В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, 
-                                            используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил 
-                                            без заметных изменений пять веков, но и перешагнул в электронный дизайн. 
-                                            Его популяризации в новое время послужили публикация листов Letraset с 
-                                            образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа 
-                                            Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.
+                                        <p>{itemViewSelected && itemViewSelected.description ? itemViewSelected.description : null}
                                         </p>
                                     </div>
                                 </div>

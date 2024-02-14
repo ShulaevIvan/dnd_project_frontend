@@ -1394,6 +1394,10 @@
 .preview-character-inventory-img-wrap {
     margin-bottom: 20px;
 }
+.preview-character-inventory-img-wrap img {
+    max-width: 150px;
+    max-height: 150px;
+}
 .preview-character-inventory-item-description {
     display: flex;
     flex-direction: column;

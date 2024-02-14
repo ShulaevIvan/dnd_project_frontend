@@ -216,19 +216,51 @@ const userSlice = createSlice({
         },
         addUserCharacterItems(state, action) {
             const { items } = action.payload;
+            const addedItems = items.map((item) => {
+                if (item.image && item.image.data) {
+                    const byteCharacters = atob(item.image.data);
+                    const byteArrays = [];
+                    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                        const slice = byteCharacters.slice(offset, offset + 512);
+                        byteArrays.push(new Uint8Array([...slice].map(char => char.charCodeAt(0))));
+                    }
+                    let blobData = new Blob(byteArrays, {type: item.image.ext});
+                    
+                    return {
+                        ...item,
+                        blobData: URL.createObjectURL(blobData),
+                    }
+                }
+                return {...item}
+            });
+            if (addedItems && addedItems.length > 0) {
+                state.previewCharacter.inventory.allCharacterItems = [...addedItems];
+                return;
+            }
             state.previewCharacter.inventory.allCharacterItems = items;
         },
         showItemPopup(state, action) {
             const { itemData, status } = action.payload;
             state.previewCharacter.inventory.itemPopupShow = status;
-            if (itemData.item && itemData.item.length > 0) {
-                state.previewCharacter.inventory.itemPopupSelected = {
-                    ...itemData.item[0],
-                    quantity : itemData.quantity,
-                };
+            
+            if (itemData && itemData.quantity) {
+                state.previewCharacter.inventory.itemPopupSelected = itemData;
                 return;
             }
             state.previewCharacter.inventory.itemPopupSelected = {};
+        },
+        addBlobImage(state, action) {
+            const { blobData } = action.payload;
+            state.previewCharacter.inventory.allCharacterItems = [
+                ...state.previewCharacter.inventory.allCharacterItems.map((item) => {
+                    return (
+                        {
+                            ...item,
+                            blobData: blobData
+                        }
+                    )
+                })
+            ]
         }
     }
 });
@@ -254,6 +286,7 @@ export const {
     showPopupSkill,
     addPopupSkillActive,
     addUserCharacterItems,
-    showItemPopup
+    showItemPopup,
+    addBlobImage
 } = userSlice.actions;
 export default userSlice.reducer;
