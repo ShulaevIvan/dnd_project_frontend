@@ -118,9 +118,22 @@ const UserCharacterPreviewInventory = () => {
                             <div className="preview-character-inventory-item-body-wrap">
                                 <div className="preview-character-inventory-item-popup-title">{itemViewSelected ? itemViewSelected.name : null}</div>
                                 <div className="preview-character-inventory-item-body">
-                                    <div className="preview-character-inventory-img-wrap">
-                                        <img src={itemViewSelected && itemViewSelected.blobData ? itemViewSelected.blobData : '#'} />
+                                    <div className="preview-character-inventory-item-body-row">
+                                        <div className="preview-character-inventory-img-wrap">
+                                            <img src={itemViewSelected && itemViewSelected.blobData ? itemViewSelected.blobData : '#'} />
+                                        </div>
+                                        <div className="preview-character-invewntory-item-parametrs">
+                                            <ul>
+                                                <li>1</li>
+                                                <li>1</li>
+                                                <li>1</li>
+                                                <li>1</li>
+                                                <li>1</li>
+                                                <li>1</li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                   
                                     <div className="preview-character-inventory-item-description">
                                         <p>{itemViewSelected && itemViewSelected.description ? itemViewSelected.description : null}
                                         </p>
