@@ -1475,3 +1475,185 @@
     content: '\27A5';
     cursor: pointer;
 }
+.preview-character-inventory-item-add {
+    display: flex;
+    width: 14%;
+    min-height: 120px;
+    max-width: 120px;
+    justify-content: center;
+    max-height: 120px;
+    align-items: center;
+    position: relative;
+    margin-right: 10px;
+    position: relative;
+}
+.add-character-item-btn::before {
+    content: '\2795';
+    min-width: 40px;
+    min-height: 40px;
+    border: 1px solid;
+    padding: 5px 8px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.preview-character-add-item-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 600px;
+    position: absolute;
+    z-index: 5;
+    background-color: gray;
+    min-height: 400px;
+}
+.preview-character-add-item-popup-close-btn::before {
+    content: '\274C';
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    font-size: 24px;
+    cursor: pointer;
+}
+.preview-character-add-item-popup-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 400px;
+    align-items: center;
+    margin-top: 20%;
+}
+.preview-character-add-items-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.preview-character-add-weapons-btn-wrap,
+.preview-character-add-armor-btn-wrap,
+.preview-character-add-instruments-btn-wrap,
+.preview-character-add-other-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 20%;
+    min-height: 20px;
+    margin-right: 2%;
+}
+.preview-character-add-weapons-btn-wrap button,
+.preview-character-add-armor-btn-wrap button,
+.preview-character-add-instruments-btn-wrap button,
+.preview-character-add-other-btn-wrap button {
+    cursor: pointer;
+}
+.preview-character-add-item-popup-preview {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.preview-character-add-item-popup-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.addding-item-popup-preview {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 20%;
+    min-width: 20%;
+    min-height: 100px;
+    border: 1px solid;
+    margin-right: 2%;
+    position: relative;
+}
+.addding-item-popup-preview-title {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    background-color: #C14B3C;
+}
+.adding-item-popup-preview-btn-wrap button {
+    cursor: pointer;
+}
+.adding-item-popup-preview-btn-info::before {
+    position: absolute;
+    left: 10%;
+    bottom: 0;
+    position: absolute;
+    content: '\1F6C8';
+    max-width: 20px;
+    max-height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    cursor: pointer;
+    left: 10%;
+    bottom: 5%;
+    font-size: 20px;
+}
+.adding-item-popup-preview-btn-add::before {
+    content: '\2795';
+    position: absolute;
+    right: 10%;
+    bottom: -1%;
+    font-size: 22px;
+    cursor: pointer;
+}
+.adding-item-popup-preview-btn-remove::before {
+    content: '\2796';
+    position: absolute;
+    right: 10%;
+    bottom: -1%;
+    font-size: 22px;
+    cursor: pointer;
+}
+.adding-item-popup-preview-image-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.adding-item-popup-preview-image-wrap img {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    max-width: 150px;
+    max-height: 150px;
+}
+.preview-character-add-items-search-panel-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.preview-character-add-items-search-panel {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid;
+}
+.preview-character-add-items-search-panel-wrap input {
+    text-align: left;
+    padding: 0 5px;
+}
+.preview-character-add-items-search-panel-wrap label {
+    margin-right: 10px;
+}

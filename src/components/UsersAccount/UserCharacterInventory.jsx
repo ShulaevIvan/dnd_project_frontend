@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addUserCharacterItems, showItemPopup, addBlobImage } from "../../redux/slices/userSlice";
+import { addUserCharacterItems, showItemPopup, showAddItemPopup, addPreloadItems} from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewInventory = () => {
     const dispatch = useDispatch();
@@ -10,10 +10,35 @@ const UserCharacterPreviewInventory = () => {
     const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const itemPreviewPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupShow);
     const itemViewSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
+    const addItemPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.showAddItemPopup);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
     };
+
+    const addItemPopupHandler = (statusValue) => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.items.length > 0) {
+                    dispatch(addPreloadItems({
+                        weapons: data.items.weapons,
+                        armor: data.items.armor,
+                        instruments: data.items.instruments,
+                    }));
+                }
+                dispatch(showAddItemPopup({status: statusValue}));
+            });
+        };
+        fetchFunc();
+    };
+    
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -64,7 +89,12 @@ const UserCharacterPreviewInventory = () => {
                     </div>
                 </div>
                 <div className="preview-character-inventory-main-row">
-                    {console.log(allCharacterInventory.allCharacterItems)}
+                    <div className="preview-character-inventory-item-add">
+                        <span 
+                            className="add-character-item-btn"
+                            onClick={() => addItemPopupHandler(true)}
+                        ></span>
+                    </div>
                     {allCharacterInventory.allCharacterItems ? allCharacterInventory.allCharacterItems.map((inventoryItem) => {
                         return (
                             <React.Fragment key={Math.random()}>
@@ -94,7 +124,82 @@ const UserCharacterPreviewInventory = () => {
                             </React.Fragment>
                         )
                     }) : null}
-
+                    {addItemPopupStatus ?
+                        <div className="preview-character-add-item-popup-wrap">
+                            <span 
+                                className="preview-character-add-item-popup-close-btn"
+                                onClick={() => addItemPopupHandler(false)}
+                            ></span>
+                            <div className="preview-character-add-item-popup-body">
+                                <div className="preview-character-add-items-search-panel-wrap">
+                                    <label htmlFor="add-items-search-panel">Search item</label>
+                                    <input id="add-items-search-panel" type="text" className="preview-character-add-items-search-panel"/>
+                                </div>
+                                <div className="preview-character-add-items-row">
+                                    <div className="preview-character-add-weapons-btn-wrap">
+                                        <button>add weapons</button>
+                                    </div>
+                                    <div className="preview-character-add-armor-btn-wrap">
+                                        <button>add armor</button>
+                                    </div>
+                                    <div className="preview-character-add-instruments-btn-wrap">
+                                        <button>add instrument</button>
+                                    </div>
+                                    <div className="preview-character-add-other-btn-wrap">
+                                        <button>add other</button>
+                                    </div>
+                                </div>
+                                <div className="preview-character-add-item-popup-preview">
+                                    <div className="preview-character-add-item-popup-row">
+                                        <div className="addding-item-popup-preview">
+                                            <div className="addding-item-popup-preview-title">title</div>
+                                            <div className="adding-item-popup-preview-image-wrap">
+                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
+                                            </div>
+                                            <div className="adding-item-popup-preview-btn-wrap">
+                                                <span className="adding-item-popup-preview-btn-info"></span>
+                                                <span className="adding-item-popup-preview-btn-add"></span>
+                                            </div>
+                                        </div>
+                                        <div className="addding-item-popup-preview">
+                                            <div className="addding-item-popup-preview-title">title</div>
+                                            <div className="adding-item-popup-preview-image-wrap">
+                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
+                                            </div>
+                                            <div className="adding-item-popup-preview-btn-wrap">
+                                                <span className="adding-item-popup-preview-btn-info"></span>
+                                                <span className="adding-item-popup-preview-btn-add"></span>
+                                            </div>
+                                        </div>
+                                        <div className="addding-item-popup-preview">
+                                            <div className="addding-item-popup-preview-title">title</div>
+                                            <div className="adding-item-popup-preview-image-wrap">
+                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
+                                            </div>
+                                            <div className="adding-item-popup-preview-btn-wrap">
+                                                <span className="adding-item-popup-preview-btn-info"></span>
+                                                <span className="adding-item-popup-preview-btn-add"></span>
+                                            </div>
+                                        </div>
+                                        <div className="addding-item-popup-preview">
+                                            <div className="addding-item-popup-preview-title">title</div>
+                                            <div className="adding-item-popup-preview-image-wrap">
+                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
+                                            </div>
+                                            <div className="adding-item-popup-preview-btn-wrap">
+                                                <span className="adding-item-popup-preview-btn-info"></span>
+                                                <span className="adding-item-popup-preview-btn-add"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="preview-character-add-item-popup-load-more-wrap">
+                                        <button>load more</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    : null}
+                    
                     {itemPreviewPopupStatus ? 
                         <div className="preview-character-inventory-item-popup-wrap">
                             <span 
