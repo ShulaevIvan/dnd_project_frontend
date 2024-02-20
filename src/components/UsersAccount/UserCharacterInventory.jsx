@@ -11,6 +11,7 @@ const UserCharacterPreviewInventory = () => {
     const itemPreviewPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupShow);
     const itemViewSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
     const addItemPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.showAddItemPopup);
+    const preloadAddItemsPopup = useSelector((state) => state.userData.previewCharacter.inventory.preloadAddItemsPopup);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
@@ -18,7 +19,7 @@ const UserCharacterPreviewInventory = () => {
 
     const addItemPopupHandler = (statusValue) => {
         const fetchFunc = async () => {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/?chunk=4`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -26,16 +27,40 @@ const UserCharacterPreviewInventory = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                if (data.items.length > 0) {
+                if (data.items) {
                     dispatch(addPreloadItems({
                         weapons: data.items.weapons,
                         armor: data.items.armor,
                         instruments: data.items.instruments,
+                        loadmore: false,
                     }));
                 }
-                dispatch(showAddItemPopup({status: statusValue}));
             });
         };
+        if (statusValue) fetchFunc();
+        dispatch(showAddItemPopup({status: statusValue}));
+    };
+
+    const loadMorePopupHandler = () => {
+        const loadedItems = preloadAddItemsPopup.map((item) => { return ({ id: item.id, name: item.name, type: item.itemType })});
+        const sendData = {
+            count: 4,
+            existingItems: loadedItems
+        }
+        
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(sendData),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                // console.log(data);
+            })
+        }
         fetchFunc();
     };
     
@@ -151,49 +176,25 @@ const UserCharacterPreviewInventory = () => {
                                 </div>
                                 <div className="preview-character-add-item-popup-preview">
                                     <div className="preview-character-add-item-popup-row">
-                                        <div className="addding-item-popup-preview">
-                                            <div className="addding-item-popup-preview-title">title</div>
-                                            <div className="adding-item-popup-preview-image-wrap">
-                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
-                                            </div>
-                                            <div className="adding-item-popup-preview-btn-wrap">
-                                                <span className="adding-item-popup-preview-btn-info"></span>
-                                                <span className="adding-item-popup-preview-btn-add"></span>
-                                            </div>
-                                        </div>
-                                        <div className="addding-item-popup-preview">
-                                            <div className="addding-item-popup-preview-title">title</div>
-                                            <div className="adding-item-popup-preview-image-wrap">
-                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
-                                            </div>
-                                            <div className="adding-item-popup-preview-btn-wrap">
-                                                <span className="adding-item-popup-preview-btn-info"></span>
-                                                <span className="adding-item-popup-preview-btn-add"></span>
-                                            </div>
-                                        </div>
-                                        <div className="addding-item-popup-preview">
-                                            <div className="addding-item-popup-preview-title">title</div>
-                                            <div className="adding-item-popup-preview-image-wrap">
-                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
-                                            </div>
-                                            <div className="adding-item-popup-preview-btn-wrap">
-                                                <span className="adding-item-popup-preview-btn-info"></span>
-                                                <span className="adding-item-popup-preview-btn-add"></span>
-                                            </div>
-                                        </div>
-                                        <div className="addding-item-popup-preview">
-                                            <div className="addding-item-popup-preview-title">title</div>
-                                            <div className="adding-item-popup-preview-image-wrap">
-                                                <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
-                                            </div>
-                                            <div className="adding-item-popup-preview-btn-wrap">
-                                                <span className="adding-item-popup-preview-btn-info"></span>
-                                                <span className="adding-item-popup-preview-btn-add"></span>
-                                            </div>
-                                        </div>
+                                        {preloadAddItemsPopup ? preloadAddItemsPopup.map((item) => {
+                                            return (
+                                                <React.Fragment key={Math.random()}>
+                                                    <div className="addding-item-popup-preview">
+                                                        <div className="addding-item-popup-preview-title">{item.name}</div>
+                                                        <div className="adding-item-popup-preview-image-wrap">
+                                                            <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
+                                                        </div>
+                                                        <div className="adding-item-popup-preview-btn-wrap">
+                                                            <span className="adding-item-popup-preview-btn-info"></span>
+                                                            <span className="adding-item-popup-preview-btn-add"></span>
+                                                        </div>
+                                                    </div>
+                                                </React.Fragment>
+                                            )
+                                        }) : null}
                                     </div>
                                     <div className="preview-character-add-item-popup-load-more-wrap">
-                                        <button>load more</button>
+                                        <button onClick={loadMorePopupHandler}>load more</button>
                                     </div>
                                 </div>
                             </div>

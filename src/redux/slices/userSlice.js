@@ -53,12 +53,7 @@ const initialState = {
             itemPopupShow: false,
             itemPopupSelected: undefined,
             addItemPopupShow: false,
-            addItemPopupPreloadItems: {
-                weapons: [],
-                armor: [],
-                instruments: [],
-                allDefaultItems: [],
-            }
+            preloadAddItemsPopup: [],
         }
     },
 };
@@ -274,10 +269,16 @@ const userSlice = createSlice({
             state.previewCharacter.inventory.showAddItemPopup = status;
         },
         addPreloadItems(state, action) {
-            const { weapons, armor, instruments } = action.payload;
-            state.previewCharacter.inventory.addItemPopupPreloadItems.weapons = weapons;
-            state.previewCharacter.inventory.addItemPopupPreloadItems.weapons = armor;
-            state.previewCharacter.inventory.addItemPopupPreloadItems.weapons = instruments;
+            const { weapons, armor, instruments, loadmore } = action.payload;
+            if (loadmore) {
+                return;
+            }
+            
+            state.previewCharacter.inventory.preloadAddItemsPopup = [
+                ...weapons,
+                ...armor,
+                ...instruments
+            ]
         }
     }
 });
