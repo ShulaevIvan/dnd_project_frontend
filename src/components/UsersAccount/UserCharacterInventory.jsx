@@ -58,7 +58,12 @@ const UserCharacterPreviewInventory = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
+                dispatch(addPreloadItems({
+                    weapons: data.items.weapons,
+                    armor: data.items.armor,
+                    instruments: data.items.instruments,
+                    loadmore: true,
+                }));
             })
         }
         fetchFunc();

@@ -1574,6 +1574,7 @@
     min-width: 20%;
     min-height: 100px;
     border: 1px solid;
+    margin-bottom: 10px;
     margin-right: 2%;
     position: relative;
 }

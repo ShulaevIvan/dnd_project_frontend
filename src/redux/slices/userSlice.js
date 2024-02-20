@@ -271,6 +271,12 @@ const userSlice = createSlice({
         addPreloadItems(state, action) {
             const { weapons, armor, instruments, loadmore } = action.payload;
             if (loadmore) {
+                state.previewCharacter.inventory.preloadAddItemsPopup = [
+                    ...state.previewCharacter.inventory.preloadAddItemsPopup,
+                    ...weapons,
+                    ...armor,
+                    ...instruments
+                ]
                 return;
             }
             
