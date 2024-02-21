@@ -1501,6 +1501,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     min-width: 600px;
+    padding: 40px 20px;
     position: absolute;
     z-index: 5;
     background-color: gray;
@@ -1521,7 +1522,7 @@
     width: 100%;
     min-height: 400px;
     align-items: center;
-    margin-top: 20%;
+    margin-top: 5%;
 }
 .preview-character-add-items-row {
     display: flex;
