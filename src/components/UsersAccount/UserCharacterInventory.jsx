@@ -1,7 +1,14 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addUserCharacterItems, showItemPopup, showAddItemPopup, addPreloadItems} from "../../redux/slices/userSlice";
+import { 
+    addUserCharacterItems, 
+    showItemPopup, 
+    showAddItemPopup, 
+    addPreloadItems,
+    showInfoPopupAddItem,
+    searchPopupAddItemText
+} from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewInventory = () => {
     const dispatch = useDispatch();
@@ -12,6 +19,11 @@ const UserCharacterPreviewInventory = () => {
     const itemViewSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
     const addItemPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.showAddItemPopup);
     const preloadAddItemsPopup = useSelector((state) => state.userData.previewCharacter.inventory.preloadAddItemsPopup);
+    const showInfoAddItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoAddPopup);
+    const selectedAddItemInfoPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoPopupSelected);
+    const searchInputText = useSelector((state) => state.userData.previewCharacter.inventory.searchInputText);
+    const searchInputStatus = useSelector((state) => state.userData.previewCharacter.inventory.searchInputStatus);
+    const searchInputRef = useRef(null);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
@@ -68,7 +80,28 @@ const UserCharacterPreviewInventory = () => {
         }
         fetchFunc();
     };
-    
+
+    const addItemInfoPopupHandler = (itemObj, popupStatus) => {
+        dispatch(showInfoPopupAddItem({itemSelected: itemObj, status: popupStatus}))
+    };
+    const addItemInfoPopupCloseHandler = () => {
+        dispatch(showInfoPopupAddItem({itemSelected: {}, status: false}))
+    };
+    const searchInputHandler = (e) => {
+        dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (searchInputText && searchInputRef.current.value === searchInputText) {
+                dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: true}));
+                console.log('test')
+                return;
+            }
+        }, 300);
+        dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
+       
+    }, [searchInputText]);
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -163,7 +196,11 @@ const UserCharacterPreviewInventory = () => {
                             <div className="preview-character-add-item-popup-body">
                                 <div className="preview-character-add-items-search-panel-wrap">
                                     <label htmlFor="add-items-search-panel">Search item</label>
-                                    <input id="add-items-search-panel" type="text" className="preview-character-add-items-search-panel"/>
+                                    <input
+                                        ref={searchInputRef}
+                                        onInput={(e) => searchInputHandler(e)} 
+                                        id="add-items-search-panel" type="text" className="preview-character-add-items-search-panel"
+                                    />
                                 </div>
                                 <div className="preview-character-add-items-row">
                                     <div className="preview-character-add-weapons-btn-wrap">
@@ -190,7 +227,10 @@ const UserCharacterPreviewInventory = () => {
                                                             <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
                                                         </div>
                                                         <div className="adding-item-popup-preview-btn-wrap">
-                                                            <span className="adding-item-popup-preview-btn-info"></span>
+                                                            <span 
+                                                                className="adding-item-popup-preview-btn-info"
+                                                                onClick={() => addItemInfoPopupHandler(item, true)}
+                                                            ></span>
                                                             <span className="adding-item-popup-preview-btn-add"></span>
                                                         </div>
                                                     </div>
@@ -201,6 +241,26 @@ const UserCharacterPreviewInventory = () => {
                                     <div className="preview-character-add-item-popup-load-more-wrap">
                                         <button onClick={loadMorePopupHandler}>load more</button>
                                     </div>
+                                    {showInfoAddItemPopup ?
+                                        <React.Fragment key={Math.random()}>
+                                            <div className="preview-character-add-item-preview-popup-wrap">
+                                                <div className="preview-character-add-item-preview-popup-close-btn-wrap">
+                                                    <span 
+                                                        className="preview-character-add-item-preview-popup-close-btn"
+                                                        onClick={addItemInfoPopupCloseHandler}
+                                                    ></span>
+                                                </div>
+                                                <div className="preview-character-add-item-preview-popup-body">
+                                                    <div className="preview-character-add-item-preview-popup-title">
+                                                        {selectedAddItemInfoPopup.name}
+                                                    </div>
+                                                    <div className="preview-character-add-item-preview-popup-description">
+                                                        <p>{selectedAddItemInfoPopup.description}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    : null}
                                 </div>
                             </div>
                         </div>

@@ -1659,3 +1659,41 @@
 .preview-character-add-items-search-panel-wrap label {
     margin-right: 10px;
 }
+.preview-character-add-item-preview-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    position: absolute;
+    z-index: 5;
+    min-width: 400px;
+    min-height: 400px;
+    background-color: gray;
+    border: 1px solid;
+    padding: 20px 40px;
+    align-items: center;
+    justify-content: center;
+}
+.preview-character-add-item-preview-popup-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 300px;
+    justify-content: center;
+}
+.preview-character-add-item-preview-popup-close-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    top: 5%;
+    position: absolute;
+}
+.preview-character-add-item-preview-popup-close-btn::before,
+.preview-character-add-item-preview-popup-close-btn {
+    content: '\274C';
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    font-size: 24px;
+    cursor: pointer;
+}

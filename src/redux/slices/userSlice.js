@@ -52,8 +52,13 @@ const initialState = {
             allCharacterItems: [],
             itemPopupShow: false,
             itemPopupSelected: undefined,
+            itemInfoAddPopup: false,
+            itemInfoPopupSelected: undefined,
             addItemPopupShow: false,
             preloadAddItemsPopup: [],
+            searchInputText: '',
+            prevSearchInputText: '',
+            searchInputEnd: true
         }
     },
 };
@@ -285,6 +290,16 @@ const userSlice = createSlice({
                 ...armor,
                 ...instruments
             ]
+        },
+        showInfoPopupAddItem(state, action) {
+            const { itemSelected, status} = action.payload;
+            state.previewCharacter.inventory.itemInfoAddPopup = status;
+            state.previewCharacter.inventory.itemInfoPopupSelected = itemSelected;
+        },
+        searchPopupAddItemText(state, action) {
+            const { inputText, status } = action.payload; 
+            state.previewCharacter.inventory.searchInputText = inputText;
+            state.previewCharacter.inventory.searchInputEnd = status;
         }
     }
 });
@@ -313,6 +328,8 @@ export const {
     showItemPopup,
     addBlobImage,
     showAddItemPopup,
-    addPreloadItems
+    addPreloadItems,
+    showInfoPopupAddItem,
+    searchPopupAddItemText
 } = userSlice.actions;
 export default userSlice.reducer;
