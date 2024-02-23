@@ -58,7 +58,8 @@ const initialState = {
             preloadAddItemsPopup: [],
             searchInputText: '',
             prevSearchInputText: '',
-            searchInputEnd: true
+            searchInputEnd: true,
+            filterType: 'reset',
         }
     },
 };
@@ -274,7 +275,11 @@ const userSlice = createSlice({
             state.previewCharacter.inventory.showAddItemPopup = status;
         },
         addPreloadItems(state, action) {
-            const { weapons, armor, instruments, loadmore } = action.payload;
+            const { weapons, armor, instruments, loadmore, searchItems } = action.payload;
+            if (searchItems && searchItems.length > 0) {
+                state.previewCharacter.inventory.preloadAddItemsPopup = [...searchItems];
+                return;
+            }
             if (loadmore) {
                 state.previewCharacter.inventory.preloadAddItemsPopup = [
                     ...state.previewCharacter.inventory.preloadAddItemsPopup,
@@ -300,6 +305,10 @@ const userSlice = createSlice({
             const { inputText, status } = action.payload; 
             state.previewCharacter.inventory.searchInputText = inputText;
             state.previewCharacter.inventory.searchInputEnd = status;
+        },
+        filterPopupAddItem(state, action) {
+            const { filterType } = action.payload;
+            state.previewCharacter.inventory.filterType = filterType;
         }
     }
 });
@@ -330,6 +339,7 @@ export const {
     showAddItemPopup,
     addPreloadItems,
     showInfoPopupAddItem,
-    searchPopupAddItemText
+    searchPopupAddItemText,
+    filterPopupAddItem
 } = userSlice.actions;
 export default userSlice.reducer;

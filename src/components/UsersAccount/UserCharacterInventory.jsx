@@ -7,7 +7,8 @@ import {
     showAddItemPopup, 
     addPreloadItems,
     showInfoPopupAddItem,
-    searchPopupAddItemText
+    searchPopupAddItemText,
+    filterPopupAddItem
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewInventory = () => {
@@ -22,7 +23,7 @@ const UserCharacterPreviewInventory = () => {
     const showInfoAddItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoAddPopup);
     const selectedAddItemInfoPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoPopupSelected);
     const searchInputText = useSelector((state) => state.userData.previewCharacter.inventory.searchInputText);
-    const searchInputStatus = useSelector((state) => state.userData.previewCharacter.inventory.searchInputStatus);
+    const filterTypeStatus = useSelector((state) => state.userData.previewCharacter.inventory.filterType);
     const searchInputRef = useRef(null);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
@@ -90,18 +91,53 @@ const UserCharacterPreviewInventory = () => {
     const searchInputHandler = (e) => {
         dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
     };
+    const addItemInfoFilterHandler = (filterKey) => {
+        dispatch(filterPopupAddItem({filterType: filterKey}));
+    };
 
     useEffect(() => {
-        setTimeout(() => {
-            if (searchInputText && searchInputRef.current.value === searchInputText) {
-                dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: true}));
-                console.log('test')
-                return;
-            }
-        }, 300);
-        dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
-       
-    }, [searchInputText]);
+        if (filterTypeStatus && filterTypeStatus === 'reset') {
+            const fetchFunc = async () => {
+                await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/?chunk=4`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.items) {
+                        dispatch(addPreloadItems({
+                            weapons: data.items.weapons,
+                            armor: data.items.armor,
+                            instruments: data.items.instruments,
+                            loadmore: false,
+                        }));
+                    }
+                });
+            };
+            fetchFunc();
+            return;
+        }
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/?filter=${filterTypeStatus}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addPreloadItems({
+                    weapons: data[filterTypeStatus] ? data[filterTypeStatus] : [],
+                    armor: data[filterTypeStatus] ? data[filterTypeStatus] : [],
+                    instruments: data[filterTypeStatus] ? data[filterTypeStatus] : [],
+                    loadmore: false,
+                }));
+            })
+        }
+        fetchFunc();
+    }, [filterTypeStatus]);
 
     useEffect(() => {
         const fetchFunc = async () => {
@@ -121,11 +157,66 @@ const UserCharacterPreviewInventory = () => {
     }, []);
 
     useEffect(() => {
-        if (itemPreviewPopupStatus) {
-            // const image = loadItemImage(itemViewSelected.image.data);
-            // dispatch(addBlobImage({blobData: image, type: 'image/jpeg'}))
-        }
-    }, [itemPreviewPopupStatus])
+        if (!searchInputRef.current) return;
+        setTimeout(() => {
+            const itemsUrl = `${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`
+            if (searchInputRef.current && searchInputRef.current.value === searchInputText) {
+                dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: true}));
+                const fetchFunc = async () => {
+                    await fetch(`${itemsUrl}?item=${searchInputText}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data && data.items.length > 0) {
+                            dispatch(addPreloadItems({
+                                searchItems: data.items
+                            }));
+                            return;
+                        }
+                        else if (data && data.items.length === 0) {
+                            dispatch(addPreloadItems({
+                                weapons: [],
+                                armor: [],
+                                instruments: [],
+                                loadmore: false,
+                            }));
+                        }
+                    });
+                }
+                fetchFunc();
+                return;
+            }
+            else if (searchInputRef.current && searchInputRef.current.value === '') {
+                const fetchFunc = async () => {
+                    await fetch(`${itemsUrl}?chunk=4`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.items) {
+                            dispatch(addPreloadItems({
+                                weapons: data.items.weapons,
+                                armor: data.items.armor,
+                                instruments: data.items.instruments,
+                                loadmore: false,
+                            }));
+                        }
+                    });
+                };
+                fetchFunc();
+                return;
+            }
+        }, 500);
+        dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
+       
+    }, [searchInputText]);
     
     return (
         <React.Fragment>
@@ -204,16 +295,22 @@ const UserCharacterPreviewInventory = () => {
                                 </div>
                                 <div className="preview-character-add-items-row">
                                     <div className="preview-character-add-weapons-btn-wrap">
-                                        <button>add weapons</button>
+                                        <button onClick={() => addItemInfoFilterHandler('weapons')}>weapons</button>
                                     </div>
                                     <div className="preview-character-add-armor-btn-wrap">
-                                        <button>add armor</button>
+                                    <button onClick={() => addItemInfoFilterHandler('armor')}>armor</button>
                                     </div>
                                     <div className="preview-character-add-instruments-btn-wrap">
-                                        <button>add instrument</button>
+                                    <button onClick={() => addItemInfoFilterHandler('instruments')}>instrument</button>
                                     </div>
                                     <div className="preview-character-add-other-btn-wrap">
-                                        <button>add other</button>
+                                        <button>other</button>
+                                    </div>
+                                    <div className="preview-character-add-reset-btn-wrap">
+                                        <button
+                                            disabled={filterTypeStatus === 'reset' ? true : false} 
+                                            onClick={() => addItemInfoFilterHandler('reset')}
+                                        >reset</button>
                                     </div>
                                 </div>
                                 <div className="preview-character-add-item-popup-preview">
