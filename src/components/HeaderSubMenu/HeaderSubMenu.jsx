@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { logoutUser } from "../../redux/slices/userSlice";
 
 const HeaderSubMenu = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const userData = useSelector((state) => state.userData);
 
     const loginHandler = (e) => {
@@ -31,6 +32,7 @@ const HeaderSubMenu = () => {
             .then((data) => {
                 dispatch(logoutUser());
                 dispatch(subMenuActive(false));
+                navigate('/')
             });
         };
         fetchFunc();

@@ -55,6 +55,7 @@ const initialState = {
             itemInfoAddPopup: false,
             itemInfoPopupSelected: undefined,
             addItemPopupShow: false,
+            addItemQuantity: 0,
             preloadAddItemsPopup: [],
             searchInputText: '',
             prevSearchInputText: '',
@@ -296,6 +297,21 @@ const userSlice = createSlice({
                 ...instruments
             ]
         },
+        selectPopupAddItem(state, action) {
+            const { itemSelected } = action.payload;
+            state.previewCharacter.inventory.itemInfoPopupSelected = itemSelected;
+            state.previewCharacter.inventory.addItemQuantity = 0;
+        },
+        addItemSelectQuantity(state, action) {
+            const { qnt, actionType, reset } = action.payload;
+            if (reset) state.previewCharacter.inventory.addItemQuantity = 0;
+            if (actionType === 'min' && state.previewCharacter.inventory.addItemQuantity > 0) {
+                state.previewCharacter.inventory.addItemQuantity = state.previewCharacter.inventory.addItemQuantity -= qnt;
+            }
+            else if (actionType === 'plus') {
+                state.previewCharacter.inventory.addItemQuantity = state.previewCharacter.inventory.addItemQuantity += qnt;
+            }
+        },
         showInfoPopupAddItem(state, action) {
             const { itemSelected, status} = action.payload;
             state.previewCharacter.inventory.itemInfoAddPopup = status;
@@ -340,6 +356,8 @@ export const {
     addPreloadItems,
     showInfoPopupAddItem,
     searchPopupAddItemText,
-    filterPopupAddItem
+    filterPopupAddItem,
+    selectPopupAddItem,
+    addItemSelectQuantity,
 } = userSlice.actions;
 export default userSlice.reducer;

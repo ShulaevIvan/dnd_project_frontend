@@ -8,7 +8,9 @@ import {
     addPreloadItems,
     showInfoPopupAddItem,
     searchPopupAddItemText,
-    filterPopupAddItem
+    filterPopupAddItem,
+    selectPopupAddItem,
+    addItemSelectQuantity
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewInventory = () => {
@@ -19,12 +21,15 @@ const UserCharacterPreviewInventory = () => {
     const itemPreviewPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupShow);
     const itemViewSelected = useSelector((state) => state.userData.previewCharacter.inventory.itemPopupSelected);
     const addItemPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.showAddItemPopup);
+    const selectedAddItemQuantity = useSelector((state) => state.userData.previewCharacter.inventory.addItemQuantity);
     const preloadAddItemsPopup = useSelector((state) => state.userData.previewCharacter.inventory.preloadAddItemsPopup);
     const showInfoAddItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoAddPopup);
     const selectedAddItemInfoPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoPopupSelected);
     const searchInputText = useSelector((state) => state.userData.previewCharacter.inventory.searchInputText);
     const filterTypeStatus = useSelector((state) => state.userData.previewCharacter.inventory.filterType);
+
     const searchInputRef = useRef(null);
+    const addItemQuantityRef = useRef(null);
 
     const inventoryItemPopupHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
@@ -59,7 +64,7 @@ const UserCharacterPreviewInventory = () => {
         const sendData = {
             count: 4,
             existingItems: loadedItems
-        }
+        };
         
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`, {
@@ -77,7 +82,7 @@ const UserCharacterPreviewInventory = () => {
                     instruments: data.items.instruments,
                     loadmore: true,
                 }));
-            })
+            });
         }
         fetchFunc();
     };
@@ -94,6 +99,30 @@ const UserCharacterPreviewInventory = () => {
     const addItemInfoFilterHandler = (filterKey) => {
         dispatch(filterPopupAddItem({filterType: filterKey}));
     };
+    const selectAddItemHandler = (e, itemObj) => {
+        e.stopPropagation();
+        if (selectedAddItemInfoPopup && selectedAddItemInfoPopup.id === itemObj.id && selectedAddItemInfoPopup.itemType === itemObj.itemType) {
+            dispatch(selectPopupAddItem({itemSelected: undefined}));
+            return;
+        }
+        dispatch(selectPopupAddItem({itemSelected: itemObj}));
+    };
+    const addItemChangeQuantityHandler = (actionType, value=1) => {
+        dispatch(addItemSelectQuantity({qnt: value, actionType: actionType}));
+    };
+
+    const addItemToCharacterHandler = (itemObj) => {
+        const sendData = {
+            itemId: itemObj.id,
+            itemName: itemObj.name,
+            quantity: selectedAddItemQuantity,
+        };
+        dispatch(addItemSelectQuantity({reset: true}));
+    };
+
+    useEffect(() => {
+        if (addItemQuantityRef.current) addItemQuantityRef.current.value = selectedAddItemQuantity;
+    }, [selectedAddItemQuantity]);
 
     useEffect(() => {
         if (filterTypeStatus && filterTypeStatus === 'reset') {
@@ -158,8 +187,8 @@ const UserCharacterPreviewInventory = () => {
 
     useEffect(() => {
         if (!searchInputRef.current) return;
+        const itemsUrl = `${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`
         setTimeout(() => {
-            const itemsUrl = `${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/`
             if (searchInputRef.current && searchInputRef.current.value === searchInputText) {
                 dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: true}));
                 const fetchFunc = async () => {
@@ -190,30 +219,31 @@ const UserCharacterPreviewInventory = () => {
                 fetchFunc();
                 return;
             }
-            else if (searchInputRef.current && searchInputRef.current.value === '') {
-                const fetchFunc = async () => {
-                    await fetch(`${itemsUrl}?chunk=4`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.items) {
-                            dispatch(addPreloadItems({
-                                weapons: data.items.weapons,
-                                armor: data.items.armor,
-                                instruments: data.items.instruments,
-                                loadmore: false,
-                            }));
-                        }
-                    });
-                };
-                fetchFunc();
-                return;
-            }
         }, 500);
+
+        if (searchInputRef.current && (searchInputRef.current.value === '' || searchInputRef.current.value === ' ')) {
+            const fetchFunc = async () => {
+                await fetch(`${itemsUrl}?chunk=4`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.items) {
+                        dispatch(addPreloadItems({
+                            weapons: data.items.weapons,
+                            armor: data.items.armor,
+                            instruments: data.items.instruments,
+                            loadmore: false,
+                        }));
+                    }
+                });
+            };
+            fetchFunc();
+            return;
+        }
         dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
        
     }, [searchInputText]);
@@ -289,7 +319,7 @@ const UserCharacterPreviewInventory = () => {
                                     <label htmlFor="add-items-search-panel">Search item</label>
                                     <input
                                         ref={searchInputRef}
-                                        onInput={(e) => searchInputHandler(e)} 
+                                        onInput={searchInputHandler} 
                                         id="add-items-search-panel" type="text" className="preview-character-add-items-search-panel"
                                     />
                                 </div>
@@ -318,9 +348,15 @@ const UserCharacterPreviewInventory = () => {
                                         {preloadAddItemsPopup ? preloadAddItemsPopup.map((item) => {
                                             return (
                                                 <React.Fragment key={Math.random()}>
-                                                    <div className="addding-item-popup-preview">
+                                                    <div className= {
+                                                        selectedAddItemInfoPopup && selectedAddItemInfoPopup.id === item.id && 
+                                                                selectedAddItemInfoPopup.itemType === item.itemType ? 
+                                                                    "addding-item-popup-preview-selected" : "addding-item-popup-preview"
+                                                    }>
                                                         <div className="addding-item-popup-preview-title">{item.name}</div>
-                                                        <div className="adding-item-popup-preview-image-wrap">
+                                                        <div 
+                                                            className="adding-item-popup-preview-image-wrap" 
+                                                            onClick={(e) => selectAddItemHandler(e, item)}>
                                                             <img src="http://localhost:3000/static/media/demo.630922c5cb9e25da873b.jpg" alt="#"/>
                                                         </div>
                                                         <div className="adding-item-popup-preview-btn-wrap">
@@ -328,7 +364,33 @@ const UserCharacterPreviewInventory = () => {
                                                                 className="adding-item-popup-preview-btn-info"
                                                                 onClick={() => addItemInfoPopupHandler(item, true)}
                                                             ></span>
-                                                            <span className="adding-item-popup-preview-btn-add"></span>
+                                                            {selectedAddItemInfoPopup && selectedAddItemInfoPopup.id === item.id && 
+                                                                selectedAddItemInfoPopup.name === item.name ? 
+                                                                    <span className="adding-item-popup-quantity">
+                                                                        <span
+                                                                            className="adding-item-popup-quantity-plus"
+                                                                            onClick={() => addItemChangeQuantityHandler('plus')}
+                                                                        ></span>
+                                                                        <input 
+                                                                            ref={addItemQuantityRef}
+                                                                            type="text" 
+                                                                            defaultValue={0}
+                                                                        />
+                                                                        <span 
+                                                                            className="adding-item-popup-quantity-min"
+                                                                            onClick={() => addItemChangeQuantityHandler('min')}
+                                                                        ></span>
+                                                                    </span> 
+                                                            :null}
+                                                            
+                                                            <span
+                                                                className={
+                                                                    selectedAddItemQuantity && selectedAddItemInfoPopup.id === item.id && 
+                                                                        selectedAddItemInfoPopup.name === item.name ? 'adding-item-popup-preview-btn-add' : 
+                                                                            'adding-item-popup-preview-btn-add-disabled'
+                                                                    }
+                                                                onClick={() => addItemToCharacterHandler(item)}
+                                                            ></span>
                                                         </div>
                                                     </div>
                                                 </React.Fragment>

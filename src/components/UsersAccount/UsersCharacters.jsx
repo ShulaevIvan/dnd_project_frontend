@@ -105,7 +105,7 @@ const UsersCharacters = () => {
     }, [location.pathname]);
 
     useEffect(() => {
-        if (userData && userData.userId && userData.token) {
+        if (userData && userData.userId && userData.token && userData.auth) {
             const fetchFunc = async () => {
                 await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/`, {
                     method: 'GET',
@@ -121,7 +121,7 @@ const UsersCharacters = () => {
             }
             fetchFunc();
         }
-    }, []);
+    }, [userData]);
 
     useEffect(() => {
         if (!avatarsLoadStatus) {
