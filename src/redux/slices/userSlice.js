@@ -304,7 +304,11 @@ const userSlice = createSlice({
         },
         addItemSelectQuantity(state, action) {
             const { qnt, actionType, reset } = action.payload;
-            if (reset) state.previewCharacter.inventory.addItemQuantity = 0;
+            if (reset) {
+                state.previewCharacter.inventory.addItemQuantity = 0;
+                state.previewCharacter.inventory.itemInfoPopupSelected = undefined;
+                return;
+            }
             if (actionType === 'min' && state.previewCharacter.inventory.addItemQuantity > 0) {
                 state.previewCharacter.inventory.addItemQuantity = state.previewCharacter.inventory.addItemQuantity -= qnt;
             }

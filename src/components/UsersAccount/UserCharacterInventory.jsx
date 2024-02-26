@@ -100,7 +100,6 @@ const UserCharacterPreviewInventory = () => {
         dispatch(filterPopupAddItem({filterType: filterKey}));
     };
     const selectAddItemHandler = (e, itemObj) => {
-        e.stopPropagation();
         if (selectedAddItemInfoPopup && selectedAddItemInfoPopup.id === itemObj.id && selectedAddItemInfoPopup.itemType === itemObj.itemType) {
             dispatch(selectPopupAddItem({itemSelected: undefined}));
             return;
@@ -115,9 +114,22 @@ const UserCharacterPreviewInventory = () => {
         const sendData = {
             itemId: itemObj.id,
             itemName: itemObj.name,
+            itemType: itemObj.itemType,
             quantity: selectedAddItemQuantity,
+            characterId: selectedCharacter.id,
+            characterName: selectedCharacter.name,
         };
-        dispatch(addItemSelectQuantity({reset: true}));
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/?add=True`, {
+                method: 'POST',
+                body: JSON.stringify(sendData)
+            })
+            .then((response) => {
+                if (response.status === 201) dispatch(addItemSelectQuantity({reset: true}));
+            })
+        };
+        fetchFunc();
+        // dispatch(addItemSelectQuantity({reset: true}));
     };
 
     useEffect(() => {
