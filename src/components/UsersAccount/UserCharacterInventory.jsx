@@ -31,8 +31,32 @@ const UserCharacterPreviewInventory = () => {
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
 
-    const inventoryItemPopupHandler = (itemObj, statusValue) => {
+    const inventoryItemInfoHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
+    };
+
+    const inventoryItemRemoveHandler = (itemObj, qnt) => {
+        let quantity;
+        if (itemObj && itemObj.quantity < qnt) quantity = itemObj.quantity; 
+        quantity = qnt;
+        const data = {
+            id: itemObj.id,
+            itemId: itemObj.itemId,
+            name: itemObj.name,
+            count: quantity,
+            type: itemObj.type
+        };
+
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+        };
+        fetchFunc();
     };
 
     const addItemPopupHandler = (statusValue) => {
@@ -115,12 +139,13 @@ const UserCharacterPreviewInventory = () => {
             itemId: itemObj.id,
             itemName: itemObj.name,
             itemType: itemObj.itemType,
+            itemId: itemObj.itemId,
             quantity: selectedAddItemQuantity,
             characterId: selectedCharacter.id,
             characterName: selectedCharacter.name,
         };
         const fetchFunc = async () => {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/?add=True`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/?add=item`, {
                 method: 'POST',
                 body: JSON.stringify(sendData)
             })
@@ -306,14 +331,17 @@ const UserCharacterPreviewInventory = () => {
                                             <div className="inventory-info-item-btn-wrap">
                                                 <span 
                                                     className="inventory-info-icon-btn"
-                                                    onClick={() => inventoryItemPopupHandler(inventoryItem, true)}
+                                                    onClick={() => inventoryItemInfoHandler(inventoryItem, true)}
                                                 ></span>
                                             </div>
                                         <div className="inventory-send-item-btn-wrap">
                                             <span className="inventory-send-icon-btn"></span>
                                         </div>
                                         <div className="inventory-remove-item-btn-wrap">
-                                            <span className="inventory-remove-icon-btn"></span>
+                                            <span 
+                                                className="inventory-remove-icon-btn"
+                                                onClick={() => inventoryItemRemoveHandler(inventoryItem, 1)}
+                                            ></span>
                                         </div>
                                     </div>
                                 </div>
@@ -441,7 +469,7 @@ const UserCharacterPreviewInventory = () => {
                         <div className="preview-character-inventory-item-popup-wrap">
                             <span 
                                 className="inventory-item-popup-close-btn"
-                                onClick={() => inventoryItemPopupHandler({}, false)}
+                                onClick={() => inventoryItemInfoHandler({}, false)}
                             ></span>
                             <div className="inventory-item-popup-controls-wrap">
                                 <div className="inventory-item-popup-qnt">{itemViewSelected ? `Количество: ${itemViewSelected.quantity} шт` : null} </div>
