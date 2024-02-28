@@ -248,6 +248,14 @@ const userSlice = createSlice({
             }
             state.previewCharacter.inventory.allCharacterItems = items;
         },
+        removeUserCharacterItems(state, action) {
+            const { itemId, itemName, newQuantity, remove, many } = action.payload;
+            if (remove && !many) {
+                state.previewCharacter.inventory.allCharacterItems = [
+                    ...state.previewCharacter.inventory.allCharacterItems.filter((item) => item.itemId !== itemId && item.name !== itemName)
+                ]
+            }
+        },
         showItemPopup(state, action) {
             const { itemData, status } = action.payload;
             state.previewCharacter.inventory.itemPopupShow = status;
@@ -363,5 +371,6 @@ export const {
     filterPopupAddItem,
     selectPopupAddItem,
     addItemSelectQuantity,
+    removeUserCharacterItems,
 } = userSlice.actions;
 export default userSlice.reducer;

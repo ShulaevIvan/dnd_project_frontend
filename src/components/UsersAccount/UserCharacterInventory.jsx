@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { 
-    addUserCharacterItems, 
+    addUserCharacterItems,
+    removeUserCharacterItems,
     showItemPopup, 
     showAddItemPopup, 
     addPreloadItems,
@@ -54,6 +55,18 @@ const UserCharacterPreviewInventory = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === 'removed') {
+                    dispatch(removeUserCharacterItems({
+                        itemId: data.itemId, 
+                        itemName: data.name, 
+                        newQuantity: 0, 
+                        remove: true,
+                        many: false
+                    }))
+                }
             })
         };
         fetchFunc();
@@ -111,18 +124,22 @@ const UserCharacterPreviewInventory = () => {
         fetchFunc();
     };
 
-    const addItemInfoPopupHandler = (itemObj, popupStatus) => {
-        dispatch(showInfoPopupAddItem({itemSelected: itemObj, status: popupStatus}))
-    };
-    const addItemInfoPopupCloseHandler = () => {
-        dispatch(showInfoPopupAddItem({itemSelected: {}, status: false}))
-    };
     const searchInputHandler = (e) => {
         dispatch(searchPopupAddItemText({inputText: searchInputRef.current.value, status: false}));
     };
+
+    const addItemInfoPopupHandler = (itemObj, popupStatus) => {
+        dispatch(showInfoPopupAddItem({itemSelected: itemObj, status: popupStatus}))
+    };
+
+    const addItemInfoPopupCloseHandler = () => {
+        dispatch(showInfoPopupAddItem({itemSelected: {}, status: false}))
+    };
+
     const addItemInfoFilterHandler = (filterKey) => {
         dispatch(filterPopupAddItem({filterType: filterKey}));
     };
+
     const selectAddItemHandler = (e, itemObj) => {
         if (selectedAddItemInfoPopup && selectedAddItemInfoPopup.id === itemObj.id && selectedAddItemInfoPopup.itemType === itemObj.itemType) {
             dispatch(selectPopupAddItem({itemSelected: undefined}));
@@ -130,6 +147,7 @@ const UserCharacterPreviewInventory = () => {
         }
         dispatch(selectPopupAddItem({itemSelected: itemObj}));
     };
+
     const addItemChangeQuantityHandler = (actionType, value=1) => {
         dispatch(addItemSelectQuantity({qnt: value, actionType: actionType}));
     };
@@ -320,7 +338,7 @@ const UserCharacterPreviewInventory = () => {
                         return (
                             <React.Fragment key={Math.random()}>
                                 <div className="preview-character-inventory-item">
-                                    <div className="preview-character-inventory-item-quantity">{1}</div>
+                                    <div className="preview-character-inventory-item-quantity">{inventoryItem.quantity}</div>
                                         <div className="preview-character-inventory-item-title">
                                             {inventoryItem.name}
                                         </div>
