@@ -198,9 +198,6 @@ const userSlice = createSlice({
                     state.previewCharacter.spellbook.characterSpells.filter((item) => item.spellLevel === sortObj.level);
                 return;
             }
-            
-
-            
         },
         addUserCharacterSpells(state, action) {
             const { charSpells } = action.payload;
@@ -224,7 +221,10 @@ const userSlice = createSlice({
             state.previewCharacter.skills.skillPopupActiveInfo = skill;
         },
         addUserCharacterItems(state, action) {
-            const { items } = action.payload;
+            const { items, many } = action.payload;
+            if (!many) {
+                console.log('test')
+            }
             const addedItems = items.map((item) => {
                 if (item.image && item.image.data) {
                     const byteCharacters = atob(item.image.data);
@@ -250,10 +250,23 @@ const userSlice = createSlice({
         },
         removeUserCharacterItems(state, action) {
             const { itemId, itemName, newQuantity, remove, many } = action.payload;
-            if (remove && !many) {
+            if (remove && !many && !newQuantity) {
                 state.previewCharacter.inventory.allCharacterItems = [
                     ...state.previewCharacter.inventory.allCharacterItems.filter((item) => item.itemId !== itemId && item.name !== itemName)
-                ]
+                ];
+            }
+            if (!many && newQuantity) {
+                state.previewCharacter.inventory.allCharacterItems = [
+                    ...state.previewCharacter.inventory.allCharacterItems.map((item) => {
+                        if (item.itemId === itemId && item.name === itemName) {
+                            return {
+                                ...item,
+                                quantity: newQuantity,
+                            };
+                        }
+                        return {...item};
+                    })
+                ];
             }
         },
         showItemPopup(state, action) {

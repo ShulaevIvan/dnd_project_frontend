@@ -58,15 +58,14 @@ const UserCharacterPreviewInventory = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                if (data.status === 'removed') {
-                    dispatch(removeUserCharacterItems({
-                        itemId: data.itemId, 
-                        itemName: data.name, 
-                        newQuantity: 0, 
-                        remove: true,
-                        many: false
-                    }))
-                }
+                dispatch(removeUserCharacterItems({
+                    itemId: data.itemId, 
+                    itemName: data.name, 
+                    newQuantity: data.status === 'removed' ? 0 : data.count, 
+                    remove: data.status === 'removed' ? true : false,
+                    many: false
+                }))
+                
             })
         };
         fetchFunc();
@@ -169,6 +168,10 @@ const UserCharacterPreviewInventory = () => {
             })
             .then((response) => {
                 if (response.status === 201) dispatch(addItemSelectQuantity({reset: true}));
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data)
             })
         };
         fetchFunc();
