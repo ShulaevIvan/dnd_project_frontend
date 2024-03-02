@@ -45,7 +45,8 @@ const UserCharacterPreviewInventory = () => {
             itemId: itemObj.itemId,
             name: itemObj.name,
             count: quantity,
-            type: itemObj.type
+            type: itemObj.type,
+            characterId: selectedCharacter.id,
         };
 
         const fetchFunc = async () => {
