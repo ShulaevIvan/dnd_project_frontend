@@ -221,10 +221,7 @@ const userSlice = createSlice({
             state.previewCharacter.skills.skillPopupActiveInfo = skill;
         },
         addUserCharacterItems(state, action) {
-            const { items, many } = action.payload;
-            if (!many) {
-                console.log('test')
-            }
+            const { items } = action.payload;
             const addedItems = items.map((item) => {
                 if (item.image && item.image.data) {
                     const byteCharacters = atob(item.image.data);
@@ -295,6 +292,7 @@ const userSlice = createSlice({
         showAddItemPopup(state, action) {
             const { status} = action.payload;
             state.previewCharacter.inventory.showAddItemPopup = status;
+            state.previewCharacter.inventory.itemInfoPopupSelected = undefined;
         },
         addPreloadItems(state, action) {
             const { weapons, armor, instruments, loadmore, searchItems } = action.payload;

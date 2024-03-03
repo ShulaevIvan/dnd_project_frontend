@@ -172,16 +172,42 @@ const UserCharacterPreviewInventory = () => {
                 return response.json();
             })
             .then((data) => {
-                console.log(data)
+                const fetchFunc = async () => {
+                    await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        getCharacterInventoryItems();
+                    })
+                }
+                fetchFunc();
             })
         };
         fetchFunc();
         // dispatch(addItemSelectQuantity({reset: true}));
     };
 
+    const getCharacterInventoryItems = async () => {
+        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            dispatch(addUserCharacterItems({items: data.items}));
+        })
+    };
+
     useEffect(() => {
         if (addItemQuantityRef.current) addItemQuantityRef.current.value = selectedAddItemQuantity;
-    }, [selectedAddItemQuantity]);
+    }, [selectedAddItemQuantity, addItemQuantityRef.current]);
 
     useEffect(() => {
         if (filterTypeStatus && filterTypeStatus === 'reset') {
@@ -217,10 +243,11 @@ const UserCharacterPreviewInventory = () => {
             .then((response) => response.json())
             .then((data) => {
                 dispatch(addPreloadItems({
-                    weapons: data[filterTypeStatus] ? data[filterTypeStatus] : [],
-                    armor: data[filterTypeStatus] ? data[filterTypeStatus] : [],
-                    instruments: data[filterTypeStatus] ? data[filterTypeStatus] : [],
+                    weapons: filterTypeStatus === 'weapons' ? data[filterTypeStatus] : [],
+                    armor: filterTypeStatus=== 'armor' ? data[filterTypeStatus] : [],
+                    instruments: filterTypeStatus === 'instruments' ? data[filterTypeStatus] : [],
                     loadmore: false,
+                    searchItems: false
                 }));
             })
         }
@@ -228,20 +255,7 @@ const UserCharacterPreviewInventory = () => {
     }, [filterTypeStatus]);
 
     useEffect(() => {
-        const fetchFunc = async () => {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                dispatch(addUserCharacterItems({items: data.items}));
-            })
-        }
-        fetchFunc();
+        getCharacterInventoryItems();
     }, []);
 
     useEffect(() => {
