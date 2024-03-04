@@ -48,6 +48,11 @@ const initialState = {
             skillPopupActive: undefined,
             skillPopupActiveInfo: {},
         },
+        mastery: {
+            masteryPopupShow: false,
+            masteryInfoSelected: undefined,
+            masteryPopupActive: undefined,
+        },
         inventory: {
             allCharacterItems: [],
             itemPopupShow: false,
@@ -348,6 +353,11 @@ const userSlice = createSlice({
         filterPopupAddItem(state, action) {
             const { filterType } = action.payload;
             state.previewCharacter.inventory.filterType = filterType;
+        },
+        showCharacterMasteryPopup(state, action) {
+            const { status, mastery } = action.payload;
+            state.previewCharacter.mastery.popupShow = status;
+            state.previewCharacter.mastery.masteryInfoSelected = mastery;
         }
     }
 });
@@ -383,5 +393,6 @@ export const {
     selectPopupAddItem,
     addItemSelectQuantity,
     removeUserCharacterItems,
+    showCharacterMasteryPopup,
 } = userSlice.actions;
 export default userSlice.reducer;

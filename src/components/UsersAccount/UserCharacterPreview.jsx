@@ -9,7 +9,8 @@ import {
     showFullDescription,
     addUserCharacterSpells,
     showPopupSkill,
-    addPopupSkillActive
+    addPopupSkillActive,
+    showCharacterMasteryPopup
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
@@ -22,6 +23,8 @@ const UserCharacterPreview = () => {
     const skillPopupStatus = useSelector((state) => state.userData.previewCharacter.skills.skillPopupShow);
     const skillPopupActive = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActive);
     const skillPopupInfo = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActiveInfo);
+    const masteryPopupActive = useSelector((state) => state.userData.previewCharacter.mastery.popupShow);
+    const masteryPopupInfoSelected = useSelector((state) => state.userData.previewCharacter.mastery.masteryInfoSelected);
 
     const abilityDescriptionHandler = (e, abilityObj, action) => {
 
@@ -81,6 +84,10 @@ const UserCharacterPreview = () => {
 
     const skillDescriptionPopupCloseHandler = () => {
         dispatch(showPopupSkill({skill: {}, status: false}));
+    };
+
+    const masteryPopupHandler = (masteryObj, status, masteryType) => { 
+        dispatch(showCharacterMasteryPopup({status: status, mastery: masteryObj}));
     };
 
     useEffect(() => {
@@ -342,7 +349,10 @@ const UserCharacterPreview = () => {
                                     <React.Fragment key={Math.random()}>
                                         <div className="user-character-armor-mastery-item">
                                             <div className="mastery-info-icon-wrap">
-                                                <span className="mastery-info-icon"></span>
+                                                <span 
+                                                    className="mastery-info-icon"
+                                                    onClick={() => masteryPopupHandler(true, mastery, 'armor')}
+                                                ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
                                                 {sliceContentString(mastery.name, 12)}
@@ -361,7 +371,10 @@ const UserCharacterPreview = () => {
                                     <React.Fragment key={Math.random()}>
                                         <div className="user-character-weapon-mastery-item">
                                             <div className="mastery-info-icon-wrap">
-                                                <span className="mastery-info-icon"></span>
+                                                <span 
+                                                    className="mastery-info-icon"
+                                                    onClick={() => masteryPopupHandler(true, mastery, 'weapon')}
+                                                ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
                                                 {sliceContentString(mastery.name, 12)}
@@ -377,11 +390,15 @@ const UserCharacterPreview = () => {
                         </div>
                         <div className="user-character-instrument-mastery-wrap">
                             {selectedCharacter.instrumentMastery.map((mastery) => {
+                                console.log(mastery)
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <div className="user-character-instrument-mastery-item">
                                             <div className="mastery-info-icon-wrap">
-                                                <span className="mastery-info-icon"></span>
+                                                <span 
+                                                    className="mastery-info-icon"
+                                                    onClick={() => masteryPopupHandler(true, mastery, 'instrument')}
+                                                ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
                                                 {sliceContentString(mastery.name, 12)}
@@ -394,6 +411,25 @@ const UserCharacterPreview = () => {
                                 )
                             })}
                         </div>
+                        {masteryPopupActive ?
+                            <React.Fragment>
+                                <div className="user-character-mastery-popup-wrap">
+                                    <div className="user-character-mastery-popup-close-btn-wrap">
+                                        <span 
+                                            className="user-character-mastery-popup-close"
+                                            onClick={() => masteryPopupHandler(false)}
+                                        ></span>
+                                    </div>
+                                    <div className="user-character-mastery-popup-title">{masteryPopupInfoSelected ? masteryPopupInfoSelected.name : null}</div>
+                                    <div className="user-character-mastery-popup-body">
+                                        <div className="user-character-mastery-popup-description-wrap">
+                                            <p>lorem sadasdasd</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        : null}
+                        
                     </div>
 
                     <UserCharacterPreviewInventory />

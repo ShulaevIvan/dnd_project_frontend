@@ -1189,7 +1189,7 @@
     width: 40px;
     height: 20px;
     font-size: 14px;
-    z-index: 5;
+    z-index: 2;
     font-weight: bold;
     background-color: #C14B3C;
 }
@@ -1738,6 +1738,31 @@
 }
 .preview-character-add-item-preview-popup-close-btn::before,
 .preview-character-add-item-preview-popup-close-btn {
+    content: '\274C';
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    font-size: 24px;
+    cursor: pointer;
+}
+.user-character-mastery-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 400px;
+    min-height: 400px;
+    background-color: gray;
+    position: absolute;
+    z-index: 5;
+}
+.user-character-mastery-popup-close-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    position: relative;
+}
+.user-character-mastery-popup-close::before {
     content: '\274C';
     position: absolute;
     top: 2%;
