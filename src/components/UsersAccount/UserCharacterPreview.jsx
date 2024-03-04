@@ -64,11 +64,12 @@ const UserCharacterPreview = () => {
         }
         return contentString
     };
+
     const isCharSpellcaster = () => {
         const characterSpells = Object.keys(selectedCharacter.spells).length;
         if (characterSpells > 0) return true
         return false;
-    }
+    };
 
     const charDescriptionHandler = (descrStatus) => {
         dispatch(showFullDescription({status: descrStatus}));
@@ -86,9 +87,33 @@ const UserCharacterPreview = () => {
         dispatch(showPopupSkill({skill: {}, status: false}));
     };
 
-    const masteryPopupHandler = (masteryObj, status, masteryType) => { 
+    const masteryPopupHandler = (status, masteryObj, masteryType) => {
+        if (!status) {
+            dispatch(showCharacterMasteryPopup({status: status, mastery: {}}));
+            return;
+        }
         dispatch(showCharacterMasteryPopup({status: status, mastery: masteryObj}));
     };
+
+    useEffect(() => {
+        if (masteryPopupInfoSelected) {
+            const masteryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/reference_book/mastery/?search=${masteryPopupInfoSelected.name}`
+            const fetchFunc = async () => {
+                await fetch(masteryUrl, {
+                    method:'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                })
+            };
+            fetchFunc();
+        }
+        
+    }, [masteryPopupActive])
 
     useEffect(() => {
         if (skillPopupStatus) {
@@ -373,7 +398,7 @@ const UserCharacterPreview = () => {
                                             <div className="mastery-info-icon-wrap">
                                                 <span 
                                                     className="mastery-info-icon"
-                                                    onClick={() => masteryPopupHandler(true, mastery, 'weapon')}
+                                                    onClick={() => masteryPopupHandler(true, mastery, 'weapons')}
                                                 ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
@@ -390,14 +415,13 @@ const UserCharacterPreview = () => {
                         </div>
                         <div className="user-character-instrument-mastery-wrap">
                             {selectedCharacter.instrumentMastery.map((mastery) => {
-                                console.log(mastery)
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <div className="user-character-instrument-mastery-item">
                                             <div className="mastery-info-icon-wrap">
                                                 <span 
                                                     className="mastery-info-icon"
-                                                    onClick={() => masteryPopupHandler(true, mastery, 'instrument')}
+                                                    onClick={() => masteryPopupHandler(true, mastery, 'instruments')}
                                                 ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
