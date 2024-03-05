@@ -1753,14 +1753,18 @@
     min-height: 400px;
     background-color: gray;
     position: absolute;
+    justify-content: center;
+    align-items: center;
     z-index: 5;
 }
 .user-character-mastery-popup-close-btn-wrap {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
+    top: 5%;
+    right: 2%;
     flex-wrap: wrap;
-    position: relative;
+    position: absolute;
 }
 .user-character-mastery-popup-close::before {
     content: '\274C';
@@ -1769,4 +1773,21 @@
     right: 5%;
     font-size: 24px;
     cursor: pointer;
+}
+.user-character-mastery-popup-description-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 400px;
+}
+.user-character-mastery-popup-description-wrap p {
+    padding: 20px;
+}
+.user-character-mastery-popup-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }

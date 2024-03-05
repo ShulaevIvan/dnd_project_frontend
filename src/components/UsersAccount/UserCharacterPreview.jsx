@@ -10,7 +10,7 @@ import {
     addUserCharacterSpells,
     showPopupSkill,
     addPopupSkillActive,
-    showCharacterMasteryPopup
+    showCharacterMasteryPopup,
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreview = () => {
@@ -24,7 +24,7 @@ const UserCharacterPreview = () => {
     const skillPopupActive = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActive);
     const skillPopupInfo = useSelector((state) => state.userData.previewCharacter.skills.skillPopupActiveInfo);
     const masteryPopupActive = useSelector((state) => state.userData.previewCharacter.mastery.popupShow);
-    const masteryPopupInfoSelected = useSelector((state) => state.userData.previewCharacter.mastery.masteryInfoSelected);
+    const masteryInfoSelected = useSelector((state) => state.userData.previewCharacter.mastery.masteryInfoSelected);
 
     const abilityDescriptionHandler = (e, abilityObj, action) => {
 
@@ -92,28 +92,21 @@ const UserCharacterPreview = () => {
             dispatch(showCharacterMasteryPopup({status: status, mastery: {}}));
             return;
         }
-        dispatch(showCharacterMasteryPopup({status: status, mastery: masteryObj}));
+        const masteryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/reference_book/mastery/?search=${masteryObj.name}`
+        const fetchFunc = async () => {
+            await fetch(masteryUrl, {
+                method:'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.length > 0) dispatch(showCharacterMasteryPopup({status: status, mastery: data[0]}));
+            });
+        };
+        fetchFunc();
     };
-
-    useEffect(() => {
-        if (masteryPopupInfoSelected) {
-            const masteryUrl = `${process.env.REACT_APP_BACKEND_URL}/api/reference_book/mastery/?search=${masteryPopupInfoSelected.name}`
-            const fetchFunc = async () => {
-                await fetch(masteryUrl, {
-                    method:'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                })
-            };
-            fetchFunc();
-        }
-        
-    }, [masteryPopupActive])
 
     useEffect(() => {
         if (skillPopupStatus) {
@@ -376,7 +369,7 @@ const UserCharacterPreview = () => {
                                             <div className="mastery-info-icon-wrap">
                                                 <span 
                                                     className="mastery-info-icon"
-                                                    onClick={() => masteryPopupHandler(true, mastery, 'armor')}
+                                                    onMouseOver={() => masteryPopupHandler(true, mastery, 'armor')}
                                                 ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
@@ -398,7 +391,7 @@ const UserCharacterPreview = () => {
                                             <div className="mastery-info-icon-wrap">
                                                 <span 
                                                     className="mastery-info-icon"
-                                                    onClick={() => masteryPopupHandler(true, mastery, 'weapons')}
+                                                    onMouseOver={() => masteryPopupHandler(true, mastery, 'weapons')}
                                                 ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
@@ -421,7 +414,7 @@ const UserCharacterPreview = () => {
                                             <div className="mastery-info-icon-wrap">
                                                 <span 
                                                     className="mastery-info-icon"
-                                                    onClick={() => masteryPopupHandler(true, mastery, 'instruments')}
+                                                    onMouseOver={() => masteryPopupHandler(true, mastery, 'instruments')}
                                                 ></span>
                                             </div>
                                             <div className="user-character-mastery-name">
@@ -437,17 +430,17 @@ const UserCharacterPreview = () => {
                         </div>
                         {masteryPopupActive ?
                             <React.Fragment>
-                                <div className="user-character-mastery-popup-wrap">
+                                <div className="user-character-mastery-popup-wrap" onMouseLeave={() => masteryPopupHandler(false)}>
                                     <div className="user-character-mastery-popup-close-btn-wrap">
                                         <span 
                                             className="user-character-mastery-popup-close"
                                             onClick={() => masteryPopupHandler(false)}
                                         ></span>
                                     </div>
-                                    <div className="user-character-mastery-popup-title">{masteryPopupInfoSelected ? masteryPopupInfoSelected.name : null}</div>
+                                    <div className="user-character-mastery-popup-title">{masteryInfoSelected.name}</div>
                                     <div className="user-character-mastery-popup-body">
                                         <div className="user-character-mastery-popup-description-wrap">
-                                            <p>lorem sadasdasd</p>
+                                            <p>{masteryInfoSelected.description}</p>
                                         </div>
                                     </div>
                                 </div>

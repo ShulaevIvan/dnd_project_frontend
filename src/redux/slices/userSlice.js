@@ -356,7 +356,6 @@ const userSlice = createSlice({
         },
         showCharacterMasteryPopup(state, action) {
             const { status, mastery, masteryType } = action.payload;
-
             state.previewCharacter.mastery.popupShow = status;
             state.previewCharacter.mastery.masteryInfoSelected = mastery;
         }
