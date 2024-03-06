@@ -66,6 +66,9 @@ const initialState = {
             prevSearchInputText: '',
             searchInputEnd: true,
             filterType: 'reset',
+            sendItemPopupShow: false,
+            sendItemSelected: undefined,
+            sendItemSelectedMaxQnt: 0,
         }
     },
 };
@@ -358,6 +361,36 @@ const userSlice = createSlice({
             const { status, mastery, masteryType } = action.payload;
             state.previewCharacter.mastery.popupShow = status;
             state.previewCharacter.mastery.masteryInfoSelected = mastery;
+        },
+        showCharacterSendItemPopup(state, action) {
+            const { status, sendItem } = action.payload;
+            state.previewCharacter.inventory.sendItemPopupShow = status;
+            if (sendItem) {
+                state.previewCharacter.inventory.sendItemSelectedMaxQnt = Number(sendItem.quantity);
+                state.previewCharacter.inventory.sendItemSelected = sendItem;
+            }
+        },
+        increaseDecreaseSendItem(state, action) {
+            const { param, value } = action.payload;
+            if (state.previewCharacter.inventory.sendItemSelected && state.previewCharacter.inventory.sendItemSelected.quantity > 0) {
+                const currentQnt = state.previewCharacter.inventory.sendItemSelected.quantity;
+
+                if (param === 'min') {
+                    const decreaseValue = Number(currentQnt) - Number(value)
+                    state.previewCharacter.inventory.sendItemSelected = {
+                        ...state.previewCharacter.inventory.sendItemSelected,
+                        quantity: param === 'min' && decreaseValue > 0 ? decreaseValue : 0 
+                    }
+                }
+                else if (param === 'plus') {
+                    const increaseValue = Number(currentQnt) + Number(value)
+                    state.previewCharacter.inventory.sendItemSelected = {
+                        ...state.previewCharacter.inventory.sendItemSelected,
+                        quantity: increaseValue
+                    }
+                }
+                
+            }
         }
     }
 });
@@ -394,5 +427,6 @@ export const {
     addItemSelectQuantity,
     removeUserCharacterItems,
     showCharacterMasteryPopup,
+    showCharacterSendItemPopup
 } = userSlice.actions;
 export default userSlice.reducer;

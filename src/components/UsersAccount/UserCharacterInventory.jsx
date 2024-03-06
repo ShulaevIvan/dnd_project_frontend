@@ -11,8 +11,11 @@ import {
     searchPopupAddItemText,
     filterPopupAddItem,
     selectPopupAddItem,
-    addItemSelectQuantity
+    addItemSelectQuantity,
+    showCharacterSendItemPopup
 } from "../../redux/slices/userSlice";
+
+import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
 
 const UserCharacterPreviewInventory = () => {
     const dispatch = useDispatch();
@@ -28,12 +31,17 @@ const UserCharacterPreviewInventory = () => {
     const selectedAddItemInfoPopup = useSelector((state) => state.userData.previewCharacter.inventory.itemInfoPopupSelected);
     const searchInputText = useSelector((state) => state.userData.previewCharacter.inventory.searchInputText);
     const filterTypeStatus = useSelector((state) => state.userData.previewCharacter.inventory.filterType);
+    const sendItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendItemPopupShow);
 
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
 
     const inventoryItemInfoHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
+    };
+
+    const sendInventoryItemHandler = (itemObj, status) => {
+        dispatch(showCharacterSendItemPopup({status: status, sendItem: itemObj}))
     };
 
     const inventoryItemRemoveHandler = (itemObj, qnt) => {
@@ -371,7 +379,10 @@ const UserCharacterPreviewInventory = () => {
                                                 ></span>
                                             </div>
                                         <div className="inventory-send-item-btn-wrap">
-                                            <span className="inventory-send-icon-btn"></span>
+                                            <span 
+                                                className="inventory-send-icon-btn"
+                                                onClick={() => sendInventoryItemHandler(inventoryItem, true)}
+                                            ></span>
                                         </div>
                                         <div className="inventory-remove-item-btn-wrap">
                                             <span 
@@ -384,6 +395,8 @@ const UserCharacterPreviewInventory = () => {
                             </React.Fragment>
                         )
                     }) : null}
+                    {sendItemPopup ? <UserCharacterPreviewSendItemPopup /> : null}
+                    
                     {addItemPopupStatus ?
                         <div className="preview-character-add-item-popup-wrap">
                             <span 
