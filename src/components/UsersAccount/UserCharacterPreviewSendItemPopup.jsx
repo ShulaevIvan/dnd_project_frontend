@@ -1,23 +1,34 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { showCharacterSendItemPopup } from "../../redux/slices/userSlice";
+import { 
+    showCharacterSendItemPopup,
+    increaseDecreaseSendItem,
+    changeSendItemCharacterMode
+} from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewSendItemPopup = () => {
     const sendItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendItemPopupShow);
     const sendItemSelected = useSelector((state) => state.userData.previewCharacter.inventory.sendItemSelected);
+    const sendItemSelectedQnt = useSelector((state) => state.userData.previewCharacter.inventory.sendItemCurrentQnt);
+    const sendItemCharactersMode = useSelector((state) => state.userData.previewCharacter.inventory.sendItemCharactersMode);
+    const userCharacters = useSelector((state) => state.userData.userCharacters);
+    const characterSelected = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const dispatch = useDispatch();
 
     const closeSendItemPopupHandler = () => {
         dispatch(showCharacterSendItemPopup({status: false}))
     };
     
-    const maxMinSendItemHandler = () => {
+    const maxMinSendItemHandler = (param, value) => {
+        dispatch(increaseDecreaseSendItem({param: param, value: value}))
+    };
 
+    const selectCharacterModeHandler = (param) => {
+        dispatch(changeSendItemCharacterMode({mode: param}));
     };
 
     useEffect(() => {
-        console.log(sendItemSelected)
     }, [sendItemSelected])
 
     return (
@@ -33,15 +44,15 @@ const UserCharacterPreviewSendItemPopup = () => {
                             <div className="output-items-list-column">
                                 <div className="output-item-wrap">
                                     <div className="output-item-name">{sendItemSelected.name}</div>
-                                    <div className="output-item-value">{sendItemSelected.quantity}</div>
+                                    <div className="output-item-value">{sendItemSelectedQnt}</div>
                                     <div className="output-item-control">
                                         <span 
                                             className="output-item-control-plus"
-                                            onClick={() => maxMinSendItemHandler('plus')}
+                                            onClick={() => maxMinSendItemHandler('plus', 1)}
                                         ></span>
                                         <span 
                                             className="output-item-control-min"
-                                            onClick={() => maxMinSendItemHandler('min')}
+                                            onClick={() => maxMinSendItemHandler('min', 1)}
                                         ></span>
                                     </div>
                                 </div>
@@ -65,18 +76,32 @@ const UserCharacterPreviewSendItemPopup = () => {
                             </div>
                             <div className="send-item-othercharacters-mode-wrap">
                                 <div className="send-item-othercharacters-mode-self">
-                                    <button>self characters</button>
+                                    <button onClick={() => selectCharacterModeHandler('self')}>self characters</button>
                                 </div>
                                 <div className="send-item-othercharacters-mode-other">
-                                    <button>other characters</button>
+                                    <button onClick={() => selectCharacterModeHandler('other')}>other characters</button>
                                 </div>
                             </div>
-                            <div className="send-item-popup-mycharacters-column-wrap">
-                                <div className="send-item-popup-mycharacter-item">mycharacter</div>
-                            </div>
-                            <div className="send-item-popup-othercharacters-column-wrap">
-                                <div className="send-item-popup-othercharacter-item">other_character</div>
-                            </div>
+                            {sendItemCharactersMode === 'self' ? 
+                                <div className="send-item-popup-mycharacters-column-wrap">
+                                    {userCharacters ?  userCharacters.map((character) => {
+                                        if (characterSelected.id !== character.id && characterSelected.name !== character.name) {
+                                            return (
+                                                <React.Fragment key={Math.random()}>
+                                                    <div className="send-item-popup-mycharacter-item">{character.name}</div>
+                                                </React.Fragment>
+                                            )
+                                        }
+                                    }): null}
+                                    
+                                </div>
+                            : sendItemCharactersMode === 'other' ? 
+                                <div className="send-item-popup-othercharacters-column-wrap">
+                                    <div 
+                                        className="send-item-popup-othercharacter-item"
+                                    >other_character</div>
+                                </div>
+                            : null}
                         </div>        
                     </div>
                 </div>

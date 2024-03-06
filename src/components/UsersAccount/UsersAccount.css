@@ -1918,7 +1918,7 @@
     flex-wrap: wrap;
     align-items: center;
     min-width: 150px;
-    min-height: 25px;
+    max-height: 25px;
     border: 1px solid;
 }
 .output-item-name {
@@ -1932,6 +1932,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 15%;
+    justify-content: center;
 }
 .output-item-control {
     display: flex;
@@ -1968,18 +1969,18 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
-    min-width: 35%;
-    min-height: 50px;
+    min-width: 150px;
+    min-height: 25px;
     margin-right: 2%;
 }
 .output-item-target-character {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    min-width: 150px;
+    min-width: 180px;
     border: 1px solid;
     min-height: 25px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 .output-items-controls-column {
@@ -2000,6 +2001,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     position: relative;
+    max-height: 25px;
 }
 .output-item-target-character-remove::before {
     content: '\274C';

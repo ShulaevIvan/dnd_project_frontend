@@ -69,6 +69,8 @@ const initialState = {
             sendItemPopupShow: false,
             sendItemSelected: undefined,
             sendItemSelectedMaxQnt: 0,
+            sendItemCurrentQnt: 0,
+            sendItemCharactersMode: 'self',
         }
     },
 };
@@ -368,29 +370,26 @@ const userSlice = createSlice({
             if (sendItem) {
                 state.previewCharacter.inventory.sendItemSelectedMaxQnt = Number(sendItem.quantity);
                 state.previewCharacter.inventory.sendItemSelected = sendItem;
+                state.previewCharacter.inventory.sendItemCurrentQnt = 1;
+                state.previewCharacter.inventory.sendItemCharactersMode = 'self';
             }
         },
         increaseDecreaseSendItem(state, action) {
             const { param, value } = action.payload;
-            if (state.previewCharacter.inventory.sendItemSelected && state.previewCharacter.inventory.sendItemSelected.quantity > 0) {
-                const currentQnt = state.previewCharacter.inventory.sendItemSelected.quantity;
-
-                if (param === 'min') {
-                    const decreaseValue = Number(currentQnt) - Number(value)
-                    state.previewCharacter.inventory.sendItemSelected = {
-                        ...state.previewCharacter.inventory.sendItemSelected,
-                        quantity: param === 'min' && decreaseValue > 0 ? decreaseValue : 0 
-                    }
+            if (state.previewCharacter.inventory.sendItemSelected && state.previewCharacter.inventory.sendItemSelected.quantity >= 0) {
+                const maxQnt = state.previewCharacter.inventory.sendItemSelected.quantity;
+                const currentQnt = state.previewCharacter.inventory.sendItemCurrentQnt;
+                if (param === 'plus' && maxQnt > 0 && currentQnt < maxQnt) {
+                    state.previewCharacter.inventory.sendItemCurrentQnt = state.previewCharacter.inventory.sendItemCurrentQnt + Number(value);
                 }
-                else if (param === 'plus') {
-                    const increaseValue = Number(currentQnt) + Number(value)
-                    state.previewCharacter.inventory.sendItemSelected = {
-                        ...state.previewCharacter.inventory.sendItemSelected,
-                        quantity: increaseValue
-                    }
+                else if (param === 'min' && maxQnt >= currentQnt && currentQnt - Number(value) > 0) {
+                    state.previewCharacter.inventory.sendItemCurrentQnt = state.previewCharacter.inventory.sendItemCurrentQnt - Number(value);
                 }
-                
             }
+        },
+        changeSendItemCharacterMode(state, action) {
+            const { mode } = action.payload;
+            state.previewCharacter.inventory.sendItemCharactersMode = mode;
         }
     }
 });
@@ -427,6 +426,8 @@ export const {
     addItemSelectQuantity,
     removeUserCharacterItems,
     showCharacterMasteryPopup,
-    showCharacterSendItemPopup
+    showCharacterSendItemPopup,
+    increaseDecreaseSendItem,
+    changeSendItemCharacterMode
 } = userSlice.actions;
 export default userSlice.reducer;
