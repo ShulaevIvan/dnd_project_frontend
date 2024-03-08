@@ -4,16 +4,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { 
     showCharacterSendItemPopup,
     increaseDecreaseSendItem,
-    changeSendItemCharacterMode
+    changeSendItemCharacterMode,
+    selectCharacterToSend
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewSendItemPopup = () => {
+    const userData = useSelector((state) => state.userData.userData);
     const sendItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendItemPopupShow);
     const sendItemSelected = useSelector((state) => state.userData.previewCharacter.inventory.sendItemSelected);
     const sendItemSelectedQnt = useSelector((state) => state.userData.previewCharacter.inventory.sendItemCurrentQnt);
     const sendItemCharactersMode = useSelector((state) => state.userData.previewCharacter.inventory.sendItemCharactersMode);
     const userCharacters = useSelector((state) => state.userData.userCharacters);
     const characterSelected = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
+    const characterToSendSelected = useSelector((state) => state.userData.previewCharacter.inventory.selectCharacterToSend);
     const dispatch = useDispatch();
 
     const closeSendItemPopupHandler = () => {
@@ -26,6 +29,43 @@ const UserCharacterPreviewSendItemPopup = () => {
 
     const selectCharacterModeHandler = (param) => {
         dispatch(changeSendItemCharacterMode({mode: param}));
+    };
+
+    const selectedCharacterHandler = (characterObj) => {
+        if (!characterObj) dispatch(selectCharacterToSend({character: characterObj, select: false}));
+        dispatch(selectCharacterToSend({character: characterObj, select: true}));
+    };
+
+    const sendItemHandler = () => {
+        const charId = characterSelected.id;
+        const targetCharId = characterToSendSelected.id;
+        const sendItemUrl = `${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${charId}/inventory/?send=item&character=${targetCharId}`;
+        const sendData = {
+            sendCharacterId: characterSelected.id,
+            sendCharacterName: characterSelected.name,
+            ownerUserId: userData.userId,
+            sendItemId: sendItemSelected.itemId,
+            sendItemName: sendItemSelected.name,
+            sendItemType: sendItemSelected.type,
+            itemQuantity: sendItemSelectedQnt,
+            targetCharacterId: characterToSendSelected.id,
+            targetCharacterName: characterToSendSelected.name,
+        };
+
+        const fetchFunc = async () => {
+            await fetch(`${sendItemUrl}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(sendData),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            });
+        };
+        fetchFunc();
     };
 
     useEffect(() => {
@@ -58,14 +98,25 @@ const UserCharacterPreviewSendItemPopup = () => {
                                 </div>
                             </div>
                             <div className="output-items-target-character-column">
-                                <div className="output-items-target-character-item">
-                                    <span className="output-item-target-character-remove"></span>
-                                    <div className="output-item-target-character">Character Name</div>
-                                </div>
+                                {console.log(characterToSendSelected === true)}
+                                {characterToSendSelected && characterToSendSelected.name ? 
+                                    <React.Fragment>
+                                        <div className="output-items-target-character-item">
+                                            <span 
+                                                className="output-item-target-character-remove"
+                                                onClick={() => selectedCharacterHandler({})}
+                                            ></span>
+                                            <div className="output-item-target-character">{characterToSendSelected.name}</div>
+                                        </div>
+                                    </React.Fragment>
+                                : null}
                             </div>
                             <div className="output-items-controls-column">
                                 <div className="output-item-btn-send-wrap">
-                                    <button className="output-item-btn-send">Send</button>
+                                    <button 
+                                        className="output-item-btn-send"
+                                        onClick={sendItemHandler}
+                                    >Send</button>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +139,10 @@ const UserCharacterPreviewSendItemPopup = () => {
                                         if (characterSelected.id !== character.id && characterSelected.name !== character.name) {
                                             return (
                                                 <React.Fragment key={Math.random()}>
-                                                    <div className="send-item-popup-mycharacter-item">{character.name}</div>
+                                                    <div 
+                                                        className="send-item-popup-mycharacter-item"
+                                                        onClick={() => selectedCharacterHandler(character)}
+                                                    >{character.name}</div>
                                                 </React.Fragment>
                                             )
                                         }

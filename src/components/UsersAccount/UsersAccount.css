@@ -1901,13 +1901,14 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    font-size: 14px;
     margin-bottom: 20px;
 }
 .output-items-list-column {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    min-width: 35%;
+    min-width: 40%;
     min-height: 50px;
     margin-right: 5%;
     justify-content: center;

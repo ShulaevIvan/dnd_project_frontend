@@ -71,6 +71,7 @@ const initialState = {
             sendItemSelectedMaxQnt: 0,
             sendItemCurrentQnt: 0,
             sendItemCharactersMode: 'self',
+            characterToSendSelected: undefined,
         }
     },
 };
@@ -390,6 +391,14 @@ const userSlice = createSlice({
         changeSendItemCharacterMode(state, action) {
             const { mode } = action.payload;
             state.previewCharacter.inventory.sendItemCharactersMode = mode;
+        },
+        selectCharacterToSend(state, action) {
+            const { character, select } = action.payload;
+            if (!select) {
+                state.previewCharacter.inventory.selectCharacterToSend = {};
+                return;
+            }
+            state.previewCharacter.inventory.selectCharacterToSend = character;
         }
     }
 });
@@ -428,6 +437,7 @@ export const {
     showCharacterMasteryPopup,
     showCharacterSendItemPopup,
     increaseDecreaseSendItem,
-    changeSendItemCharacterMode
+    changeSendItemCharacterMode,
+    selectCharacterToSend
 } = userSlice.actions;
 export default userSlice.reducer;
