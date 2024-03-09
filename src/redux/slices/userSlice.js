@@ -72,6 +72,8 @@ const initialState = {
             sendItemCurrentQnt: 0,
             sendItemCharactersMode: 'self',
             characterToSendSelected: undefined,
+            sendGoldPopupShow: false,
+            sendCurrencySelected: 'Gold',
         }
     },
 };
@@ -277,6 +279,27 @@ const userSlice = createSlice({
                 ];
             }
         },
+        changeCharacterInventoryItemQuantity(state, action) {
+            const { inventoryItem, quantity, mode } = action.payload;
+            let removedItem = undefined;
+            state.previewCharacter.inventory.allCharacterItems = [
+                ...state.previewCharacter.inventory.allCharacterItems.map((item) => {
+                    if (item.name === inventoryItem.name && item.type === inventoryItem.type && mode) {
+                        const checkZero = Number(item.quantity) - Number(quantity)
+                        if (checkZero <= 0) removedItem = item;
+                        return {
+                            ...item,
+                            quantity: mode === 'min' ? 
+                                Number(item.quantity) - Number(quantity) : 
+                                mode === 'plus' ? Number(item.quantity) + Number(quantity) : 
+                                item.quantity,
+                        }
+                    }
+                    return item;
+                })
+            ];
+            state.previewCharacter.inventory.allCharacterItems = state.previewCharacter.inventory.allCharacterItems.filter((item) => item.quantity > 0);
+        },
         showItemPopup(state, action) {
             const { itemData, status } = action.payload;
             state.previewCharacter.inventory.itemPopupShow = status;
@@ -399,6 +422,11 @@ const userSlice = createSlice({
                 return;
             }
             state.previewCharacter.inventory.selectCharacterToSend = character;
+        },
+        showSendGoldPopup(state, action) {
+            const { status } = action.payload
+            state.previewCharacter.inventory.sendGoldPopupShow = status;
+            state.previewCharacter.inventory.sendCurrencySelected = 'Gold';
         }
     }
 });
@@ -438,6 +466,8 @@ export const {
     showCharacterSendItemPopup,
     increaseDecreaseSendItem,
     changeSendItemCharacterMode,
-    selectCharacterToSend
+    selectCharacterToSend,
+    changeCharacterInventoryItemQuantity,
+    showSendGoldPopup,
 } = userSlice.actions;
 export default userSlice.reducer;

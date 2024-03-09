@@ -12,7 +12,8 @@ import {
     filterPopupAddItem,
     selectPopupAddItem,
     addItemSelectQuantity,
-    showCharacterSendItemPopup
+    showCharacterSendItemPopup,
+    showSendGoldPopup
 } from "../../redux/slices/userSlice";
 
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
@@ -32,6 +33,7 @@ const UserCharacterPreviewInventory = () => {
     const searchInputText = useSelector((state) => state.userData.previewCharacter.inventory.searchInputText);
     const filterTypeStatus = useSelector((state) => state.userData.previewCharacter.inventory.filterType);
     const sendItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendItemPopupShow);
+    const sendGoldPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendGoldPopupShow);
 
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
@@ -105,7 +107,7 @@ const UserCharacterPreviewInventory = () => {
     };
 
     const loadMorePopupHandler = () => {
-        const loadedItems = preloadAddItemsPopup.map((item) => { return ({ id: item.id, name: item.name, type: item.itemType })});
+        const loadedItems = preloadAddItemsPopup.map((item) => {return ({ id: item.id, name: item.name, type: item.itemType })});
         const sendData = {
             count: 4,
             existingItems: loadedItems
@@ -213,9 +215,13 @@ const UserCharacterPreviewInventory = () => {
         })
     };
 
+    const characterMoneyTransferHandler = (popupStatus) => {
+        dispatch(showSendGoldPopup({status: popupStatus}));
+    };
+
     useEffect(() => {
         if (addItemQuantityRef.current) addItemQuantityRef.current.value = selectedAddItemQuantity;
-    }, [selectedAddItemQuantity, addItemQuantityRef.current]);
+    }, [selectedAddItemQuantity, addItemQuantityRef.current, selectedCharacter.id]);
 
     useEffect(() => {
         if (filterTypeStatus && filterTypeStatus === 'reset') {
@@ -264,7 +270,7 @@ const UserCharacterPreviewInventory = () => {
 
     useEffect(() => {
         getCharacterInventoryItems();
-    }, []);
+    }, [selectedCharacter.id]);
 
     useEffect(() => {
         if (!searchInputRef.current) return;
@@ -351,7 +357,47 @@ const UserCharacterPreviewInventory = () => {
                             <span className="character-inventory-coin-icon"></span>
                             <span className="character-inventory-coin-title">{selectedCharacter ? selectedCharacter.inventory.inventoryGold.bronze : null}</span>
                         </div>
+                        <div className="preview-character-inventory-gold-transfer-wrap">
+                            <span 
+                                className="inventory-gold-transfer-btn"
+                                onClick={() => characterMoneyTransferHandler(true)}
+                            ></span>
+                        </div>
                     </div>
+                    {sendGoldPopup ?
+                        <div className="inventory-gold-transfer-popup-wrap">
+                            <span 
+                                className="inventory-gold-transfer-close-btn"
+                                onClick={() => characterMoneyTransferHandler(false)}
+                            ></span>
+                            <div className="inventory-gold-transfer-body">
+                                <div className="inventory-gold-transfer-title">Gold Transfer Title</div>
+                                <div className="inventory-gold-transfer-types-row">
+                                    <div className="inventory-gold-transfer-item gold">Gold</div>
+                                    <div className="inventory-gold-transfer-item-active silver">Silver</div>
+                                    <div className="inventory-gold-transfer-item bronze">Bronze</div>
+                                </div>
+                                <div className="inventory-gold-input-row">
+                                    <div className="inventory-gold-input-wrap">
+                                        <div className="inventory-gold-title">Input digit</div>
+                                        <input type="text" />
+                                    </div>
+                                    <div className="inventory-gold-btn-send-wrap">
+                                        <button>Send</button>
+                                    </div>
+                                </div>
+                            
+                                <div className="inventory-gold-character-select-wrap">
+                                    <div className="inventory-gold-my-characters-select-column">
+                                        <div className="inventory-gold-my-character-item">character name</div>
+                                        <div className="inventory-gold-my-character-item">character name</div>
+                                        <div className="inventory-gold-my-character-item">character name</div>
+                                    </div>
+                                    <div className="inventory-gold-other-characters-select-column">2</div>
+                                </div>
+                            </div>
+                        </div>
+                    : null}
                 </div>
                 <div className="preview-character-inventory-main-row">
                     <div className="preview-character-inventory-item-add">

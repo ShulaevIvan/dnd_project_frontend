@@ -5,7 +5,8 @@ import {
     showCharacterSendItemPopup,
     increaseDecreaseSendItem,
     changeSendItemCharacterMode,
-    selectCharacterToSend
+    selectCharacterToSend,
+    changeCharacterInventoryItemQuantity
 } from "../../redux/slices/userSlice";
 
 const UserCharacterPreviewSendItemPopup = () => {
@@ -62,7 +63,15 @@ const UserCharacterPreviewSendItemPopup = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                if (data.status === 'create' || data.status === 'update') {
+                    dispatch(selectCharacterToSend({character: {}, select: false}));
+                    dispatch(showCharacterSendItemPopup({status: false}));
+                    dispatch(changeCharacterInventoryItemQuantity({
+                        inventoryItem : sendItemSelected, 
+                        quantity: sendItemSelectedQnt, 
+                        mode: 'min'
+                    }));
+                };
             });
         };
         fetchFunc();
@@ -98,7 +107,6 @@ const UserCharacterPreviewSendItemPopup = () => {
                                 </div>
                             </div>
                             <div className="output-items-target-character-column">
-                                {console.log(characterToSendSelected === true)}
                                 {characterToSendSelected && characterToSendSelected.name ? 
                                     <React.Fragment>
                                         <div className="output-items-target-character-item">

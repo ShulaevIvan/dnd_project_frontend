@@ -1346,11 +1346,17 @@
 }
 .preview-character-inventory-money-gold,
 .preview-character-inventory-money-silver,
-.preview-character-inventory-money-bronze {
+.preview-character-inventory-money-bronze,
+.preview-character-inventory-gold-transfer-wrap {
     max-width: 33%;
     min-width: 10%;
     margin-right: 10px;
     position: relative;
+    min-height: 20px;
+}
+.preview-character-inventory-gold-transfer-wrap {
+    display: flex;
+    flex-direction: column;
 }
 .character-inventory-coin-icon::before {
     content: '\1FA99';
@@ -1359,6 +1365,14 @@
 .preview-character-inventory-money-silver span,
 .preview-character-inventory-money-bronze span {
     padding-right: 2px;
+}
+.inventory-gold-transfer-btn::before {
+    content: '\27A5';
+    font-size: 25px;
+    position: absolute;
+    left: 0;
+    top: -37%;
+    cursor: pointer;
 }
 .preview-character-inventory-item-popup-wrap {
     display: flex;
@@ -2014,4 +2028,144 @@
 }
 .output-item-btn-send-wrap button {
     cursor: pointer;
+}
+.inventory-gold-transfer-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 600px;
+    min-height: 400px;
+    background-color: gray;
+    position: absolute;
+    z-index: 5;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.inventory-gold-transfer-close-btn::before {
+    content: '\274C';
+    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 40px;
+    cursor: pointer;
+}
+.inventory-gold-transfer-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.inventory-gold-transfer-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.inventory-gold-transfer-types-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.inventory-gold-transfer-item,
+.inventory-gold-transfer-item-active {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 30%;
+    margin-right: 10px;
+    border: 1px solid;
+    cursor: pointer;
+}
+.inventory-gold-transfer-item-active {
+    border-color: #C14B3C;
+}
+.inventory-gold-input-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.inventory-gold-btn-send-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 30%;
+    min-width: 30%;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.inventory-gold-btn-send-wrap button {
+    min-width: 100px;
+    max-height: 25px;
+}
+.inventory-gold-input-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 60%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.inventory-gold-title {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.inventory-gold-input-wrap input {
+    border: 1px solid;
+    min-width: 230px;
+}
+.inventory-gold-input-wrap label {
+    padding-right: 10px;
+}
+.inventory-gold-character-select-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.inventory-gold-my-characters-select-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 50%;
+    width: 45%;
+    margin-right: 10px;
+    border: 1px solid;
+    min-height: 300px;
+    align-items: center;
+}
+.inventory-gold-other-characters-select-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 50%;
+    width: 45%;
+    border: 1px solid;
+    min-height: 300px;
+}
+.inventory-gold-my-character-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    border: 1px solid;
+    margin-bottom: 10px;
+    cursor: pointer;
+    max-width: 200px;
 }
