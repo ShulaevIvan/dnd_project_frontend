@@ -74,6 +74,17 @@ const initialState = {
             characterToSendSelected: undefined,
             sendGoldPopupShow: false,
             sendCurrencySelected: 'Gold',
+            moneyTypes: [
+                {moneyType: 'Gold', active: false},
+                {moneyType: 'Silver', active: false},
+                {moneyType: 'Bronze', active: false},
+            ],
+            moneyTransferInput: {
+                moneyType: null,
+                status: true,
+                value: 0,
+            },
+            moneyTransferSendBtnActive: false,
         }
     },
 };
@@ -427,6 +438,44 @@ const userSlice = createSlice({
             const { status } = action.payload
             state.previewCharacter.inventory.sendGoldPopupShow = status;
             state.previewCharacter.inventory.sendCurrencySelected = 'Gold';
+            state.previewCharacter.inventory.moneyTypes = [
+                {moneyType: 'Gold', active: false},
+                {moneyType: 'Silver', active: false},
+                {moneyType: 'Bronze', active: false},
+            ];
+            state.previewCharacter.inventory.moneyTransferSendBtnActive = true;
+        },
+        moneyTransferSelectType(state, action) {
+            const { moneyType, status } = action.payload;
+            state.previewCharacter.inventory.moneyTypes = state.previewCharacter.inventory.moneyTypes.map((item) => {
+                if (item.moneyType === moneyType) {
+                    return {
+                        ...item,
+                        active: status,
+                    };
+                }
+                return {
+                    ...item,
+                    active: false,
+                };
+            });
+
+            state.previewCharacter.inventory.moneyTransferInput = {
+                ...state.previewCharacter.inventory.moneyTransferInput,
+                moneyType: moneyType,
+            };
+        },
+        moneyTransferInput(state, action) {
+            const { value, status, type } = action.payload;
+            state.previewCharacter.inventory.moneyTransferInput = {
+                moneyType: type,
+                value: value,
+                status: status
+            }
+        },
+        moneyTransferSendBtn(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.inventory.moneyTransferSendBtnActive = status;
         }
     }
 });
@@ -469,5 +518,8 @@ export const {
     selectCharacterToSend,
     changeCharacterInventoryItemQuantity,
     showSendGoldPopup,
+    moneyTransferSelectType,
+    moneyTransferInput,
+    moneyTransferSendBtn
 } = userSlice.actions;
 export default userSlice.reducer;

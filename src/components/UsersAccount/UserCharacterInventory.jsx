@@ -13,7 +13,10 @@ import {
     selectPopupAddItem,
     addItemSelectQuantity,
     showCharacterSendItemPopup,
-    showSendGoldPopup
+    showSendGoldPopup,
+    moneyTransferSelectType,
+    moneyTransferInput,
+    moneyTransferSendBtn
 } from "../../redux/slices/userSlice";
 
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
@@ -34,9 +37,12 @@ const UserCharacterPreviewInventory = () => {
     const filterTypeStatus = useSelector((state) => state.userData.previewCharacter.inventory.filterType);
     const sendItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendItemPopupShow);
     const sendGoldPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendGoldPopupShow);
-
+    const moneyTransferTypes = useSelector((state) => state.userData.previewCharacter.inventory.moneyTypes);
+    const moneyTransferSendBtnStatus = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSendBtnActive);
+    const moneyTransferInputValue = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferInput);
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
+    const moneyTransferInputRef = useRef(null);
 
     const inventoryItemInfoHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
@@ -219,6 +225,51 @@ const UserCharacterPreviewInventory = () => {
         dispatch(showSendGoldPopup({status: popupStatus}));
     };
 
+    const characterTransferMoneySelectHandler = (moneyObj) => {
+        let status = true;
+        if (moneyObj.active) {
+            status = false;
+            dispatch(moneyTransferSendBtn({status: true}));
+            dispatch(moneyTransferSelectType({moneyType: moneyObj.moneyType, status: status}));
+            moneyTransferInputRef.current.value = '';
+            return;
+        }
+        moneyTransferInputRef.current.value = selectedCharacter.inventory.inventoryGold[`${moneyObj.moneyType.toLowerCase()}`];
+        dispatch(moneyTransferSelectType({moneyType: moneyObj.moneyType, status: status}));
+        dispatch(moneyTransferInput({
+            moneyType: moneyObj.moneyType,
+            value: Number(moneyTransferInputRef.current.value),
+            status: true
+        }));
+    };
+
+    const moneyTransferInputClearHandler = () => {
+        moneyTransferInputRef.current.value = '';
+        dispatch(moneyTransferSendBtn({status: true}));
+    };
+    
+    const moneyTransferInputHandler = () => {
+        const selectedMoney = moneyTransferTypes.find((item) => item.active);
+        if (selectedMoney) {
+            dispatch(moneyTransferInput({
+                type: selectedMoney.moneyType.toLowerCase(),
+                value: Number(moneyTransferInputRef.current.value),
+                status: true
+            }));
+        }
+    };
+
+    useEffect(() => {
+        const selectedMoney = moneyTransferTypes.find((item) => item.active);
+        if (!selectedMoney) return;
+        const maxMoney = selectedCharacter.inventory.inventoryGold[`${selectedMoney.moneyType.toLowerCase()}`];
+        if (selectedMoney && Number(moneyTransferInputValue.value) <= maxMoney && moneyTransferInputValue.value !== 0 && !isNaN(moneyTransferInputValue.value)) {
+            dispatch(moneyTransferSendBtn({status: false}));
+            return;
+        }
+        dispatch(moneyTransferSendBtn({status: true}));
+    }, [moneyTransferInputValue, moneyTransferInputRef.current, moneyTransferTypes]);
+
     useEffect(() => {
         if (addItemQuantityRef.current) addItemQuantityRef.current.value = selectedAddItemQuantity;
     }, [selectedAddItemQuantity, addItemQuantityRef.current, selectedCharacter.id]);
@@ -373,17 +424,35 @@ const UserCharacterPreviewInventory = () => {
                             <div className="inventory-gold-transfer-body">
                                 <div className="inventory-gold-transfer-title">Gold Transfer Title</div>
                                 <div className="inventory-gold-transfer-types-row">
-                                    <div className="inventory-gold-transfer-item gold">Gold</div>
+                                    {moneyTransferTypes.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div 
+                                                    className={
+                                                        `${item.active ? 'inventory-gold-transfer-item-active' : 
+                                                            'inventory-gold-transfer-item'} ${item.moneyType.toLowerCase()}`
+                                                    }
+                                                    onClick={() => characterTransferMoneySelectHandler(item)}
+                                                >{item.moneyType}</div>
+                                            </React.Fragment>
+                                        )
+                                    })}
+                                    {/* <div className="inventory-gold-transfer-item gold">Gold</div>
                                     <div className="inventory-gold-transfer-item-active silver">Silver</div>
-                                    <div className="inventory-gold-transfer-item bronze">Bronze</div>
+                                    <div className="inventory-gold-transfer-item bronze">Bronze</div> */}
                                 </div>
                                 <div className="inventory-gold-input-row">
                                     <div className="inventory-gold-input-wrap">
                                         <div className="inventory-gold-title">Input digit</div>
-                                        <input type="text" />
+                                        <input
+                                            className="inventory-gold-input" 
+                                            ref={moneyTransferInputRef} type="text"
+                                            onClick={moneyTransferInputClearHandler}
+                                            onChange={moneyTransferInputHandler}
+                                        />
                                     </div>
                                     <div className="inventory-gold-btn-send-wrap">
-                                        <button>Send</button>
+                                        <button disabled={moneyTransferSendBtnStatus}>Send</button>
                                     </div>
                                 </div>
                             
