@@ -52,6 +52,12 @@ const UserCharacterPreviewInventory = () => {
         dispatch(showCharacterSendItemPopup({status: status, sendItem: itemObj}))
     };
 
+    const getCharacterTransferMaxGold = () => {
+        const activeMoneyType = moneyTransferTypes.find((item) => item.active).moneyType;
+        const value = selectedCharacter.inventory.inventoryGold[`${activeMoneyType.toLowerCase()}`];
+        return `${activeMoneyType} ${value}`;
+    };
+
     const inventoryItemRemoveHandler = (itemObj, qnt) => {
         let quantity;
         if (itemObj && itemObj.quantity < qnt) quantity = itemObj.quantity; 
@@ -443,7 +449,9 @@ const UserCharacterPreviewInventory = () => {
                                 </div>
                                 <div className="inventory-gold-input-row">
                                     <div className="inventory-gold-input-wrap">
-                                        <div className="inventory-gold-title">Input digit</div>
+                                        <div className="inventory-gold-title">
+                                            {`Max ${getCharacterTransferMaxGold()}`}
+                                        </div>
                                         <input
                                             className="inventory-gold-input" 
                                             ref={moneyTransferInputRef} type="text"
