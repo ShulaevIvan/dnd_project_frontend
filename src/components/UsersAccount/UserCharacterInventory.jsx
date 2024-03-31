@@ -443,9 +443,6 @@ const UserCharacterPreviewInventory = () => {
                                             </React.Fragment>
                                         )
                                     })}
-                                    {/* <div className="inventory-gold-transfer-item gold">Gold</div>
-                                    <div className="inventory-gold-transfer-item-active silver">Silver</div>
-                                    <div className="inventory-gold-transfer-item bronze">Bronze</div> */}
                                 </div>
                                 <div className="inventory-gold-input-row">
                                     <div className="inventory-gold-input-wrap">
