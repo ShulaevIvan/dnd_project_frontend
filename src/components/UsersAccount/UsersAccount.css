@@ -2106,6 +2106,7 @@
 .inventory-gold-btn-send-wrap button {
     min-width: 100px;
     max-height: 25px;
+    cursor: pointer;
 }
 .inventory-gold-input-wrap {
     display: flex;

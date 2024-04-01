@@ -228,7 +228,7 @@ const UserCharacterPreviewInventory = () => {
         })
     };
 
-    const characterMoneyTransferHandler = (popupStatus) => {
+    const characterMoneyTransferPopupHandler = (popupStatus) => {
         dispatch(showSendGoldPopup({status: popupStatus}));
     };
 
@@ -310,12 +310,14 @@ const UserCharacterPreviewInventory = () => {
         const selectedMoney = moneyTransferTypes.find((item) => item.active);
         if (!selectedMoney) return;
         const maxMoney = selectedCharacter.inventory.inventoryGold[`${selectedMoney.moneyType.toLowerCase()}`];
-        if (selectedMoney && Number(moneyTransferInputValue.value) <= maxMoney && moneyTransferInputValue.value !== 0 && !isNaN(moneyTransferInputValue.value)) {
-            dispatch(moneyTransferSendBtn({status: false}));
-            return;
+        if (selectedMoney && moneyTransferToCharacterSend && moneyTransferToCharacterSend.character 
+                && Number(moneyTransferInputValue.value) <= maxMoney && moneyTransferInputValue.value !== 0 && 
+                    !isNaN(moneyTransferInputValue.value)) {
+                        dispatch(moneyTransferSendBtn({status: false}));
+                        return;
         }
         dispatch(moneyTransferSendBtn({status: true}));
-    }, [moneyTransferInputValue, moneyTransferInputRef.current, moneyTransferTypes]);
+    }, [moneyTransferInputValue, moneyTransferInputRef.current, moneyTransferTypes, moneyTransferToCharacterSend]);
 
     useEffect(() => {
         if (addItemQuantityRef.current) addItemQuantityRef.current.value = selectedAddItemQuantity;
@@ -458,7 +460,7 @@ const UserCharacterPreviewInventory = () => {
                         <div className="preview-character-inventory-gold-transfer-wrap">
                             <span 
                                 className="inventory-gold-transfer-btn"
-                                onClick={() => characterMoneyTransferHandler(true)}
+                                onClick={() => characterMoneyTransferPopupHandler(true)}
                             ></span>
                         </div>
                     </div>
@@ -466,7 +468,7 @@ const UserCharacterPreviewInventory = () => {
                         <div className="inventory-gold-transfer-popup-wrap">
                             <span 
                                 className="inventory-gold-transfer-close-btn"
-                                onClick={() => characterMoneyTransferHandler(false)}
+                                onClick={() => characterMoneyTransferPopupHandler(false)}
                             ></span>
                             <div className="inventory-gold-transfer-body">
                                 <div className="inventory-gold-transfer-title">Gold Transfer Title</div>

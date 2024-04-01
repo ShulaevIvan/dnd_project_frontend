@@ -445,6 +445,8 @@ const userSlice = createSlice({
                 {moneyType: 'Silver', active: false},
                 {moneyType: 'Bronze', active: false},
             ];
+            state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};
+            state.previewCharacter.inventory.moneyTransferSendMode = 'self';
             state.previewCharacter.inventory.moneyTransferSendBtnActive = true;
         },
         moneyTransferSelectType(state, action) {
@@ -483,13 +485,14 @@ const userSlice = createSlice({
             const { character, select } = action.payload;
             if (!select) {
                 state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};;
-                return
+                return;
             }
             state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  character, selected: true};
         },
         moneyTransferSendMode(state, action) {
             const { mode } = action.payload;
-            state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};;
+            if (mode === state.previewCharacter.inventory.moneyTransferSendMode) return;
+            state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};
             state.previewCharacter.inventory.moneyTransferSendMode = mode;
         }
     }
