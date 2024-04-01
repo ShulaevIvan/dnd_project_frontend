@@ -2136,28 +2136,20 @@
     flex-wrap: wrap;
     width: 100%;
     margin-bottom: 20px;
-    justify-content: center;
     align-items: center;
 }
-.inventory-gold-my-characters-select-column {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-width: 50%;
-    width: 45%;
-    margin-right: 10px;
-    border: 1px solid;
-    min-height: 300px;
-    align-items: center;
-}
+.inventory-gold-my-characters-select-column,
 .inventory-gold-other-characters-select-column {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     max-width: 50%;
-    width: 45%;
+    width: 50%;
+    margin-right: 10px;
     border: 1px solid;
     min-height: 300px;
+    align-items: center;
+    padding: 10px;
 }
 .inventory-gold-my-character-item {
     display: flex;
@@ -2167,5 +2159,40 @@
     border: 1px solid;
     margin-bottom: 10px;
     cursor: pointer;
+    max-width: 300px;
+}
+.inventory-gold-my-character-item-selected {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    border: 1px solid;
+    margin-bottom: 10px;
+    cursor: pointer;
+    max-width: 300px;
+    border-color: #C14B3C;
+}
+.inventory-gold-character-select-mode-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.inventory-gold-character-select-mode-item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     max-width: 200px;
+    margin-right: 10px;
+}
+.inventory-gold-character-select-mode-item button {
+    cursor: pointer;
+}
+.inventory-gold-character-select-mode-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
 }

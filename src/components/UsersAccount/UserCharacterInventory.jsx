@@ -16,7 +16,9 @@ import {
     showSendGoldPopup,
     moneyTransferSelectType,
     moneyTransferInput,
-    moneyTransferSendBtn
+    moneyTransferSendBtn,
+    moneyTransferSelectCharacter,
+    moneyTransferSendMode
 } from "../../redux/slices/userSlice";
 
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
@@ -40,6 +42,11 @@ const UserCharacterPreviewInventory = () => {
     const moneyTransferTypes = useSelector((state) => state.userData.previewCharacter.inventory.moneyTypes);
     const moneyTransferSendBtnStatus = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSendBtnActive);
     const moneyTransferInputValue = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferInput);
+    const userCharacters = useSelector((state) => state.userData.userCharacters);
+    const characterSelected = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
+    const moneyTransferToCharacterSend = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSelectedCharacter);
+    const moneyTransferSendModeActive = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSendMode);
+
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
     const moneyTransferInputRef = useRef(null);
@@ -50,12 +57,6 @@ const UserCharacterPreviewInventory = () => {
 
     const sendInventoryItemHandler = (itemObj, status) => {
         dispatch(showCharacterSendItemPopup({status: status, sendItem: itemObj}))
-    };
-
-    const getCharacterTransferMaxGold = () => {
-        const activeMoneyType = moneyTransferTypes.find((item) => item.active).moneyType;
-        const value = selectedCharacter.inventory.inventoryGold[`${activeMoneyType.toLowerCase()}`];
-        return `${activeMoneyType} ${value}`;
     };
 
     const inventoryItemRemoveHandler = (itemObj, qnt) => {
@@ -265,6 +266,46 @@ const UserCharacterPreviewInventory = () => {
         }
     };
 
+    const goldTransferSelectCharacterHandler = (characterObj) => {
+        if (moneyTransferToCharacterSend && !moneyTransferToCharacterSend.character) {
+            dispatch(moneyTransferSelectCharacter({character: characterObj, select: true}));
+            return;
+        }
+        dispatch(moneyTransferSelectCharacter({character: characterObj, select: false}));
+    };
+
+    const getCharacterTransferMaxGold = () => {
+        const activeMoneyType = moneyTransferTypes.find((item) => item.active);
+        if (!activeMoneyType) return;
+        const value = selectedCharacter.inventory.inventoryGold[`${activeMoneyType.moneyType.toLowerCase()}`];
+        return `Max ${activeMoneyType.moneyType} ${value}`;
+    };
+
+    const moneyTransferUserCharactersView = () => {
+        const uniqueCharacters = userCharacters.filter((item) => item.id !== selectedCharacter.id).map((character) => {
+            return (
+                <React.Fragment key={Math.random()}>
+                    <div 
+                        className={
+                            moneyTransferToCharacterSend &&  moneyTransferToCharacterSend.character
+                                && moneyTransferToCharacterSend.character.id === character.id && moneyTransferToCharacterSend.selected ? 
+                                    'inventory-gold-my-character-item-selected' : 'inventory-gold-my-character-item'
+                            }
+                        onClick={() => goldTransferSelectCharacterHandler(character)}
+                    >
+                        {`${character.name} lvl (${character.lvl})`}
+                    </div>
+                </React.Fragment>
+            )
+        });
+        return uniqueCharacters;
+    };
+
+    const moneyTransferSelectModeHandler = (mode) => {
+        dispatch(moneyTransferSendMode({mode: mode}));
+    };
+
+
     useEffect(() => {
         const selectedMoney = moneyTransferTypes.find((item) => item.active);
         if (!selectedMoney) return;
@@ -447,7 +488,7 @@ const UserCharacterPreviewInventory = () => {
                                 <div className="inventory-gold-input-row">
                                     <div className="inventory-gold-input-wrap">
                                         <div className="inventory-gold-title">
-                                            {`Max ${getCharacterTransferMaxGold()}`}
+                                            {getCharacterTransferMaxGold()}
                                         </div>
                                         <input
                                             className="inventory-gold-input" 
@@ -462,12 +503,24 @@ const UserCharacterPreviewInventory = () => {
                                 </div>
                             
                                 <div className="inventory-gold-character-select-wrap">
-                                    <div className="inventory-gold-my-characters-select-column">
-                                        <div className="inventory-gold-my-character-item">character name</div>
-                                        <div className="inventory-gold-my-character-item">character name</div>
-                                        <div className="inventory-gold-my-character-item">character name</div>
+                                    <div className="inventory-gold-character-select-mode-wrap">
+                                        <div className="inventory-gold-character-select-mode-item">
+                                            <button onClick={() => moneyTransferSelectModeHandler('self')}>self characters</button>
+                                        </div>
+                                        <div className="inventory-gold-character-select-mode-item">
+                                            <button onClick={() => moneyTransferSelectModeHandler('other')}>other characters</button>
+                                        </div>
                                     </div>
-                                    <div className="inventory-gold-other-characters-select-column">2</div>
+                                    {moneyTransferSendModeActive === 'self' ?
+                                        <div className="inventory-gold-my-characters-select-column">
+                                            {
+                                                moneyTransferTypes.filter((item) => item.active).length > 0 ? 
+                                                    moneyTransferUserCharactersView().map((item) => item) : null
+                                            }
+                                        </div>
+                                    : <div className="inventory-gold-other-characters-select-column"></div>}
+                                    
+                                    
                                 </div>
                             </div>
                         </div>

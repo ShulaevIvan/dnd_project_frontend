@@ -75,7 +75,7 @@ const initialState = {
             sendGoldPopupShow: false,
             sendCurrencySelected: 'Gold',
             moneyTypes: [
-                {moneyType: 'Gold', active: false},
+                {moneyType: 'Gold', active: true},
                 {moneyType: 'Silver', active: false},
                 {moneyType: 'Bronze', active: false},
             ],
@@ -85,6 +85,8 @@ const initialState = {
                 value: 0,
             },
             moneyTransferSendBtnActive: false,
+            moneyTransferSelectedCharacter: undefined,
+            moneyTransferSendCharacterMode: 'self',
         }
     },
 };
@@ -476,6 +478,19 @@ const userSlice = createSlice({
         moneyTransferSendBtn(state, action) {
             const { status } = action.payload;
             state.previewCharacter.inventory.moneyTransferSendBtnActive = status;
+        },
+        moneyTransferSelectCharacter(state, action) {
+            const { character, select } = action.payload;
+            if (!select) {
+                state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};;
+                return
+            }
+            state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  character, selected: true};
+        },
+        moneyTransferSendMode(state, action) {
+            const { mode } = action.payload;
+            state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};;
+            state.previewCharacter.inventory.moneyTransferSendMode = mode;
         }
     }
 });
@@ -520,6 +535,8 @@ export const {
     showSendGoldPopup,
     moneyTransferSelectType,
     moneyTransferInput,
-    moneyTransferSendBtn
+    moneyTransferSendBtn,
+    moneyTransferSelectCharacter,
+    moneyTransferSendMode
 } = userSlice.actions;
 export default userSlice.reducer;
