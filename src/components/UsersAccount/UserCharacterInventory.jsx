@@ -305,6 +305,32 @@ const UserCharacterPreviewInventory = () => {
         dispatch(moneyTransferSendMode({mode: mode}));
     };
 
+    const moneyTransferSendHandler = () => {
+        const sendData = {
+            moneyData: {
+                money: moneyTransferTypes.find((item) => item.active).moneyType.toLowerCase(),
+                value: Number(moneyTransferInputRef.current.value),
+            },
+            charSend: {
+                id: selectedCharacter.id, 
+                name: selectedCharacter.name
+            },
+            charRecive: {
+                id: moneyTransferToCharacterSend.character.id, 
+                name: moneyTransferToCharacterSend.character.name
+            }
+        };
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/?send=gold`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(sendData)
+            })
+        };
+        fetchFunc();
+    };
 
     useEffect(() => {
         const selectedMoney = moneyTransferTypes.find((item) => item.active);
@@ -500,7 +526,10 @@ const UserCharacterPreviewInventory = () => {
                                         />
                                     </div>
                                     <div className="inventory-gold-btn-send-wrap">
-                                        <button disabled={moneyTransferSendBtnStatus}>Send</button>
+                                        <button 
+                                            disabled={moneyTransferSendBtnStatus}
+                                            onClick={!moneyTransferSendBtnStatus ? moneyTransferSendHandler : null}
+                                        >Send</button>
                                     </div>
                                 </div>
                             
