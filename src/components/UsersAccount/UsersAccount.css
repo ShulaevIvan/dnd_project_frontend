@@ -1338,7 +1338,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 400px;
+    max-width: 600px;
     width: 100%;
     justify-content: flex-start;
     align-items: center;
@@ -1370,8 +1370,16 @@
     content: '\27A5';
     font-size: 25px;
     position: absolute;
-    left: 0;
+    left: 50%;
     top: -37%;
+    cursor: pointer;
+}
+.inventory-gold-add-btn::before {
+    content: '\2795';
+    font-size: 22px;
+    position: absolute;
+    left: 0;
+    top: -31%;
     cursor: pointer;
 }
 .preview-character-inventory-item-popup-wrap {

@@ -18,7 +18,8 @@ import {
     moneyTransferInput,
     moneyTransferSendBtn,
     moneyTransferSelectCharacter,
-    moneyTransferSendMode
+    moneyTransferSendMode,
+    updateCharacterMoney
 } from "../../redux/slices/userSlice";
 
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
@@ -225,8 +226,17 @@ const UserCharacterPreviewInventory = () => {
         .then((response) => response.json())
         .then((data) => {
             dispatch(addUserCharacterItems({items: data.items}));
+            dispatch(updateCharacterMoney({
+                characterId: selectedCharacter.id, 
+                characterName: selectedCharacter.name,
+                moneyData: data.money
+            }));
         })
     };
+
+    const updateCharacterGold = async () => {
+        
+    }
 
     const characterMoneyTransferPopupHandler = (popupStatus) => {
         dispatch(showSendGoldPopup({status: popupStatus}));
@@ -328,6 +338,14 @@ const UserCharacterPreviewInventory = () => {
                 },
                 body: JSON.stringify(sendData)
             })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(updateCharacterMoney({
+                    characterId: selectedCharacter.id, 
+                    characterName: selectedCharacter.name,
+                    moneyData: data.money
+                }));
+            });
         };
         fetchFunc();
     };
@@ -484,6 +502,7 @@ const UserCharacterPreviewInventory = () => {
                             <span className="character-inventory-coin-title">{selectedCharacter ? selectedCharacter.inventory.inventoryGold.bronze : null}</span>
                         </div>
                         <div className="preview-character-inventory-gold-transfer-wrap">
+                            <span className="inventory-gold-add-btn"></span>
                             <span 
                                 className="inventory-gold-transfer-btn"
                                 onClick={() => characterMoneyTransferPopupHandler(true)}

@@ -494,6 +494,40 @@ const userSlice = createSlice({
             if (mode === state.previewCharacter.inventory.moneyTransferSendMode) return;
             state.previewCharacter.inventory.moneyTransferSelectedCharacter = {character:  undefined, selected: false};
             state.previewCharacter.inventory.moneyTransferSendMode = mode;
+        },
+        updateCharacterMoney(state, action) {
+            const { characterId, characterName, moneyData } = action.payload;
+            if (characterId && characterName && moneyData) {
+                state.userCharacters = [...state.userCharacters.map((character) => {
+                    if (character.id === characterId && character.name === characterName) {
+                        state.previewCharacter.previewCharacterSelected = {
+                            ...state.previewCharacter.previewCharacterSelected,
+                            inventory: {
+                                ...state.previewCharacter.previewCharacterSelected.inventory,
+                                inventoryGold: {
+                                    gold: Number(moneyData.gold),
+                                    silver: Number(moneyData.silver),
+                                    bronze: Number(moneyData.bronze)
+                                }
+                            }
+                        }
+                        return (
+                            {
+                                ...character,
+                                inventory: {
+                                    ...character.inventory,
+                                    inventoryGold: {
+                                        gold: Number(moneyData.gold),
+                                        silver: Number(moneyData.silver),
+                                        bronze: Number(moneyData.bronze)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                    return {...character}
+                })]
+            }
         }
     }
 });
@@ -540,6 +574,7 @@ export const {
     moneyTransferInput,
     moneyTransferSendBtn,
     moneyTransferSelectCharacter,
-    moneyTransferSendMode
+    moneyTransferSendMode,
+    updateCharacterMoney
 } = userSlice.actions;
 export default userSlice.reducer;
