@@ -19,7 +19,8 @@ import {
     moneyTransferSendBtn,
     moneyTransferSelectCharacter,
     moneyTransferSendMode,
-    updateCharacterMoney
+    updateCharacterMoney,
+    showCharacterAddMoneyPopup
 } from "../../redux/slices/userSlice";
 
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
@@ -47,6 +48,7 @@ const UserCharacterPreviewInventory = () => {
     const characterSelected = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
     const moneyTransferToCharacterSend = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSelectedCharacter);
     const moneyTransferSendModeActive = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSendMode);
+    const showAddMoneyPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.showCharacterAddMoneyPopup);
 
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
@@ -234,10 +236,6 @@ const UserCharacterPreviewInventory = () => {
         })
     };
 
-    const updateCharacterGold = async () => {
-        
-    }
-
     const characterMoneyTransferPopupHandler = (popupStatus) => {
         dispatch(showSendGoldPopup({status: popupStatus}));
     };
@@ -348,6 +346,11 @@ const UserCharacterPreviewInventory = () => {
             });
         };
         fetchFunc();
+    };
+
+    const addMoneyPopupHandler = (popupStatus) => {
+        dispatch(showCharacterAddMoneyPopup({status: popupStatus}))
+        console.log('test')
     };
 
     useEffect(() => {
@@ -502,7 +505,10 @@ const UserCharacterPreviewInventory = () => {
                             <span className="character-inventory-coin-title">{selectedCharacter ? selectedCharacter.inventory.inventoryGold.bronze : null}</span>
                         </div>
                         <div className="preview-character-inventory-gold-transfer-wrap">
-                            <span className="inventory-gold-add-btn"></span>
+                            <span 
+                                className="inventory-gold-add-btn"
+                                onClick={() => addMoneyPopupHandler(true)}
+                            ></span>
                             <span 
                                 className="inventory-gold-transfer-btn"
                                 onClick={() => characterMoneyTransferPopupHandler(true)}
@@ -571,6 +577,45 @@ const UserCharacterPreviewInventory = () => {
                                     : <div className="inventory-gold-other-characters-select-column"></div>}
                                     
                                     
+                                </div>
+                            </div>
+                        </div>
+                    : null}
+                    {showAddMoneyPopupStatus ? 
+                        <div className="add-character-gold-popup-wrap">
+                            <div className="add-character-money-close-btn-wrap">
+                                <span 
+                                    className="add-character-money-close-btn"
+                                    onClick={() => addMoneyPopupHandler(false)}
+                                ></span>
+                            </div>
+                            <div className="add-character-money-popup-header">
+                                <div className="add-character-money-select-row">
+                                    <div className="add-character-money-item-btn">
+                                        <button>Gold</button>
+                                    </div>
+                                    <div className="add-character-money-item-btn">
+                                        <button>Silver</button>
+                                    </div>
+                                    <div className="add-character-money-item-btn">
+                                        <button>Bronze</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="add-character-money-popup-body">
+                                <div className="add-character-money-input-title">
+                                    <h3>Gold input</h3>
+                                    <div className="add-character-money-input-wrap">
+                                        <input className="add-character-money-input" type="text" />
+                                    </div>
+                                </div>
+                                <div className="add-character-money-controls-wrap">
+                                    <div className="add-character-money-controls-save-btn-wrap">
+                                        <button>save</button>
+                                    </div>
+                                    <div className="add-character-money-controls-cancel-btn-wrap">
+                                        <button>cancel</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

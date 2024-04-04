@@ -1941,7 +1941,7 @@
     flex-wrap: wrap;
     align-items: center;
     min-width: 150px;
-    max-height: 25px;
+    max-height: 35px;
     border: 1px solid;
 }
 .output-item-name {
@@ -2204,4 +2204,79 @@
     margin-bottom: 20px;
     justify-content: center;
     align-items: center;
+}
+.add-character-gold-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 400px;
+    min-height: 200px;
+    background-color: gray;
+    position: absolute;
+    z-index: 5;
+}
+.add-character-money-close-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.add-character-money-close-btn::before {
+    content: '\274C';
+    position: absolute;
+    top: 2%;
+    right: 5%;
+    font-size: 24px;
+    cursor: pointer;
+}
+.add-character-money-select-row {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.add-character-money-item-btn button,
+.add-character-money-controls-save-btn-wrap button,
+.add-character-money-controls-cancel-btn-wrap button {
+    cursor: pointer;
+}
+.add-character-money-item-btn  {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 26%;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+.add-character-money-input-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.add-character-money-input {
+    border: 1px solid;
+}
+.add-character-money-controls-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.add-character-money-controls-save-btn-wrap,
+.add-character-money-controls-cancel-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.add-character-money-controls-save-btn-wrap {
+    margin-right: 10px;
 }

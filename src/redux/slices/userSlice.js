@@ -87,6 +87,7 @@ const initialState = {
             moneyTransferSendBtnActive: false,
             moneyTransferSelectedCharacter: undefined,
             moneyTransferSendCharacterMode: 'self',
+            addCharacterMoneyPopupShow: false,
         }
     },
 };
@@ -528,6 +529,10 @@ const userSlice = createSlice({
                     return {...character}
                 })]
             }
+        },
+        showCharacterAddMoneyPopup(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.inventory.showCharacterAddMoneyPopup = status;
         }
     }
 });
@@ -575,6 +580,7 @@ export const {
     moneyTransferSendBtn,
     moneyTransferSelectCharacter,
     moneyTransferSendMode,
-    updateCharacterMoney
+    updateCharacterMoney,
+    showCharacterAddMoneyPopup
 } = userSlice.actions;
 export default userSlice.reducer;
