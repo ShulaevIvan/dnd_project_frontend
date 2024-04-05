@@ -88,6 +88,7 @@ const initialState = {
             moneyTransferSelectedCharacter: undefined,
             moneyTransferSendCharacterMode: 'self',
             addCharacterMoneyPopupShow: false,
+            addMoneyPopupBtnSave: false,
         }
     },
 };
@@ -470,6 +471,21 @@ const userSlice = createSlice({
                 moneyType: moneyType,
             };
         },
+        addMoneySelectType(state, action) {
+            const { moneyType, status } = action.payload;
+            state.previewCharacter.inventory.moneyTypes = state.previewCharacter.inventory.moneyTypes.map((item) => {
+                if (item.moneyType === moneyType) {
+                    return {
+                        ...item,
+                        active: status,
+                    };
+                }
+                return {
+                    ...item,
+                    active: false,
+                };
+            });
+        },
         moneyTransferInput(state, action) {
             const { value, status, type } = action.payload;
             state.previewCharacter.inventory.moneyTransferInput = {
@@ -532,7 +548,18 @@ const userSlice = createSlice({
         },
         showCharacterAddMoneyPopup(state, action) {
             const { status } = action.payload;
+            if (!status) {
+                state.previewCharacter.inventory.moneyTypes = [
+                    {moneyType: 'Gold', active: true},
+                    {moneyType: 'Silver', active: false},
+                    {moneyType: 'Bronze', active: false},
+                ];
+            }
             state.previewCharacter.inventory.showCharacterAddMoneyPopup = status;
+        },
+        addMoneyPopupBtnSaveStatus(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.inventory.addMoneyPopupBtnSave = status;
         }
     }
 });
@@ -581,6 +608,8 @@ export const {
     moneyTransferSelectCharacter,
     moneyTransferSendMode,
     updateCharacterMoney,
-    showCharacterAddMoneyPopup
+    showCharacterAddMoneyPopup,
+    addMoneySelectType,
+    addMoneyPopupBtnSaveStatus
 } = userSlice.actions;
 export default userSlice.reducer;

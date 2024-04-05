@@ -2253,6 +2253,9 @@
     margin-right: 10px;
     margin-bottom: 20px;
 }
+.add-character-money-item-btn-active {
+    border: 1px solid red;
+}
 .add-character-money-input-wrap {
     display: flex;
     flex-direction: row;

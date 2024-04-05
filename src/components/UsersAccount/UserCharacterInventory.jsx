@@ -20,7 +20,9 @@ import {
     moneyTransferSelectCharacter,
     moneyTransferSendMode,
     updateCharacterMoney,
-    showCharacterAddMoneyPopup
+    showCharacterAddMoneyPopup,
+    addMoneySelectType,
+    addMoneyPopupBtnSaveStatus
 } from "../../redux/slices/userSlice";
 
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
@@ -41,7 +43,7 @@ const UserCharacterPreviewInventory = () => {
     const filterTypeStatus = useSelector((state) => state.userData.previewCharacter.inventory.filterType);
     const sendItemPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendItemPopupShow);
     const sendGoldPopup = useSelector((state) => state.userData.previewCharacter.inventory.sendGoldPopupShow);
-    const moneyTransferTypes = useSelector((state) => state.userData.previewCharacter.inventory.moneyTypes);
+    const charMoneyTypes = useSelector((state) => state.userData.previewCharacter.inventory.moneyTypes);
     const moneyTransferSendBtnStatus = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSendBtnActive);
     const moneyTransferInputValue = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferInput);
     const userCharacters = useSelector((state) => state.userData.userCharacters);
@@ -49,10 +51,12 @@ const UserCharacterPreviewInventory = () => {
     const moneyTransferToCharacterSend = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSelectedCharacter);
     const moneyTransferSendModeActive = useSelector((state) => state.userData.previewCharacter.inventory.moneyTransferSendMode);
     const showAddMoneyPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.showCharacterAddMoneyPopup);
+    const addMoneyBtnStatus = useSelector((state) => state.userData.previewCharacter.inventory.addMoneyPopupBtnSave);
 
     const searchInputRef = useRef(null);
     const addItemQuantityRef = useRef(null);
     const moneyTransferInputRef = useRef(null);
+    const addCharacterMoneyInputRef = useRef(null);
 
     const inventoryItemInfoHandler = (itemObj, statusValue) => {
         dispatch(showItemPopup({itemData: itemObj, status: statusValue}));
@@ -264,7 +268,7 @@ const UserCharacterPreviewInventory = () => {
     };
     
     const moneyTransferInputHandler = () => {
-        const selectedMoney = moneyTransferTypes.find((item) => item.active);
+        const selectedMoney = charMoneyTypes.find((item) => item.active);
         if (selectedMoney) {
             dispatch(moneyTransferInput({
                 type: selectedMoney.moneyType.toLowerCase(),
@@ -283,7 +287,7 @@ const UserCharacterPreviewInventory = () => {
     };
 
     const getCharacterTransferMaxGold = () => {
-        const activeMoneyType = moneyTransferTypes.find((item) => item.active);
+        const activeMoneyType = charMoneyTypes.find((item) => item.active);
         if (!activeMoneyType) return;
         const value = selectedCharacter.inventory.inventoryGold[`${activeMoneyType.moneyType.toLowerCase()}`];
         return `Max ${activeMoneyType.moneyType} ${value}`;
@@ -316,7 +320,7 @@ const UserCharacterPreviewInventory = () => {
     const moneyTransferSendHandler = () => {
         const sendData = {
             moneyData: {
-                money: moneyTransferTypes.find((item) => item.active).moneyType.toLowerCase(),
+                money: charMoneyTypes.find((item) => item.active).moneyType.toLowerCase(),
                 value: Number(moneyTransferInputRef.current.value),
             },
             charSend: {
@@ -349,12 +353,86 @@ const UserCharacterPreviewInventory = () => {
     };
 
     const addMoneyPopupHandler = (popupStatus) => {
-        dispatch(showCharacterAddMoneyPopup({status: popupStatus}))
-        console.log('test')
+        dispatch(addMoneyPopupBtnSaveStatus({status: true}));
+        if (addCharacterMoneyInputRef.current && !popupStatus) addCharacterMoneyInputRef.current.value = '';
+        dispatch(showCharacterAddMoneyPopup({status: popupStatus}));
+    };
+
+    const selectMoneyTypeHandler = (moneyObj) => {
+        dispatch(addMoneyPopupBtnSaveStatus({status: true}));
+        dispatch(addMoneySelectType({moneyType: moneyObj.moneyType, status: true}));
+    };
+
+    const checkActiveMoneyType = () => {
+        const moneyTypeActive = charMoneyTypes.find((item) => item.active);
+        if (moneyTypeActive) return moneyTypeActive.moneyType;
+        return '';
+    };
+
+    const addCharacterMoneyInputHandler = () => {
+        if (addCharacterMoneyInputRef.current && Number(addCharacterMoneyInputRef.current.value) && !isNaN(addCharacterMoneyInputRef.current.value)) {
+            console.log(isNaN(addCharacterMoneyInputRef.current.value))
+            dispatch(addMoneyPopupBtnSaveStatus({status: false}));
+            return;  
+        }
+        dispatch(addMoneyPopupBtnSaveStatus({status: true}));
+        addCharacterMoneyInputRef.current.value = '';
+    };
+
+    const addCharacterMoneyClearInputHandler = () => {
+        if (addCharacterMoneyInputRef.current && addCharacterMoneyInputRef.current.value) {
+            dispatch(addMoneyPopupBtnSaveStatus({status: true}));
+            addCharacterMoneyInputRef.current.value = '';
+            return;  
+        }
+    };
+
+    const addCharacterMoneySaveHandler = () => {
+        const moneyTypeActive = checkActiveMoneyType();
+        if (moneyTypeActive && addCharacterMoneyInputRef.current.value) {
+            const sendData = {
+                characterId: selectedCharacter.id,
+                characterName: selectedCharacter.name,
+                moneyType: moneyTypeActive.toLowerCase(),
+                moneyValue: addCharacterMoneyInputRef.current.value,
+            };
+            const fetchFunc = async () => {
+                await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/?add=gold`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sendData)
+                })
+                .then((response) => {
+                    if (response.status === 201) {
+                        dispatch(addMoneyPopupBtnSaveStatus({status: true}));
+                        dispatch(showCharacterAddMoneyPopup({status: false}));
+                        addCharacterMoneyInputRef.current.value = '';
+                        return response.json();
+                    }
+                })
+                .then((data) => {
+                    dispatch(updateCharacterMoney({
+                        characterId: selectedCharacter.id, 
+                        characterName: selectedCharacter.name,
+                        moneyData: data.money
+                    }));
+                });
+            };
+            fetchFunc();
+        }
     };
 
     useEffect(() => {
-        const selectedMoney = moneyTransferTypes.find((item) => item.active);
+        if (addCharacterMoneyInputRef.current && addCharacterMoneyInputRef.current.value) {
+            dispatch(addMoneyPopupBtnSaveStatus({status: true}));
+            addCharacterMoneyInputRef.current.value = '';
+        }
+    }, [charMoneyTypes]);
+
+    useEffect(() => {
+        const selectedMoney = charMoneyTypes.find((item) => item.active);
         if (!selectedMoney) return;
         const maxMoney = selectedCharacter.inventory.inventoryGold[`${selectedMoney.moneyType.toLowerCase()}`];
         if (selectedMoney && moneyTransferToCharacterSend && moneyTransferToCharacterSend.character 
@@ -364,7 +442,7 @@ const UserCharacterPreviewInventory = () => {
                         return;
         }
         dispatch(moneyTransferSendBtn({status: true}));
-    }, [moneyTransferInputValue, moneyTransferInputRef.current, moneyTransferTypes, moneyTransferToCharacterSend]);
+    }, [moneyTransferInputValue, moneyTransferInputRef.current, charMoneyTypes, moneyTransferToCharacterSend]);
 
     useEffect(() => {
         if (addItemQuantityRef.current) addItemQuantityRef.current.value = selectedAddItemQuantity;
@@ -524,7 +602,7 @@ const UserCharacterPreviewInventory = () => {
                             <div className="inventory-gold-transfer-body">
                                 <div className="inventory-gold-transfer-title">Gold Transfer Title</div>
                                 <div className="inventory-gold-transfer-types-row">
-                                    {moneyTransferTypes.map((item) => {
+                                    {charMoneyTypes.map((item) => {
                                         return (
                                             <React.Fragment key={Math.random()}>
                                                 <div 
@@ -570,7 +648,7 @@ const UserCharacterPreviewInventory = () => {
                                     {moneyTransferSendModeActive === 'self' ?
                                         <div className="inventory-gold-my-characters-select-column">
                                             {
-                                                moneyTransferTypes.filter((item) => item.active).length > 0 ? 
+                                                charMoneyTypes.filter((item) => item.active).length > 0 ? 
                                                     moneyTransferUserCharactersView().map((item) => item) : null
                                             }
                                         </div>
@@ -591,30 +669,38 @@ const UserCharacterPreviewInventory = () => {
                             </div>
                             <div className="add-character-money-popup-header">
                                 <div className="add-character-money-select-row">
-                                    <div className="add-character-money-item-btn">
-                                        <button>Gold</button>
-                                    </div>
-                                    <div className="add-character-money-item-btn">
-                                        <button>Silver</button>
-                                    </div>
-                                    <div className="add-character-money-item-btn">
-                                        <button>Bronze</button>
-                                    </div>
+                                    {charMoneyTypes.map((item) => {
+                                        return (
+                                            <React.Fragment key={Math.random()}>
+                                                <div className={`add-character-money-item-btn ${item.active ? 'add-character-money-item-btn-active': null}`}>
+                                                    <button onClick={() => selectMoneyTypeHandler(item, true)}>{item.moneyType}</button>
+                                                </div>
+                                            </React.Fragment>
+                                        )
+                                    })}
                                 </div>
                             </div>
                             <div className="add-character-money-popup-body">
                                 <div className="add-character-money-input-title">
-                                    <h3>Gold input</h3>
+                                    <h3>{`${checkActiveMoneyType()} input`}</h3>
                                     <div className="add-character-money-input-wrap">
-                                        <input className="add-character-money-input" type="text" />
+                                        <input
+                                            ref={addCharacterMoneyInputRef} 
+                                            className="add-character-money-input" type="text"
+                                            onChange={addCharacterMoneyInputHandler}
+                                            onClick={addCharacterMoneyClearInputHandler}
+                                        />
                                     </div>
                                 </div>
                                 <div className="add-character-money-controls-wrap">
                                     <div className="add-character-money-controls-save-btn-wrap">
-                                        <button>save</button>
+                                        <button 
+                                            disabled={addMoneyBtnStatus}
+                                            onClick={!addMoneyBtnStatus ? addCharacterMoneySaveHandler : null}
+                                        >save</button>
                                     </div>
                                     <div className="add-character-money-controls-cancel-btn-wrap">
-                                        <button>cancel</button>
+                                        <button onClick={() => addMoneyPopupHandler(false)}>cancel</button>
                                     </div>
                                 </div>
                             </div>
