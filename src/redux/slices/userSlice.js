@@ -87,7 +87,8 @@ const initialState = {
             moneyTransferSendBtnActive: false,
             moneyTransferSelectedCharacter: undefined,
             moneyTransferSendCharacterMode: 'self',
-            addCharacterMoneyPopupShow: false,
+            showCharacterAddMoneyPopup: false,
+            addMoneyPopupMode: 'plus',
             addMoneyPopupBtnSave: false,
         }
     },
@@ -547,15 +548,18 @@ const userSlice = createSlice({
             }
         },
         showCharacterAddMoneyPopup(state, action) {
-            const { status } = action.payload;
+            const { status, mode } = action.payload;
             if (!status) {
                 state.previewCharacter.inventory.moneyTypes = [
                     {moneyType: 'Gold', active: true},
                     {moneyType: 'Silver', active: false},
                     {moneyType: 'Bronze', active: false},
                 ];
+                state.previewCharacter.inventory.addMoneyPopupMode = 'plus';
             }
+            if (!mode) state.previewCharacter.inventory.addMoneyPopupMode = 'plus';
             state.previewCharacter.inventory.showCharacterAddMoneyPopup = status;
+            state.previewCharacter.inventory.addMoneyPopupMode = mode;
         },
         addMoneyPopupBtnSaveStatus(state, action) {
             const { status } = action.payload;
