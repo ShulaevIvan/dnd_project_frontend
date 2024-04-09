@@ -16,18 +16,105 @@ const UserCharacterInventoryItemEqip = () => {
                     <div className="preview-character-eqip-popup-header">
                         <h3>Надетые вещи</h3>
                     </div>
-                    <div className="preview-character-eqip-popup-body">
-                        <div className="preview-character-eqip-popup-character-head">head</div>
-                        <div className="preview-character-eqip-popup-character-neck">neck</div>
-                        <div className="preview-character-eqip-popup-character-sholder">sholders</div>
-                        <div className="preview-character-eqip-popup-character-sholder-body">body</div>
-                        <div className="preview-character-eqip-popup-character-sholder-ring-l">ring-l</div>
-                        <div className="preview-character-eqip-popup-character-sholder-ring-r">ring-r</div>
-                        <div className="preview-character-eqip-popup-character-sholder-waist">waist</div>
-                        <div className="preview-character-eqip-popup-character-sholder-legs">legs</div>
-                        <div className="preview-character-eqip-popup-character-sholder-feets">feets</div>
+
+
+                    <div class="equip-container-body">
+                    <div class="equip-left-side">
+                        <div class="equip-head-wrap">
+                            <div class="visual-equip-item">
+                            <div class="visual-equip-item-title">head</div>
+                            <div class="visual-equip-item-body">
+                                <div class="visual-equip-item-class">magic</div>
+                                <div class="visual-equip-item-name">test item name equip</div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="equip-armor-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">armor</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">poor</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                                </div>
+                        </div>
+                        <div class="equip-waist-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">waist</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equip-hands-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">hands</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equip-feet-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">feet</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="preview-character-eqip-popup-footer"></div>
+
+                    <div class="equip-right-side">
+                        <div class="equip-neck-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">neck</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equip-weapon-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">weapon</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equip-arms-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">arms</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equip-l-ring-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">ring 1</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equip-r-ring-wrap">
+                            <div class="visual-equip-item">
+                                <div class="visual-equip-item-title">ring 2</div>
+                                <div class="visual-equip-item-body">
+                                    <div class="visual-equip-item-class">normal</div>
+                                    <div class="visual-equip-item-name">test item name equip</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </React.Fragment>
