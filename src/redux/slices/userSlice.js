@@ -90,6 +90,23 @@ const initialState = {
             showCharacterAddMoneyPopup: false,
             addMoneyPopupMode: 'plus',
             addMoneyPopupBtnSave: false,
+            characterEqipPopupStatus: false,
+            characterEqipPopupPosition: {
+                x: 0,
+                y: 0,
+            },
+            characterEqipItems: [
+                { name: 'head', position: 'left', eqipItem: undefined },
+                { name: 'armor', position: 'left', eqipItem: undefined },
+                { name: 'waist', position: 'left', eqipItem: undefined },
+                { name: 'hands', position: 'left', eqipItem: undefined },
+                { name: 'feet', position: 'left', eqipItem: undefined },
+                { name: 'neck', position: 'right', eqipItem: undefined },
+                { name: 'weapon', position: 'right', eqipItem: undefined },
+                { name: 'arms', position: 'right', eqipItem: undefined },
+                { name: 'l-ring', position: 'right', eqipItem: undefined },
+                { name: 'r-ring', position: 'right', eqipItem: undefined },
+            ],
         }
     },
 };
@@ -564,6 +581,14 @@ const userSlice = createSlice({
         addMoneyPopupBtnSaveStatus(state, action) {
             const { status } = action.payload;
             state.previewCharacter.inventory.addMoneyPopupBtnSave = status;
+        },
+        showCharacterEqipPopup(state, action) {
+            const { status, positionX, positionY } = action.payload;
+            state.previewCharacter.inventory.characterEqipPopupStatus = status;
+            state.previewCharacter.inventory.characterEqipPopupPosition = {
+                x: positionX,
+                y: positionY
+            };
         }
     }
 });
@@ -614,6 +639,7 @@ export const {
     updateCharacterMoney,
     showCharacterAddMoneyPopup,
     addMoneySelectType,
-    addMoneyPopupBtnSaveStatus
+    addMoneyPopupBtnSaveStatus,
+    showCharacterEqipPopup
 } = userSlice.actions;
 export default userSlice.reducer;

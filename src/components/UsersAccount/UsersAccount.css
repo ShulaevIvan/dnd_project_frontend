@@ -2323,6 +2323,8 @@
     min-height: 800px;
     background-color: gray;
     align-items: stretch;
+    position: absolute;
+    z-index: 5;
 }
 .preview-character-eqip-popup-close-wrap {
     display: flex;
@@ -2345,7 +2347,7 @@
 .preview-character-eqip-popup-footer {
     margin-bottom: 20px;
 }
-.equip-container-body {
+.eqip-container-body {
     background-position-y: 40%;
     display: flex;
     background-position-x: 70%;
@@ -2356,7 +2358,7 @@
     background-image: url(../../../public/img/silhouette.jpeg);
     background-repeat: no-repeat;
 }
-.equip-left-side {
+.eqip-left-side {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -2364,7 +2366,7 @@
     flex-direction: column;
     flex-wrap: wrap;
 }
-.equip-right-side {
+.eqip-right-side {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -2372,41 +2374,41 @@
     flex-direction: column;
     flex-wrap: wrap;
 }
-.visual-equip-item {
+.visual-eqip-item {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
 }
-.visual-equip-item-title {
+.visual-eqip-item-title {
     display: flex;
 }
-.visual-equip-item-class {
+.visual-eqip-item-class {
     background-color: gray;
     color: white;
 }
-.visual-equip-item-body {
+.visual-eqip-item-body {
     border: 1px solid;
     min-width: 150px;
     min-height: 50px;
     background-color: white;
 }
-.visual-equip-item-name {
+.visual-eqip-item-name {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 30px;
 }
 
-.equip-head-wrap, 
-.equip-armor-wrap, 
-.equip-waist-wrap, 
-.equip-hands-wrap,
-.equip-feet-wrap,
-.equip-neck-wrap,
-.equip-weapon-wrap,
-.equip-arms-wrap,
-.equip-l-ring-wrap,
-.equip-r-ring-wrap {
+.eqip-head-wrap, 
+.eqip-armor-wrap, 
+.eqip-waist-wrap, 
+.eqip-hands-wrap,
+.eqip-feet-wrap,
+.eqip-neck-wrap,
+.eqip-weapon-wrap,
+.eqip-arms-wrap,
+.eqip-l-ring-wrap,
+.eqip-r-ring-wrap {
     margin-bottom: 15%;
     position: relative;
 }
