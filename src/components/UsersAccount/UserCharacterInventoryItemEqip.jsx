@@ -14,10 +14,10 @@ const UserCharacterInventoryItemEqip = () => {
     const characterEqipPopupHandler = (e, status) => {
         const cords = {x: e.clientX, y: e.clientY};
         if (characterEqipPopupStatus){
-            dispatch(showCharacterEqipPopup({status: false, positionX: Number(cords.y / 1.2), positionY: Number(cords.x - 400)}));
+            dispatch(showCharacterEqipPopup({status: false, positionX: Number(cords.y), positionY: Number(cords.x - 200)}));
             return;
         }
-        dispatch(showCharacterEqipPopup({status: status, positionX: Number(cords.y / 1.2), positionY: Number(cords.x - 400)}));
+        dispatch(showCharacterEqipPopup({status: status, positionX: Number(cords.y), positionY: Number(cords.x - 200)}));
     };
 
     return (
@@ -51,8 +51,8 @@ const UserCharacterInventoryItemEqip = () => {
                                             <div className={`eqip-${item.name}-wrap`}>
                                                 <div className="visual-eqip-item">
                                                     <div className="visual-eqip-item-title">
-                                                        <span>{item.name}</span>
-                                                        <span className="visual-eqip-info">info</span>
+                                                        <span className="visual-eqip-item-name">{item.name}</span>
+                                                        <span className="visual-eqip-info"></span>
                                                     </div>
                                                     <div className="visual-eqip-item-body">
                                                         <div className="visual-eqip-item-class">magic</div>
@@ -71,7 +71,10 @@ const UserCharacterInventoryItemEqip = () => {
                                         <React.Fragment key={Math.random()}>
                                             <div className={`eqip-${item.name}-wrap`}>
                                                 <div className="visual-eqip-item">
-                                                    <div className="visual-eqip-item-title">{item.name}</div>
+                                                    <div className="visual-eqip-item-title">
+                                                        <span className="visual-eqip-item-name">{item.name}</span>
+                                                        <span className="visual-eqip-info"></span>
+                                                    </div>
                                                     <div className="visual-eqip-item-body">
                                                         <div className="visual-eqip-item-class">magic</div>
                                                         <div className="visual-eqip-item-name">test item name equip</div>

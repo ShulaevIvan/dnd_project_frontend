@@ -2406,10 +2406,12 @@
 .eqip-feet-wrap,
 .eqip-neck-wrap,
 .eqip-weapon-wrap,
+.eqip-weapon-shield-wrap,
 .eqip-arms-wrap,
+.eqip-instrument-wrap,
 .eqip-l-ring-wrap,
 .eqip-r-ring-wrap {
-    margin-bottom: 15%;
+    margin-bottom: 12%;
     position: relative;
 }
 .character-total-attributes-wrap {
@@ -2457,4 +2459,24 @@
     min-height: 25px;
     margin: 2px;
     max-height: 30px;
+}
+.visual-eqip-info {
+    position: relative;
+    top: 4px;
+    width: 20px;
+    height: 20px;
+}
+.visual-eqip-info::before {
+    position: absolute;
+    content: '\1F6C8';
+    max-width: 20px;
+    cursor: pointer;
+}
+.visual-eqip-add-item::before {
+    content: '\2795';
+    font-size: 22px;
+    position: absolute;
+    left: 0;
+    top: -31%;
+    cursor: pointer;
 }
