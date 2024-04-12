@@ -20,6 +20,10 @@ const UserCharacterInventoryItemEqip = () => {
         dispatch(showCharacterEqipPopup({status: status, positionX: Number(cords.y), positionY: Number(cords.x - 200)}));
     };
 
+    const characterItemInfoPopupHandler = (itemObj) => {
+        console.log(itemObj)
+    };
+
     return (
         <React.Fragment>
             <div className="preview-character-eqip-main-row">
@@ -52,11 +56,22 @@ const UserCharacterInventoryItemEqip = () => {
                                                 <div className="visual-eqip-item">
                                                     <div className="visual-eqip-item-title">
                                                         <span className="visual-eqip-item-name">{item.name}</span>
-                                                        <span className="visual-eqip-info"></span>
+                                                        <span 
+                                                            className="visual-eqip-info"
+                                                            onClick={() => characterItemInfoPopupHandler(item)}
+                                                        ></span>
                                                     </div>
                                                     <div className="visual-eqip-item-body">
                                                         <div className="visual-eqip-item-class">magic</div>
                                                         <div className="visual-eqip-item-name">test item name equip</div>
+                                                    </div>
+                                                    <div className="visual-eqip-item-controls">
+                                                        <div className="visual-eqip-item-add-btn-wrap">
+                                                            <button>add</button>
+                                                        </div>
+                                                        <div className="visual-eqip-item-remove-btn-wrap">
+                                                            <button>remove</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,11 +88,22 @@ const UserCharacterInventoryItemEqip = () => {
                                                 <div className="visual-eqip-item">
                                                     <div className="visual-eqip-item-title">
                                                         <span className="visual-eqip-item-name">{item.name}</span>
-                                                        <span className="visual-eqip-info"></span>
+                                                        <span 
+                                                            className="visual-eqip-info"
+                                                            onClick={() => characterItemInfoPopupHandler(item)}
+                                                        ></span>
                                                     </div>
                                                     <div className="visual-eqip-item-body">
                                                         <div className="visual-eqip-item-class">magic</div>
                                                         <div className="visual-eqip-item-name">test item name equip</div>
+                                                    </div>
+                                                    <div className="visual-eqip-item-controls">
+                                                        <div className="visual-eqip-item-add-btn-wrap">
+                                                            <button>add</button>
+                                                        </div>
+                                                        <div className="visual-eqip-item-remove-btn-wrap">
+                                                            <button>remove</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
