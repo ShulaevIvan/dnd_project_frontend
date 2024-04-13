@@ -2325,6 +2325,7 @@
     align-items: stretch;
     position: absolute;
     z-index: 5;
+    padding-bottom: 20px;
 }
 .preview-character-eqip-popup-close-wrap {
     display: flex;
@@ -2513,4 +2514,85 @@
 .visual-eqip-item-add-btn-wrap button,
 .visual-eqip-item-remove-btn-wrap button {
     cursor: pointer;
+}
+.character-item-eqip-popup-wrap {
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+    min-height: 400px;
+    position: absolute;
+    z-index: 5;
+    background-color: gray;
+    padding: 10px;
+}
+.character-item-eqip-title {
+    margin-bottom: 20px;
+}
+.character-item-eqip-body-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.character-item-equipped-wrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.character-item-equipped {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 5px;
+    width: 100%;
+}
+.character-item-equipped-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.character-item-equipped-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.character-item-equipped-params-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 50%;
+    border: 1px solid;
+    margin-right: 10px;
+}
+.character-item-equipped-image-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 45%;
+    justify-content: center;
+    align-items: center;
+}
+.character-inventory-items-wrap {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 200px;
+}
+.character-inventory-items-title {
+    margin-bottom: 20px;
 }
