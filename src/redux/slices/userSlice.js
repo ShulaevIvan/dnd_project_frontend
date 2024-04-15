@@ -96,19 +96,21 @@ const initialState = {
                 y: 0,
             },
             characterEqipItems: [
-                { name: 'head', position: 'left', eqipItem: undefined },
-                { name: 'armor', position: 'left', eqipItem: undefined },
-                { name: 'waist', position: 'left', eqipItem: undefined },
-                { name: 'hands', position: 'left', eqipItem: undefined },
-                { name: 'feet', position: 'left', eqipItem: undefined },
-                { name: 'instrument', position: 'left', eqipItem: undefined },
-                { name: 'neck', position: 'right', eqipItem: undefined },
-                { name: 'weapon', position: 'right', eqipItem: undefined },
-                { name: 'weapon-shield', position: 'right', eqipItem: undefined },
-                { name: 'arms', position: 'right', eqipItem: undefined },
-                { name: 'l-ring', position: 'right', eqipItem: undefined },
-                { name: 'r-ring', position: 'right', eqipItem: undefined },
+                { slot: 'head', position: 'left', eqipItem: undefined },
+                { slot: 'armor', position: 'left', eqipItem: undefined },
+                { slot: 'waist', position: 'left', eqipItem: undefined },
+                { slot: 'hands', position: 'left', eqipItem: undefined },
+                { slot: 'feet', position: 'left', eqipItem: undefined },
+                { slot: 'instrument', position: 'left', eqipItem: undefined },
+                { slot: 'neck', position: 'right', eqipItem: undefined },
+                { slot: 'weapon', position: 'right', eqipItem: undefined },
+                { slot: 'weapon-shield', position: 'right', eqipItem: undefined },
+                { slot: 'arms', position: 'right', eqipItem: undefined },
+                { slot: 'l-ring', position: 'right', eqipItem: undefined },
+                { slot: 'r-ring', position: 'right', eqipItem: undefined },
             ],
+            characterEqipItemInfoPopupShow: false,
+            characterEqipItemInfoPopupSelect: undefined,
         }
     },
 };
@@ -591,6 +593,12 @@ const userSlice = createSlice({
                 x: positionX,
                 y: positionY
             };
+        },
+        showCharacterEqipItemInfoPopup(state, action) {
+            const { status, eqipItem } = action.payload;
+            state.previewCharacter.inventory.characterEqipItemInfoPopupShow = status;
+            state.previewCharacter.inventory.characterEqipItemInfoPopupSelect = eqipItem;
+            
         }
     }
 });
@@ -642,6 +650,7 @@ export const {
     showCharacterAddMoneyPopup,
     addMoneySelectType,
     addMoneyPopupBtnSaveStatus,
-    showCharacterEqipPopup
+    showCharacterEqipPopup,
+    showCharacterEqipItemInfoPopup
 } = userSlice.actions;
 export default userSlice.reducer;

@@ -2320,7 +2320,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     min-width: 600px;
-    min-height: 800px;
+    min-height: 600px;
     background-color: gray;
     align-items: stretch;
     position: absolute;
@@ -2335,7 +2335,8 @@
     position: relative;
     margin-bottom: 20px;
 }
-.preview-character-eqip-popup-close-btn::before {
+.preview-character-eqip-popup-close-btn::before,
+.character-item-eqip-close-btn::before {
     content: '\274C';
     font-size: 24px;
     position: absolute;
@@ -2516,14 +2517,14 @@
     cursor: pointer;
 }
 .character-item-eqip-popup-wrap {
-    display: flex;
-    flex-direction: column;
     min-width: 400px;
     min-height: 400px;
     position: absolute;
     z-index: 5;
     background-color: gray;
     padding: 10px;
+    position: absolute;
+    border: 1px solid;
 }
 .character-item-eqip-title {
     margin-bottom: 20px;
@@ -2595,4 +2596,13 @@
 }
 .character-inventory-items-title {
     margin-bottom: 20px;
+}
+.character-inventory-items-controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 10px;
+    padding: 10px;
 }
