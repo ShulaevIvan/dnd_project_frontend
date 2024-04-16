@@ -23,7 +23,7 @@ import {
 import UserCharacterPreviewSendItemPopup from "./UserCharacterPreviewSendItemPopup";
 import UserCharacterPreviewAddMoneyPopup from "./UserCharacterPreviewAddMoneyPopup";
 import UserCharacterInventoryGoldTransferPopup from "./UserCharacterInventoryGoldTransferPopup";
-import UserCharacterInventoryItemEqip from "./UserCharacterInventoryItemEqip";
+import UserCharacterInventoryItemEquip from "./UserCharacterInventoryItemEquip";
 
 const UserCharacterPreviewInventory = () => {
     const dispatch = useDispatch();
@@ -383,7 +383,7 @@ const UserCharacterPreviewInventory = () => {
         <React.Fragment>
             <div className="preview-character-inventory-wrap">
                 <div className="preview-character-inventory-title"><h3>Инвентарь</h3></div>
-                <UserCharacterInventoryItemEqip />
+                <UserCharacterInventoryItemEquip />
                 <div className="preview-character-inventory-gold-wrap">
                     <div className="preview-character-money-title"><h4>Валюта:</h4></div>
                     <div className="preview-character-inventory-money-row">

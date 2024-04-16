@@ -90,27 +90,27 @@ const initialState = {
             showCharacterAddMoneyPopup: false,
             addMoneyPopupMode: 'plus',
             addMoneyPopupBtnSave: false,
-            characterEqipPopupStatus: false,
-            characterEqipPopupPosition: {
+            characterEquipPopupStatus: false,
+            characterEquipPopupPosition: {
                 x: 0,
                 y: 0,
             },
-            characterEqipItems: [
-                { slot: 'head', position: 'left', eqipItem: undefined },
-                { slot: 'armor', position: 'left', eqipItem: undefined },
-                { slot: 'waist', position: 'left', eqipItem: undefined },
-                { slot: 'hands', position: 'left', eqipItem: undefined },
-                { slot: 'feet', position: 'left', eqipItem: undefined },
-                { slot: 'instrument', position: 'left', eqipItem: undefined },
-                { slot: 'neck', position: 'right', eqipItem: undefined },
-                { slot: 'weapon', position: 'right', eqipItem: undefined },
-                { slot: 'weapon-shield', position: 'right', eqipItem: undefined },
-                { slot: 'arms', position: 'right', eqipItem: undefined },
-                { slot: 'l-ring', position: 'right', eqipItem: undefined },
-                { slot: 'r-ring', position: 'right', eqipItem: undefined },
+            characterEquipItems: [
+                { slot: 'head', position: 'left', equipItem: undefined },
+                { slot: 'armor', position: 'left', equipItem: undefined },
+                { slot: 'waist', position: 'left', equipItem: undefined },
+                { slot: 'hands', position: 'left', equipItem: undefined },
+                { slot: 'feet', position: 'left', equipItem: undefined },
+                { slot: 'instrument', position: 'left', equipItem: undefined },
+                { slot: 'neck', position: 'right', equipItem: undefined },
+                { slot: 'weapon', position: 'right', equipItem: undefined },
+                { slot: 'weapon-shield', position: 'right', equipItem: undefined },
+                { slot: 'arms', position: 'right', equipItem: undefined },
+                { slot: 'l-ring', position: 'right', equipItem: undefined },
+                { slot: 'r-ring', position: 'right', equipItem: undefined },
             ],
-            characterEqipItemInfoPopupShow: false,
-            characterEqipItemInfoPopupSelect: undefined,
+            characterEquipItemInfoPopupShow: false,
+            characterEquipItemInfoPopupSelect: undefined,
         }
     },
 };
@@ -586,18 +586,30 @@ const userSlice = createSlice({
             const { status } = action.payload;
             state.previewCharacter.inventory.addMoneyPopupBtnSave = status;
         },
-        showCharacterEqipPopup(state, action) {
-            const { status, positionX, positionY } = action.payload;
-            state.previewCharacter.inventory.characterEqipPopupStatus = status;
-            state.previewCharacter.inventory.characterEqipPopupPosition = {
+        showCharacterEquipPopup(state, action) {
+            const { status, positionX, positionY, equipItems } = action.payload;
+            state.previewCharacter.inventory.characterEquipPopupStatus = status;
+            state.previewCharacter.inventory.characterEquipPopupPosition = {
                 x: positionX,
                 y: positionY
             };
+            console.log(equipItems)
+            if (status) {
+                state.previewCharacter.inventory.characterEquipItems = state.previewCharacter.inventory.characterEquipItems.map((itemObj) => {
+                    return (
+                        {
+                            ...itemObj,
+                            equipItem: equipItems.find((equipItem) => equipItem.slot === itemObj.slot),
+                        }
+                    )
+                })
+                // { slot: 'head', position: 'left', equipItem: undefined },
+            }
         },
-        showCharacterEqipItemInfoPopup(state, action) {
+        showCharacterEquipItemInfoPopup(state, action) {
             const { status, eqipItem } = action.payload;
-            state.previewCharacter.inventory.characterEqipItemInfoPopupShow = status;
-            state.previewCharacter.inventory.characterEqipItemInfoPopupSelect = eqipItem;
+            state.previewCharacter.inventory.characterEquipItemInfoPopupShow = status;
+            state.previewCharacter.inventory.characterEquipItemInfoPopupSelect = eqipItem;
             
         }
     }
@@ -650,7 +662,7 @@ export const {
     showCharacterAddMoneyPopup,
     addMoneySelectType,
     addMoneyPopupBtnSaveStatus,
-    showCharacterEqipPopup,
-    showCharacterEqipItemInfoPopup
+    showCharacterEquipPopup,
+    showCharacterEquipItemInfoPopup
 } = userSlice.actions;
 export default userSlice.reducer;

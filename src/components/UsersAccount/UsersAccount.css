@@ -2480,14 +2480,21 @@
     margin: 2px;
     max-height: 30px;
 }
-.visual-eqip-info {
+.visual-eqip-info,
+.visual-eqip-add-item {
     position: relative;
     top: 4px;
     width: 20px;
     height: 20px;
 }
+.character-item-equipped-add-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
 .visual-eqip-info::before {
-    position: absolute;
+    position: relative;
     content: '\1F6C8';
     max-width: 20px;
     cursor: pointer;
@@ -2496,8 +2503,8 @@
     content: '\2795';
     font-size: 22px;
     position: absolute;
-    left: 0;
-    top: -31%;
+    left:0px;
+    top: -16px;
     cursor: pointer;
 }
 .visual-eqip-item-controls {
@@ -2592,7 +2599,8 @@
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 200px;
+    justify-content: center;
+    align-items: center;
 }
 .character-inventory-items-title {
     margin-bottom: 20px;
@@ -2605,4 +2613,12 @@
     justify-content: space-around;
     margin-top: 10px;
     padding: 10px;
+}
+.character-inventory-items-wrap-select {
+    display: flex;
+    flex-wrap: wrap;
+    width: 200px;
+}
+.character-inventory-items-wrap button {
+    cursor: pointer;
 }

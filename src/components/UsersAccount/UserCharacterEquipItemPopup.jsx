@@ -1,10 +1,12 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-const UserCharacterEqipItemPopup = (props) => {
+const UserCharacterEquipItemPopup = (props) => {
+    const dispatch = useDispatch();
 
     return (
         <React.Fragment>
-            <div className="character-item-eqip-popup-wrap" style={{left: `${props.mouseCords.x / 2 - 200}px`, top: `${props.mouseCords.y / 2 - 100}px`}}>
+            <div className="character-item-eqip-popup-wrap" style={{left: `${props.mouseCords.x / 2 - 200}px`, top: `${props.mouseCords.y / 2 - 200}px`}}>
                 <div className="character-item-eqip-title">{props.infoItem.slot} Slot</div>
                 <div className="character-item-eqip-close-btn-wrap">
                     <span 
@@ -15,7 +17,7 @@ const UserCharacterEqipItemPopup = (props) => {
                 <div className="character-item-eqip-body-wrap">
                     <div className="character-item-equipped-wrap">
                         <div className="character-item-equipped">
-                            <div className="character-item-equipped-title">Gold helm</div>
+                            <div className="character-item-equipped-title">Gold helm {props.item.itemId}</div>
                             <div className="character-item-equipped-row">
                                 <div className="character-item-equipped-params-wrap">
                                     <div className="character-item-equipped-params">
@@ -45,16 +47,19 @@ const UserCharacterEqipItemPopup = (props) => {
                     </div>
                     <div className="character-inventory-items-wrap">
                         <div className="character-inventory-items-title">Inventory items by slot</div>
-                        <select id="pet-select">
-                            <option value="">--Please choose an option--</option>
-                            <option value="dog">Dog</option>
-                            <option value="cat">Cat</option>
-                            <option value="hamster">Hamster</option>
-                            <option value="parrot">Parrot</option>
-                            <option value="spider">Spider</option>
-                            <option value="goldfish">Goldfish</option>
-                        </select>
+                        <div className="character-inventory-items-wrap-select">
+                            <select className="item-select">
+                                <option value="">--Please choose an option--</option>
+                                <option value="item 0">test</option>
+                                <option value="item 1">test2</option>
+                                <option value="item 2">test3</option>
+                                <option value="item 3">test4</option>
+                                <option value="item 4">test5</option>
+                                <option value="item 5">test6</option>
+                            </select>
+                        </div>
                         <div className="character-inventory-items-controls">
+                            <button>add new</button>
                             <button>eqip selected</button>
                             <button>uneqip item</button>
                         </div>
@@ -65,4 +70,4 @@ const UserCharacterEqipItemPopup = (props) => {
     )
 };
 
-export default UserCharacterEqipItemPopup;
+export default UserCharacterEquipItemPopup;

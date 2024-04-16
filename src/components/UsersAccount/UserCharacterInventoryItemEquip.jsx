@@ -1,31 +1,52 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import UserCharacterEqipItemPopup from "./UserCharacterEqipItemPopup";
+import UserCharacterEquipItemPopup from "./UserCharacterEquipItemPopup";
+import { useEffect } from "react";
 import { 
-    showCharacterEqipPopup,
-    showCharacterEqipItemInfoPopup
+    showCharacterEquipPopup,
+    showCharacterEquipItemInfoPopup
 } from "../../redux/slices/userSlice";
 
-const UserCharacterInventoryItemEqip = () => {
+const UserCharacterInventoryItemEquip = () => {
     const dispatch = useDispatch();
-    const characterEqipPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEqipPopupStatus);
-    const characterEqipItemInfoPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEqipItemInfoPopupShow);
-    const characterEqipItemInfoSelected = useSelector((state) => state.userData.previewCharacter.inventory.characterEqipItemInfoPopupSelect);
-    const characterEqipItems = useSelector((state) => state.userData.previewCharacter.inventory.characterEqipItems);
-    const mouseCords = useSelector((state) => state.userData.previewCharacter.inventory.characterEqipPopupPosition);
+    const userData = useSelector((state) => state.userData.userData);
+    const selectedCharacter = useSelector((state) => state.userData.previewCharacter.previewCharacterSelected);
+    const characterEquipPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipPopupStatus);
+    const characterEquipItemInfoPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItemInfoPopupShow);
+    const characterEquipItemInfoSelected = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItemInfoPopupSelect);
+    const characterEquipItems = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItems);
+    const mouseCords = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipPopupPosition);
     
 
-    const characterEqipPopupHandler = (e, status) => {
+    const characterEquipPopupHandler = (e, status) => {
         const cords = {x: e.clientX, y: e.clientY};
-        if (characterEqipPopupStatus){
-            dispatch(showCharacterEqipPopup({status: false, positionX: Number(cords.y), positionY: Number(cords.x - 200)}));
+        if (characterEquipPopupStatus) {
+            dispatch(showCharacterEquipPopup({status: status, positionX: Number(cords.y), positionY: Number(cords.x - 200), equipItems: []}));
             return;
         }
-        dispatch(showCharacterEqipPopup({status: status, positionX: Number(cords.y), positionY: Number(cords.x - 200)}));
+
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/?equip=items`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(showCharacterEquipPopup({
+                    status: status, 
+                    positionX: Number(cords.y), 
+                    positionY: Number(cords.x - 200),
+                    equipItems: data.items
+                }));
+            });
+        };
+        fetchFunc();
     };
 
     const characterItemInfoPopupHandler = (itemObj, status) => {
-        dispatch(showCharacterEqipItemInfoPopup({status: status, eqipItem: itemObj}));
+        dispatch(showCharacterEquipItemInfoPopup({status: status, eqipItem: itemObj}));
     };
 
     return (
@@ -35,16 +56,16 @@ const UserCharacterInventoryItemEqip = () => {
                     <span className="preview-character-eqip-title"><h4>Экипировка:</h4></span>
                     <span 
                         className="preview-character-eqip-btn"
-                        onClick={(e) => characterEqipPopupHandler(e, true)}
+                        onClick={(e) => characterEquipPopupHandler(e, true)}
                     ></span>
                 </div>
 
-                {characterEqipPopupStatus ?
+                {characterEquipPopupStatus ?
                     <div className="preview-character-eqip-popup-wrap" style={{left: `${mouseCords.x}px`, top: `${mouseCords.y}px`}}>
                         <div className="preview-character-eqip-popup-close-wrap">
                             <span 
                                 className="preview-character-eqip-popup-close-btn"
-                                onClick={(e) => characterEqipPopupHandler(e, false)}
+                                onClick={(e) => characterEquipPopupHandler(e, false)}
                             ></span>
                         </div>
                         <div className="preview-character-eqip-popup-header">
@@ -53,7 +74,7 @@ const UserCharacterInventoryItemEqip = () => {
 
                         <div className="eqip-container-body">
                             <div className="eqip-left-side">
-                                {characterEqipItems.filter((itemObj) => itemObj.position === 'left').map((item) => {
+                                {characterEquipItems.filter((itemObj) => itemObj.position === 'left').map((item) => {
                                     return (
                                         <React.Fragment key={Math.random()}>
                                             <div className={`eqip-${item.name}-wrap`}>
@@ -77,7 +98,7 @@ const UserCharacterInventoryItemEqip = () => {
                             </div>
 
                             <div className="eqip-right-side">
-                                {characterEqipItems.filter((itemObj) => itemObj.position === 'right').map((item) => {
+                                {characterEquipItems.filter((itemObj) => itemObj.position === 'right').map((item) => {
                                     return (
                                         <React.Fragment key={Math.random()}>
                                             <div className={`eqip-${item.name}-wrap`}>
@@ -95,12 +116,13 @@ const UserCharacterInventoryItemEqip = () => {
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            {characterEqipItemInfoPopupStatus ? 
-                                                <UserCharacterEqipItemPopup
+                                            {console.log(item)}
+                                            {characterEquipItemInfoPopupStatus ? 
+                                                <UserCharacterEquipItemPopup
                                                     key={Math.random()} 
                                                     itemInfoHandler={characterItemInfoPopupHandler}
-                                                    infoItem={characterEqipItemInfoSelected}
+                                                    infoItem={characterEquipItemInfoSelected}
+                                                    item={item.equipItem}
                                                     mouseCords={mouseCords}
                                                 /> 
                                             : null}
@@ -116,4 +138,4 @@ const UserCharacterInventoryItemEqip = () => {
     )
 };
 
-export default UserCharacterInventoryItemEqip;
+export default UserCharacterInventoryItemEquip;
