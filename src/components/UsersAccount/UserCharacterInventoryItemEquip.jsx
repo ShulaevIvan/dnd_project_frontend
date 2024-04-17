@@ -4,7 +4,9 @@ import UserCharacterEquipItemPopup from "./UserCharacterEquipItemPopup";
 import { useEffect } from "react";
 import { 
     showCharacterEquipPopup,
-    showCharacterEquipItemInfoPopup
+    showCharacterEquipItemInfoPopup,
+    addCharacterEquipItems
+
 } from "../../redux/slices/userSlice";
 
 const UserCharacterInventoryItemEquip = () => {
@@ -15,6 +17,7 @@ const UserCharacterInventoryItemEquip = () => {
     const characterEquipItemInfoPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItemInfoPopupShow);
     const characterEquipItemInfoSelected = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItemInfoPopupSelect);
     const characterEquipItems = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItems);
+    const allCharacterEquipItems = useSelector((state) => state.userData.previewCharacter.inventory.allCharacterEquipItems);
     const mouseCords = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipPopupPosition);
     
 
@@ -46,8 +49,35 @@ const UserCharacterInventoryItemEquip = () => {
     };
 
     const characterItemInfoPopupHandler = (itemObj, status) => {
-        dispatch(showCharacterEquipItemInfoPopup({status: status, eqipItem: itemObj}));
+        const item_stats = getBaseItemInfo(itemObj.slot);
+        dispatch(showCharacterEquipItemInfoPopup({status: status, eqipItem: itemObj, itemParams: item_stats}));
     };
+
+    const getBaseItemInfo = (slot) => {
+        if (slot && allCharacterEquipItems && allCharacterEquipItems.length > 0) {
+            return allCharacterEquipItems.find((equipItem) => equipItem.slot === slot).item;
+        }
+        return 'none';
+    };
+
+    useEffect(() => {
+        if (characterEquipPopupStatus) {
+            const fetchFunc = async () => {
+                const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/`;
+                await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    dispatch(addCharacterEquipItems({equipItems: data.items}));
+                })
+            }
+            fetchFunc();
+        }
+    }, [characterEquipPopupStatus])
 
     return (
         <React.Fragment>
@@ -88,7 +118,7 @@ const UserCharacterInventoryItemEquip = () => {
                                                     </div>
                                                     <div className="visual-eqip-item-body">
                                                         <div className="visual-eqip-item-class">magic</div>
-                                                        <div className="visual-eqip-item-name">test item name equip</div>
+                                                        <div className="visual-eqip-item-name">{getBaseItemInfo(item.slot).name}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,11 +142,10 @@ const UserCharacterInventoryItemEquip = () => {
                                                     </div>
                                                     <div className="visual-eqip-item-body">
                                                         <div className="visual-eqip-item-class">magic</div>
-                                                        <div className="visual-eqip-item-name">test item name equip</div>
+                                                        <div className="visual-eqip-item-name">{getBaseItemInfo(item.slot).name}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {console.log(item)}
                                             {characterEquipItemInfoPopupStatus ? 
                                                 <UserCharacterEquipItemPopup
                                                     key={Math.random()} 

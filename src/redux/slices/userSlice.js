@@ -95,6 +95,7 @@ const initialState = {
                 x: 0,
                 y: 0,
             },
+            allCharacterEquipItems: [],
             characterEquipItems: [
                 { slot: 'head', position: 'left', equipItem: undefined },
                 { slot: 'armor', position: 'left', equipItem: undefined },
@@ -593,7 +594,6 @@ const userSlice = createSlice({
                 x: positionX,
                 y: positionY
             };
-            console.log(equipItems)
             if (status) {
                 state.previewCharacter.inventory.characterEquipItems = state.previewCharacter.inventory.characterEquipItems.map((itemObj) => {
                     return (
@@ -602,14 +602,17 @@ const userSlice = createSlice({
                             equipItem: equipItems.find((equipItem) => equipItem.slot === itemObj.slot),
                         }
                     )
-                })
-                // { slot: 'head', position: 'left', equipItem: undefined },
+                });
             }
         },
+        addCharacterEquipItems(state, action) {
+            const { equipItems } = action.payload;
+            state.previewCharacter.inventory.allCharacterEquipItems = equipItems;
+        },
         showCharacterEquipItemInfoPopup(state, action) {
-            const { status, eqipItem } = action.payload;
+            const { status, eqipItem, itemParams } = action.payload;
             state.previewCharacter.inventory.characterEquipItemInfoPopupShow = status;
-            state.previewCharacter.inventory.characterEquipItemInfoPopupSelect = eqipItem;
+            state.previewCharacter.inventory.characterEquipItemInfoPopupSelect = {...eqipItem, itemParams: itemParams};
             
         }
     }
@@ -663,6 +666,7 @@ export const {
     addMoneySelectType,
     addMoneyPopupBtnSaveStatus,
     showCharacterEquipPopup,
+    addCharacterEquipItems,
     showCharacterEquipItemInfoPopup
 } = userSlice.actions;
 export default userSlice.reducer;

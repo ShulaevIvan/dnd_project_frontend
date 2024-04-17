@@ -17,20 +17,18 @@ const UserCharacterEquipItemPopup = (props) => {
                 <div className="character-item-eqip-body-wrap">
                     <div className="character-item-equipped-wrap">
                         <div className="character-item-equipped">
-                            <div className="character-item-equipped-title">Gold helm {props.item.itemId}</div>
+                            <div className="character-item-equipped-title">{props.infoItem.itemParams.name} {props.item.itemId}</div>
                             <div className="character-item-equipped-row">
                                 <div className="character-item-equipped-params-wrap">
                                     <div className="character-item-equipped-params">
                                         <ul>
-                                            <li>params 1</li>
-                                            <li>params 2</li>
-                                            <li>params 3</li>
-                                            <li>params 4</li>
-                                            <li>params 5</li>
-                                            <li>params 6</li>
-                                            <li>params 7</li>
-                                            <li>params 8</li>
-                                            <li>params 9</li>
+                                            {Object.entries(props.infoItem.itemParams).map((param) => {
+                                                return (
+                                                    <React.Fragment key={Math.random()}>
+                                                        <li>{`${param[0]} ${param[1]}`}</li>
+                                                    </React.Fragment>
+                                                )
+                                            })}
                                         </ul>
                                     </div>
                                 </div>
