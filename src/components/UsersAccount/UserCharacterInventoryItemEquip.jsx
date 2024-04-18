@@ -1,11 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import UserCharacterEquipItemPopup from "./UserCharacterEquipItemPopup";
+import UserCharacterEquipAddItemPopup from "./UserCharacterEquipAddItem";
 import { useEffect } from "react";
 import { 
     showCharacterEquipPopup,
     showCharacterEquipItemInfoPopup,
-    addCharacterEquipItems
+    addCharacterEquipItems,
+    showCharacterAddItemPopup,
+    addEquipItemPoupSaveItems
 
 } from "../../redux/slices/userSlice";
 
@@ -19,6 +22,9 @@ const UserCharacterInventoryItemEquip = () => {
     const characterEquipItems = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItems);
     const allCharacterEquipItems = useSelector((state) => state.userData.previewCharacter.inventory.allCharacterEquipItems);
     const mouseCords = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipPopupPosition);
+    const characterAddItemPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipAddItemPopupShow);
+    const selectedItemInfo = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItemInfoPopupSelect);
+    const addItemPopupFilteredItems = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipFilterItems);
     
 
     const characterEquipPopupHandler = (e, status) => {
@@ -60,6 +66,10 @@ const UserCharacterInventoryItemEquip = () => {
         return 'none';
     };
 
+    const addCharacterEquipItemPopupHandler = (status) => {
+        dispatch(showCharacterAddItemPopup({status: status}));
+    };
+
     useEffect(() => {
         if (characterEquipPopupStatus) {
             const fetchFunc = async () => {
@@ -77,7 +87,29 @@ const UserCharacterInventoryItemEquip = () => {
             }
             fetchFunc();
         }
-    }, [characterEquipPopupStatus])
+    }, [characterEquipPopupStatus]);
+
+    useEffect(() => {
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/?filter=${characterEquipItemInfoSelected.slot}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                if (characterAddItemPopupStatus) {
+                    dispatch(addEquipItemPoupSaveItems({
+                        filterItems: data[characterEquipItemInfoSelected.slot] ? data[characterEquipItemInfoSelected.slot] : []
+                    }));   
+                    return;
+                }
+                dispatch(addEquipItemPoupSaveItems({filterItems: []}));       
+            });
+        }
+        fetchFunc();
+    }, [characterAddItemPopupStatus]);
 
     return (
         <React.Fragment>
@@ -91,7 +123,7 @@ const UserCharacterInventoryItemEquip = () => {
                 </div>
 
                 {characterEquipPopupStatus ?
-                    <div className="preview-character-eqip-popup-wrap" style={{left: `${mouseCords.x}px`, top: `${mouseCords.y}px`}}>
+                    <div className="preview-character-eqip-popup-wrap" style={{left: `${mouseCords.x}px`, top: `${mouseCords.y + 50}px`}}>
                         <div className="preview-character-eqip-popup-close-wrap">
                             <span 
                                 className="preview-character-eqip-popup-close-btn"
@@ -146,15 +178,7 @@ const UserCharacterInventoryItemEquip = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {characterEquipItemInfoPopupStatus ? 
-                                                <UserCharacterEquipItemPopup
-                                                    key={Math.random()} 
-                                                    itemInfoHandler={characterItemInfoPopupHandler}
-                                                    infoItem={characterEquipItemInfoSelected}
-                                                    item={item.equipItem}
-                                                    mouseCords={mouseCords}
-                                                /> 
-                                            : null}
+                                            
                                         </React.Fragment>
                                     )
                                 })}
@@ -162,7 +186,28 @@ const UserCharacterInventoryItemEquip = () => {
                         </div>
                     </div>
                 : null}
+                {characterEquipItemInfoPopupStatus ? 
+                    <UserCharacterEquipItemPopup
+                        key={Math.random()} 
+                        itemInfoHandler={characterItemInfoPopupHandler}
+                        addItemPopupHandler={addCharacterEquipItemPopupHandler}
+                        infoItem={characterEquipItemInfoSelected}
+                        mouseCords={mouseCords}
+                    /> 
+                : null}
+                {characterAddItemPopupStatus ?
+                    <UserCharacterEquipAddItemPopup
+                        key={Math.random()}
+                        popupStatus={characterAddItemPopupStatus}
+                        itemTypes={characterEquipItems}
+                        infoItem={characterEquipItemInfoSelected}
+                        addItemPopupHandler={addCharacterEquipItemPopupHandler}
+                        mouseCords={mouseCords}
+                        filteredItems={addItemPopupFilteredItems}
+                    />
+                : null}
             </div>
+
         </React.Fragment>
     )
 };

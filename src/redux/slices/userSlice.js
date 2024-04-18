@@ -112,6 +112,8 @@ const initialState = {
             ],
             characterEquipItemInfoPopupShow: false,
             characterEquipItemInfoPopupSelect: undefined,
+            characterEquipAddItemPopupShow: false,
+            characterEquipFilterItems: [],
         }
     },
 };
@@ -613,7 +615,15 @@ const userSlice = createSlice({
             const { status, eqipItem, itemParams } = action.payload;
             state.previewCharacter.inventory.characterEquipItemInfoPopupShow = status;
             state.previewCharacter.inventory.characterEquipItemInfoPopupSelect = {...eqipItem, itemParams: itemParams};
-            
+        },
+        showCharacterAddItemPopup(state, action) {
+            const { status } = action.payload;
+            state.previewCharacter.inventory.characterEquipAddItemPopupShow = status;
+        },
+        addEquipItemPoupSaveItems(state, action) {
+            const { filterItems } = action.payload;
+            state.previewCharacter.inventory.characterEquipFilterItems = filterItems;
+
         }
     }
 });
@@ -667,6 +677,8 @@ export const {
     addMoneyPopupBtnSaveStatus,
     showCharacterEquipPopup,
     addCharacterEquipItems,
-    showCharacterEquipItemInfoPopup
+    showCharacterEquipItemInfoPopup,
+    showCharacterAddItemPopup,
+    addEquipItemPoupSaveItems
 } = userSlice.actions;
 export default userSlice.reducer;

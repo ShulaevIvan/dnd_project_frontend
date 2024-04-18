@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+
+
 const UserCharacterEquipItemPopup = (props) => {
     const dispatch = useDispatch();
-
+    
     return (
         <React.Fragment>
-            <div className="character-item-eqip-popup-wrap" style={{left: `${props.mouseCords.x / 2 - 200}px`, top: `${props.mouseCords.y / 2 - 200}px`}}>
+            <div className="character-item-eqip-popup-wrap" style={{left: `${props.mouseCords.x}px`, top: `${props.mouseCords.y}px`}}>
                 <div className="character-item-eqip-title">{props.infoItem.slot} Slot</div>
                 <div className="character-item-eqip-close-btn-wrap">
                     <span 
@@ -17,7 +19,7 @@ const UserCharacterEquipItemPopup = (props) => {
                 <div className="character-item-eqip-body-wrap">
                     <div className="character-item-equipped-wrap">
                         <div className="character-item-equipped">
-                            <div className="character-item-equipped-title">{props.infoItem.itemParams.name} {props.item.itemId}</div>
+                            <div className="character-item-equipped-title">{props.infoItem.itemParams.name} {props.infoItem.itemId}</div>
                             <div className="character-item-equipped-row">
                                 <div className="character-item-equipped-params-wrap">
                                     <div className="character-item-equipped-params">
@@ -37,7 +39,7 @@ const UserCharacterEquipItemPopup = (props) => {
                                         <img src="#" alt="img"/>
                                     </div>
                                     <div className="character-item-equipped-description">
-                                        <p>description</p>
+                                        <p>{props.infoItem.itemParams.description}</p>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +59,7 @@ const UserCharacterEquipItemPopup = (props) => {
                             </select>
                         </div>
                         <div className="character-inventory-items-controls">
-                            <button>add new</button>
+                            <button onClick={() => props.addItemPopupHandler(true)}>add new</button>
                             <button>eqip selected</button>
                             <button>uneqip item</button>
                         </div>
