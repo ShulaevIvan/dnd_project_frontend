@@ -2,7 +2,16 @@ import React from "react";
 
 
 const UserCharacterEquipAddItemPopup = (props) => {
-    console.log(props.filteredItems)
+    const reduceItemName = (nameString, maxLength) => {
+        const stringLength = nameString.split('').length;
+        console.log('Набороной (пластинчат...'.split('').length)
+        if (Number(stringLength) > 15) {
+            const baseString = nameString.split('').splice(0, stringLength - maxLength);
+            return `${baseString.join('')}...`;
+        }
+        return nameString;
+    };
+
     return (
         <React.Fragment>
             <div className="character-equip-add-item-popup-wrap" style={{left: `${props.mouseCords.x}px`, top: `${props.mouseCords.y}px`}}>
@@ -36,12 +45,15 @@ const UserCharacterEquipAddItemPopup = (props) => {
                             return (
                                 <React.Fragment key={Math.random()}>
                                     <div className="character-equip-add-item-wrap">
-                                        <div className="character-equip-add-item-title">Title</div>
+                                        <div className="character-equip-add-item-title">{reduceItemName(item.name, 10)}</div>
                                         <div className="character-equip-add-item-img-wrap">
                                             <img src="#" />
                                         </div>
                                         <div className="character-equip-add-item-controls-wrap">
-                                            <span className="character-equip-add-item-select-btn"></span>
+                                            <span 
+                                                className="character-equip-add-item-select-btn"
+                                                onClick={() => props.addItemHandler(item)}
+                                            ></span>
                                             <span className="character-equip-add-item-info-btn"></span>
                                         </div>
                                     </div>

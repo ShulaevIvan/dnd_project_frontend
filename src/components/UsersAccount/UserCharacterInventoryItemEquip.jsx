@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import UserCharacterEquipItemPopup from "./UserCharacterEquipItemPopup";
 import UserCharacterEquipAddItemPopup from "./UserCharacterEquipAddItem";
+import UserCharacterEquipAddItemPopupInfo from "./UserCharacterEquipAddItemInfoPopup";
+
 import { useEffect } from "react";
 import { 
     showCharacterEquipPopup,
@@ -70,6 +72,14 @@ const UserCharacterInventoryItemEquip = () => {
         dispatch(showCharacterAddItemPopup({status: status}));
     };
 
+    const addCharacterEquipItemHandler = (itemObj) => {
+        const sendData = {
+            userId: userData.userId,
+            item: itemObj,
+        };
+        dispatch(showCharacterAddItemPopup({status: false}));
+    };
+
     useEffect(() => {
         if (characterEquipPopupStatus) {
             const fetchFunc = async () => {
@@ -90,25 +100,27 @@ const UserCharacterInventoryItemEquip = () => {
     }, [characterEquipPopupStatus]);
 
     useEffect(() => {
-        const fetchFunc = async () => {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/?filter=${characterEquipItemInfoSelected.slot}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                if (characterAddItemPopupStatus) {
-                    dispatch(addEquipItemPoupSaveItems({
-                        filterItems: data[characterEquipItemInfoSelected.slot] ? data[characterEquipItemInfoSelected.slot] : []
-                    }));   
-                    return;
-                }
-                dispatch(addEquipItemPoupSaveItems({filterItems: []}));       
-            });
+        if (characterEquipItemInfoSelected) {
+            const fetchFunc = async () => {
+                await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reference_book/items/?filter=${characterEquipItemInfoSelected.slot}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (characterAddItemPopupStatus) {
+                        dispatch(addEquipItemPoupSaveItems({
+                            filterItems: data[characterEquipItemInfoSelected.slot] ? data[characterEquipItemInfoSelected.slot] : []
+                        }));   
+                        return;
+                    }
+                    dispatch(addEquipItemPoupSaveItems({filterItems: []}));       
+                });
+            };
+            fetchFunc();
         }
-        fetchFunc();
     }, [characterAddItemPopupStatus]);
 
     return (
@@ -202,10 +214,12 @@ const UserCharacterInventoryItemEquip = () => {
                         itemTypes={characterEquipItems}
                         infoItem={characterEquipItemInfoSelected}
                         addItemPopupHandler={addCharacterEquipItemPopupHandler}
+                        addItemHandler={addCharacterEquipItemHandler}
                         mouseCords={mouseCords}
                         filteredItems={addItemPopupFilteredItems}
                     />
                 : null}
+                {/* <UserCharacterEquipAddItemPopupInfo /> */}
             </div>
 
         </React.Fragment>
