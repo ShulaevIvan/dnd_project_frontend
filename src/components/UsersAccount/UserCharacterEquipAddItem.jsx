@@ -2,9 +2,9 @@ import React from "react";
 
 
 const UserCharacterEquipAddItemPopup = (props) => {
+    
     const reduceItemName = (nameString, maxLength) => {
         const stringLength = nameString.split('').length;
-        console.log('Набороной (пластинчат...'.split('').length)
         if (Number(stringLength) > 15) {
             const baseString = nameString.split('').splice(0, stringLength - maxLength);
             return `${baseString.join('')}...`;
@@ -54,7 +54,10 @@ const UserCharacterEquipAddItemPopup = (props) => {
                                                 className="character-equip-add-item-select-btn"
                                                 onClick={() => props.addItemHandler(item)}
                                             ></span>
-                                            <span className="character-equip-add-item-info-btn"></span>
+                                            <span 
+                                                className="character-equip-add-item-info-btn"
+                                                onClick={() => props.addItemInfoHandler(true, item)}
+                                            ></span>
                                         </div>
                                     </div>
                                 </React.Fragment>

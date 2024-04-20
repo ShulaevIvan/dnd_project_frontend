@@ -10,7 +10,9 @@ import {
     showCharacterEquipItemInfoPopup,
     addCharacterEquipItems,
     showCharacterAddItemPopup,
-    addEquipItemPoupSaveItems
+    addEquipItemPoupSaveItems,
+    showAddEquipItemPopupInfo
+    
 
 } from "../../redux/slices/userSlice";
 
@@ -25,8 +27,9 @@ const UserCharacterInventoryItemEquip = () => {
     const allCharacterEquipItems = useSelector((state) => state.userData.previewCharacter.inventory.allCharacterEquipItems);
     const mouseCords = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipPopupPosition);
     const characterAddItemPopupStatus = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipAddItemPopupShow);
-    const selectedItemInfo = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipItemInfoPopupSelect);
     const addItemPopupFilteredItems = useSelector((state) => state.userData.previewCharacter.inventory.characterEquipFilterItems);
+    const showAddItemPopupInfo = useSelector((state) => state.userData.previewCharacter.inventory.addEquipItemPopupInfoStatus);
+    const popupAddItemInfo= useSelector((state) => state.userData.previewCharacter.inventory.addItemEquipInfoSelected);
     
 
     const characterEquipPopupHandler = (e, status) => {
@@ -80,6 +83,10 @@ const UserCharacterInventoryItemEquip = () => {
         dispatch(showCharacterAddItemPopup({status: false}));
     };
 
+    const showItemInfoPopupHandler = (status, itemObj) => {
+        dispatch(showAddEquipItemPopupInfo({status: status, item: itemObj}));
+    };
+
     useEffect(() => {
         if (characterEquipPopupStatus) {
             const fetchFunc = async () => {
@@ -111,8 +118,12 @@ const UserCharacterInventoryItemEquip = () => {
                 .then((response) => response.json())
                 .then((data) => {
                     if (characterAddItemPopupStatus) {
+                        let dataKeySlot = characterEquipItemInfoSelected.slot;
+                        if (characterEquipItemInfoSelected.slot === 'weapon' || characterEquipItemInfoSelected.slot === 'instrument') {
+                            dataKeySlot = `${characterEquipItemInfoSelected.slot}s`
+                        }
                         dispatch(addEquipItemPoupSaveItems({
-                            filterItems: data[characterEquipItemInfoSelected.slot] ? data[characterEquipItemInfoSelected.slot] : []
+                            filterItems: data[dataKeySlot] ? data[dataKeySlot] : [],
                         }));   
                         return;
                     }
@@ -215,11 +226,19 @@ const UserCharacterInventoryItemEquip = () => {
                         infoItem={characterEquipItemInfoSelected}
                         addItemPopupHandler={addCharacterEquipItemPopupHandler}
                         addItemHandler={addCharacterEquipItemHandler}
+                        addItemInfoHandler={showItemInfoPopupHandler}
                         mouseCords={mouseCords}
                         filteredItems={addItemPopupFilteredItems}
                     />
                 : null}
-                {/* <UserCharacterEquipAddItemPopupInfo /> */}
+                {showAddItemPopupInfo ? 
+                    <UserCharacterEquipAddItemPopupInfo
+                        mouseCords={mouseCords} 
+                        popupCloseHandler={showItemInfoPopupHandler}
+                        infoItem={popupAddItemInfo}
+                    /> 
+                : null}
+                
             </div>
 
         </React.Fragment>
