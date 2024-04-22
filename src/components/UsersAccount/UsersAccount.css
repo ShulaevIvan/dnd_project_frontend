@@ -2526,6 +2526,7 @@
 .character-item-eqip-popup-wrap {
     min-width: 400px;
     min-height: 400px;
+    max-width: 600px;
     position: absolute;
     z-index: 5;
     background-color: gray;
@@ -2780,7 +2781,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     padding: 10px;
-    max-width: 500px;
+    max-width: 600px;
     min-height: 400px;
     position: absolute;
     background-color: gray;

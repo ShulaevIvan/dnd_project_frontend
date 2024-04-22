@@ -2,17 +2,6 @@ import React from "react";
 
 const UserCharacterEquipAddItemPopupInfo = (props) => {
     
-    const itemParametrs = (itemParamObj) => {
-        const params = Object.entries(itemParamObj).map((item) => {
-            if (item[0] !== 'id' && item[0] !== 'description') {
-                return (
-                    {name: item[0], value: item[1]}
-                )
-            }
-        }).filter((param) => param);
-        return params;
-    };
-    
     return (
         <React.Fragment>
             <div className="user-character-add-item-info-popup-wrap" style={{left: `${props.mouseCords.x}px`, top: `${props.mouseCords.y}px`}}>
@@ -26,7 +15,7 @@ const UserCharacterEquipAddItemPopupInfo = (props) => {
                 <div className="user-character-add-item-info-popup-body">
                     <div className="user-character-add-item-info-parametrs-row">
                         <div className="user-character-add-item-info-parametrs">
-                            {itemParametrs(props.infoItem).map((param) => {
+                            {props.filterItemParams(props.infoItem).map((param) => {
                                 return (
                                     <React.Fragment key={Math.random()}>
                                         <li>{`${param.name} - ${param.value}`}</li>

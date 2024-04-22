@@ -78,13 +78,42 @@ const UserCharacterInventoryItemEquip = () => {
     const addCharacterEquipItemHandler = (itemObj) => {
         const sendData = {
             userId: userData.userId,
+            characterName: selectedCharacter.name,
             item: itemObj,
+            slot: characterEquipItemInfoSelected.slot,
+            currentItem: characterEquipItemInfoSelected.itemParams,
         };
+        console.log(characterEquipItemInfoSelected.itemParams)
+        const fetchFunc = async () => {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/?add=1`, {
+                method: 'POST',
+                body: JSON.stringify(sendData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+        };
+        fetchFunc();
         dispatch(showCharacterAddItemPopup({status: false}));
     };
 
     const showItemInfoPopupHandler = (status, itemObj) => {
         dispatch(showAddEquipItemPopupInfo({status: status, item: itemObj}));
+    };
+
+    const itemParametrsFilter = (itemParamObj) => {
+        const params = Object.entries(itemParamObj).map((item) => {
+            if (item[0] !== 'id' && item[0] !== 'description') {
+                return (
+                    {name: item[0], value: item[1]}
+                )
+            }
+        }).filter((param) => param);
+        return params;
     };
 
     useEffect(() => {
@@ -214,6 +243,7 @@ const UserCharacterInventoryItemEquip = () => {
                         key={Math.random()} 
                         itemInfoHandler={characterItemInfoPopupHandler}
                         addItemPopupHandler={addCharacterEquipItemPopupHandler}
+                        filterItemParams={itemParametrsFilter}
                         infoItem={characterEquipItemInfoSelected}
                         mouseCords={mouseCords}
                     /> 
@@ -227,6 +257,7 @@ const UserCharacterInventoryItemEquip = () => {
                         addItemPopupHandler={addCharacterEquipItemPopupHandler}
                         addItemHandler={addCharacterEquipItemHandler}
                         addItemInfoHandler={showItemInfoPopupHandler}
+                        filterItemParams={itemParametrsFilter}
                         mouseCords={mouseCords}
                         filteredItems={addItemPopupFilteredItems}
                     />
@@ -235,6 +266,7 @@ const UserCharacterInventoryItemEquip = () => {
                     <UserCharacterEquipAddItemPopupInfo
                         mouseCords={mouseCords} 
                         popupCloseHandler={showItemInfoPopupHandler}
+                        filterItemParams={itemParametrsFilter}
                         infoItem={popupAddItemInfo}
                     /> 
                 : null}

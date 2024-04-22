@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 
 const UserCharacterEquipItemPopup = (props) => {
-    const dispatch = useDispatch();
     
     return (
         <React.Fragment>
@@ -24,10 +23,10 @@ const UserCharacterEquipItemPopup = (props) => {
                                 <div className="character-item-equipped-params-wrap">
                                     <div className="character-item-equipped-params">
                                         <ul>
-                                            {Object.entries(props.infoItem.itemParams).map((param) => {
+                                            {props.filterItemParams(props.infoItem.itemParams).map((param) => {
                                                 return (
                                                     <React.Fragment key={Math.random()}>
-                                                        <li>{`${param[0]} ${param[1]}`}</li>
+                                                        <li>{`${param.name} - ${param.value}`}</li>
                                                     </React.Fragment>
                                                 )
                                             })}
