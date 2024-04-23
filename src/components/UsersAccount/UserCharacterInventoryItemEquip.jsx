@@ -85,7 +85,7 @@ const UserCharacterInventoryItemEquip = () => {
         };
         console.log(characterEquipItemInfoSelected.itemParams)
         const fetchFunc = async () => {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/?add=1`, {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/?add=new`, {
                 method: 'POST',
                 body: JSON.stringify(sendData),
                 headers: {
@@ -99,6 +99,30 @@ const UserCharacterInventoryItemEquip = () => {
         };
         fetchFunc();
         dispatch(showCharacterAddItemPopup({status: false}));
+    };
+
+    const addCharacterUnEquipItemHandler = () => {
+        const sendData = {
+            userId: userData.userId,
+            characterName: selectedCharacter.name,
+            slot: characterEquipItemInfoSelected.slot,
+            currentItem: characterEquipItemInfoSelected.itemParams,
+        };
+        const fetchFunc = async () => {
+            const target_url = `${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/`;
+            await fetch(`${target_url}?unequip=true`, {
+                method: 'POST',
+                body: JSON.stringify(sendData),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+            })
+        };
+        fetchFunc();
     };
 
     const showItemInfoPopupHandler = (status, itemObj) => {
@@ -243,6 +267,7 @@ const UserCharacterInventoryItemEquip = () => {
                         key={Math.random()} 
                         itemInfoHandler={characterItemInfoPopupHandler}
                         addItemPopupHandler={addCharacterEquipItemPopupHandler}
+                        unEquipItemHandler={addCharacterUnEquipItemHandler}
                         filterItemParams={itemParametrsFilter}
                         infoItem={characterEquipItemInfoSelected}
                         mouseCords={mouseCords}

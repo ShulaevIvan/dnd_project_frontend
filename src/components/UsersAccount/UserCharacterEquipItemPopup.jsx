@@ -60,7 +60,7 @@ const UserCharacterEquipItemPopup = (props) => {
                         <div className="character-inventory-items-controls">
                             <button onClick={() => props.addItemPopupHandler(true)}>add new</button>
                             <button>eqip selected</button>
-                            <button>uneqip item</button>
+                            <button onClick={props.unEquipItemHandler()}>uneqip item</button>
                         </div>
                     </div>
                 </div>
