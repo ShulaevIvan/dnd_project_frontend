@@ -83,7 +83,7 @@ const UserCharacterInventoryItemEquip = () => {
             slot: characterEquipItemInfoSelected.slot,
             currentItem: characterEquipItemInfoSelected.itemParams,
         };
-        console.log(characterEquipItemInfoSelected.itemParams)
+        console.log(itemObj)
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/?add=new`, {
                 method: 'POST',
