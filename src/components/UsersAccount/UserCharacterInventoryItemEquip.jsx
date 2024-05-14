@@ -11,9 +11,7 @@ import {
     addCharacterEquipItems,
     showCharacterAddItemPopup,
     addEquipItemPoupSaveItems,
-    showAddEquipItemPopupInfo
-    
-
+    showAddEquipItemPopupInfo,
 } from "../../redux/slices/userSlice";
 
 const UserCharacterInventoryItemEquip = () => {
@@ -83,7 +81,6 @@ const UserCharacterInventoryItemEquip = () => {
             slot: characterEquipItemInfoSelected.slot,
             currentItem: characterEquipItemInfoSelected.itemParams,
         };
-        console.log(itemObj)
         const fetchFunc = async () => {
             await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/?add=new`, {
                 method: 'POST',
@@ -93,12 +90,27 @@ const UserCharacterInventoryItemEquip = () => {
                 }
             })
             .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            })
+            .then((data) =>  characterItemInfoPopupHandler({}, false));
         };
         fetchFunc();
         dispatch(showCharacterAddItemPopup({status: false}));
+    };
+
+    const renewCharacterEquippedItems = () => {
+        const fetchFunc = async () => {
+            const url = `${process.env.REACT_APP_BACKEND_URL}/api/users/${userData.userId}/characters/${selectedCharacter.id}/inventory/equipped-items/`;
+            await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch(addCharacterEquipItems({equipItems: data.items}));
+            });
+        }
+        fetchFunc();
     };
 
     const addCharacterUnEquipItemHandler = () => {
@@ -118,9 +130,7 @@ const UserCharacterInventoryItemEquip = () => {
                 },
             })
             .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            })
+            .then((data) =>  characterItemInfoPopupHandler({}, false));
         };
         fetchFunc();
     };
@@ -139,6 +149,8 @@ const UserCharacterInventoryItemEquip = () => {
         }).filter((param) => param);
         return params;
     };
+
+    useEffect(() => renewCharacterEquippedItems, [characterEquipItemInfoPopupStatus]);
 
     useEffect(() => {
         if (characterEquipPopupStatus) {
